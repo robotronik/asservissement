@@ -4,15 +4,15 @@ EXENAME=asser_robot
 FICHIERS=main.c PID.c asser.c communication.c hardware.c meca.c odometrie.c trajectoire.c\
          PID.h   asser.h   communication.h   hardware.h   meca.h odometrie.h trajectoire.h\
 
-.PHONY:view
-
-view:all
-	./$(EXENAME)
+.PHONY:all
 
 all:$(EXENAME)
 
+view:
+	./$(EXENAME)
+
 clean:
-	rm -f *.o *.h.gch $(EXENAME) $(EXENAME).tar.bz2
+	rm -f *.o $(EXENAME) $(EXENAME).tar.bz2
 
 tarall:$(EXENAME).tar.bz2
 
