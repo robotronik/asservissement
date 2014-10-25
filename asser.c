@@ -5,7 +5,7 @@
 #include "odometrie.h"
 #include "communication.h"
 #include "reglages.h"
-#include "affichage.h"
+#include "SDL/affichage.h"
 
 void asser()
 {
@@ -19,7 +19,7 @@ void asser()
 	int reponse_delta_preced=0;
 	int reponse_alpha_preced=0;
 
-	while(1)
+	while(!sdl_manage_events())
 	{
 		//synchronisation à une fréquence régulière
 		while(doit_attendre());
@@ -74,7 +74,6 @@ void asser()
 
 		//on actualise la position actuelle du robot (via les roues codeuses)
 		actualise_position();
-		sdl_manage_events();
 	}
 }
 

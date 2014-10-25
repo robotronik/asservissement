@@ -57,7 +57,7 @@ int init_sdl_screen() {
         return quit_sdl_screen(1);
 
     SDL_FillRect(fenetre, NULL, SDL_MapRGB(fenetre->format, 255, 255, 255));
-    image_robot = IMG_Load("robot.png");
+    image_robot = IMG_Load("SDL/robot.png");
 }
 
 int quit_sdl_screen(int erreur) {

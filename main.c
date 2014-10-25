@@ -1,5 +1,5 @@
 #include "asser.h"
-#include "affichage.h"
+#include "SDL/affichage.h"
 
 int main()
 {
@@ -7,15 +7,9 @@ int main()
         return 1;
 
     int i=1;
+    set_position(100, 100, 45);
 
-    while(!sdl_manage_events()) {
-        if (i < 300){
-            i+=1;
-            set_position(100, 100, 5*i);
-        }
-    }
-    quit_sdl_screen();
-
+    
 	asser();
 	return quit_sdl_screen();
 }
