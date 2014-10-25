@@ -8,7 +8,7 @@
 #define KD_ALPHA 1//composante de dérivation
 
 //contraintes mecaniques
-#define ENTRAXE 10//mm
+//#define ENTRAXE 10//mm
 #define DEMI_ENTRAXE 5 //mm ENTRAXE divisé par 2
 #define MAX_VITESSE 40000 //vitesse maximale du robot
 #define MIN_VITESSE 8000 //vitesse minimale du robot pour qu'il commence à avancer
@@ -22,3 +22,7 @@
 //precision
 #define PRECISION_DELTA 1 //precision souhaitée pour delta (en mm)
 #define PRECISION_ALPHA 1 //precision souhaitée pour alpha (en rad)
+
+//calibrage
+#define TICK_PAR_MM 22 // nombre de ticks par mm (tick/mm)
+#define TICK_PAR_TOUR 17145 //nombre de ticks par tour complet du robot sur lui-même (tick/tour)

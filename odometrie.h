@@ -1,3 +1,5 @@
+#define DEUX_PI 6.283185307179586476925286766559
+
 void init_odometrie();
 
 void set_delta_actuel(int delta);
@@ -9,4 +11,4 @@ int get_tetha_actuel();
 int get_x_actuel();
 int get_y_actuel();
 
-void actualise_position(int nbr_tick_D, int nbr_tick_G);
+void actualise_position();

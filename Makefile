@@ -34,7 +34,7 @@ communication.o:       communication.c  communication.h trajectoire.h
 hardware.o:       hardware.c  hardware.h
 	gcc $(OPTIONS) -c hardware.c
 
-odometrie.o:       odometrie.c  odometrie.h
+odometrie.o:       odometrie.c  odometrie.h reglages.h hardware.h
 	gcc $(OPTIONS) -c odometrie.c
 
 trajectoire.o:       trajectoire.c  trajectoire.h odometrie.h

@@ -70,12 +70,8 @@ void asser()
 		set_PWM_moteur_D(PWM_moteur_D);
 		set_PWM_moteur_G(PWM_moteur_G);
 
-		//on récupère le nombre de tick éffectué sur les roues codeuses
-		int nbr_tick_D=get_nbr_tick_D();
-		int nbr_tick_G=get_nbr_tick_G();
-
-		//on actualise la position actuelle du robot
-		actualise_position(nbr_tick_D,nbr_tick_G);
+		//on actualise la position actuelle du robot (via les roues codeuses)
+		actualise_position();
 	}
 }
 
