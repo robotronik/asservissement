@@ -1,7 +1,21 @@
 #include "asser.h"
+#include "affichage.h"
 
 int main()
 {
+    if (init_sdl_screen() < 0)
+        return 1;
+
+    int i=1;
+
+    while(!sdl_manage_events()) {
+        if (i < 300){
+            i+=1;
+            set_position(100, 100, 5*i);
+        }
+    }
+    quit_sdl_screen();
+
 	asser();
-	return 0;
+	return quit_sdl_screen();
 }

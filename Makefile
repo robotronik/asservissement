@@ -1,5 +1,5 @@
 OPTIONS=
-POSTOPTIONS=-lm
+POSTOPTIONS=-lm  -lSDL -lSDL_image -lSDL_gfx
 EXENAME=asser_robot
 FICHIERS=main.c PID.c asser.c communication.c hardware.c meca.c odometrie.c trajectoire.c\
          PID.h   asser.h   communication.h   hardware.h   meca.h odometrie.h trajectoire.h\
@@ -19,8 +19,8 @@ tarall:$(EXENAME).tar.bz2
 $(EXENAME).tar.bz2: $(FICHIERS)
 	tar -jcvf $(EXENAME).tar.bz2 *
 
-$(EXENAME): main.c asser.o PID.o communication.o hardware.o odometrie.o trajectoire.o
-	gcc $(OPTIONS) main.c asser.o PID.o communication.o hardware.o odometrie.o trajectoire.o $(POSTOPTIONS) -o $(EXENAME)
+$(EXENAME): main.c asser.o PID.o communication.o hardware.o odometrie.o trajectoire.o affichage.o
+	gcc $(OPTIONS) main.c asser.o PID.o communication.o hardware.o odometrie.o trajectoire.o  affichage.o $(POSTOPTIONS) -o $(EXENAME)
 
 asser.o: asser.c asser.h PID.h trajectoire.h odometrie.h reglages.h
 	gcc $(OPTIONS) -c asser.c 
@@ -39,3 +39,6 @@ odometrie.o:       odometrie.c  odometrie.h reglages.h hardware.h
 
 trajectoire.o:       trajectoire.c  trajectoire.h odometrie.h
 	gcc $(OPTIONS) -c trajectoire.c
+
+affichage.o: affichage.c affichage.h
+	gcc $(OPTIONS) -c affichage.c -lSDL -lSDL_image -lSDL_gfx

@@ -5,6 +5,7 @@
 #include "odometrie.h"
 #include "communication.h"
 #include "reglages.h"
+#include "affichage.h"
 
 void asser()
 {
@@ -73,6 +74,7 @@ void asser()
 
 		//on actualise la position actuelle du robot (via les roues codeuses)
 		actualise_position();
+		sdl_manage_events();
 	}
 }
 

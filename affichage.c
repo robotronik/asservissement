@@ -9,7 +9,7 @@ SDL_Surface* image_robot;
 SDL_Rect position_robot;
 
 
-int main(int argc, char const *argv[]) {
+/*int main(int argc, char const *argv[]) {
     if (init_sdl_screen() < 0)
         return 1;
 
@@ -23,7 +23,7 @@ int main(int argc, char const *argv[]) {
     }
 
     return quit_sdl_screen();
-}
+}*/
 
 int set_position(int x, int y, float alpha) {
     position_robot.x = x;
@@ -34,6 +34,7 @@ int set_position(int x, int y, float alpha) {
         NULL, fenetre, &position_robot); // Collage de la surface sur l'écran
 
     SDL_Flip(fenetre); // Mise à jour de l'écran
+    sdl_manage_events();
 }
 
 
@@ -55,8 +56,8 @@ int init_sdl_screen() {
     if (fenetre == 0)
         return quit_sdl_screen(1);
 
+    SDL_FillRect(fenetre, NULL, SDL_MapRGB(fenetre->format, 255, 255, 255));
     image_robot = IMG_Load("robot.png");
-
 }
 
 int quit_sdl_screen(int erreur) {
