@@ -3,11 +3,13 @@
 #include "meca.h"
 #include "trajectoire.h"
 #include "odometrie.h"
+#include "communication.h"
 
 void asser()
 {
 	//init
 	init_odometrie();
+	init_alpha_delta_voulu();
 	int erreur_delta_preced=0;
 	int erreur_delta_sum=0;
 	int erreur_alpha_preced=0;
@@ -19,17 +21,9 @@ void asser()
 	{
 		pause(); //à revoir pour utiliser le timer à la place
 
-		int x_voulu=get_x_voulu(); //à revoir pour utiliser les interruptions
-		int y_voulu=get_y_voulu();
-		int a_voulu=get_a_voulu();
-
-		//calcul de delta et alpha
-		int delta_voulu=calcul_delta(x_voulu,y_voulu,a_voulu);
-		int alpha_voulu=calcul_alpha(x_voulu,y_voulu,a_voulu);
-
 		//calcul de l'erreur en delta et alpha
-		int erreur_delta=delta_voulu-get_delta_actuel();
-		int erreur_alpha=alpha_voulu-get_alpha_actuel();
+		int erreur_delta=get_delta_voulu()-get_delta_actuel();
+		int erreur_alpha=get_alpha_voulu()-get_alpha_actuel();
 
 		//calcul de la réponse des PIDs
 		int reponse_delta=PID_lineique(erreur_delta,erreur_delta_preced,erreur_delta_sum);
@@ -58,6 +52,10 @@ void asser()
 				reponse_alpha_preced=0;
 				commande_moteur_D=0;
 				commande_moteur_G=0;
+				set_delta_actuel(0);
+				set_alpha_actuel(0);
+				set_delta_voulu(0);
+				set_delta_voulu(0);
 				send_position_atteinte();
 			}
 		}

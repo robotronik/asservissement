@@ -1,22 +1,28 @@
-//les get_coordonnée_voulue doivent retourner du relatif
-//il faut cependant être compatible avec de l'absolu
+#include "trajectoire.h"
 
-int get_x_voulu()
+void set_new_alpha_delta(int alpha, int delta)
 {
-
+	consigne_new_alpha_delta(alpha,delta);
 }
 
-int get_y_voulu()
+void set_new_xy_relatif(int x, int y)
 {
-
+	consigne_new_xy_relatif(x,y);
 }
 
-int get_a_voulu()
+void set_new_xy_absolu(int x, int y)
 {
-	
+	consigne_new_xy_absolu(x,y);
+}
+
+void set_new_tetha(int tetha)
+{
+	consigne_new_tetha(tetha);
 }
 
 void send_position_atteinte()
 {
 
 }
+
+//void send_asser_pret() ??

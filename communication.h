@@ -1,4 +1,7 @@
-int get_x_voulu();
-int get_y_voulu();
-int get_a_voulu();
-void sent_position_atteinte();
+void set_new_alpha_delta(int alpha, int delta);
+void set_new_xy_relatif(int x, int y);
+void set_new_xy_absolu(int x, int y);
+void set_new_tetha(int tetha);
+
+void send_position_atteinte();
+//void send_asser_pret(); ??

@@ -1,5 +1,5 @@
 OPTIONS=
-POSTOPTIONS=
+POSTOPTIONS=-lm
 EXENAME=asser_robot
 FICHIERS=main.c PID.c asser.c communication.c hardware.c meca.c odometrie.c trajectoire.c\
          PID.h   asser.h   communication.h   hardware.h   meca.h odometrie.h trajectoire.h\
@@ -28,7 +28,7 @@ asser.o: asser.c asser.h PID.h meca.h trajectoire.h odometrie.h
 PID.o:       PID.c  PID.h
 	gcc $(OPTIONS) -c PID.c
 
-communication.o:       communication.c  communication.h
+communication.o:       communication.c  communication.h trajectoire.h
 	gcc $(OPTIONS) -c communication.c
 
 hardware.o:       hardware.c  hardware.h
@@ -40,5 +40,5 @@ meca.o:          meca.c     meca.h
 odometrie.o:       odometrie.c  odometrie.h
 	gcc $(OPTIONS) -c odometrie.c
 
-trajectoire.o:       trajectoire.c  trajectoire.h
+trajectoire.o:       trajectoire.c  trajectoire.h odometrie.h
 	gcc $(OPTIONS) -c trajectoire.c
