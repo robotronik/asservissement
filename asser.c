@@ -20,7 +20,8 @@ void asser()
 
 	while(1)
 	{
-		pause(); //à revoir pour utiliser le timer à la place
+		//synchronisation à une fréquence régulière
+		while(doit_attendre());
 
 		//calcul de l'erreur en delta et alpha
 		int erreur_delta=get_delta_voulu()-get_delta_actuel();
