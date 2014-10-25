@@ -113,7 +113,7 @@ void valide(int * reponse,int reponse_preced)
 
 }
 
-int conver2PWM(int* commande,int reponse_preced)
+int convert2PWM(int commande)
 {
 
 }

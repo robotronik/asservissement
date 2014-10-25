@@ -16,7 +16,7 @@ int get_a_voulu()
 	
 }
 
-void sent_position_atteinte()
+void send_position_atteinte()
 {
 
 }
