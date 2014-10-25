@@ -13,11 +13,12 @@ void asser()
 	int erreur_alpha_sum=0;
 	int reponse_delta_preced=0;
 	int reponse_alpha_preced=0;
+
 	while(1)
 	{
 		pause(); //à revoir pour utiliser le timer à la place
 
-		x_voulu=get_x_voulu(); //à revoir pour integrer les interruptions
+		x_voulu=get_x_voulu(); //à revoir pour utiliser les interruptions
 		y_voulu=get_y_voulu();
 		a_voulu=get_a_voulu();
 
@@ -34,10 +35,10 @@ void asser()
 		int reponse_alpha=PID_angulaire(erreur_alpha,erreur_alpha_preced,erreur_alpha_sum);
 
 		//mise à jour des variable d'intégration et de dérivationS
-		reponse_delta_preced=reponse_delta;
-		reponse_alpha_preced=reponse_alpha;
-		erreur_delta_sum+=reponse_delta; //employer une autre méthode pour éviter un overflow
-		erreur_alpha_sum+=reponse_alpha; //employer une autre méthode pour éviter un overflow
+		erreur_delta_preced=erreur_delta;
+		erreur_alpha_preced=erreur_alpha;
+		erreur_delta_sum+=erreur_delta; //employer une autre méthode pour éviter un overflow
+		erreur_alpha_sum+=erreur_alpha; //employer une autre méthode pour éviter un overflow
 
 		//vérification des réponses sorties des PIDs (pas trop grand ni trop petit)
 		valide(&reponse_delta,reponse_delta_preced);
@@ -99,7 +100,7 @@ void valide(int* reponse,int reponse_preced)
 		*reponse=-MIN_VITESSE;
 	}
 
-	//gestion de l'acceleration et de la deceleration
+	//gestion de l'acceleration max et de la deceleration max
 	if (*reponse-reponse_preced>MAX_ACCELERATION)
 	{
 		*reponse=reponse+MAX_ACCELERATION;
