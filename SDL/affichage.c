@@ -1,5 +1,6 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
+#include <SDL/SDL_rotozoom.h>
 #include "affichage.h"
 
 SDL_Surface* fenetre = 0;
@@ -17,19 +18,23 @@ int main(int argc, char const *argv[]) {
     while(!sdl_manage_events()) {
         if (i < 300){
             i+=1;
-            position_robot.x = i;
-            position_robot.y = i;
-            // Remplissage de la surface avec du blanc
-            SDL_FillRect(fenetre, NULL, SDL_MapRGB(fenetre->format, 255, 255, 255));
-            SDL_BlitSurface(image_robot, NULL, fenetre, &position_robot); // Collage de la surface sur l'écran
-
-            SDL_Flip(fenetre); // Mise à jour de l'écran
+            set_position(100, 100, 5*i);
         }
     }
 
     return quit_sdl_screen();
 }
 
+int set_position(int x, int y, float alpha) {
+    position_robot.x = x;
+    position_robot.y = y;
+    // Remplissage de la surface avec du blanc
+    SDL_FillRect(fenetre, NULL, SDL_MapRGB(fenetre->format, 255, 255, 255));
+    SDL_BlitSurface(rotozoomSurface(image_robot, alpha, 1.0, 1),
+        NULL, fenetre, &position_robot); // Collage de la surface sur l'écran
+
+    SDL_Flip(fenetre); // Mise à jour de l'écran
+}
 
 
 int sdl_manage_events() {
