@@ -1,4 +1,4 @@
-#include <math.h>
+#include "PID.h"
 
 int PID_lineique(int erreur, int erreur_preced, int erreur_sum)
 {

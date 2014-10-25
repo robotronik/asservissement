@@ -1,9 +1,9 @@
 #define ENTRAXE //mm
-#define DEMI_ENTRAXE ENTRAXE/2 //mm
-#define MAX_VITESSE //vitesse maximale du robot
-#define MIN_VITESSE //vitesse minimale du robot pour qu'il commence à avancer
-#define MAX_ACCELERATION //acceleration maximale
-#define MAX_DECELERATION //deceleration minimale
+#define DEMI_ENTRAXE 5 //mm ENTRAXE divisé par 2
+#define MAX_VITESSE 40000 //vitesse maximale du robot
+#define MIN_VITESSE 8000 //vitesse minimale du robot pour qu'il commence à avancer
+#define MAX_ACCELERATION 20 //acceleration maximale
+#define MAX_DECELERATION 20 //deceleration minimale
 
 void set_PWM_moteur_D(int PWM);
 void set_PWM_moteur_G(int PWM);

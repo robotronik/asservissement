@@ -1,7 +1,8 @@
+#include "asser.h"
 #include "PID.h"
 #include "meca.h"
 #include "trajectoire.h"
-#include "odometrie"
+#include "odometrie.h"
 
 void asser()
 {
@@ -18,9 +19,9 @@ void asser()
 	{
 		pause(); //à revoir pour utiliser le timer à la place
 
-		x_voulu=get_x_voulu(); //à revoir pour utiliser les interruptions
-		y_voulu=get_y_voulu();
-		a_voulu=get_a_voulu();
+		int x_voulu=get_x_voulu(); //à revoir pour utiliser les interruptions
+		int y_voulu=get_y_voulu();
+		int a_voulu=get_a_voulu();
 
 		//calcul de delta et alpha
 		int delta_voulu=calcul_delta(x_voulu,y_voulu,a_voulu);
@@ -78,7 +79,7 @@ void asser()
 	}
 }
 
-void valide(int* reponse,int reponse_preced)
+void valide(int * reponse,int reponse_preced)
 {
 	//gestion de la vitesse max
 	if (*reponse>MAX_VITESSE) 
@@ -103,11 +104,11 @@ void valide(int* reponse,int reponse_preced)
 	//gestion de l'acceleration max et de la deceleration max
 	if (*reponse-reponse_preced>MAX_ACCELERATION)
 	{
-		*reponse=reponse+MAX_ACCELERATION;
+		*reponse=*reponse+MAX_ACCELERATION;
 	}
 	else if (*reponse-reponse_preced<-MAX_DECELERATION)
 	{
-		*reponse=reponse-MAX_DECELERATION;
+		*reponse=*reponse-MAX_DECELERATION;
 	}
 
 }
