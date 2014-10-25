@@ -1,9 +1,10 @@
 #include "asser.h"
 #include "PID.h"
-#include "meca.h"
+#include "hardware.h"
 #include "trajectoire.h"
 #include "odometrie.h"
 #include "communication.h"
+#include "reglages.h"
 
 void asser()
 {

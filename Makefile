@@ -19,13 +19,13 @@ tarall:$(EXENAME).tar.bz2
 $(EXENAME).tar.bz2: $(FICHIERS)
 	tar -jcvf $(EXENAME).tar.bz2 *
 
-$(EXENAME): main.c asser.o PID.o communication.o hardware.o meca.o odometrie.o trajectoire.o
-	gcc $(OPTIONS) main.c asser.o PID.o communication.o hardware.o meca.o odometrie.o trajectoire.o $(POSTOPTIONS) -o $(EXENAME)
+$(EXENAME): main.c asser.o PID.o communication.o hardware.o odometrie.o trajectoire.o
+	gcc $(OPTIONS) main.c asser.o PID.o communication.o hardware.o odometrie.o trajectoire.o $(POSTOPTIONS) -o $(EXENAME)
 
-asser.o: asser.c asser.h PID.h meca.h trajectoire.h odometrie.h
+asser.o: asser.c asser.h PID.h trajectoire.h odometrie.h reglages.h
 	gcc $(OPTIONS) -c asser.c 
 
-PID.o:       PID.c  PID.h
+PID.o:       PID.c  PID.h reglages.h
 	gcc $(OPTIONS) -c PID.c
 
 communication.o:       communication.c  communication.h trajectoire.h
@@ -33,9 +33,6 @@ communication.o:       communication.c  communication.h trajectoire.h
 
 hardware.o:       hardware.c  hardware.h
 	gcc $(OPTIONS) -c hardware.c
-
-meca.o:          meca.c     meca.h
-	gcc $(OPTIONS) -c meca.c
 
 odometrie.o:       odometrie.c  odometrie.h
 	gcc $(OPTIONS) -c odometrie.c
