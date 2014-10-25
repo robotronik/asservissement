@@ -217,7 +217,7 @@ void asser()
         //Mise à l'échelle des PWN
 
 
-        if ((AD_abs(AD_ecartAlpha) < AD_presAlpha) && (AD_abs(AD_ecartDelta) < AD_presDelta)) //On test si on est au bonne endroit
+        if ((AD_abs(AD_ecartAlpha) < AD_presAlpha) && (AD_abs(AD_ecartDelta) < AD_presDelta)) //On test si on est au bon endroit
         {
             if (((AD_max((AD_commandeDelta - AD_commandeAlpha), (AD_commandeDelta + AD_commandeAlpha)) < VIT_MAX) && (AD_consAlpha == 0)) || (AD_consDelta == 0)) // Evite que le robot tombe en arrière
             {
