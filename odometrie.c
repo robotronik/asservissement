@@ -65,6 +65,6 @@ void actualise_position()
 	delta_actuel+=delta;
 	alpha_actuel+=alpha;
 	tetha_actuel+=alpha;
-	x_actuel-=cos(alpha)*delta/alpha; //à tester
-	y_actuel+=sin(alpha)*delta/alpha; //à tester
+	x_actuel-=sin(alpha)*delta/alpha; //à tester delta/alpha=R
+	y_actuel+=cos(alpha)*delta/alpha; //à tester
 }
