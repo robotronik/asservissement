@@ -45,20 +45,21 @@ void asser()
 		int commande_moteur_G=reponse_delta-DEMI_ENTRAXE*reponse_alpha;
 
 		//on regarde si on est pas arrivé à bon port
-		if (erreur_delta<PRECISION_DELTA && erreur_alpha<PRECISION_ALPHA)
+		//et si on peut s'arreter sans risquer de tomber
+		if (asser_done(erreur_delta,erreur_alpha)
+			&& arret_ok(commande_moteur_D,commande_moteur_G))
 		{
-			if(commande_moteur_G<VIT_MAX_ARRET && commande_moteur_D<VIT_MAX_ARRET)
-			{
-				reponse_delta_preced=0;
-				reponse_alpha_preced=0;
-				commande_moteur_D=0;
-				commande_moteur_G=0;
-				set_delta_actuel(0);
-				set_alpha_actuel(0);
-				set_delta_voulu(0);
-				set_delta_voulu(0);
-				send_position_atteinte();
-			}
+			//on réinitialise les valeurs
+			reponse_delta_preced=0;
+			reponse_alpha_preced=0;
+			commande_moteur_D=0;
+			commande_moteur_G=0;
+			set_delta_actuel(0);
+			set_alpha_actuel(0);
+			set_delta_voulu(0);
+			set_delta_voulu(0);
+			//or fait savoir que la position est atteinte
+			send_position_atteinte(); //ajouter anti-spam (ici on envoie sans arret)
 		}
 
 		//on converti les commandes en PWM et direction pour les ponts en H
@@ -69,7 +70,7 @@ void asser()
 		set_PWM_moteur_D(PWM_moteur_D);
 		set_PWM_moteur_G(PWM_moteur_G);
 
-		//on récupère le nombre de tick éffectuer sur les roues codeuses
+		//on récupère le nombre de tick éffectué sur les roues codeuses
 		int nbr_tick_D=get_nbr_tick_D();
 		int nbr_tick_G=get_nbr_tick_G();
 
@@ -112,7 +113,25 @@ void valide(int * reponse,int reponse_preced)
 
 }
 
-int convert2PWM(int commande)
+int asser_done(int erreur_delta, int erreur_alpha)
 {
+	if (erreur_delta<PRECISION_DELTA && erreur_alpha<PRECISION_ALPHA)
+	{
+		return 1;
+	}
+	return 0;
+}
 
+int arret_ok(int commande_moteur_D, int commande_moteur_G)
+{
+	if(commande_moteur_G<VIT_MAX_ARRET && commande_moteur_D<VIT_MAX_ARRET)
+	{
+		return 1;
+	}
+	return 0;
+}
+
+float convert2PWM(int commande)
+{
+	return (commande/MAX_VITESSE*PWM_MAX);
 }
