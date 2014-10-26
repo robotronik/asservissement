@@ -19,8 +19,8 @@ void asser()
 	int erreur_alpha_sum=0;
 	int reponse_delta_preced=0;
 	int reponse_alpha_preced=0;
-	//set_new_alpha_delta(40, 20); //à effacer
-	set_new_xy_relatif(0,20);//à effacer
+	//set_new_alpha_delta(1000, 1500); //à effacer
+	set_new_xy_relatif(0,1800);//à effacer
 
 	while(!sdl_manage_events())
 	{
@@ -54,8 +54,8 @@ void asser()
 
 		//on regarde si on est pas arrivé à bon port
 		//et si on peut s'arreter sans risquer de tomber
-		if (asser_done(erreur_delta,erreur_alpha))
-			//&& arret_ok(commande_moteur_D,commande_moteur_G))
+		if (asser_done(erreur_delta,erreur_alpha)) //elever paranthèse
+			//&& arret_ok(commande_moteur_D,commande_moteur_G)) //décommenter
 		{
 			//on réinitialise les valeurs
 			erreur_delta_preced=0;

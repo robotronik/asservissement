@@ -21,7 +21,7 @@
 
 //precision
 #define PRECISION_DELTA 1 //precision souhaitée pour delta (en mm)
-#define PRECISION_ALPHA 1 //precision souhaitée pour alpha (en rad)
+#define PRECISION_ALPHA 10 //precision souhaitée pour alpha (en milli radian)
 
 //calibrage
 #define TICK_PAR_MM 22 // nombre de ticks par mm (tick/mm)

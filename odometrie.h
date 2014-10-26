@@ -1,4 +1,4 @@
-#define DEUX_PI 6.283185307179586476925286766559
+#define DEUX_PI 6.2832
 
 void init_odometrie();
 
