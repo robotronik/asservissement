@@ -12,33 +12,32 @@ float robot_width, robot_height;
 
 int set_position(int x, int y, float alpha) {
     float position_x = 2*x/WIDTH - 1,
-        position_y =  - 2*y/HEIGHT + 1;
+        position_y =  2*y/HEIGHT - 1;
 
-    // Conversion de position vers position des vertices (avec centrage)
-    printf("x : %f, y : %f\n", position_x, position_y);
+    alpha = 73;
 
     // Remplissage de la surface avec du noir
-    glClear(GL_COLOR_BUFFER_BIT);      
-    glBegin(GL_TRIANGLES);
-        glColor3ub(0,255,255);
-        glVertex2d(position_x - robot_width/2, position_y + robot_height/2);
-        glVertex2d(position_x - robot_width/2, position_y - robot_height/2);
-        glVertex2d(position_x + robot_width/2, position_y);
-    glEnd();
+    glClear(GL_COLOR_BUFFER_BIT);
 
-    // Collage de l'image du robot, rotaté, à la position qu'il faut.
-    //SDL_BlitSurface(rotozoomSurface(image_robot, alpha, 1.0, 1),
-    //    NULL, fenetre, &position_robot);
+    glTranslated(position_x, position_y, 0);
+    glRotatef(alpha, 0, 0, 1);
+    dessine_robot();
+    glRotatef(-alpha, 0, 0, 1);
+    glTranslated(-position_x, -position_y, 0);
 
     glFlush();
     SDL_GL_SwapBuffers(); // Mise à jour de l'écran
     sdl_manage_events(); // On gère les événements qui ont apparus, au cas où
 }
 
-
-
-
-
+void dessine_robot() {
+    glBegin(GL_TRIANGLES);
+        glColor3ub(0,255,255);
+        glVertex2d(- robot_width/2, + robot_height/2);
+        glVertex2d(- robot_width/2, - robot_height/2);
+        glVertex2d(+ robot_width/2, 0);
+    glEnd();
+}
 
 int sdl_manage_events() {
     SDL_PollEvent(&evenements);
