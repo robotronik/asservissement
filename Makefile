@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=
+CFLAGS=-W -Wall
 LDFLAGS=
 SDLFLAGS=-lSDL -lSDL_image -lSDL_gfx
 EXEC=asser_robot
