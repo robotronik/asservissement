@@ -19,7 +19,8 @@ void asser()
 	int erreur_alpha_sum=0;
 	int reponse_delta_preced=0;
 	int reponse_alpha_preced=0;
-	set_new_alpha_delta(40, 20); //à effacer
+	//set_new_alpha_delta(40, 20); //à effacer
+	set_new_xy(20,20);//à effacer
 
 	while(!sdl_manage_events())
 	{
