@@ -41,9 +41,10 @@ void consigne_new_alpha_delta(int new_alpha, int new_delta)
 
 void consigne_new_xy_relatif(int x_voulu, int y_voulu)
 {
-	int new_delta=sqrt(x_voulu*x_voulu+y_voulu*y_voulu); //voir si pas meilleur moyen
-	int new_alpha=acos(x_voulu/new_delta); //voir si pas meilleur moyen (tableau ?)
-	//acos retourne un double à priori
+	int new_delta=(int)sqrt((double)x_voulu*x_voulu+y_voulu*y_voulu); //voir si pas meilleur moyen
+	//pas bon à revoir type de variable mauvais ou alors passer à un angle en degré
+	int new_alpha=(int)1000.0*acos((double)y_voulu/new_delta); //voir si pas meilleur moyen (tableau ?)
+	//acos retourne et prend un double à priori
 	consigne_new_alpha_delta(new_alpha,new_delta);
 }
 
@@ -52,8 +53,8 @@ void consigne_new_xy_absolu(int x_voulu, int y_voulu)
 	consigne_new_xy_relatif(x_voulu-get_x_actuel(),y_voulu-get_y_actuel());
 }
 
-void consigne_new_tetha(int tetha_voulu)
+void consigne_new_theta(int theta_voulu)
 {
-	int new_alpha=tetha_voulu-get_tetha_actuel();
+	int new_alpha=theta_voulu-get_theta_actuel();
 	consigne_new_alpha_delta(new_alpha,0);
 }

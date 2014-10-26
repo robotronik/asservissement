@@ -35,7 +35,7 @@ int init_sdl_screen() {
     if(SDL_Init(SDL_INIT_VIDEO) < 0)
         return quit_sdl_screen(1);
 
-    fenetre = SDL_SetVideoMode(800, 600, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
+    fenetre = SDL_SetVideoMode(600, 400, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
     SDL_WM_SetCaption("SDL : Une p'tite gestion de l'asservissement", NULL);
 
     if (fenetre == 0)

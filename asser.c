@@ -5,7 +5,8 @@
 #include "odometrie.h"
 #include "communication.h"
 #include "reglages.h"
-#include "SDL/affichage.h"
+#include "SDL/affichage.h" //à virer
+#include <stdio.h> //à virer
 
 void asser()
 {
@@ -18,7 +19,8 @@ void asser()
 	int erreur_alpha_sum=0;
 	int reponse_delta_preced=0;
 	int reponse_alpha_preced=0;
-	set_new_alpha_delta(45/360*2*3.14159, 0); //à effacer
+	//set_new_alpha_delta(1000, 1500); //à effacer
+	set_new_xy_relatif(0,1800);//à effacer
 
 	while(!sdl_manage_events())
 	{
@@ -28,10 +30,12 @@ void asser()
 		//calcul de l'erreur en delta et alpha
 		int erreur_delta=get_delta_voulu()-get_delta_actuel();
 		int erreur_alpha=get_alpha_voulu()-get_alpha_actuel();
+		printf("e_a:%d e_D:%d ",erreur_alpha,erreur_delta);
 
 		//calcul de la réponse des PIDs
 		int reponse_delta=PID_lineique(erreur_delta,erreur_delta_preced,erreur_delta_sum);
 		int reponse_alpha=PID_angulaire(erreur_alpha,erreur_alpha_preced,erreur_alpha_sum);
+		printf("r_a:%d r_D:%d\n",reponse_alpha,reponse_delta);
 
 		//mise à jour des variable d'intégration et de dérivationS
 		erreur_delta_preced=erreur_delta;
@@ -42,6 +46,7 @@ void asser()
 		//vérification des réponses sorties des PIDs (pas trop grand ni trop petit)
 		valide(&reponse_delta,reponse_delta_preced);
 		valide(&reponse_alpha,reponse_alpha_preced);
+		//printf("%d %d\n",reponse_alpha,reponse_delta);
 
 		//on converti les réponses des PIDs en commande pour les moteurs
 		int commande_moteur_D=reponse_delta+DEMI_ENTRAXE*reponse_alpha;
@@ -49,10 +54,14 @@ void asser()
 
 		//on regarde si on est pas arrivé à bon port
 		//et si on peut s'arreter sans risquer de tomber
-		if (asser_done(erreur_delta,erreur_alpha)
-			&& arret_ok(commande_moteur_D,commande_moteur_G))
+		if (asser_done(erreur_delta,erreur_alpha)) //elever paranthèse
+			//&& arret_ok(commande_moteur_D,commande_moteur_G)) //décommenter
 		{
 			//on réinitialise les valeurs
+			erreur_delta_preced=0;
+			erreur_alpha_preced=0;
+			erreur_delta_sum=0;
+			erreur_alpha_sum=0;
 			reponse_delta_preced=0;
 			reponse_alpha_preced=0;
 			commande_moteur_D=0;
@@ -60,7 +69,7 @@ void asser()
 			set_delta_actuel(0);
 			set_alpha_actuel(0);
 			set_delta_voulu(0);
-			set_delta_voulu(0);
+			set_alpha_voulu(0);
 			//or fait savoir que la position est atteinte
 			send_position_atteinte(); //ajouter anti-spam (ici on envoie sans arret)
 		}
@@ -75,6 +84,9 @@ void asser()
 
 		//on actualise la position actuelle du robot (via les roues codeuses)
 		actualise_position();
+
+		//on envoie notre position au PC
+		send_position_xbee();
 	}
 }
 
@@ -114,7 +126,7 @@ void valide(int * reponse,int reponse_preced)
 
 int asser_done(int erreur_delta, int erreur_alpha)
 {
-	if (erreur_delta<PRECISION_DELTA && erreur_alpha<PRECISION_ALPHA)
+	if (abs(erreur_delta)<PRECISION_DELTA && abs(erreur_alpha)<PRECISION_ALPHA)
 	{
 		return 1;
 	}
@@ -123,14 +135,22 @@ int asser_done(int erreur_delta, int erreur_alpha)
 
 int arret_ok(int commande_moteur_D, int commande_moteur_G)
 {
-	if(commande_moteur_G<VIT_MAX_ARRET && commande_moteur_D<VIT_MAX_ARRET)
+	if(abs(commande_moteur_G)<VIT_MAX_ARRET && abs(commande_moteur_D)<VIT_MAX_ARRET)
 	{
 		return 1;
 	}
 	return 0;
 }
 
-float convert2PWM(int commande)
+int convert2PWM(int commande)
 {
 	return (commande/MAX_VITESSE*PWM_MAX);
+}
+
+int abs(int entier_relatif)
+{
+	//muhahaha j'aime ne pas faire comme tout le monde
+	int entier_naturel=entier_relatif;
+	entier_naturel-=2*entier_relatif*(entier_relatif<0);
+	return entier_naturel;
 }

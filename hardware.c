@@ -23,13 +23,9 @@ int doit_attendre()
 
 #include <math.h>
 #include "hardware.h"
-#include "SDL/affichage.h"
 
 int PWM_D;
 int PWM_G;
-int x=50;
-int y=50;
-int a=0;
 
 void set_PWM_moteur_D(int PWM)
 {
@@ -39,17 +35,6 @@ void set_PWM_moteur_D(int PWM)
 void set_PWM_moteur_G(int PWM)
 {
 	PWM_G=PWM;
-	actualise_pos();
-}
-
-void actualise_pos()
-{
-	int delta=(PWM_G+PWM_D)/2;
-	int alpha=(PWM_D-PWM_G)/10;
-	a+=alpha;
-	x-=sin(alpha)*delta/alpha;
-	y-=cos(alpha)*delta/alpha;
-	set_position(x, y, a);
 }
 
 int get_nbr_tick_D()

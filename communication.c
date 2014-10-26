@@ -1,4 +1,7 @@
 #include "trajectoire.h"
+#include "odometrie.h"
+#include <stdio.h> //à virer
+#include "SDL/affichage.h" // à virer
 
 void set_new_alpha_delta(int alpha, int delta)
 {
@@ -15,14 +18,19 @@ void set_new_xy_absolu(int x, int y)
 	consigne_new_xy_absolu(x,y);
 }
 
-void set_new_tetha(int tetha)
+void set_new_theta(int theta)
 {
-	consigne_new_tetha(tetha);
+	consigne_new_theta(theta);
 }
 
 void send_position_atteinte()
 {
-
+ printf("atteint\n");
 }
 
 //void send_asser_pret() ??
+
+void send_position_xbee()
+{
+	set_position(get_x_actuel()/5, 370-get_y_actuel()/5,get_theta_actuel()/1000*180/3.14159); //à virer
+}
