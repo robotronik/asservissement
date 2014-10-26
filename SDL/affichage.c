@@ -8,42 +8,27 @@ SDL_Event evenements = {0};
 SDL_Surface* image_robot;
 SDL_Rect position_robot;
 
-
-/*int main(int argc, char const *argv[]) {
-    if (init_sdl_screen() < 0)
-        return 1;
-
-    int i=1;
-
-    while(!sdl_manage_events()) {
-        if (i < 300){
-            i+=1;
-            set_position(100, 100, 5*i);
-        }
-    }
-
-    return quit_sdl_screen();
-}*/
-
 int set_position(int x, int y, float alpha) {
     position_robot.x = x;
     position_robot.y = y;
     // Remplissage de la surface avec du blanc
     SDL_FillRect(fenetre, NULL, SDL_MapRGB(fenetre->format, 255, 255, 255));
+
+    // Collage de l'image du robot, rotaté, à la position qu'il faut.
     SDL_BlitSurface(rotozoomSurface(image_robot, alpha, 1.0, 1),
-        NULL, fenetre, &position_robot); // Collage de la surface sur l'écran
+        NULL, fenetre, &position_robot);
 
     SDL_Flip(fenetre); // Mise à jour de l'écran
-    sdl_manage_events();
+    sdl_manage_events(); // On gère les événements qui ont apparus, au cas où
 }
 
 
 int sdl_manage_events() {
-    SDL_PollEvent(&evenements);
     if(evenements.type == SDL_QUIT)
         return true;
     else
         return false;
+    SDL_PollEvent(&evenements);
 }
 
 int init_sdl_screen() { 
