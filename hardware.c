@@ -67,6 +67,7 @@ void actualise_pos() //à dégager
 	//on actualise le reste
 	theta_actuel+=alpha;
 	set_position(x_actuel, y_actuel, theta_actuel);
+	//printf("%d %d\n",x_actuel,y_actuel,theta_actuel);
 }
 
 int get_nbr_tick_D()

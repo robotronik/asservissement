@@ -19,9 +19,8 @@ void asser()
 	int erreur_alpha_sum=0;
 	int reponse_delta_preced=0;
 	int reponse_alpha_preced=0;
-	set_new_alpha_delta(45/360*2*3.14159, 0); //à effacer
-	int test=100;
-	printf("%d %d\n",test,get_delta_voulu());
+	set_new_alpha_delta(0, 200); //à effacer
+	//set_new_xy_absolu(200,0);
 
 	while(!sdl_manage_events())
 	{
@@ -31,11 +30,12 @@ void asser()
 		//calcul de l'erreur en delta et alpha
 		int erreur_delta=get_delta_voulu()-get_delta_actuel();
 		int erreur_alpha=get_alpha_voulu()-get_alpha_actuel();
+		//printf("%d %d\n",erreur_alpha,erreur_delta);
 
 		//calcul de la réponse des PIDs
 		int reponse_delta=PID_lineique(erreur_delta,erreur_delta_preced,erreur_delta_sum);
 		int reponse_alpha=PID_angulaire(erreur_alpha,erreur_alpha_preced,erreur_alpha_sum);
-
+		//printf("%d %d\n",reponse_alpha,reponse_delta);
 
 		//mise à jour des variable d'intégration et de dérivationS
 		erreur_delta_preced=erreur_delta;
@@ -46,6 +46,7 @@ void asser()
 		//vérification des réponses sorties des PIDs (pas trop grand ni trop petit)
 		valide(&reponse_delta,reponse_delta_preced);
 		valide(&reponse_alpha,reponse_alpha_preced);
+		//printf("%d %d\n",reponse_alpha,reponse_delta);
 
 		//on converti les réponses des PIDs en commande pour les moteurs
 		int commande_moteur_D=reponse_delta+DEMI_ENTRAXE*reponse_alpha;

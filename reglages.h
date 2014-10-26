@@ -1,11 +1,11 @@
 //PID lineique
-#define KD_DELTA 1//constante de proportionalité
-#define KI_DELTA 1//composante d'intégration
-#define KD_DELTA 1//composante de dérivation
+#define KD_DELTA 10//constante de proportionalité
+#define KI_DELTA 10//composante d'intégration
+#define KD_DELTA 10//composante de dérivation
 //PID angulaire
-#define KD_ALPHA 1//constante de proportionalité
-#define KI_ALPHA 1//composante d'intégration
-#define KD_ALPHA 1//composante de dérivation
+#define KD_ALPHA 10//constante de proportionalité
+#define KI_ALPHA 10//composante d'intégration
+#define KD_ALPHA 10//composante de dérivation
 
 //contraintes mecaniques
 //#define ENTRAXE 10//mm
