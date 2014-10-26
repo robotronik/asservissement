@@ -15,9 +15,9 @@ void set_new_xy_absolu(int x, int y)
 	consigne_new_xy_absolu(x,y);
 }
 
-void set_new_tetha(int tetha)
+void set_new_theta(int theta)
 {
-	consigne_new_tetha(tetha);
+	consigne_new_theta(theta);
 }
 
 void send_position_atteinte()

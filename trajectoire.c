@@ -52,8 +52,8 @@ void consigne_new_xy_absolu(int x_voulu, int y_voulu)
 	consigne_new_xy_relatif(x_voulu-get_x_actuel(),y_voulu-get_y_actuel());
 }
 
-void consigne_new_tetha(int tetha_voulu)
+void consigne_new_theta(int theta_voulu)
 {
-	int new_alpha=tetha_voulu-get_tetha_actuel();
+	int new_alpha=theta_voulu-get_theta_actuel();
 	consigne_new_alpha_delta(new_alpha,0);
 }

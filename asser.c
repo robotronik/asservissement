@@ -5,7 +5,8 @@
 #include "odometrie.h"
 #include "communication.h"
 #include "reglages.h"
-#include "SDL/affichage.h"
+#include "SDL/affichage.h" //à virer
+#include <stdio.h> //à virer
 
 void asser()
 {
@@ -19,6 +20,8 @@ void asser()
 	int reponse_delta_preced=0;
 	int reponse_alpha_preced=0;
 	set_new_alpha_delta(45/360*2*3.14159, 0); //à effacer
+	int test=100;
+	printf("%d %d\n",test,get_delta_voulu());
 
 	while(!sdl_manage_events())
 	{
@@ -32,6 +35,7 @@ void asser()
 		//calcul de la réponse des PIDs
 		int reponse_delta=PID_lineique(erreur_delta,erreur_delta_preced,erreur_delta_sum);
 		int reponse_alpha=PID_angulaire(erreur_alpha,erreur_alpha_preced,erreur_alpha_sum);
+
 
 		//mise à jour des variable d'intégration et de dérivationS
 		erreur_delta_preced=erreur_delta;
@@ -130,7 +134,7 @@ int arret_ok(int commande_moteur_D, int commande_moteur_G)
 	return 0;
 }
 
-float convert2PWM(int commande)
+int convert2PWM(int commande)
 {
 	return (commande/MAX_VITESSE*PWM_MAX);
 }

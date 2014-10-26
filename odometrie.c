@@ -8,7 +8,7 @@
 //oh les vilaines variables globales !
 int x_actuel; //absolu
 int y_actuel; //absolu
-int tetha_actuel; //absolu
+int theta_actuel; //absolu
 int delta_actuel; //relatif
 int alpha_actuel; //relatif
 
@@ -19,7 +19,7 @@ void init_odometrie()
 	y_actuel=0;
 	delta_actuel=0;
 	alpha_actuel=0;
-	tetha_actuel=0;
+	theta_actuel=0;
 }
 
 void set_delta_actuel(int delta)
@@ -40,9 +40,9 @@ int get_alpha_actuel()
 	return alpha_actuel;
 }
 
-int get_tetha_actuel()
+int get_theta_actuel()
 {
-	return tetha_actuel;
+	return theta_actuel;
 }
 
 int get_x_actuel()
@@ -62,9 +62,25 @@ void actualise_position()
 	int alpha=(nbr_tick_D-nbr_tick_G)/TICK_PAR_TOUR*DEUX_PI;
 	//calcul également possible :
 	//int alpha=(nbr_tick_D-nbr_tick_G)/TICK_PAR_MM/DEMI_ENTRAXE;
+
+	//calcul dans le repère local
+	int x_local,y_local;
+	if(alpha!=0)
+	{
+		x_local=-(1-cos(alpha))*delta/alpha; //delta/alpha=R
+		y_local=sin(alpha)*delta/alpha;
+	}
+	else
+	{
+		x_local=0;
+		y_local=delta;
+	}
+
+	//rotation d'angle theta pour trouver la position en absolu
+	x_actuel+=cos(theta_actuel)*x_local-sin(theta_actuel)*y_local;
+	y_actuel+=sin(theta_actuel)*x_local+cos(theta_actuel)*y_local;
+	//on actualise le reste
 	delta_actuel+=delta;
 	alpha_actuel+=alpha;
-	tetha_actuel+=alpha;
-	x_actuel-=sin(alpha)*delta/alpha; //à tester delta/alpha=R
-	y_actuel+=cos(alpha)*delta/alpha; //à tester
+	theta_actuel+=alpha;
 }

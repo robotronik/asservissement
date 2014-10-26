@@ -7,7 +7,7 @@ void set_alpha_actuel(int alpha);
 
 int get_delta_actuel();
 int get_alpha_actuel();
-int get_tetha_actuel();
+int get_theta_actuel();
 int get_x_actuel();
 int get_y_actuel();
 
