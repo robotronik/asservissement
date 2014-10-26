@@ -2,6 +2,8 @@
 #include "hardware.h"
 #include "reglages.h"
 #include <math.h> // utiliser une autre methode pour calculer sin et cos ? (tableau ?)
+#include <stdio.h> //à virer
+#include "trajectoire.h" //à virer
 
 //ici les calculs de position actuelle
 
@@ -59,7 +61,7 @@ void actualise_position()
 	int nbr_tick_D=get_nbr_tick_D();
 	int nbr_tick_G=get_nbr_tick_G();
 	int delta=(nbr_tick_D+nbr_tick_G)/2/TICK_PAR_MM;
-	int alpha=(nbr_tick_D-nbr_tick_G)/TICK_PAR_TOUR*DEUX_PI;
+	int alpha=(nbr_tick_D-nbr_tick_G)/500;///TICK_PAR_TOUR*DEUX_PI; //virer le 1000 remettre le reste
 	//calcul également possible :
 	//int alpha=(nbr_tick_D-nbr_tick_G)/TICK_PAR_MM/DEMI_ENTRAXE;
 
@@ -67,8 +69,8 @@ void actualise_position()
 	int x_local,y_local;
 	if(alpha!=0)
 	{
-		x_local=-(1-cos(alpha))*delta/alpha; //delta/alpha=R
-		y_local=sin(alpha)*delta/alpha;
+		x_local=-(1-cos((double)alpha))*delta/alpha; //delta/alpha=R
+		y_local=sin((double)alpha)*delta/alpha;
 	}
 	else
 	{
@@ -77,10 +79,12 @@ void actualise_position()
 	}
 
 	//rotation d'angle theta pour trouver la position en absolu
-	x_actuel+=cos(theta_actuel)*x_local-sin(theta_actuel)*y_local;
-	y_actuel+=sin(theta_actuel)*x_local+cos(theta_actuel)*y_local;
+	x_actuel+=cos((double)theta_actuel)*x_local-sin((double)theta_actuel)*y_local;
+	y_actuel+=sin((double)theta_actuel)*x_local+cos((double)theta_actuel)*y_local;
 	//on actualise le reste
 	delta_actuel+=delta;
 	alpha_actuel+=alpha;
 	theta_actuel+=alpha;
+	//debug à virer
+	printf("D_act:%d a_act:%d th_act:%d D_voul:%d a_voul:%d\n",delta_actuel,alpha_actuel,theta_actuel, get_delta_voulu(), get_alpha_voulu()); //à virer
 }

@@ -5,3 +5,5 @@ void set_new_theta(int theta);
 
 void send_position_atteinte();
 //void send_asser_pret(); ??
+
+void send_position_xbee();
