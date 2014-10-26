@@ -86,5 +86,5 @@ void actualise_position()
 	alpha_actuel+=alpha;
 	theta_actuel+=alpha;
 	//debug à virer
-	printf("D_act:%d a_act:%d th_act:%d D_voul:%d a_voul:%d\n",delta_actuel,alpha_actuel,theta_actuel, get_delta_voulu(), get_alpha_voulu()); //à virer
+	printf("D_act:%d a_act:%d th_act:%d D_voul:%d a_voul:%d\n\n",delta_actuel,alpha_actuel,theta_actuel, get_delta_voulu(), get_alpha_voulu()); //à virer
 }

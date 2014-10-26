@@ -41,8 +41,8 @@ void consigne_new_alpha_delta(int new_alpha, int new_delta)
 
 void consigne_new_xy_relatif(int x_voulu, int y_voulu)
 {
-	int new_delta=sqrt((double)x_voulu*x_voulu+y_voulu*y_voulu); //voir si pas meilleur moyen
-	int new_alpha=acos((double)x_voulu/new_delta); //voir si pas meilleur moyen (tableau ?)
+	int new_delta=sqrt(x_voulu*x_voulu+y_voulu*y_voulu); //voir si pas meilleur moyen
+	int new_alpha=(int)acos((double)x_voulu/new_delta); //voir si pas meilleur moyen (tableau ?)
 	//acos retourne et prend un double à priori
 	consigne_new_alpha_delta(new_alpha,new_delta);
 }
