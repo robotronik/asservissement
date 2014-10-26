@@ -24,11 +24,11 @@ int set_position(int x, int y, float alpha) {
 
 
 int sdl_manage_events() {
+    SDL_PollEvent(&evenements);
     if(evenements.type == SDL_QUIT)
         return true;
     else
         return false;
-    SDL_PollEvent(&evenements);
 }
 
 int init_sdl_screen() { 
