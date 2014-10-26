@@ -1,26 +1,43 @@
 #include <SDL/SDL.h>
-#include <SDL/SDL_image.h>
-#include <SDL/SDL_rotozoom.h>
+#include <GL/gl.h>
+#include <GL/glu.h>
+#include <png.h>
 #include "affichage.h"
 
-SDL_Surface* fenetre = 0;
 SDL_Event evenements = {0};
 SDL_Surface* image_robot;
 SDL_Rect position_robot;
 
+float robot_width, robot_height;
+
 int set_position(int x, int y, float alpha) {
-    position_robot.x = x;
-    position_robot.y = y;
-    // Remplissage de la surface avec du blanc
-    SDL_FillRect(fenetre, NULL, SDL_MapRGB(fenetre->format, 255, 255, 255));
+    float position_x = 2*x/WIDTH - 1,
+        position_y =  - 2*y/HEIGHT + 1;
+
+    // Conversion de position vers position des vertices (avec centrage)
+    printf("x : %f, y : %f\n", position_x, position_y);
+
+    // Remplissage de la surface avec du noir
+    glClear(GL_COLOR_BUFFER_BIT);      
+    glBegin(GL_TRIANGLES);
+        glColor3ub(0,255,255);
+        glVertex2d(position_x - robot_width/2, position_y + robot_height/2);
+        glVertex2d(position_x - robot_width/2, position_y - robot_height/2);
+        glVertex2d(position_x + robot_width/2, position_y);
+    glEnd();
 
     // Collage de l'image du robot, rotaté, à la position qu'il faut.
-    SDL_BlitSurface(rotozoomSurface(image_robot, alpha, 1.0, 1),
-        NULL, fenetre, &position_robot);
+    //SDL_BlitSurface(rotozoomSurface(image_robot, alpha, 1.0, 1),
+    //    NULL, fenetre, &position_robot);
 
-    SDL_Flip(fenetre); // Mise à jour de l'écran
+    glFlush();
+    SDL_GL_SwapBuffers(); // Mise à jour de l'écran
     sdl_manage_events(); // On gère les événements qui ont apparus, au cas où
 }
+
+
+
+
 
 
 int sdl_manage_events() {
@@ -35,14 +52,16 @@ int init_sdl_screen() {
     if(SDL_Init(SDL_INIT_VIDEO) < 0)
         return quit_sdl_screen(1);
 
-    fenetre = SDL_SetVideoMode(600, 400, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
     SDL_WM_SetCaption("SDL : Une p'tite gestion de l'asservissement", NULL);
 
-    if (fenetre == 0)
+    if (SDL_SetVideoMode(WIDTH/ZOOM_FACTOR, HEIGHT/ZOOM_FACTOR, 32, SDL_OPENGL) == 0)
         return quit_sdl_screen(1);
 
-    SDL_FillRect(fenetre, NULL, SDL_MapRGB(fenetre->format, 255, 255, 255));
-    image_robot = IMG_Load("SDL/robot.png");
+
+    robot_width = ROBOT_WIDTH/WIDTH;
+    robot_height = ROBOT_HEIGHT/HEIGHT;
+
+    image_robot = IMG_Load("robot.png");
 }
 
 int quit_sdl_screen(int erreur) {

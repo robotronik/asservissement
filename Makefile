@@ -2,10 +2,10 @@ CC=gcc
 CFLAGS=-W -Wall
 CFLAGS=
 LDFLAGS=
-SDLFLAGS=-lSDL -lSDL_image -lSDL_gfx
+SDLFLAGS=-lSDL -lSDL_image -lSDL_gfx -lGL -lGLU
 EXEC=asser_robot
 
-POSTOPTIONS=-lm -lSDL -lSDL_image -lSDL_gfx
+POSTOPTIONS=-lm
 FICHIERS=main.c PID.c asser.c communication.c hardware.c meca.c odometrie.c trajectoire.c\
          PID.h asser.h communication.h hardware.h meca.h odometrie.h trajectoire.h\
 
@@ -17,7 +17,7 @@ view: all
 all: $(EXEC)
 
 $(EXEC): main.c asser.o PID.o communication.o hardware.o odometrie.o trajectoire.o SDL/affichage.o
-	$(CC) -o $@ $^ $(LDFLAGS) $(POSTOPTIONS)
+	$(CC) -o $@ $^ $(LDFLAGS) $(POSTOPTIONS) $(SDLFLAGS)
 
 asser.o: asser.c asser.h PID.h trajectoire.h odometrie.h reglages.h
 	$(CC) -o $@ -c $< $(CFLAGS)
