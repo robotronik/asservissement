@@ -7,7 +7,6 @@ int main()
         return 1;
 
     int i=1;
-    //set_position(100, 100, 45);
 
     
 	asser();
