@@ -44,8 +44,8 @@ void asser()
 		erreur_alpha_sum+=erreur_alpha; //employer une autre méthode pour éviter un overflow
 
 		//vérification des réponses sorties des PIDs (pas trop grand ni trop petit)
-		valide(&reponse_delta,reponse_delta_preced);
-		valide(&reponse_alpha,reponse_alpha_preced);
+		verifie_reponse(&reponse_delta,reponse_delta_preced);
+		verifie_reponse(&reponse_alpha,reponse_alpha_preced);
 		//printf("%d %d\n",reponse_alpha,reponse_delta);
 
 		//on converti les réponses des PIDs en commande pour les moteurs
@@ -90,7 +90,7 @@ void asser()
 	}
 }
 
-void valide(int * reponse,int reponse_preced)
+void verifie_reponse(int * reponse,int reponse_preced)
 {
 	//gestion de la vitesse max
 	if (*reponse>MAX_VITESSE) 
