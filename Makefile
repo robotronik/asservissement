@@ -5,11 +5,11 @@ LDFLAGS=-lm
 SDLFLAGS=-lSDL -lSDL_image -lSDL_gfx -lGL -lGLU -lSOIL
 EXEC=asser_robot
 
-FICHIERS_C=asser.c PID.c communication.c hardware.c odometrie.c trajectoire.c SDL/affichage.c
+FICHIERS_C=asser.c PID.c communication.c hardware.c odometrie.c trajectoire.c debug/affichage.c
 FICHIERS_H=$(FICHIERS_C:.c=.h) reglages.h
 FICHIERS_O=$(FICHIERS_C:.c=.o)
 
-SOURCEFILES=main.c $(FICHIERS_C) $(FICHIERS_H) SDL/plateau.png
+SOURCEFILES=main.c $(FICHIERS_C) $(FICHIERS_H) plateau.png
 
 .PHONY:$(EXEC)
 
@@ -39,7 +39,7 @@ odometrie.o: odometrie.c odometrie.h reglages.h hardware.h
 trajectoire.o: trajectoire.c trajectoire.h odometrie.h
 	$(CC) -o $@ -c $< $(CFLAGS)
 
-SDL/affichage.o: SDL/affichage.c SDL/affichage.h
+debug/affichage.o: debug/affichage.c debug/affichage.h
 	$(CC) -o $@ -c $< $(CFLAGS)
 
 tarall: $(SOURCEFILES)

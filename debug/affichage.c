@@ -44,6 +44,7 @@ void dessine_fond() {
 }
 
 int set_position(int x, int y, float alpha) {
+    alpha *= MRAD2DEGRES;
     if (AFFICHAGE_DEBUG == 1)
         printf("x = %d, y = %d, alpha = %f\n",
                 x,      y,      alpha);
@@ -87,9 +88,9 @@ int init_sdl_screen() {
     gluOrtho2D(0,WIDTH,0,HEIGHT);
 
     // Texture : plateau de jeu
-    texturePlateau = SOIL_load_OGL_texture("SDL/plateau.png",
+    texturePlateau = SOIL_load_OGL_texture("plateau.png",
         SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
-    printf("SOIL messages : '%s' (SDL/plateau.png)\n", SOIL_last_result());
+    printf("SOIL messages : '%s' (plateau.png)\n", SOIL_last_result());
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glBindTexture(GL_TEXTURE_2D, texturePlateau);

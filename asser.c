@@ -5,7 +5,7 @@
 #include "odometrie.h"
 #include "communication.h"
 #include "reglages.h"
-#include "SDL/affichage.h" //à virer
+#include "debug/affichage.h" //à virer
 #include <stdio.h> //à virer
 
 void asser()
