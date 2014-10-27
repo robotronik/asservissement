@@ -29,12 +29,12 @@ int PWM_G;
 
 void set_PWM_moteur_D(int PWM)
 {
-	PWM_D=PWM;
+	PWM_D=PWM/10;
 }
 
 void set_PWM_moteur_G(int PWM)
 {
-	PWM_G=PWM;
+	PWM_G=PWM/10;
 }
 
 int get_nbr_tick_D()
