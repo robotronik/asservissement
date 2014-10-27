@@ -21,7 +21,7 @@ void init_odometrie()
 	y_actuel=0;
 	delta_actuel=0;
 	alpha_actuel=0;
-	theta_actuel=-90/180*3.14159*1000;
+	theta_actuel=0;
 }
 
 void set_delta_actuel(int delta)
