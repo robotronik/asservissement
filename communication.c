@@ -1,7 +1,7 @@
 #include "trajectoire.h"
 #include "odometrie.h"
 #include <stdio.h> //à virer
-#include "SDL/affichage.h" // à virer
+#include "debug/affichage.h" // à virer
 
 void set_new_alpha_delta(int alpha, int delta)
 {

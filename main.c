@@ -1,5 +1,5 @@
 #include "asser.h"
-#include "SDL/affichage.h"
+#include "debug/affichage.h"
 
 int main()
 {
