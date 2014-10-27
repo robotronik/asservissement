@@ -3,7 +3,7 @@
  *-----------------------------------------------------*/
 
 #include "main.h"
-#include "motors.h"
+#include "hardware_PIC.h"
 
 short distLHigh, distRHigh;
 
