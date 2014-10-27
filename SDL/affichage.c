@@ -44,22 +44,16 @@ void dessine_fond() {
 }
 
 int set_position(int x, int y, float alpha) {
-    float position_x = 2*x/ZOOM_FACTOR+200,
-        position_y =  2*y/ZOOM_FACTOR;
-
     if (AFFICHAGE_DEBUG == 1)
-        printf("x = %d, position_x = %f\ny = %d, position_y = %f\nalpha = %f\n",
-                x,      position_x,      y,      position_y,      alpha);
-
-    // Test values
-    // alpha = 180;
+        printf("x = %d, y = %d, alpha = %f\n",
+                x,      y,      alpha);
 
     // Remplissage de la surface avec du noir
     glClear(GL_COLOR_BUFFER_BIT);    
     glMatrixMode( GL_MODELVIEW );
     glLoadIdentity( );
     dessine_fond();
-    glTranslated(position_x, position_y, 0);
+    glTranslated(x, y, 0);
     glRotatef(alpha, 0, 0, 1);
     dessine_robot();
 
@@ -90,7 +84,7 @@ int init_sdl_screen() {
     // Changer de repère : repère orthogonal avec origine bas-gauche
     glMatrixMode( GL_PROJECTION );
     glLoadIdentity( );
-    gluOrtho2D(0,WIDTH/ZOOM_FACTOR,0,HEIGHT/ZOOM_FACTOR);
+    gluOrtho2D(0,WIDTH,0,HEIGHT);
 
     // Texture : plateau de jeu
     texturePlateau = SOIL_load_OGL_texture("SDL/plateau.png",
@@ -101,11 +95,11 @@ int init_sdl_screen() {
     glBindTexture(GL_TEXTURE_2D, texturePlateau);
 
     // Calcul des dimensions
-    plateau_width = WIDTH /ZOOM_FACTOR;
-    plateau_height= HEIGHT/ZOOM_FACTOR;
+    plateau_width = WIDTH ;
+    plateau_height= HEIGHT;
 
-    robot_width = ROBOT_WIDTH/ZOOM_FACTOR;
-    robot_height= ROBOT_HEIGHT/ZOOM_FACTOR;
+    robot_width = ROBOT_WIDTH;
+    robot_height= ROBOT_HEIGHT;
 }
 
 int quit_sdl_screen(int erreur) {
