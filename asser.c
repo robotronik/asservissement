@@ -19,8 +19,8 @@ void asser()
 	int erreur_alpha_sum=0;
 	int reponse_delta_preced=0;
 	int reponse_alpha_preced=0;
-	//set_new_alpha_delta(1000, 1500); //à effacer
-	set_new_xy_relatif(0,1800);//à effacer
+	//set_new_alpha_delta(00, 1800); //à effacer
+	set_new_xy_relatif(00,1800);//à effacer
 
 	while(!sdl_manage_events())
 	{
@@ -35,7 +35,7 @@ void asser()
 		//calcul de la réponse des PIDs
 		int reponse_delta=PID_lineique(erreur_delta,erreur_delta_preced,erreur_delta_sum);
 		int reponse_alpha=PID_angulaire(erreur_alpha,erreur_alpha_preced,erreur_alpha_sum);
-		printf("r_a:%d r_D:%d\n",reponse_alpha,reponse_delta);
+		printf("r_a:%d r_D:%d ",reponse_alpha,reponse_delta);
 
 		//mise à jour des variable d'intégration et de dérivationS
 		erreur_delta_preced=erreur_delta;
@@ -46,16 +46,17 @@ void asser()
 		//vérification des réponses sorties des PIDs (pas trop grand ni trop petit)
 		verifie_reponse(&reponse_delta,reponse_delta_preced);
 		verifie_reponse(&reponse_alpha,reponse_alpha_preced);
-		//printf("%d %d\n",reponse_alpha,reponse_delta);
+		printf("rv_a:%d rv_D:%d\n",reponse_alpha,reponse_delta);
 
 		//on converti les réponses des PIDs en commande pour les moteurs
 		int commande_moteur_D=reponse_delta+DEMI_ENTRAXE*reponse_alpha;
 		int commande_moteur_G=reponse_delta-DEMI_ENTRAXE*reponse_alpha;
+		printf("com_D:%d com_G:%d\n",commande_moteur_D,commande_moteur_G);
 
 		//on regarde si on est pas arrivé à bon port
 		//et si on peut s'arreter sans risquer de tomber
-		if (asser_done(erreur_delta,erreur_alpha)) //elever paranthèse
-			//&& arret_ok(commande_moteur_D,commande_moteur_G)) //décommenter
+		if (asser_done(erreur_delta,erreur_alpha)
+			&& arret_ok(commande_moteur_D,commande_moteur_G))
 		{
 			//on réinitialise les valeurs
 			erreur_delta_preced=0;
@@ -77,6 +78,7 @@ void asser()
 		//on converti les commandes en PWM et direction pour les ponts en H
 		int PWM_moteur_D=convert2PWM(commande_moteur_D);
 		int PWM_moteur_G=convert2PWM(commande_moteur_G);
+		printf("PWM_D:%d PWM_G:%d\n",PWM_moteur_D,PWM_moteur_G);
 
 		//on applique les PWM et signaux de direction
 		set_PWM_moteur_D(PWM_moteur_D);
@@ -92,6 +94,16 @@ void asser()
 
 void verifie_reponse(int * reponse,int reponse_preced)
 {
+	//gestion de l'acceleration max et de la deceleration max
+	if (*reponse-reponse_preced>MAX_ACCELERATION)
+	{
+		*reponse=reponse_preced+MAX_ACCELERATION;
+	}
+	else if (*reponse-reponse_preced<-MAX_DECELERATION)
+	{
+		*reponse=reponse_preced-MAX_DECELERATION;
+	}
+
 	//gestion de la vitesse max
 	if (*reponse>MAX_VITESSE) 
 	{
@@ -107,21 +119,10 @@ void verifie_reponse(int * reponse,int reponse_preced)
 	{
 		*reponse=MIN_VITESSE;
 	}
-	else if (MIN_VITESSE<*reponse && *reponse<0)
+	else if (-MIN_VITESSE<*reponse && *reponse<0)
 	{
 		*reponse=-MIN_VITESSE;
 	}
-
-	//gestion de l'acceleration max et de la deceleration max
-	if (*reponse-reponse_preced>MAX_ACCELERATION)
-	{
-		*reponse=*reponse+MAX_ACCELERATION;
-	}
-	else if (*reponse-reponse_preced<-MAX_DECELERATION)
-	{
-		*reponse=*reponse-MAX_DECELERATION;
-	}
-
 }
 
 int asser_done(int erreur_delta, int erreur_alpha)
@@ -144,7 +145,7 @@ int arret_ok(int commande_moteur_D, int commande_moteur_G)
 
 int convert2PWM(int commande)
 {
-	return (commande/MAX_VITESSE*PWM_MAX);
+	return (1000*commande/MAX_VITESSE*PWM_MAX);
 }
 
 int abs(int entier_relatif)
