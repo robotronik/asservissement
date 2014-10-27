@@ -1,43 +1,69 @@
 #include <SDL/SDL.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
-#include <png.h>
+#include <SOIL/SOIL.h>
 #include "affichage.h"
 
-SDL_Event evenements = {0};
-SDL_Surface* image_robot;
+SDL_Event evenements;
+GLuint texturePlateau;
+
 SDL_Rect position_robot;
 
-float robot_width, robot_height;
+float robot_width, robot_height,
+    plateau_width, plateau_height;
+float alpha_r=0;
 
 int set_position(int x, int y, float alpha) {
-    float position_x = 2*x/WIDTH - 1,
-        position_y =  - 2*y/HEIGHT + 1;
+    float position_x = 2*x/ZOOM_FACTOR + 200,
+        position_y =  2*y/ZOOM_FACTOR;
 
-    // Conversion de position vers position des vertices (avec centrage)
-    printf("x : %f, y : %f\n", position_x, position_y);
+    // Test values
+    alpha = alpha_r--;
+    position_x = 50.0 ;
+    position_y = 50.0 ;
 
     // Remplissage de la surface avec du noir
-    glClear(GL_COLOR_BUFFER_BIT);      
-    glBegin(GL_TRIANGLES);
-        glColor3ub(0,255,255);
-        glVertex2d(position_x - robot_width/2, position_y + robot_height/2);
-        glVertex2d(position_x - robot_width/2, position_y - robot_height/2);
-        glVertex2d(position_x + robot_width/2, position_y);
-    glEnd();
-
-    // Collage de l'image du robot, rotaté, à la position qu'il faut.
-    //SDL_BlitSurface(rotozoomSurface(image_robot, alpha, 1.0, 1),
-    //    NULL, fenetre, &position_robot);
+    glClear(GL_COLOR_BUFFER_BIT);    
+    glMatrixMode( GL_MODELVIEW );
+    glLoadIdentity( );
+    dessine_fond();
+    glTranslated(200, 200, 0);
+    glRotatef(alpha, 0, 0, 1);
+    glTranslated(position_x, position_y, 0);
+    dessine_robot();
 
     glFlush();
     SDL_GL_SwapBuffers(); // Mise à jour de l'écran
     sdl_manage_events(); // On gère les événements qui ont apparus, au cas où
 }
 
+void dessine_robot() {
+    glDisable(GL_TEXTURE_2D);
+    glBegin(GL_QUADS);
+        glColor3ub(0,0,255);
+        glVertex2d(-robot_width/2, -robot_height/2);
+        glVertex2d(-robot_width/2, +robot_height/2);
+        glVertex2d(+robot_width/2, +robot_height/2);
+        glVertex2d(+robot_width/2, -robot_height/2);
+    glEnd();
+    glBegin(GL_TRIANGLES);
+        glVertex2d(-robot_width/2, +robot_height/2);
+        glVertex2d(-robot_width/2, -robot_height/2);
+        glColor3ub(255,0,0);
+        glVertex2d(+robot_height/2, 0);
+    glEnd();
+}
 
-
-
+void dessine_fond() {
+    glEnable(GL_TEXTURE_2D);
+    glBegin(GL_QUADS);
+        glColor3ub(255,255,255);
+        glTexCoord2d (0, 0); glVertex2d(0,              0);
+        glTexCoord2d (0, 1); glVertex2d(0,              plateau_height);
+        glTexCoord2d (1, 1); glVertex2d(plateau_width,  plateau_height);
+        glTexCoord2d (1, 0); glVertex2d(plateau_width,  0);
+    glEnd();
+}
 
 
 int sdl_manage_events() {
@@ -48,7 +74,7 @@ int sdl_manage_events() {
         return false;
 }
 
-int init_sdl_screen() { 
+int init_sdl_screen() {
     if(SDL_Init(SDL_INIT_VIDEO) < 0)
         return quit_sdl_screen(1);
 
@@ -57,11 +83,25 @@ int init_sdl_screen() {
     if (SDL_SetVideoMode(WIDTH/ZOOM_FACTOR, HEIGHT/ZOOM_FACTOR, 32, SDL_OPENGL) == 0)
         return quit_sdl_screen(1);
 
+    // Changer de repère : repère orthogonal avec origine bas-gauche
+    glMatrixMode( GL_PROJECTION );
+    glLoadIdentity( );
+    gluOrtho2D(0,WIDTH/ZOOM_FACTOR,0,HEIGHT/ZOOM_FACTOR);
 
-    robot_width = ROBOT_WIDTH/WIDTH;
-    robot_height = ROBOT_HEIGHT/HEIGHT;
+    // Texture : plateau de jeu
+    texturePlateau = SOIL_load_OGL_texture("SDL/plateau.png",
+        SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
+    printf("SOIL messages : '%s' (SDL/plateau.png)\n", SOIL_last_result());
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glBindTexture(GL_TEXTURE_2D, texturePlateau);
 
-    image_robot = IMG_Load("robot.png");
+    // Calcul des dimensions
+    plateau_width = WIDTH /ZOOM_FACTOR;
+    plateau_height= HEIGHT/ZOOM_FACTOR;
+
+    robot_width = ROBOT_WIDTH/ZOOM_FACTOR;
+    robot_height= ROBOT_HEIGHT/ZOOM_FACTOR;
 }
 
 int quit_sdl_screen(int erreur) {

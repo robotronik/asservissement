@@ -1,6 +1,9 @@
+#ifndef BOOL
+#define BOOL 0
 typedef int bool;
 #define true 1
 #define false 0
+#endif
 
 // Dimensions
 // Le facteur de zoom (mm par pixel)
@@ -13,6 +16,8 @@ typedef int bool;
 #define ROBOT_WIDTH  300.
 
 int set_position(int x, int y, float alpha);
+void dessine_fond();
+void dessine_robot();
 int sdl_manage_events();
 int init_sdl_screen();
 int quit_sdl_screen();
