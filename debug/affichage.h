@@ -10,7 +10,7 @@
 #define ROBOT_HEIGHT 250.
 #define ROBOT_WIDTH  250.
 
-int set_position(int x, int y, float alpha);
+void set_position(int x, int y, int alpha);
 int sdl_manage_events();
 int init_sdl_screen();
 int quit_sdl_screen();

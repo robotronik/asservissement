@@ -43,11 +43,11 @@ void dessine_fond() {
     glEnd();
 }
 
-int set_position(int x, int y, float alpha) {
-    alpha *= MRAD2DEGRES;
+void set_position(int x, int y, int alpha) {
+    float alpha_deg = alpha * MRAD2DEGRES;
     if (AFFICHAGE_DEBUG == 1)
         printf("x = %d, y = %d, alpha = %f\n",
-                x,      y,      alpha);
+                x,      y,      alpha_deg);
 
     // Remplissage de la surface avec du noir
     glClear(GL_COLOR_BUFFER_BIT);    
@@ -55,7 +55,7 @@ int set_position(int x, int y, float alpha) {
     glLoadIdentity( );
     dessine_fond();
     glTranslated(x, y, 0);
-    glRotatef(alpha, 0, 0, 1);
+    glRotatef(alpha_deg, 0, 0, 1);
     dessine_robot();
 
     glFlush();
@@ -90,7 +90,8 @@ int init_sdl_screen() {
     // Texture : plateau de jeu
     texturePlateau = SOIL_load_OGL_texture("plateau.png",
         SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
-    printf("SOIL messages : '%s' (plateau.png)\n", SOIL_last_result());
+    if (AFFICHAGE_DEBUG == 1 || texturePlateau == 0)
+        printf("SOIL messages : '%s' (plateau.png)\n", SOIL_last_result());
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glBindTexture(GL_TEXTURE_2D, texturePlateau);
@@ -101,6 +102,7 @@ int init_sdl_screen() {
 
     robot_width = ROBOT_WIDTH;
     robot_height= ROBOT_HEIGHT;
+    return 0;
 }
 
 int quit_sdl_screen(int erreur) {
