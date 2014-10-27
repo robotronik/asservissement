@@ -4,6 +4,8 @@
 #include <SOIL/SOIL.h>
 #include "affichage.h"
 
+#define AFFICHAGE_DEBUG 1
+
 SDL_Event evenements;
 GLuint texturePlateau;
 
@@ -11,31 +13,7 @@ SDL_Rect position_robot;
 
 float robot_width, robot_height,
     plateau_width, plateau_height;
-float alpha_r=0;
 
-int set_position(int x, int y, float alpha) {
-    float position_x = 2*x/ZOOM_FACTOR + 200,
-        position_y =  2*y/ZOOM_FACTOR;
-
-    // Test values
-    alpha = alpha_r--;
-    position_x = 50.0 ;
-    position_y = 50.0 ;
-
-    // Remplissage de la surface avec du noir
-    glClear(GL_COLOR_BUFFER_BIT);    
-    glMatrixMode( GL_MODELVIEW );
-    glLoadIdentity( );
-    dessine_fond();
-    glTranslated(200, 200, 0);
-    glRotatef(alpha, 0, 0, 1);
-    glTranslated(position_x, position_y, 0);
-    dessine_robot();
-
-    glFlush();
-    SDL_GL_SwapBuffers(); // Mise à jour de l'écran
-    sdl_manage_events(); // On gère les événements qui ont apparus, au cas où
-}
 
 void dessine_robot() {
     glDisable(GL_TEXTURE_2D);
@@ -47,10 +25,10 @@ void dessine_robot() {
         glVertex2d(+robot_width/2, -robot_height/2);
     glEnd();
     glBegin(GL_TRIANGLES);
-        glVertex2d(-robot_width/2, +robot_height/2);
         glVertex2d(-robot_width/2, -robot_height/2);
+        glVertex2d(+robot_width/2, -robot_height/2);
         glColor3ub(255,0,0);
-        glVertex2d(+robot_height/2, 0);
+        glVertex2d(0, robot_height/2);
     glEnd();
 }
 
@@ -64,6 +42,32 @@ void dessine_fond() {
         glTexCoord2d (1, 0); glVertex2d(plateau_width,  0);
     glEnd();
 }
+
+int set_position(int x, int y, float alpha) {
+    float position_x = 2*x/ZOOM_FACTOR+200,
+        position_y =  2*y/ZOOM_FACTOR;
+
+    if (AFFICHAGE_DEBUG == 1)
+        printf("x = %d, position_x = %f\ny = %d, position_y = %f\nalpha = %f\n",
+                x,      position_x,      y,      position_y,      alpha);
+
+    // Test values
+    // alpha = 180;
+
+    // Remplissage de la surface avec du noir
+    glClear(GL_COLOR_BUFFER_BIT);    
+    glMatrixMode( GL_MODELVIEW );
+    glLoadIdentity( );
+    dessine_fond();
+    glTranslated(position_x, position_y, 0);
+    glRotatef(alpha, 0, 0, 1);
+    dessine_robot();
+
+    glFlush();
+    SDL_GL_SwapBuffers(); // Mise à jour de l'écran
+    sdl_manage_events(); // On gère les événements qui sont apparus, au cas où
+}
+
 
 
 int sdl_manage_events() {
