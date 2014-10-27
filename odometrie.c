@@ -58,8 +58,8 @@ int get_y_actuel()
 
 void actualise_position()
 {
-	int nbr_tick_D=get_nbr_tick_D();
-	int nbr_tick_G=get_nbr_tick_G();
+	int nbr_tick_D=get_nbr_tick_D(); //long pour utilisation ac PIC ?
+	int nbr_tick_G=get_nbr_tick_G(); //long pour utilisation ac PIC ?
 	int delta=(nbr_tick_D+nbr_tick_G)/2/TICK_PAR_MM;
 	int alpha=(nbr_tick_D-nbr_tick_G)/500;//TICK_PAR_TOUR*DEUX_PI*1000; //virer le 500 remettre le reste
 	//calcul également possible :

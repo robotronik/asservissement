@@ -71,7 +71,7 @@ void asser()
 			set_alpha_actuel(0);
 			set_delta_voulu(0);
 			set_alpha_voulu(0);
-			//or fait savoir que la position est atteinte
+			//on fait savoir que la position est atteinte
 			send_position_atteinte(); //ajouter anti-spam (ici on envoie sans arret)
 		}
 

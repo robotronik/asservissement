@@ -2,7 +2,6 @@
 //on fait ceci afin de rendre le code portable*/
 
 #include "hardware.h"
-#include "motors.h"
 #include <p33FJ128MC802.h>
 
 int doitAttendre;
@@ -31,7 +30,7 @@ void init_osc()
 	while (OSCCONbits.OSWEN); 						// Attend le changement
 }
 
-void io_init(void)
+void io_init()
 {
 	// "All port pins are defined as inputs after a Reset"
 
@@ -198,7 +197,8 @@ void UART_init()
 	U1STAbits.UTXEN = 1; 	// Enable UART TX
 }
 
-void init(){
+void init(
+{
 	init_osc();
 	//__builtin_write_OSCCONL(OSCCON & ~(0x40));	// Débloquage des RPIN et RPOR
     io_init();
@@ -284,24 +284,29 @@ void motors_stop(void)
     PWM1CON1bits.PEN1L = 0;
     PWM1CON1bits.PEN2L = 0;
 }
+
 /*----------------------------------------------------------------*
- * aquisition du nombre de ticks effectués sur les roues codeuses *
+ * gestion des ticks effectués sur les roues codeuses             *
  *----------------------------------------------------------------*/
 short distLHigh, distRHigh;
 
-int get_nbr_tick_D()
+long get_nbr_tick_D()
 {
+	long pPosR;
 	((T_dividedLong *) pPosR)->part.high = distRHigh;
 	((T_dividedLong *) pPosR)->part.low = POS2CNT;
+	return pPosR;
 }
 
-int get_nbr_tick_G()
+long get_nbr_tick_G()
 {
+	long pPosL;
 	((T_dividedLong *) pPosL)->part.high = distLHigh;
 	((T_dividedLong *) pPosL)->part.low = POS1CNT;
+	return pPosL;
 }
 
-void motors_reset_qei()
+void reset_nbr_tick()
 {
 	POS1CNT = 0;
 	distLHigh = 0;
@@ -368,3 +373,9 @@ void pause_s(unsigned short n)
 	for(i=0; i<n; i++)
 		pause_ms(1000);
 }
+
+/*---------------------------------------------------------------------------*
+ * Couche basse uart                                                         *
+ *---------------------------------------------------------------------------*/
+
+ //TODO
