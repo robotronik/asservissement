@@ -287,26 +287,18 @@ void motors_stop(void)
 /*----------------------------------------------------------------*
  * aquisition du nombre de ticks effectués sur les roues codeuses *
  *----------------------------------------------------------------*/
+short distLHigh, distRHigh;
 
 int get_nbr_tick_D()
 {
-	
+	((T_dividedLong *) pPosR)->part.high = distRHigh;
+	((T_dividedLong *) pPosR)->part.low = POS2CNT;
 }
 
 int get_nbr_tick_G()
 {
-	
-}
-
-
-short distLHigh, distRHigh;
-
-void motors_get_qei(long *pPosL, long *pPosR)
-{
 	((T_dividedLong *) pPosL)->part.high = distLHigh;
 	((T_dividedLong *) pPosL)->part.low = POS1CNT;
-	((T_dividedLong *) pPosR)->part.high = distRHigh;
-	((T_dividedLong *) pPosR)->part.low = POS2CNT;
 }
 
 void motors_reset_qei()

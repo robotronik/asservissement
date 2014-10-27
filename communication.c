@@ -32,5 +32,5 @@ void send_position_atteinte()
 
 void send_position_xbee()
 {
-	set_position(get_x_actuel()+90, 2000-get_y_actuel()-100,get_theta_actuel()/1000*180/3.14159+90); //à virer
+	set_position(get_x_actuel(), get_y_actuel(),get_theta_actuel()/1000*180/3.14159); //à virer
 }
