@@ -73,9 +73,9 @@ int set_position(int x, int y, float alpha) {
 int sdl_manage_events() {
     SDL_PollEvent(&evenements);
     if(evenements.type == SDL_QUIT)
-        return true;
+        return 1;
     else
-        return false;
+        return 0;
 }
 
 int init_sdl_screen() {
