@@ -1,23 +1,25 @@
 CC=gcc
 CFLAGS=-W -Wall
 CFLAGS=
-LDFLAGS=
-SDLFLAGS=-lSDL -lSDL_image -lSDL_gfx -lGL -lGLU
+LDFLAGS=-lm
+SDLFLAGS=-lSDL -lSDL_image -lSDL_gfx -lGL -lGLU -lSOIL
 EXEC=asser_robot
 
-POSTOPTIONS=-lm
-FICHIERS=main.c PID.c asser.c communication.c hardware.c meca.c odometrie.c trajectoire.c\
-         PID.h asser.h communication.h hardware.h meca.h odometrie.h trajectoire.h\
+FICHIERS_C=asser.c PID.c communication.c hardware.c odometrie.c trajectoire.c SDL/affichage.c
+FICHIERS_H=$(FICHIERS_C:.c=.h) reglages.h
+FICHIERS_O=$(FICHIERS_C:.c=.o)
 
-.PHONY:view
+SOURCEFILES=main.c $(FICHIERS_C) $(FICHIERS_H) SDL/plateau.png
+
+.PHONY:$(EXEC)
 
 view: all
 	./$(EXEC)
 
 all: $(EXEC)
 
-$(EXEC): main.c asser.o PID.o communication.o hardware.o odometrie.o trajectoire.o SDL/affichage.o
-	$(CC) -o $@ $^ $(LDFLAGS) $(POSTOPTIONS) $(SDLFLAGS)
+$(EXEC): main.c $(FICHIERS_O)
+	$(CC) -o $@ $^ $(LDFLAGS) $(SDLFLAGS)
 
 asser.o: asser.c asser.h PID.h trajectoire.h odometrie.h reglages.h
 	$(CC) -o $@ -c $< $(CFLAGS)
@@ -40,11 +42,11 @@ trajectoire.o: trajectoire.c trajectoire.h odometrie.h
 SDL/affichage.o: SDL/affichage.c SDL/affichage.h
 	$(CC) -o $@ -c $< $(CFLAGS)
 
-tarall: $(FICHIERS)
+tarall: $(SOURCEFILES)
 	tar -jcvf $(EXEC).tar.bz2 $^
 
 clean:
-	rm -f *.o
+	rm -f $(FICHIERS_O)
 
 mrproper: clean
 	rm -rf $(EXEC) $(EXEC).tar.bz2
