@@ -18,7 +18,7 @@ int doit_attendre()
 	//synchronisation de asser() à une fréquence régulière
 }
 
-//ajouter fonction d'envoi et de réception par l'uart 
+//ajouter fonction d'envoi et de réception par l'uart
 //une fois quelque chose reçu on envoie à "communicution.c"*/
 
 #include <math.h>

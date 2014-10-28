@@ -1,7 +1,7 @@
 /*-----------------------------------------------------*
  * Protocole de communication avec l'uart               *
  *-----------------------------------------------------*/
- 
+
 #ifndef _MESSAGE_H
 #define _MESSAGE_H
 
@@ -41,7 +41,7 @@
 
 struct TrDelta
 {
-	unsigned short 
+	unsigned short
 		delta:12, //poids faible
 		signe:1, // 1 négatif, 0 positif
 		codet:3; //poids fort
@@ -87,7 +87,7 @@ typedef union TrameAsser TrameAsser;
 
 struct Tr4Char
 {
-	unsigned long  
+	unsigned long
 		oooX:8, //poids faible
 		ooXo:8,
 		oXoo:8,
@@ -97,7 +97,7 @@ typedef struct Tr4Char Tr4Char;
 
 struct TrConf
 {
-	unsigned long  
+	unsigned long
 		dec:8, //poids faible
 		ent:16,
 		stub:1,

@@ -36,7 +36,7 @@ void motors_set_speed (short speedL, short speedR) {
         PWM1CON1bits.PEN1L = 0;
         P1DC1 = -speedL;
     }
-    
+
    	if (speedR == 0)    // On s arrete
     {
         PWM1CON1bits.PEN2H = 0;

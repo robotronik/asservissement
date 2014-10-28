@@ -91,7 +91,7 @@ void asser()
     motors_reset_qei();
 
     setGros();
-    
+
     /////////////////////////////////
 
     while (1)
@@ -137,7 +137,7 @@ void asser()
             reset_bloquer();
         }*/
         // commande precedente des moteurs
-        
+
         cmdG = AD_commandeDelta - AD_commandeAlpha;
         cmdD = AD_commandeDelta + AD_commandeAlpha;
         if (antispam <= 1001)
@@ -195,8 +195,8 @@ void asser()
             AD_commandeDelta = AD_ecartDelta * kP_delta.delta + deriv_erreurs(erreurs_delta) * kD_delta.delta;
         else // alpha pur
             AD_commandeDelta = AD_ecartDelta * kP_alpha.delta + deriv_erreurs(erreurs_delta) * kD_alpha.delta;
-        
-                //On regarde si nous avons des commandes mais que nousn'arrivons pas à bouger 
+
+                //On regarde si nous avons des commandes mais que nousn'arrivons pas à bouger
                 /*if(((AD_commandeDelta  - AD_commandeAlpha) != 0 || (AD_commandeDelta  + AD_commandeAlpha) != 0) && (AD_abs(AD_dD) < 2 && AD_abs(AD_dG) < 2) )
                 {
                     start_bloquer();
@@ -242,12 +242,12 @@ void asser()
             cptDone = 0;
 
 
-       
+
         if(!freeWheel)
         AD_motors_set_speed((short) echelle(AD_commandeDelta - AD_commandeAlpha), (short) echelle(AD_commandeDelta + AD_commandeAlpha));
         else
             AD_motors_set_speed(0,0);
-        
+
 
         //DEBUG //a enlever pour la coupe
         if (!doitAttendre) {while(1){allumer_del(); pause_ms(500); eteindre_del(); pause_ms(500);}} // Timer trop rapide : allume LED debug

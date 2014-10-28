@@ -44,7 +44,7 @@ IFS0bits.U1TXIF = 0;
 IEC0bits.U1TXIE = 1;	// Activation de l'interruption sur l'envoie
 		return -1;
 	} else U1TXREG = c;
-        
+
 #else //#ifdef INT_UART_TX
 	
 	while (U1STAbits.UTXBF);

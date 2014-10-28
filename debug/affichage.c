@@ -50,7 +50,7 @@ void set_position(int x, int y, int alpha) {
                 x,      y,      alpha_deg);
 
     // Remplissage de la surface avec du noir
-    glClear(GL_COLOR_BUFFER_BIT);    
+    glClear(GL_COLOR_BUFFER_BIT);
     glMatrixMode( GL_MODELVIEW );
     glLoadIdentity( );
     dessine_fond();

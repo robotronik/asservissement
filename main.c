@@ -8,7 +8,7 @@ int main()
 
     int i=1;
 
-    
+
 	asser();
 	return quit_sdl_screen();
 }

@@ -16,9 +16,9 @@ extern volatile int isPSoCReady;
 
 extern volatile char reset;
 
-//Asser 
+//Asser
 extern long int AD_consAlpha; //Angle en rad
-extern long int AD_consDelta; //Delta : Distance en mm * Distance parcourue par un tour de roue -> en tick 
+extern long int AD_consDelta; //Delta : Distance en mm * Distance parcourue par un tour de roue -> en tick
 
 extern long int AD_alphaTotal;
 extern volatile double alphaRad;
@@ -137,7 +137,7 @@ void message_processing(unsigned char inMessage)
             reset = 1;
             freeWheel = 0;
             break;
-            
+
         case CODE_SET_ALPHA:
             nb_recu = 0;
             if (t.trAlpha.signe == 1)
@@ -222,7 +222,7 @@ void message_processing(unsigned char inMessage)
             nb_recu = 0;
             break;
 
-            
+
 
         }
 

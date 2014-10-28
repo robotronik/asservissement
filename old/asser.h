@@ -55,7 +55,7 @@ void setPrecis();
 
 
 
-struct AD_K 
+struct AD_K
 {
 	/*double delta;
 	double alpha;*/

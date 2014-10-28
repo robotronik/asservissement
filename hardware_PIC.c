@@ -92,7 +92,7 @@ void timer_init()
 	T1CONbits.TGATE  = 0 ;
 	T1CONbits.TCKPS = 0b11;//Prescaller 256
 
-	TMR1 = 0; //Reset du conteur  
+	TMR1 = 0; //Reset du conteur
 
 
 	PR1 = 100;//250; //Réglage de la fréquence de l'horloge. (Fctimer = (40Mhz/256))

@@ -105,7 +105,7 @@ void verifie_reponse(int * reponse,int reponse_preced)
 	}
 
 	//gestion de la vitesse max
-	if (*reponse>MAX_VITESSE) 
+	if (*reponse>MAX_VITESSE)
 	{
 		*reponse=MAX_VITESSE;
 	}
@@ -115,7 +115,7 @@ void verifie_reponse(int * reponse,int reponse_preced)
 	}
 
 	//gestion de la vitesse min
-	else if (0<*reponse && *reponse<MIN_VITESSE) 
+	else if (0<*reponse && *reponse<MIN_VITESSE)
 	{
 		*reponse=MIN_VITESSE;
 	}

@@ -4,8 +4,8 @@
 #include "callage.h"
 #include "debug.h"
 
- 
- 
+
+
  void callage()
 {
 	int i =0;
@@ -14,7 +14,7 @@
 	motors_get_qei(&G, &D);
 	pause_ms(50);
 	
-	//On regarde si les codeurs sont arretés 
+	//On regarde si les codeurs sont arretés
 	while(1)
 	{
 			lastD = D;

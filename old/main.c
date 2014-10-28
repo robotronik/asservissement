@@ -35,7 +35,7 @@ int main() {
     motors_set_speed(0, 0);
     AD_minSpeed = (long int)((float)vG*1.5);
     asser();
-    
+
     return 0;
 }
 

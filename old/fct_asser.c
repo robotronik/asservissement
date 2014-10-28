@@ -115,7 +115,7 @@ void majXYAngle(double dTheta, double dDelta)
     double dX = 0;
     double dY = 0;
     //double alphad;
-    double alphaTmp = dAlpha/(TICK_TOUR/3.1415926535897932384626433832795);//dAlpha/D 
+    double alphaTmp = dAlpha/(TICK_TOUR/3.1415926535897932384626433832795);//dAlpha/D
     alphaRad += atan(alphaTmp);
     /*double alphaTmp = dAlpha*(2.0*3.1415926535897932384626433832795)/((double)TICK_TOUR);
     alphaRad += alphaTmp - alphaTmp*alphaTmp*alphaTmp/3;*/
@@ -154,7 +154,7 @@ void maj_erreurs( long int erreurs[4],long int erreur)
 long int deriv_erreurs(long int erreurs[4])
 {
   long int derivee=0;
-  
+
   derivee = (erreurs[0]-erreurs[1]);
 
   return derivee;
@@ -196,14 +196,14 @@ void AD_motors_set_speed(short speedL, short speedR)
 	{
 		if (speedL > MAX_SPEED )
 		{
-			commandeL = MAX_SPEED;   
+			commandeL = MAX_SPEED;
 		}
 	}
     else if(speedL < 0)
 	{
 	  if (-speedL > MAX_SPEED )
 	  {
-		 	commandeL = -MAX_SPEED;   
+		 	commandeL = -MAX_SPEED;
 	  }
 	}
 	
@@ -213,12 +213,12 @@ void AD_motors_set_speed(short speedL, short speedR)
 		{
                     commandeR = MAX_SPEED;
 		}
-	 } 
+	 }
     else if(speedR < 0)
 	{
 	  if (-speedR > MAX_SPEED )
 	  {
-		 	commandeR = -MAX_SPEED;   
+		 	commandeR = -MAX_SPEED;
 	  }
 	}
 	motors_set_speed (commandeL,commandeR);
