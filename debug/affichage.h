@@ -8,7 +8,7 @@
 #define WIDTH 3000.
 
 #define ROBOT_HEIGHT 250.
-#define ROBOT_WIDTH  250.
+#define ROBOT_WIDTH  230.
 
 void set_position(int x, int y, int alpha);
 int sdl_manage_events();

@@ -27,7 +27,7 @@ void dessine_robot() {
     glBegin(GL_TRIANGLES);
         glVertex2d(-robot_width/2, -robot_height/2);
         glVertex2d(+robot_width/2, -robot_height/2);
-        glColor3ub(255,0,0);
+        glColor3ub(255,0,200);
         glVertex2d(0, robot_height/2);
     glEnd();
 }
