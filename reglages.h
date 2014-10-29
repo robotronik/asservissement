@@ -1,11 +1,15 @@
+/*/!\ si le robot commence à effectuer le mouvement et revient mystérieusement
+en arrière c'est peut-être que vous avez un peu exagéré sur les valeurs des 
+coefficients des PID et qu'il y a overflow*/
+
 //PID lineique
 #define KP_DELTA 200//constante de proportionalité
 #define KI_DELTA 11400//composante d'intégration
 #define KD_DELTA 1050000//composante de dérivation
 //PID angulaire
-#define KP_ALPHA 10//constante de proportionalité
-#define KI_ALPHA 10//composante d'intégration
-#define KD_ALPHA 10//composante de dérivation
+#define KP_ALPHA 2000//constante de proportionalité
+#define KI_ALPHA 1//composante d'intégration
+#define KD_ALPHA 200//composante de dérivation
 
 //contraintes mecaniques
 //#define ENTRAXE 10//mm

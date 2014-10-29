@@ -61,7 +61,7 @@ void actualise_position()
 	int nbr_tick_D=get_nbr_tick_D(); //long pour utilisation ac PIC ?
 	int nbr_tick_G=get_nbr_tick_G(); //long pour utilisation ac PIC ?
 	int delta=(nbr_tick_D+nbr_tick_G)/2/TICK_PAR_MM;
-	int alpha=(nbr_tick_D-nbr_tick_G)/500;//TICK_PAR_TOUR*DEUX_PI*1000; //virer le 500 remettre le reste
+	int alpha=(nbr_tick_D-nbr_tick_G)/2/500;///2/TICK_PAR_TOUR*DEUX_PI*1000; //virer le 500 remettre le reste
 	//calcul également possible :
 	//int alpha=(nbr_tick_D-nbr_tick_G)/TICK_PAR_MM/DEMI_ENTRAXE;
 
@@ -69,7 +69,8 @@ void actualise_position()
 	int x_local,y_local;
 	if(alpha!=0)
 	{
-		x_local=(int) -(1.0-cos((double)alpha/1000))*delta/alpha*1000.0; //delta/alpha=R
+		//delta/alpha=R
+		x_local=(int) -(1.0-cos((double)alpha/1000))*delta/alpha*1000.0;
 		y_local=(int) sin((double)alpha/1000)*delta/alpha*1000.0;
 	}
 	else
@@ -79,8 +80,10 @@ void actualise_position()
 	}
 
 	//rotation d'angle theta pour trouver la position en absolu
-	x_actuel+=(int) cos((double)theta_actuel/1000.0)*x_local-sin((double)theta_actuel/1000.0)*y_local;
-	y_actuel+=(int) sin((double)theta_actuel/1000.0)*x_local+cos((double)theta_actuel/1000.0)*y_local;
+	x_actuel+=(int) cos((double)theta_actuel/1000.0)*x_local;
+	x_actuel-=(int) sin((double)theta_actuel/1000.0)*y_local;
+	y_actuel+=(int) sin((double)theta_actuel/1000.0)*x_local;
+	y_actuel+=(int) cos((double)theta_actuel/1000.0)*y_local;
 	//on actualise le reste
 	delta_actuel+=delta;
 	alpha_actuel+=alpha;
