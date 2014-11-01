@@ -43,9 +43,9 @@ void asser()
 		erreur_delta_sum+=erreur_delta; //employer une autre méthode pour éviter un overflow
 		erreur_alpha_sum+=erreur_alpha; //employer une autre méthode pour éviter un overflow
 
-		//vérification des réponses sorties des PIDs (pas trop grand ni trop petit)
-		verifie_reponse(&reponse_delta,reponse_delta_preced);
-		verifie_reponse(&reponse_alpha,reponse_alpha_preced);
+		//on écrête les réponses en sortie des PIDs si trop grand ou trop petit
+		ecretage_reponse(&reponse_delta,reponse_delta_preced);
+		ecretage_reponse(&reponse_alpha,reponse_alpha_preced);
 		printf("rv_a:%li rv_D:%li\n",reponse_alpha,reponse_delta);
 
 		//on converti les réponses des PIDs en commandes pour les moteurs
@@ -92,7 +92,7 @@ void asser()
 	}
 }
 
-void verifie_reponse(long int * reponse,long int reponse_preced)
+void ecretage_reponse(long int * reponse,long int reponse_preced)
 {
 	//gestion de l'acceleration max et de la deceleration max
 	if (*reponse-reponse_preced>MAX_ACCELERATION)
