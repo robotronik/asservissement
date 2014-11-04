@@ -3,6 +3,9 @@
 #include <stdio.h> //à virer
 #include "debug/affichage.h" // à virer
 
+/*TODO : implémenter le protocole de comunication comme ça
+avait été fait dans message.c pour le code présent dans "old"*/
+
 void set_new_alpha_delta(int alpha, int delta)
 {
 	consigne_new_alpha_delta(alpha,delta);
@@ -30,7 +33,7 @@ void send_position_atteinte()
 
 //void send_asser_pret() ??
 
-void send_position_xbee()
+void send_position_xbee() // ??
 {
 	set_position(get_x_actuel()+140, get_y_actuel()+140,get_theta_actuel()); //à virer
 }
