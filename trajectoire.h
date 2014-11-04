@@ -1,3 +1,6 @@
+#ifndef TRAJECTOIRE_H
+#define TRAJECTOIRE_H
+
 void init_alpha_delta_voulu();
 
 void set_delta_voulu(int delta);
@@ -10,3 +13,5 @@ void consigne_new_alpha_delta(int new_alpha, int new_delta);
 void consigne_new_xy_relatif(int x_voulu, int y_voulu);
 void consigne_new_xy_absolu(int x_voulu, int y_voulu);
 void consigne_new_theta(int theta_voulu);
+
+#endif

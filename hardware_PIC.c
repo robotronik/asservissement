@@ -454,7 +454,7 @@ void __attribute__((interrupt, auto_psv)) _U1RXInterrupt(void)
         if(U1STAbits.URXDA == 1) {
                 rxBuffer[(indexRxBuffer + rxBufferLength) % RX_BUFFER_SIZE] = U1RXREG;
                 rxBufferLength ++;
-        }      
+        }
         //if(U1STAbits.URXDA == 1) message_processing(U1RXREG);
 }
 
@@ -491,4 +491,3 @@ void __attribute__((interrupt, auto_psv)) _U1TXInterrupt(void)
         }
 }
 #endif //#ifdef INT_UART_TX
-

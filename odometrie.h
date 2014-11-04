@@ -1,3 +1,6 @@
+#ifndef ODOMETRIE_H
+#define ODOMETRIE_H
+
 #define DEUX_PI 6.2832
 
 void init_odometrie();
@@ -12,3 +15,5 @@ int get_x_actuel();
 int get_y_actuel();
 
 void actualise_position();
+
+#endif

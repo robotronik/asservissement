@@ -1,3 +1,6 @@
+#ifndef REGLAGES_H
+#define REGLAGES_H
+
 //PID lineique
 #define KD_DELTA 10//constante de proportionalité
 #define KI_DELTA 10//composante d'intégration
@@ -26,3 +29,5 @@
 //calibrage
 #define TICK_PAR_MM 22 // nombre de ticks par mm (tick/mm)
 #define TICK_PAR_TOUR 17145 //nombre de ticks par tour complet du robot sur lui-même (tick/tour)
+
+#endif

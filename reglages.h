@@ -1,3 +1,6 @@
+#ifndef REGLAGES_H
+#define REGLAGES_H
+
 /*/!\ si le robot commence à effectuer le mouvement et revient mystérieusement
 en arrière c'est peut-être que vous avez un peu exagéré sur les valeurs des 
 coefficients des PID et qu'il y a overflow*/
@@ -30,3 +33,5 @@ coefficients des PID et qu'il y a overflow*/
 //calibrage
 #define TICK_PAR_MM 22 // nombre de ticks par mm (tick/mm)
 #define TICK_PAR_TOUR 17145 //nombre de ticks par tour complet du robot sur lui-même (tick/tour)
+
+#endif

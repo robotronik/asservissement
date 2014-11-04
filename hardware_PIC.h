@@ -1,3 +1,6 @@
+#ifndef HARDWARE_PIC_H
+#define HARDWARE_PIC_H
+
 #define MAX_SPEED 3999	// Entrée max des PWMs = 2*Période des PWMs
 						// Fréquence des PWMs = 20 kHz
 #define MIN_SPEED 900	// Entrée min sauf pour l'arrêt
@@ -36,3 +39,5 @@ void UART_send_tab(unsigned char *addr, unsigned char size);
 
 /* Retourne le nombre d'octets lus */
 int UART_getc(unsigned char *byte);
+
+#endif
