@@ -1,6 +1,7 @@
 #include "PID.h"
 #include "reglages.h"
 
+//TODO : rajouter un Antiwindup ??
 long int PID_lineique(int erreur, int erreur_preced, int erreur_sum)
 {
 //erreur_sum intégration par somme ou méthode des trapèzes ?

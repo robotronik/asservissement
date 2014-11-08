@@ -19,7 +19,7 @@ void asser()
 	int erreur_alpha_sum=0;
 	long int reponse_delta_preced=0;
 	long int reponse_alpha_preced=0;
-	set_new_alpha_delta(-3142/2, 1800); //à effacer
+	set_new_alpha_delta(-3142*2, 1000-140); //à effacer
 	//set_new_xy_relatif(1800,1800);//à effacer
 
 	while(!sdl_manage_events())
@@ -40,11 +40,12 @@ void asser()
 		//mise à jour des variable d'intégration et de dérivationS
 		erreur_delta_preced=erreur_delta;
 		erreur_alpha_preced=erreur_alpha;
-		erreur_delta_sum+=erreur_delta; //employer une autre méthode pour éviter un overflow
-		erreur_alpha_sum+=erreur_alpha; //employer une autre méthode pour éviter un overflow
+		erreur_delta_sum+=erreur_delta; //employer une autre méthode pour éviter un overflow -> Antiwindup ?
+		erreur_alpha_sum+=erreur_alpha; //employer une autre méthode pour éviter un overflow -> Antiwindup ?
+		//en fait il faut juste rajouter un modulo max_value_int16
 
 		//on écrête les réponses en sortie des PIDs si trop grand ou trop petit
-		//peut être à faire plutot sur les commandes moteurs
+		//TODO : à effectuer sur les commandes moteurs plutot que sur les reponses
 		ecretage_reponse(&reponse_delta,reponse_delta_preced);
 		ecretage_reponse(&reponse_alpha,reponse_alpha_preced);
 		reponse_delta_preced=reponse_delta;
@@ -97,6 +98,7 @@ void asser()
 
 void ecretage_reponse(long int * reponse,long int reponse_preced)
 {
+	//TODO : à tester avec MIN_VITESSE différent de 0
 	//gestion de l'acceleration max et de la deceleration max
 	if (*reponse-reponse_preced>MAX_ACCELERATION)
 	{
