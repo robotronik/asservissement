@@ -7,6 +7,8 @@
 #include "reglages.h"
 #include "debug/affichage.h" //à virer
 #include <stdio.h> //à virer
+#define AFFICHAGE_DEBUG 1
+
 
 void asser()
 {
@@ -20,7 +22,7 @@ void asser()
 	int erreur_alpha_sum=0;
 	long int reponse_delta_preced=0;
 	long int reponse_alpha_preced=0;
-	set_new_alpha_delta(-3142/4, 1000-140); //à effacer
+	consigne_new_xy_absolu(1000, 1000-140); //à effacer
 	//set_new_xy_relatif(1800,1800);//à effacer
 
 	while(!sdl_manage_events())
@@ -31,12 +33,14 @@ void asser()
 		//calcul de l'erreur en delta et alpha
 		int erreur_delta=get_delta_voulu()-get_delta_actuel();
 		int erreur_alpha=get_alpha_voulu()-get_alpha_actuel();
-		printf("e_a:%i e_D:%i ",erreur_alpha,erreur_delta);
+		if (AFFICHAGE_DEBUG == 1)
+        	printf("e_a:%i e_D:%i ",erreur_alpha,erreur_delta);
 
 		//calcul de la réponse des PIDs
 		long int reponse_delta=PID_lineique(erreur_delta,erreur_delta_preced,erreur_delta_sum);
 		long int reponse_alpha=PID_angulaire(erreur_alpha,erreur_alpha_preced,erreur_alpha_sum);
-		printf("r_a:%li r_D:%li ",reponse_alpha,reponse_delta);
+		if (AFFICHAGE_DEBUG == 1)
+        	printf("r_a:%li r_D:%li ",reponse_alpha,reponse_delta);
 
 		//mise à jour des variable d'intégration et de dérivationS
 		erreur_delta_preced=erreur_delta;
@@ -51,12 +55,14 @@ void asser()
 		ecretage_reponse(&reponse_alpha,reponse_alpha_preced);
 		reponse_delta_preced=reponse_delta;
 		reponse_alpha_preced=reponse_alpha;
-		printf("recr_a:%li recr_D:%li\n",reponse_alpha,reponse_delta);
+		if (AFFICHAGE_DEBUG == 1)
+        	printf("recr_a:%li recr_D:%li\n",reponse_alpha,reponse_delta);
 
 		//on converti les réponses des PIDs en commandes pour les moteurs
 		long int commande_moteur_D=reponse_delta+DEMI_ENTRAXE*reponse_alpha;
 		long int commande_moteur_G=reponse_delta-DEMI_ENTRAXE*reponse_alpha;
-		printf("com_D:%li com_G:%li\n",commande_moteur_D,commande_moteur_G);
+		if (AFFICHAGE_DEBUG == 1)
+        	printf("com_D:%li com_G:%li\n",commande_moteur_D,commande_moteur_G);
 
 		//on regarde si on est pas arrivé à bon port
 		//et si on peut s'arreter sans risquer de tomber
@@ -90,7 +96,8 @@ void asser()
 		//on converti les commandes en PWM et direction pour les ponts en H
 		int PWM_moteur_D=convert2PWM(commande_moteur_D);
 		int PWM_moteur_G=convert2PWM(commande_moteur_G);
-		printf("PWM_D:%i PWM_G:%i\n",PWM_moteur_D,PWM_moteur_G);
+		if (AFFICHAGE_DEBUG == 1)
+        	printf("PWM_D:%i PWM_G:%i\n",PWM_moteur_D,PWM_moteur_G);
 
 		//on applique les PWM et signaux de direction
 		set_PWM_moteur_D(PWM_moteur_D);

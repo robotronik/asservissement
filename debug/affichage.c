@@ -3,6 +3,7 @@
 #include <GL/glu.h>
 #include <SOIL/SOIL.h>
 #include "affichage.h"
+#include "../communication.h"
 
 #define AFFICHAGE_DEBUG 1
 
@@ -13,6 +14,8 @@ SDL_Rect position_robot;
 
 float robot_width, robot_height,
     plateau_width, plateau_height;
+
+int souris_x, souris_y;
 
 
 void dessine_robot() {
@@ -67,10 +70,20 @@ void set_position(int x, int y, int alpha) {
 
 int sdl_manage_events() {
     SDL_PollEvent(&evenements);
-    if(evenements.type == SDL_QUIT)
-        return 1;
-    else
-        return 0;
+    switch(evenements.type) {
+        case SDL_QUIT:
+            return 1;
+        case SDL_MOUSEBUTTONDOWN: /* Clic de la souris */
+            if (evenements.button.button == SDL_BUTTON_LEFT) {
+                printf("%d %d\n", evenements.button.x*ZOOM_FACTOR, HEIGHT - evenements.button.y*ZOOM_FACTOR);
+                set_new_xy_absolu(evenements.button.x*ZOOM_FACTOR, HEIGHT - evenements.button.y*ZOOM_FACTOR);
+                return 0;
+            } else
+                return 0;
+            break;
+        default:
+            return 0;
+    }
 }
 
 int init_sdl_screen() {

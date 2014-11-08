@@ -41,9 +41,11 @@ void consigne_new_alpha_delta(int new_alpha, int new_delta)
 
 void consigne_new_xy_relatif(int x_voulu, int y_voulu)
 {
-	int new_delta=(int)sqrt((double)x_voulu*x_voulu+y_voulu*y_voulu); //voir si pas meilleur moyen
+	int new_delta=(int)sqrt((double)(x_voulu*x_voulu+y_voulu*y_voulu)); //voir si pas meilleur moyen
 	//pas bon à revoir type de variable mauvais ou alors passer à un angle en degré -> passage en milliradian depuis
-	int new_alpha=(int)-1000.0*acos((double)y_voulu/new_delta); //voir si pas meilleur moyen (tableau ?)
+	int sgn = (0 < x_voulu) - (x_voulu < 0);
+
+	int new_alpha=(int)(sgn*-1000.0*acos((double)(y_voulu/new_delta))); //voir si pas meilleur moyen (tableau ?)
 	new_alpha-=get_theta_actuel();
 	//acos retourne et prend un double à priori
 	consigne_new_alpha_delta(new_alpha,new_delta);

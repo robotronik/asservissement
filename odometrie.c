@@ -4,6 +4,7 @@
 #include <math.h> // utiliser une autre methode pour calculer sin et cos ? (tableau ?)
 #include <stdio.h> //à virer
 #include "trajectoire.h" //à virer
+#define AFFICHAGE_DEBUG 1
 
 //ici les calculs de position actuelle
 
@@ -17,8 +18,8 @@ int alpha_actuel; //relatif
 
 void init_odometrie()
 {
-	x_actuel=0;
-	y_actuel=0;
+	x_actuel=140;
+	y_actuel=140;
 	delta_actuel=0;
 	alpha_actuel=0;
 	theta_actuel=0;
@@ -86,7 +87,6 @@ void actualise_position()
 	}
 
 	//rotation d'angle theta pour trouver la position en absolu
-	printf("x_actuel1 :%d y_actuel1 :%d ",x_actuel ,y_actuel);
 	x_actuel+=(int) (cos((double)theta_actuel/1000.0)*x_local);
 	x_actuel-=(int) (sin((double)theta_actuel/1000.0)*y_local);
 	y_actuel+=(int) (sin((double)theta_actuel/1000.0)*x_local);
@@ -96,5 +96,6 @@ void actualise_position()
 	alpha_actuel+=alpha;
 	theta_actuel+=alpha;
 	//debug à virer
-	printf("D_act:%d a_act:%d th_act:%d D_voul:%d a_voul:%d\n\n",delta_actuel,alpha_actuel,theta_actuel, get_delta_voulu(), get_alpha_voulu()); //à virer
+	if (AFFICHAGE_DEBUG == 1)
+        printf("D_act:%d a_act:%d th_act:%d D_voul:%d a_voul:%d\n\n",delta_actuel,alpha_actuel,theta_actuel, get_delta_voulu(), get_alpha_voulu()); //à virer
 }

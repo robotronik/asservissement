@@ -4,11 +4,11 @@
 // Le facteur de zoom (mm par pixel)
 #define ZOOM_FACTOR 5
 
-#define HEIGHT 2000.
-#define WIDTH 3000.
+#define HEIGHT 2000
+#define WIDTH 3000
 
-#define ROBOT_HEIGHT 250.
-#define ROBOT_WIDTH  230.
+#define ROBOT_HEIGHT 250
+#define ROBOT_WIDTH  230
 
 void set_position(int x, int y, int alpha);
 int sdl_manage_events();
