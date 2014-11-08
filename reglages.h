@@ -6,7 +6,7 @@ en arrière c'est peut-être que vous avez un peu exagéré sur les valeurs des
 coefficients des PID et qu'il y a overflow*/
 
 //PID lineique
-#define KP_DELTA 2//constante de proportionalité
+#define KP_DELTA 1//constante de proportionalité
 #define KI_DELTA 0//composante d'intégration
 #define KD_DELTA 10//composante de dérivation
 //PID angulaire
