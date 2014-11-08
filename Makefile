@@ -2,7 +2,7 @@ CC=gcc
 CFLAGS=-W -Wall
 
 LDFLAGS=-lm
-SDLFLAGS=-lSDL -lSDL_image -lSDL_gfx -lGL -lGLU -lSOIL
+SDLFLAGS=-lSDL -lSDL_image -lGL -lGLU -lSOIL
 EXEC=asser_robot
 
 FICHIERS_C=asser.c PID.c communication.c hardware.c odometrie.c trajectoire.c debug/affichage.c
