@@ -19,7 +19,7 @@ void asser()
 	int erreur_alpha_sum=0;
 	long int reponse_delta_preced=0;
 	long int reponse_alpha_preced=0;
-	set_new_alpha_delta(-3142/4, 00); //à effacer
+	set_new_alpha_delta(-3142/2, 0*1800); //à effacer
 	//set_new_xy_relatif(1800,1800);//à effacer
 
 	while(!sdl_manage_events())
@@ -46,7 +46,7 @@ void asser()
 		//on écrête les réponses en sortie des PIDs si trop grand ou trop petit
 		ecretage_reponse(&reponse_delta,reponse_delta_preced);
 		ecretage_reponse(&reponse_alpha,reponse_alpha_preced);
-		printf("rv_a:%li rv_D:%li\n",reponse_alpha,reponse_delta);
+		printf("recr_a:%li recr_D:%li\n",reponse_alpha,reponse_delta);
 
 		//on converti les réponses des PIDs en commandes pour les moteurs
 		long int commande_moteur_D=reponse_delta+DEMI_ENTRAXE*reponse_alpha;
