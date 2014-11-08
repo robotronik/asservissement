@@ -39,12 +39,12 @@ void set_PWM_moteur_G(int PWM)
 
 int get_nbr_tick_D()
 {
-	return PWM_D*10;
+	return PWM_D*5;
 }
 
 int get_nbr_tick_G()
 {
-	return PWM_G*10;
+	return PWM_G*5;
 }
 
 int doit_attendre()

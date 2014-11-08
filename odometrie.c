@@ -64,35 +64,33 @@ void actualise_position()
 	int delta=(nbr_tick_D+nbr_tick_G)/2; 	//delta en tick
 		delta/=TICK_PAR_MM;					//convertion en mm
 
-	int alpha=(nbr_tick_D-nbr_tick_G)/2; 	//alpha en tick
-		/*
-		alpha/=500;
-	/*/
-		alpha*=1000;						//en milliradian
-		alpha*=DEUX_PI/TICK_PAR_TOUR; 		//en radian
-	//*/
+	int alpha=(nbr_tick_D-nbr_tick_G)/2; 	//alpha en ticks
+		alpha*=1000;						//convertion en milliticks
+		alpha*=DEUX_PI/TICK_PAR_TOUR; 		//convertion en milliradians
+
 	//calcul également possible :
 	//int alpha=(nbr_tick_D-nbr_tick_G)/TICK_PAR_MM/DEMI_ENTRAXE;
 
 	//calcul dans le repère local
-	int x_local,y_local;
+	double x_local,y_local;
 	if(alpha!=0)
 	{
 		//delta/alpha=Rayon l'arc de cercle effectué (est-ce vraiment un arc de cercle ??)
-		x_local=(int) (1.0-cos((double)alpha/1000))*delta/(alpha/1000.0);
-		y_local=(int) sin((double)alpha/1000)*delta/(alpha/1000.0);
+		x_local=/*(int)*/ (1.0-cos((double)alpha/1000))*delta/(alpha/1000.0);
+		y_local=/*(int)*/ sin((double)alpha/1000)*delta/(alpha/1000.0);
 	}
 	else
 	{
 		x_local=0;
-		y_local=delta;
+		y_local=(double)delta;
 	}
 
 	//rotation d'angle theta pour trouver la position en absolu
-	x_actuel+=(int) cos((double)theta_actuel/1000.0)*x_local;
-	x_actuel-=(int) sin((double)theta_actuel/1000.0)*y_local;
-	y_actuel+=(int) sin((double)theta_actuel/1000.0)*x_local;
-	y_actuel+=(int) cos((double)theta_actuel/1000.0)*y_local;
+	printf("x_actuel1 :%d y_actuel1 :%d ",x_actuel ,y_actuel);
+	x_actuel+=(int) (cos((double)theta_actuel/1000.0)*x_local);
+	x_actuel-=(int) (sin((double)theta_actuel/1000.0)*y_local);
+	y_actuel+=(int) (sin((double)theta_actuel/1000.0)*x_local);
+	y_actuel+=(int) (cos((double)theta_actuel/1000.0)*y_local);
 	//on actualise le reste
 	delta_actuel+=delta;
 	alpha_actuel+=alpha;

@@ -1,5 +1,3 @@
-#!/usr/bin/make -f
-
 CC=gcc
 CFLAGS=-W -Wall
 
