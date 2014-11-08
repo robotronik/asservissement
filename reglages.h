@@ -16,7 +16,7 @@ coefficients des PID et qu'il y a overflow*/
 
 //contraintes mecaniques
 //#define ENTRAXE 10//mm
-#define DEMI_ENTRAXE 5 //mm ENTRAXE divisé par 2
+#define DEMI_ENTRAXE 75 //mm ENTRAXE divisé par 2
 #define MAX_VITESSE 40 //vitesse maximale du robot
 #define MIN_VITESSE 8 //vitesse minimale du robot pour qu'il commence à avancer
 #define MAX_ACCELERATION 2 //acceleration maximale
@@ -32,6 +32,6 @@ coefficients des PID et qu'il y a overflow*/
 
 //calibrage
 #define TICK_PAR_MM 22 // nombre de ticks par mm (tick/mm)
-#define TICK_PAR_TOUR 3000000 //nombre de ticks par tour complet du robot sur lui-même (tick/tour)
+#define TICK_PAR_TOUR 300000 //nombre de ticks par tour complet du robot sur lui-même (tick/tour)
 
 #endif
