@@ -95,6 +95,8 @@ void actualise_position()
 	delta_actuel+=delta;
 	alpha_actuel+=alpha;
 	theta_actuel+=alpha;
+	//TODO : mettre un modulo pour garder theta borné
+	//theta_actuel=theta_actuel%((int)(DEUX_PI*1000));
 	//debug à virer
 	if (AFFICHAGE_DEBUG == 1)
         printf("D_act:%d a_act:%d th_act:%d D_voul:%d a_voul:%d\n\n",delta_actuel,alpha_actuel,theta_actuel, get_delta_voulu(), get_alpha_voulu()); //à virer
