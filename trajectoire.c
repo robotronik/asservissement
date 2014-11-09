@@ -82,6 +82,13 @@ void consigne_new_xy_relatif(int x_voulu, int y_voulu)
 	 //voir si pas meilleur moyen pour le calcul de acos (tableau ?)
 	int theta_voulu=(int)(1000.0*acos((double)(y_voulu)/(double)(new_delta))*(-1.0*sgn_x));
 	int new_alpha=theta_voulu-get_theta_actuel();
+
+	//on borne new_alpha (à tester)
+	new_alpha=new_alpha%((int)(DEUX_PI*1000.0));
+	if (new_alpha>(int)((DEUX_PI*1000.0)/2.0))
+	{
+		new_alpha-=(int)(DEUX_PI*1000.0);
+	}
 	
 	//gestion de la marche arrière
 	if (new_alpha>1571) //1571~=(pi/2)*1000
