@@ -95,18 +95,20 @@ void actualise_position()
 	delta_actuel+=delta;
 	alpha_actuel+=alpha;
 	theta_actuel+=alpha;
+	
 	//TODO : faire attention à ce que theta reste borné
 	//TODO : verifier que ça le code ci-après est correct (on met theta entre -pi et pi)
 	/*
 	theta_actuel+=(int)(PI*1000.0);
 	theta_actuel%=((int)(DEUX_PI*1000.0));
-	theta_actuel-=(int)(PI*1000.0);
-	theta_actuel=theta_actuel%((int)(DEUX_PI*1000.0));*/
-	/*
+	theta_actuel-=(int)(PI*1000.0);*/
+
+	theta_actuel=theta_actuel%((int)(DEUX_PI*1000.0));
 	if (theta_actuel>(int)((DEUX_PI*1000.0)/2.0))
 	{
 		theta_actuel-=(int)(DEUX_PI*1000.0);
-	}*/
+	}
+
 	//debug à virer
 	if (AFFICHAGE_DEBUG == 1)
         printf("D_act:%d a_act:%d th_act:%d D_voul:%d a_voul:%d\n\n",delta_actuel,alpha_actuel,theta_actuel, get_delta_voulu(), get_alpha_voulu()); //à virer
