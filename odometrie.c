@@ -4,7 +4,7 @@
 #include <math.h> // utiliser une autre methode pour calculer sin et cos ? (tableau ?)
 #include <stdio.h> //à virer
 #include "trajectoire.h" //à virer
-#define AFFICHAGE_DEBUG 1
+#define AFFICHAGE_DEBUG 0
 
 //ici les calculs de position actuelle
 

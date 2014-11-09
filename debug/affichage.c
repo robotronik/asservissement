@@ -5,7 +5,7 @@
 #include "affichage.h"
 #include "../communication.h"
 
-#define AFFICHAGE_DEBUG 1
+#define AFFICHAGE_DEBUG 0
 
 SDL_Event evenements;
 GLuint texturePlateau;
