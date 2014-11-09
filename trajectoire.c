@@ -1,5 +1,6 @@
 #include "trajectoire.h"
 #include "odometrie.h"
+#include "reglages.h"
 #include <math.h> //utiliser un tableau pour acos ??
 #include <stdio.h> //TODO : à virer
 
@@ -89,6 +90,9 @@ void consigne_new_xy_relatif(int x_voulu, int y_voulu)
 	{
 		new_alpha-=(int)(DEUX_PI*1000.0);
 	}
+
+	//TODO : gestion point non atteignable
+	//(si l'on demande un point trop prés du robot et à la perpendiculaire de la direction du robot il se met à tourner)
 	
 	//gestion de la marche arrière
 	if (new_alpha>1571) //1571~=(pi/2)*1000
