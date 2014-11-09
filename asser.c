@@ -9,12 +9,14 @@
 #include <stdio.h> //à virer
 #define AFFICHAGE_DEBUG 0
 
+void loop_asser()
+{
+
+}
 
 void asser()
 {
 	//init
-	init_odometrie();
-	init_alpha_delta_voulu();
 	int erreur_delta_preced=0;
 	int erreur_delta_sum=0;
 	int erreur_alpha_preced=0;
@@ -89,8 +91,6 @@ void asser()
             //if (i==2) set_new_alpha_delta(0, 1000-140);
             //if (i==3) set_new_alpha_delta(3142, 0);
             //if (i==4) set_new_alpha_delta(0, 1000-140);
-
-
 		}
 
 		//on converti les commandes en PWM et direction pour les ponts en H
@@ -108,6 +108,9 @@ void asser()
 
 		//on envoie notre position au PC
 		send_position_xbee();
+
+		//on update la consigne de position
+		update_consigne();
 	}
 }
 
