@@ -2,6 +2,7 @@
 #define ODOMETRIE_H
 
 #define DEUX_PI 6.2832
+#define PI 3.14159
 
 void init_odometrie();
 

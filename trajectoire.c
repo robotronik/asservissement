@@ -1,6 +1,7 @@
 #include "trajectoire.h"
 #include "odometrie.h"
 #include <math.h> //utiliser un tableau pour acos ??
+#include <stdio.h> //TODO : à virer
 
 //ici le calcul de la trajectoire à effectuer
 
@@ -75,10 +76,24 @@ void consigne_new_xy_relatif(int x_voulu, int y_voulu)
 	set_x_voulu_absolu(x_voulu+get_x_actuel());
 	set_y_voulu_absolu(y_voulu+get_y_actuel());
 
-	int new_delta=(int)sqrt((double)(x_voulu*x_voulu+y_voulu*y_voulu)); //voir si pas meilleur moyen
+	//voir si pas meilleur moyen pour le calcul de sqrt
+	int new_delta=(int)sqrt((double)(x_voulu*x_voulu+y_voulu*y_voulu));
 	int sgn_x=(x_voulu > 0) - (x_voulu < 0);
-	int theta_voulu=(int)(1000.0*acos((double)(y_voulu)/(double)(new_delta))*(-1.0*sgn_x)); //voir si pas meilleur moyen (tableau ?)
+	 //voir si pas meilleur moyen pour le calcul de acos (tableau ?)
+	int theta_voulu=(int)(1000.0*acos((double)(y_voulu)/(double)(new_delta))*(-1.0*sgn_x));
 	int new_alpha=theta_voulu-get_theta_actuel();
+	
+	//gestion de la marche arrière
+	if (new_alpha>1571) //1571~=(pi/2)*1000
+	{
+		new_alpha-=3142; //3142~=pi*1000
+		new_delta=-new_delta;
+	}
+	else if (new_alpha<-1571) //1571~=(pi/2)*1000
+	{
+		new_alpha+=3142; //3142~=pi*1000
+		new_delta=-new_delta;
+	}
 	consigne_new_alpha_delta(new_alpha,new_delta);
 }
 
@@ -98,5 +113,6 @@ void update_consigne()
 	if (consigne_is_xy)
 	{
 		consigne_new_xy_relatif(x_voulu_absolu-get_x_actuel(),y_voulu_absolu-get_y_actuel());
+		printf("%d %d\n", x_voulu_absolu-get_x_actuel(),y_voulu_absolu-get_y_actuel());
 	}
 }

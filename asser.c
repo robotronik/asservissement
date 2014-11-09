@@ -25,7 +25,7 @@ void asser()
 	long int reponse_alpha_preced=0;
 	//consigne_new_xy_absolu(1000, 1000); //à effacer
 	//consigne_new_xy_relatif(1000,1000);//à effacer
-	//set_new_alpha_delta(-3142/4,1000);//à effacer
+	//set_new_alpha_delta(0*-3142/4,-1000);//à effacer
 
 	while(!sdl_manage_events())
 	{
@@ -92,6 +92,11 @@ void asser()
             //if (i==3) set_new_alpha_delta(3142, 0);
             //if (i==4) set_new_alpha_delta(0, 1000-140);
 		}
+		else
+		{
+			//on update la consigne de position
+			update_consigne();
+		}
 
 		//on converti les commandes en PWM et direction pour les ponts en H
 		int PWM_moteur_D=convert2PWM(commande_moteur_D);
@@ -108,9 +113,6 @@ void asser()
 
 		//on envoie notre position au PC
 		send_position_xbee();
-
-		//on update la consigne de position
-		update_consigne();
 	}
 }
 

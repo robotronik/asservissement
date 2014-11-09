@@ -4,7 +4,7 @@
 #include <math.h> // utiliser une autre methode pour calculer sin et cos ? (tableau ?)
 #include <stdio.h> //à virer
 #include "trajectoire.h" //à virer
-#define AFFICHAGE_DEBUG 0
+#define AFFICHAGE_DEBUG 1
 
 //ici les calculs de position actuelle
 
@@ -95,8 +95,18 @@ void actualise_position()
 	delta_actuel+=delta;
 	alpha_actuel+=alpha;
 	theta_actuel+=alpha;
-	//TODO : mettre un modulo pour garder theta borné
-	//theta_actuel=theta_actuel%((int)(DEUX_PI*1000));
+	//TODO : faire attention à ce que theta reste borné
+	//TODO : verifier que ça le code ci-après est correct (on met theta entre -pi et pi)
+	/*
+	theta_actuel+=(int)(PI*1000.0);
+	theta_actuel%=((int)(DEUX_PI*1000.0));
+	theta_actuel-=(int)(PI*1000.0);
+	theta_actuel=theta_actuel%((int)(DEUX_PI*1000.0));*/
+	/*
+	if (theta_actuel>(int)((DEUX_PI*1000.0)/2.0))
+	{
+		theta_actuel-=(int)(DEUX_PI*1000.0);
+	}*/
 	//debug à virer
 	if (AFFICHAGE_DEBUG == 1)
         printf("D_act:%d a_act:%d th_act:%d D_voul:%d a_voul:%d\n\n",delta_actuel,alpha_actuel,theta_actuel, get_delta_voulu(), get_alpha_voulu()); //à virer

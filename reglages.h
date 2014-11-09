@@ -6,7 +6,7 @@ en arrière c'est peut-être que vous avez un peu exagéré sur les valeurs des
 coefficients des PID et qu'il y a overflow*/
 
 //PID lineique
-#define KP_DELTA 2//constante de proportionalité
+#define KP_DELTA 1//constante de proportionalité
 #define KI_DELTA 0//composante d'intégration
 #define KD_DELTA 10//composante de dérivation
 //PID angulaire
@@ -28,8 +28,8 @@ coefficients des PID et qu'il y a overflow*/
 //"acceleration" et "deceleration" : différence entre deux valeurs de "vitesses" consécutives
 
 //precision
-#define PRECISION_DELTA 1 //precision souhaitée pour delta (en mm)
-#define PRECISION_ALPHA 10 //precision souhaitée pour alpha (en milli radian)
+#define PRECISION_DELTA 10 //precision souhaitée pour delta (en mm)
+#define PRECISION_ALPHA 100 //precision souhaitée pour alpha (en milli radian)
 
 //calibrage
 #define TICK_PAR_MM 22 // nombre de ticks par mm (tick/mm)
