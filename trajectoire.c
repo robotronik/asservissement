@@ -105,7 +105,15 @@ void consigne_new_xy_relatif(int x_voulu, int y_voulu)
 		new_alpha+=3142; //3142~=pi*1000
 		new_delta=-new_delta;
 	}
-	consigne_new_alpha_delta(new_alpha,new_delta);
+	//évite que le robot ne tourne pour rien quand il a atteint xy avec la précision voulue
+	if (new_delta<-PRECISION_DELTA || PRECISION_DELTA<new_delta)
+	{
+		consigne_new_alpha_delta(new_alpha,new_delta);
+	}
+	else
+	{
+		consigne_new_alpha_delta(0,0);
+	}
 }
 
 void consigne_new_xy_absolu(int x_voulu, int y_voulu)
@@ -124,6 +132,5 @@ void update_consigne()
 	if (consigne_is_xy)
 	{
 		consigne_new_xy_relatif(x_voulu_absolu-get_x_actuel(),y_voulu_absolu-get_y_actuel());
-		printf("%d %d\n", x_voulu_absolu-get_x_actuel(),y_voulu_absolu-get_y_actuel());
 	}
 }
