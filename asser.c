@@ -16,8 +16,8 @@ void asser()
 	s_erreur erreur_delta={0,0,0};
 	long int reponse_delta_preced=0;
 	long int reponse_alpha_preced=0;
-	//consigne_new_xy_absolu(1000, 1000); //à effacer
-	//consigne_new_xy_relatif(1000,1000);//à effacer
+	//set_new_xy_absolu(1000, 1000); //à effacer
+	//set_new_xy_relatif(1000,1000);//à effacer
 	//set_new_alpha_delta(0*-3142/4,-1000);//à effacer
 
 	while(!sdl_manage_events())
@@ -25,7 +25,7 @@ void asser()
 		//synchronisation à une fréquence régulière
 		while(doit_attendre());
 
-		//calcul de l'erreur actuelle en delta et alpha
+		//mise à jour des erreurs en delta et alpha
 		update_erreurs(&erreur_delta, &erreur_alpha);
 		if (AFFICHAGE_DEBUG == 1)
         	printf("e_a:%i e_D:%i ",erreur_alpha.actuelle,erreur_delta.actuelle);
