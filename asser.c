@@ -40,10 +40,12 @@ void asser()
 		//TODO : à effectuer sur les commandes moteurs plutot que sur les reponses
 		ecretage_reponse(&reponse_delta,reponse_delta_preced);
 		ecretage_reponse(&reponse_alpha,reponse_alpha_preced);
-		reponse_delta_preced=reponse_delta;
-		reponse_alpha_preced=reponse_alpha;
 		if (AFFICHAGE_DEBUG == 1)
         	printf("recr_a:%li recr_D:%li\n",reponse_alpha,reponse_delta);
+
+		//on actualise les valeurs précédantes
+		reponse_delta_preced=reponse_delta;
+		reponse_alpha_preced=reponse_alpha;
 
 		//on convertit les réponses des PIDs en commandes pour les moteurs
 		//multiplier par DEMI_ENTRAXE n'est pas forcement utile car il peut se retrouver dans les coeffs de PID angulaire
@@ -72,11 +74,6 @@ void asser()
 			set_alpha_voulu(0);
 			//on fait savoir que la position est atteinte
 			send_position_atteinte(); //ajouter anti-spam (ici on envoie sans arret)
-            //i=i%4+1;
-            //if (i==1) set_new_alpha_delta(-3142, 0);
-            //if (i==2) set_new_alpha_delta(0, 1000-140);
-            //if (i==3) set_new_alpha_delta(3142, 0);
-            //if (i==4) set_new_alpha_delta(0, 1000-140);
 		}
 
 		//on convertit les commandes en PWM et direction pour les ponts en H
@@ -102,17 +99,19 @@ void asser()
 
 void update_erreurs(s_erreur * erreur_delta, s_erreur * erreur_alpha)
 {
+	//mise à jour de la valeur précédante
 	erreur_delta->preced=erreur_delta->actuelle;
 	erreur_alpha->preced=erreur_alpha->actuelle;
 
-	//employer une autre méthode pour éviter un overflow -> Antiwindup ?
-	//en fait il faut juste rajouter une protection pour ne pas depasser max_value_int16 (et min_value_int16)
-	erreur_delta->sum+=erreur_delta->actuelle;
-	erreur_alpha->sum+=erreur_alpha->actuelle;
+	//mise à jour de la valeur de l'intégrale temporelle de l'erreur
+		//utiliser une intégration par méthode des trapèzes à la place ?
+	//TODO : employer une autre méthode pour éviter un overflow -> Antiwindup ?
+	erreur_delta->sum += erreur_delta->actuelle;
+	erreur_alpha->sum += erreur_alpha->actuelle;
 
 	//calcul de l'erreur actuelle en delta et alpha
-	erreur_delta->actuelle=get_delta_voulu()-get_delta_actuel();
-	erreur_alpha->actuelle=get_alpha_voulu()-get_alpha_actuel();
+	erreur_delta->actuelle = get_delta_voulu()-get_delta_actuel();
+	erreur_alpha->actuelle = get_alpha_voulu()-get_alpha_actuel();
 }
 
 void ecretage_reponse(long int * reponse,long int reponse_preced)
