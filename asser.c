@@ -12,10 +12,8 @@
 void asser()
 {
 	//init
-	int erreur_delta_preced=0;
-	int erreur_delta_sum=0;
-	int erreur_alpha_preced=0;
-	int erreur_alpha_sum=0;
+	s_erreur erreur_alpha={0,0,0};
+	s_erreur erreur_delta={0,0,0};
 	long int reponse_delta_preced=0;
 	long int reponse_alpha_preced=0;
 	//consigne_new_xy_absolu(1000, 1000); //à effacer
@@ -27,24 +25,16 @@ void asser()
 		//synchronisation à une fréquence régulière
 		while(doit_attendre());
 
-		//calcul de l'erreur en delta et alpha
-		int erreur_delta=get_delta_voulu()-get_delta_actuel();
-		int erreur_alpha=get_alpha_voulu()-get_alpha_actuel();
+		//calcul de l'erreur actuelle en delta et alpha
+		update_erreurs(&erreur_delta, &erreur_alpha);
 		if (AFFICHAGE_DEBUG == 1)
-        	printf("e_a:%i e_D:%i ",erreur_alpha,erreur_delta);
+        	printf("e_a:%i e_D:%i ",erreur_alpha.actuelle,erreur_delta.actuelle);
 
-		//calcul de la réponse des PIDs
-		long int reponse_delta=PID_lineique(erreur_delta,erreur_delta_preced,erreur_delta_sum);
-		long int reponse_alpha=PID_angulaire(erreur_alpha,erreur_alpha_preced,erreur_alpha_sum);
+		//calcul des réponses provenant des PIDs
+		long int reponse_delta=PID_lineique(erreur_delta);
+		long int reponse_alpha=PID_angulaire(erreur_alpha);
 		if (AFFICHAGE_DEBUG == 1)
         	printf("r_a:%li r_D:%li ",reponse_alpha,reponse_delta);
-
-		//mise à jour des variable d'intégration et de dérivationS
-		erreur_delta_preced=erreur_delta;
-		erreur_alpha_preced=erreur_alpha;
-		erreur_delta_sum+=erreur_delta; //employer une autre méthode pour éviter un overflow -> Antiwindup ?
-		erreur_alpha_sum+=erreur_alpha; //employer une autre méthode pour éviter un overflow -> Antiwindup ?
-		//en fait il faut juste rajouter une protection pour ne pas depasser max_value_int16 (et min_value_int16)
 
 		//on écrête les réponses en sortie des PIDs si trop grand ou trop petit
 		//TODO : à effectuer sur les commandes moteurs plutot que sur les reponses
@@ -55,7 +45,8 @@ void asser()
 		if (AFFICHAGE_DEBUG == 1)
         	printf("recr_a:%li recr_D:%li\n",reponse_alpha,reponse_delta);
 
-		//on converti les réponses des PIDs en commandes pour les moteurs
+		//on convertit les réponses des PIDs en commandes pour les moteurs
+		//multiplier par DEMI_ENTRAXE n'est pas forcement utile car il peut se retrouver dans les coeffs de PID angulaire
 		long int commande_moteur_D=reponse_delta+DEMI_ENTRAXE*reponse_alpha;
 		long int commande_moteur_G=reponse_delta-DEMI_ENTRAXE*reponse_alpha;
 		if (AFFICHAGE_DEBUG == 1)
@@ -63,14 +54,14 @@ void asser()
 
 		//on regarde si on est pas arrivé à bon port
 		//et si on peut s'arreter sans risquer de tomber
-		if (asser_done(erreur_delta,erreur_alpha)
+		if (asser_done(erreur_delta.actuelle,erreur_alpha.actuelle)
 			&& arret_ok(commande_moteur_D,commande_moteur_G))
 		{
 			//on réinitialise les valeurs
-			erreur_delta_preced=0;
-			erreur_alpha_preced=0;
-			erreur_delta_sum=0;
-			erreur_alpha_sum=0;
+			erreur_delta.preced=0;
+			erreur_alpha.preced=0;
+			erreur_delta.sum=0;
+			erreur_alpha.sum=0;
 			reponse_delta_preced=0;
 			reponse_alpha_preced=0;
 			commande_moteur_D=0;
@@ -107,6 +98,21 @@ void asser()
 		//on update la consigne de position
 		update_consigne();
 	}
+}
+
+void update_erreurs(s_erreur * erreur_delta, s_erreur * erreur_alpha)
+{
+	erreur_delta->preced=erreur_delta->actuelle;
+	erreur_alpha->preced=erreur_alpha->actuelle;
+
+	//employer une autre méthode pour éviter un overflow -> Antiwindup ?
+	//en fait il faut juste rajouter une protection pour ne pas depasser max_value_int16 (et min_value_int16)
+	erreur_delta->sum+=erreur_delta->actuelle;
+	erreur_alpha->sum+=erreur_alpha->actuelle;
+
+	//calcul de l'erreur actuelle en delta et alpha
+	erreur_delta->actuelle=get_delta_voulu()-get_delta_actuel();
+	erreur_alpha->actuelle=get_alpha_voulu()-get_alpha_actuel();
 }
 
 void ecretage_reponse(long int * reponse,long int reponse_preced)

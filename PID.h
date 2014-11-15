@@ -1,7 +1,9 @@
 #ifndef PID_H
 #define PID_H
 
-long int PID_lineique(int erreur, int erreur_preced, int erreur_sum);
-long int PID_angulaire(int erreur, int erreur_preced, int erreur_sum);
+#include "asser.h"
+
+long int PID_lineique(s_erreur erreur_delta);
+long int PID_angulaire(s_erreur erreur_alpha);
 
 #endif
