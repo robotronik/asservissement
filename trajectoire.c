@@ -7,14 +7,14 @@
 //ici le calcul de la trajectoire à effectuer
 
 //et encore de vilaines variables globales !
-int delta_voulu;
-int alpha_voulu;
+static int delta_voulu;
+static int alpha_voulu;
 
 /*la gestion des changements successifs d'alpha et beta pour atteindre
 **la position en xy voulu est relativement moche -> TODO : reorganiser*/
-int x_voulu_absolu;
-int y_voulu_absolu;
-int consigne_is_xy;
+static int x_voulu_absolu;
+static int y_voulu_absolu;
+static int consigne_is_xy;
 
 void init_trajectoire()
 {

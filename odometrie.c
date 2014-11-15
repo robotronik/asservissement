@@ -9,11 +9,11 @@
 //ici les calculs de position actuelle
 
 //oh les vilaines variables globales !
-int x_actuel; //absolu
-int y_actuel; //absolu
-int theta_actuel; //absolu
-int delta_actuel; //relatif
-int alpha_actuel; //relatif
+static int x_actuel; //absolu
+static int y_actuel; //absolu
+static int theta_actuel; //absolu
+static int delta_actuel; //relatif
+static int alpha_actuel; //relatif
 
 
 void init_odometrie()

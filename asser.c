@@ -9,11 +9,6 @@
 #include <stdio.h> //à virer
 #define AFFICHAGE_DEBUG 0
 
-void loop_asser()
-{
-
-}
-
 void asser()
 {
 	//init
