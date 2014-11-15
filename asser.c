@@ -49,7 +49,7 @@ void asser()
 		erreur_alpha_preced=erreur_alpha;
 		erreur_delta_sum+=erreur_delta; //employer une autre méthode pour éviter un overflow -> Antiwindup ?
 		erreur_alpha_sum+=erreur_alpha; //employer une autre méthode pour éviter un overflow -> Antiwindup ?
-		//en fait il faut juste rajouter un modulo max_value_int16
+		//en fait il faut juste rajouter une protection pour ne pas depasser max_value_int16 (et min_value_int16)
 
 		//on écrête les réponses en sortie des PIDs si trop grand ou trop petit
 		//TODO : à effectuer sur les commandes moteurs plutot que sur les reponses
