@@ -93,7 +93,7 @@ void asser()
             //if (i==4) set_new_alpha_delta(0, 1000-140);
 		}
 
-		//on converti les commandes en PWM et direction pour les ponts en H
+		//on convertit les commandes en PWM et direction pour les ponts en H
 		int PWM_moteur_D=convert2PWM(commande_moteur_D);
 		int PWM_moteur_G=convert2PWM(commande_moteur_G);
 		if (AFFICHAGE_DEBUG == 1)
