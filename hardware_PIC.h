@@ -5,6 +5,23 @@
 						// Fréquence des PWMs = 20 kHz
 #define MIN_SPEED 900	// Entrée min sauf pour l'arrêt
 
+// Structure associant 2 shorts dans un long pour les QEI
+typedef union {
+	long all;
+	struct {
+		short low;
+		short high;
+	} part;
+} T_dividedLong;
+
+typedef union {
+	unsigned long all;
+	struct {
+		short low;
+		unsigned short high;
+	} part;
+} T_dividedULong;
+
 void init();
 void init_osc();
 void io_init();
