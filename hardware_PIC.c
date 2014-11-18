@@ -229,7 +229,7 @@ void UART_init()
 	U1STAbits.UTXEN = 1; 	// Enable UART TX
 }
 
-void init()
+void init_hardware()
 {
 	init_osc();
 	//__builtin_write_OSCCONL(OSCCON & ~(0x40));	// Débloquage des RPIN et RPOR

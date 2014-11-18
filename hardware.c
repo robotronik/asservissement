@@ -27,6 +27,9 @@ int doit_attendre()
 int PWM_D;
 int PWM_G;
 
+void init_hardware()
+{}
+
 void set_PWM_moteur_D(int PWM)
 {
 	PWM_D=PWM/10;

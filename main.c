@@ -1,6 +1,7 @@
 #include "asser.h"
 #include "trajectoire.h"
 #include "odometrie.h"
+#include "hardware.h"
 #include "debug/affichage.h"
 
 int main()
@@ -12,6 +13,7 @@ int main()
 
     init_odometrie();
     init_trajectoire();
+    init_hardware();
 	asser();
 	return quit_sdl_screen();
 }

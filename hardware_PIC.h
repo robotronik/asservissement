@@ -22,7 +22,7 @@ typedef union {
 	} part;
 } T_dividedULong;
 
-void init();
+void init_hardware();
 void init_osc();
 void io_init();
 void PWM1_init ();
