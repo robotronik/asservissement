@@ -7,7 +7,7 @@
 #include "reglages.h"
 #include "debug/affichage.h" //à virer
 #include <stdio.h> //à virer
-#define AFFICHAGE_DEBUG 1
+#define AFFICHAGE_DEBUG 0
 
 void asser()
 {
@@ -121,16 +121,17 @@ void update_erreurs(s_erreur * erreur_delta, s_erreur * erreur_alpha)
 
 void ecretage_reponse(long int * reponse,long int reponse_preced)
 {
+
 	//TODO : à tester avec MIN_VITESSE différent de 0
 	//gestion de l'acceleration max et de la deceleration max
 	//si on avance
 	if (*reponse>0)
 	{
-		if (*reponse-reponse_preced>MAX_ACCELERATION)
+		if ((*reponse-reponse_preced)>MAX_ACCELERATION)
 		{
 			*reponse=reponse_preced+MAX_ACCELERATION;
 		}
-		if (*reponse-reponse_preced<-MAX_DECELERATION)
+		if ((*reponse-reponse_preced)<-MAX_DECELERATION)
 		{
 			*reponse=reponse_preced-MAX_DECELERATION;
 		}
@@ -138,11 +139,11 @@ void ecretage_reponse(long int * reponse,long int reponse_preced)
 	//si on recule
 	else
 	{
-		if (*reponse-reponse_preced<-MAX_ACCELERATION)
+		if ((*reponse-reponse_preced)<-MAX_ACCELERATION)
 		{
 			*reponse=reponse_preced-MAX_ACCELERATION;
 		}
-		if (*reponse-reponse_preced>MAX_DECELERATION)
+		if ((*reponse-reponse_preced)>MAX_DECELERATION)
 		{
 			*reponse=reponse_preced+MAX_DECELERATION;
 		}
