@@ -118,13 +118,31 @@ void ecretage_reponse(long int * reponse,long int reponse_preced)
 {
 	//TODO : à tester avec MIN_VITESSE différent de 0
 	//gestion de l'acceleration max et de la deceleration max
-	if (*reponse-reponse_preced>MAX_ACCELERATION)
+	if (abs(*reponse)-abs(reponse_preced)>MAX_ACCELERATION)
 	{
-		*reponse=reponse_preced+MAX_ACCELERATION;
+		//avance
+		if (*reponse>0)
+		{
+			*reponse=reponse_preced+MAX_ACCELERATION;
+		}
+		//recule
+		else if (*reponse<0)
+		{
+			*reponse=reponse_preced-MAX_ACCELERATION;
+		}
 	}
-	else if (*reponse-reponse_preced<-MAX_DECELERATION)
+	else if (abs(*reponse)-abs(reponse_preced)<-MAX_DECELERATION)
 	{
-		*reponse=reponse_preced-MAX_DECELERATION;
+		//avance
+		if (*reponse>0)
+		{
+			*reponse=reponse_preced-MAX_DECELERATION;
+		}
+		//recule
+		else if (*reponse<0)
+		{
+			*reponse=reponse_preced+MAX_DECELERATION;
+		}
 	}
 
 	//gestion de la vitesse max
