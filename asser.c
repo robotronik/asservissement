@@ -7,7 +7,7 @@
 #include "reglages.h"
 #include "debug/affichage.h" //à virer
 #include <stdio.h> //à virer
-#define AFFICHAGE_DEBUG 0
+#define AFFICHAGE_DEBUG 1
 
 void asser()
 {
@@ -75,6 +75,11 @@ void asser()
 			//on fait savoir que la position est atteinte
 			send_position_atteinte(); //ajouter anti-spam (ici on envoie sans arret)
 		}
+		else if (asser_done(erreur_delta.actuelle,erreur_alpha.actuelle))
+		{
+			if (AFFICHAGE_DEBUG == 1)
+        	printf("atteint mais peu pas s'arreter");
+    	}
 
 		//on convertit les commandes en PWM et direction pour les ponts en H
 		int PWM_moteur_D=convert2PWM(commande_moteur_D);
@@ -118,7 +123,7 @@ void ecretage_reponse(long int * reponse,long int reponse_preced)
 {
 	//TODO : à tester avec MIN_VITESSE différent de 0
 	//gestion de l'acceleration max et de la deceleration max
-	if (abs(*reponse)-abs(reponse_preced)>MAX_ACCELERATION)
+	if (abs(*reponse-reponse_preced)>MAX_ACCELERATION)
 	{
 		//avance
 		if (*reponse>0)
@@ -131,7 +136,7 @@ void ecretage_reponse(long int * reponse,long int reponse_preced)
 			*reponse=reponse_preced-MAX_ACCELERATION;
 		}
 	}
-	else if (abs(*reponse)-abs(reponse_preced)<-MAX_DECELERATION)
+	else if (abs(*reponse-reponse_preced)<-MAX_DECELERATION)
 	{
 		//avance
 		if (*reponse>0)
