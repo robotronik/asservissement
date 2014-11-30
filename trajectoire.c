@@ -16,6 +16,11 @@ static int x_voulu_absolu;
 static int y_voulu_absolu;
 static int consigne_is_xy;
 
+//TODO : réfléchir à l'idée suivante :
+//quand on doit passer sur une liste de points donner une consigne beta constante
+//et recalculer uniquement alpha sauf pour le dernier point où il faut ralentir
+//de cette manière on ne ralentira pas en passant sur chaque points
+
 void init_trajectoire()
 {
 	init_alpha_delta_voulu();
