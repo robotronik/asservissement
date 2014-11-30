@@ -1,7 +1,8 @@
 #include "odometrie.h"
 #include "hardware.h"
 #include "reglages.h"
-#include <math.h> // utiliser une autre methode pour calculer sin et cos ? (tableau ?)
+#include <math.h>
+#include "math_precalc.h"
 #include <stdio.h> //à virer
 #include "trajectoire.h" //à virer
 #define AFFICHAGE_DEBUG 1
@@ -87,10 +88,14 @@ void actualise_position()
 	}
 
 	//rotation d'angle theta pour trouver la position en absolu
-	x_actuel+=(int) (cos((double)theta_actuel/1000.0)*x_local);
+	/*x_actuel+=(int) (cos((double)theta_actuel/1000.0)*x_local);
 	x_actuel-=(int) (sin((double)theta_actuel/1000.0)*y_local);
 	y_actuel+=(int) (sin((double)theta_actuel/1000.0)*x_local);
-	y_actuel+=(int) (cos((double)theta_actuel/1000.0)*y_local);
+	y_actuel+=(int) (cos((double)theta_actuel/1000.0)*y_local);*/
+	x_actuel+=(int) (cos_precalc(theta_actuel)*x_local);
+	x_actuel-=(int) (sin_precalc(theta_actuel)*y_local);
+	y_actuel+=(int) (sin_precalc(theta_actuel)*x_local);
+	y_actuel+=(int) (cos_precalc(theta_actuel)*y_local);
 	//on actualise le reste
 	delta_actuel+=delta;
 	alpha_actuel+=alpha;
@@ -103,10 +108,14 @@ void actualise_position()
 	theta_actuel%=((int)(DEUX_PI*1000.0));
 	theta_actuel-=(int)(PI*1000.0);*/
 
-	theta_actuel=theta_actuel%((int)(DEUX_PI*1000.0));
-	if (theta_actuel>(int)((DEUX_PI*1000.0)/2.0))
+	theta_actuel%=((int)(DEUX_PI*1000.0));
+	if (theta_actuel>(int)(PI*1000.0))
 	{
 		theta_actuel-=(int)(DEUX_PI*1000.0);
+	}
+	else if (theta_actuel<-(int)(PI*1000.0))
+	{
+		theta_actuel+=(int)(DEUX_PI*1000.0);
 	}
 
 	//debug à virer
