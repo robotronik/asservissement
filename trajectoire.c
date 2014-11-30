@@ -90,6 +90,10 @@ void consigne_new_xy_relatif(int x_voulu, int y_voulu)
 	{
 		new_alpha-=(int)(DEUX_PI*1000.0);
 	}
+	else if (new_alpha<-(int)((DEUX_PI*1000.0)/2.0))
+	{
+		new_alpha+=(int)(DEUX_PI*1000.0);
+	}	
 
 	//TODO : gestion point non atteignable
 	//(si l'on demande un point trop prés du robot et à la perpendiculaire de la direction du robot il se met à tourner)
