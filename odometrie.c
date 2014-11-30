@@ -78,8 +78,8 @@ void actualise_position()
 	if(alpha!=0)
 	{
 		//delta/alpha=Rayon l'arc de cercle effectué (est-ce vraiment un arc de cercle ??)
-		x_local=/*(int)*/ (1.0-cos((double)alpha/1000))*delta/(alpha/1000.0);
-		y_local=/*(int)*/ sin((double)alpha/1000)*delta/(alpha/1000.0);
+		x_local=/*(int)*/ (1.0-cos_precalc(alpha))*delta/(alpha/1000.0);
+		y_local=/*(int)*/ sin_precalc(alpha)*delta/(alpha/1000.0);
 	}
 	else
 	{
