@@ -16,7 +16,6 @@ static int alpha_voulu;
 **la position en xy voulu est relativement moche -> TODO : reorganiser*/
 static int x_voulu_absolu;
 static int y_voulu_absolu;
-static int consigne_is_xy;
 
 static s_trajectoire trajectoire;
 static s_consigne consigne;
@@ -42,16 +41,16 @@ void update_consigne()
 		case alpha_delta :
 			/*consigne.delta=trajectoire.delta;
 			consigne.alpha=trajectoire.alpha;*/
-			consigne_new_alpha_delta(trajectoire.alpha,trajectoire.delta);
+			make_trajectoire_alpha_delta(trajectoire.alpha,trajectoire.delta);
 			break;
 		case theta :
-			consigne_new_theta(theta);
+			make_trajectoire_theta(theta);
 			break;
 		case xy_absolu :
-			consigne_new_xy_absolu(trajectoire.x_absolu,trajectoire.y_absolu);
+			make_trajectoire_xy_absolu(trajectoire.x_absolu,trajectoire.y_absolu);
 			break;
 		case xy_relatif :
-			consigne_new_xy_relatif(trajectoire.x_relatif,trajectoire.y_relatif);
+			make_trajectoire_xy_relatif(trajectoire.x_relatif,trajectoire.y_relatif);
 			break;
 		case liste_xy :
 			//releve le prochain point et donne un alpha à réliser
@@ -65,11 +64,11 @@ void update_consigne()
 {
 	if (consigne_is_xy)
 	{
-		consigne_new_xy_relatif(trajectoire.x_absolu-get_x_actuel(),trajectoire.y_absolu-get_y_actuel());
+		make_trajectoire_xy_relatif(trajectoire.x_absolu-get_x_actuel(),trajectoire.y_absolu-get_y_actuel());
 	}
 }*/
 
-void consigne_new_alpha_delta(int new_alpha, int new_delta)
+void make_trajectoire_alpha_delta(int new_alpha, int new_delta)
 {
 	set_alpha_voulu(new_alpha);
 	set_delta_voulu(new_delta);
@@ -77,7 +76,7 @@ void consigne_new_alpha_delta(int new_alpha, int new_delta)
 	set_delta_actuel(0);
 }
 
-void consigne_new_xy_relatif(int x_voulu, int y_voulu)
+void make_trajectoire_xy_relatif(int x_voulu, int y_voulu)
 {
 	//x et y sont relatifs mais l'orientation ne change pas avec celle du robot
 	set_x_voulu_absolu(x_voulu+get_x_actuel());
@@ -118,40 +117,30 @@ void consigne_new_xy_relatif(int x_voulu, int y_voulu)
 	//évite que le robot ne tourne pour rien quand il a atteint xy avec la précision voulue
 	if (new_delta<-PRECISION_DELTA || PRECISION_DELTA<new_delta)
 	{
-		consigne_new_alpha_delta(new_alpha,new_delta);
+		make_trajectoire_alpha_delta(new_alpha,new_delta);
 	}
 	else
 	{
-		consigne_new_alpha_delta(0,0);
+		make_trajectoire_alpha_delta(0,0);
 	}
 }
 
-void consigne_new_xy_absolu(int x_voulu, int y_voulu)
+void make_trajectoire_xy_absolu(int x_voulu, int y_voulu)
 {
-	consigne_new_xy_relatif(x_voulu-get_x_actuel(),y_voulu-get_y_actuel());
+	make_trajectoire_xy_relatif(x_voulu-get_x_actuel(),y_voulu-get_y_actuel());
 }
 
-void consigne_new_theta(int theta_voulu)
+void make_trajectoire_theta(int theta_voulu)
 {
 	int new_alpha=theta_voulu-get_theta_actuel();
-	consigne_new_alpha_delta(new_alpha,0);
+	make_trajectoire_alpha_delta(new_alpha,0);
 }
 
 void init_trajectoire()
 {
-	init_alpha_delta_voulu();
-	consigne_is_xy=0;
-}
-
-void init_alpha_delta_voulu()
-{
+	trajectoire.type=alpha_delta;
 	trajectoire.delta=0;
 	trajectoire.alpha=0;
-}
-
-void consigne_type_is_xy(int a)
-{
-	consigne_is_xy=a;
 }
 
 void set_trajectoire_alpha_delta(int alpha, int delta)

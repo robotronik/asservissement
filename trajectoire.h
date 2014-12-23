@@ -31,7 +31,6 @@ typedef struct
 } s_consigne;
 
 void init_trajectoire();
-void init_alpha_delta_voulu();
 
 
 void set_trajectoire_alpha_delta(int alpha, int delta);
@@ -48,10 +47,10 @@ void consigne_type_is_xy(int a);
 int get_delta_voulu();
 int get_alpha_voulu();
 
-void consigne_new_alpha_delta(int new_alpha, int new_delta);
-void consigne_new_xy_relatif(int x_voulu, int y_voulu);
-void consigne_new_xy_absolu(int x_voulu, int y_voulu);
-void consigne_new_theta(int theta_voulu);
+void make_trajectoire_alpha_delta(int new_alpha, int new_delta);
+void make_trajectoire_xy_relatif(int x_voulu, int y_voulu);
+void make_trajectoire_xy_absolu(int x_voulu, int y_voulu);
+void make_trajectoire_theta(int theta_voulu);
 
 void update_consigne();
 

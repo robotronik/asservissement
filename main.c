@@ -13,6 +13,7 @@ int main()
     init_trajectoire();
     init_hardware();
     init_asser();
+    //new_alpha_delta(0,1000);
     start();
 	//asser();
 	return quit_sdl_screen();
