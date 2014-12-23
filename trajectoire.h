@@ -18,6 +18,8 @@ typedef struct
 	int delta;
 	int x_absolu;
 	int y_absolu;
+	int x_relatif;
+	int y_relatif;
 	int liste_xy;
 
 }s_trajectoire;

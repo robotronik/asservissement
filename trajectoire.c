@@ -35,42 +35,39 @@ void start()
 	}
 }
 
-/*void update_consigne()
+void update_consigne()
 {
 	switch (trajectoire.type)
 	{
 		case alpha_delta :
-			consigne.delta=trajectoire.delta;
-			consigne.alpha=trajectoire.alpha;
+			/*consigne.delta=trajectoire.delta;
+			consigne.alpha=trajectoire.alpha;*/
+			consigne_new_alpha_delta(trajectoire.alpha,trajectoire.delta);
 			break;
 		case theta :
-			consigne_new_theta();
-			asser();
+			consigne_new_theta(theta);
 			break;
 		case xy_absolu :
-			consigne_new_xy_absolu();
-			asser();
+			consigne_new_xy_absolu(trajectoire.x_absolu,trajectoire.y_absolu);
 			break;
 		case xy_relatif :
-			consigne_new_xy_relatif();
-			asser();
+			consigne_new_xy_relatif(trajectoire.x_relatif,trajectoire.y_relatif);
 			break;
 		case liste_xy :
 			//releve le prochain point et donne un alpha à réliser
 			//en gardant un beta constant si le point en question
 			//n'est pas le dernier
-			asser();
 			break;
 	}
-}*/
+}
 
-void update_consigne()
+/*void update_consigne()
 {
 	if (consigne_is_xy)
 	{
-		consigne_new_xy_relatif(x_voulu_absolu-get_x_actuel(),y_voulu_absolu-get_y_actuel());
+		consigne_new_xy_relatif(trajectoire.x_absolu-get_x_actuel(),trajectoire.y_absolu-get_y_actuel());
 	}
-}
+}*/
 
 void consigne_new_alpha_delta(int new_alpha, int new_delta)
 {
@@ -167,8 +164,8 @@ void set_trajectoire_alpha_delta(int alpha, int delta)
 void set_trajectoire_xy_relatif(int x, int y)
 {
 	trajectoire.type=xy_relatif;
-	trajectoire.x_absolu=x+get_x_actuel();
-	trajectoire.y_absolu=y+get_y_actuel();
+	trajectoire.x_relatif=x;
+	trajectoire.y_relatif=y;
 }
 
 void set_trajectoire_xy_absolu(int x, int y)
