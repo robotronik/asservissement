@@ -20,7 +20,7 @@ void start()
 	while(!sdl_manage_events())
 	{
 		update_consigne();
-		asser();
+		asser(consigne);
 	}
 }
 
@@ -53,18 +53,10 @@ void update_consigne()
 	}
 }
 
-/*void update_consigne()
-{
-	if (consigne_is_xy)
-	{
-		make_trajectoire_xy_relatif(trajectoire.x_absolu-get_x_actuel(),trajectoire.y_absolu-get_y_actuel());
-	}
-}*/
-
 void make_trajectoire_alpha_delta(int new_alpha, int new_delta)
 {
-	consigne.alpha=new_alpha+get_alpha_actuel();
-	consigne.delta=new_delta+get_delta_actuel();
+	set_consigne_alpha_delta(new_alpha,new_delta);
+	trajectoire.type=null;
 }
 
 void make_trajectoire_xy_relatif(int x_voulu, int y_voulu)
@@ -87,7 +79,7 @@ void make_trajectoire_xy_relatif(int x_voulu, int y_voulu)
 	else if (new_alpha<-(int)((DEUX_PI*1000.0)/2.0))
 	{
 		new_alpha+=(int)(DEUX_PI*1000.0);
-	}	
+	}
 
 	//TODO : gestion point non atteignable
 	//(si l'on demande un point trop prés du robot et à la perpendiculaire de la direction du robot il se met à tourner)
@@ -106,11 +98,11 @@ void make_trajectoire_xy_relatif(int x_voulu, int y_voulu)
 	//évite que le robot ne tourne pour rien quand il a atteint xy avec la précision voulue
 	if (new_delta<-PRECISION_DELTA || PRECISION_DELTA<new_delta)
 	{
-		make_trajectoire_alpha_delta(new_alpha,new_delta);
+		set_consigne_alpha_delta(new_alpha,new_delta);
 	}
 	else
 	{
-		make_trajectoire_alpha_delta(0,0);
+		trajectoire.type=null;
 	}
 }
 
@@ -122,7 +114,8 @@ void make_trajectoire_xy_absolu(int x_voulu, int y_voulu)
 void make_trajectoire_theta(int theta_voulu)
 {
 	int new_alpha=theta_voulu-get_theta_actuel();
-	make_trajectoire_alpha_delta(new_alpha,0);
+	set_consigne_alpha_delta(new_alpha,0);
+	trajectoire.type=null;
 }
 
 void set_trajectoire_alpha_delta(int alpha, int delta)
@@ -152,6 +145,12 @@ void set_trajectoire_theta(int theta)
 	trajectoire.alpha=theta-get_alpha_actuel();
 }
 
+void set_consigne_alpha_delta(int alpha, int delta)
+{
+	consigne.alpha=alpha+get_alpha_actuel();
+	consigne.delta=delta+get_delta_actuel();
+}
+
 void init_trajectoire()
 {
 	trajectoire.type=null;
@@ -159,7 +158,7 @@ void init_trajectoire()
 	trajectoire.alpha=0;
 }
 
-//TODO : à changer pour passer la structure "consigne" en argument de asser()
+//TODO : à virer (utile uniquement pour du debug)
 int get_delta_voulu()
 {
 	return consigne.delta;

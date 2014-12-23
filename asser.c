@@ -13,13 +13,13 @@ static s_erreur erreur_delta;
 static long int reponse_delta_preced;
 static long int reponse_alpha_preced;
 
-void asser()
+void asser(s_consigne consigne)
 {
 	//synchronisation à une fréquence régulière
 	while(doit_attendre());
 
 	//mise à jour des erreurs en delta et alpha
-	update_erreurs(&erreur_delta, &erreur_alpha);
+	update_erreurs(consigne);
 	if (AFFICHAGE_DEBUG == 1)
     	printf("e_a:%i e_D:%i ",erreur_alpha.actuelle,erreur_delta.actuelle);
 
@@ -100,21 +100,21 @@ void init_asser()
 	reponse_alpha_preced=0;
 }
 
-void update_erreurs(s_erreur * erreur_delta, s_erreur * erreur_alpha)
+void update_erreurs(s_consigne consigne)
 {
 	//mise à jour de la valeur précédante
-	erreur_delta->preced=erreur_delta->actuelle;
-	erreur_alpha->preced=erreur_alpha->actuelle;
+	erreur_delta.preced=erreur_delta.actuelle;
+	erreur_alpha.preced=erreur_alpha.actuelle;
 
 	//mise à jour de la valeur de l'intégrale temporelle de l'erreur
 		//utiliser une intégration par méthode des trapèzes à la place ?
 	//TODO : employer une autre méthode pour éviter un overflow -> Antiwindup ?
-	erreur_delta->sum += erreur_delta->actuelle;
-	erreur_alpha->sum += erreur_alpha->actuelle;
+	erreur_delta.sum += erreur_delta.actuelle;
+	erreur_alpha.sum += erreur_alpha.actuelle;
 
 	//calcul de l'erreur actuelle en delta et alpha
-	erreur_delta->actuelle = get_delta_voulu()-get_delta_actuel();
-	erreur_alpha->actuelle = get_alpha_voulu()-get_alpha_actuel();
+	erreur_delta.actuelle = consigne.delta-get_delta_actuel();
+	erreur_alpha.actuelle = consigne.alpha-get_alpha_actuel();
 }
 
 void ecretage_reponse(long int * reponse,long int reponse_preced)

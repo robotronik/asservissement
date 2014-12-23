@@ -1,6 +1,8 @@
 #ifndef ASSER_H
 #define ASSER_H
 
+#include "trajectoire.h"
+
 //macro pour le calcul de valeur absolue
 #define abs(x) ((x) < 0 ? - (x) : (x))
 
@@ -11,9 +13,9 @@ typedef struct
 	int sum;
 } s_erreur;
 
-void asser();
+void asser(s_consigne consigne);
 void init_asser();
-void update_erreurs(s_erreur * erreur_delta, s_erreur * erreur_alpha);
+void update_erreurs(s_consigne consigne);
 void ecretage_reponse(long int * reponse,long int reponse_preced);
 int asser_done(int erreur_delta, int erreur_alpha);
 int arret_ok(long int commande_moteur_D,long int commande_moteur_G);
