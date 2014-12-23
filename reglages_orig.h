@@ -30,4 +30,8 @@
 #define TICK_PAR_MM 22 // nombre de ticks par mm (tick/mm)
 #define TICK_PAR_TOUR 17145 //nombre de ticks par tour complet du robot sur lui-même (tick/tour)
 
+//parametre pour les chemins
+#define MAX_POSITIONS 20 //taille max de la liste de coordonnées definisant un chemin
+#define CONSTANTE_DELTA 10 //constante pour delta quand le robot suit un chemin
+
 #endif

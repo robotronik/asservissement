@@ -2,7 +2,7 @@
 #include "odometrie.h"
 #include <stdio.h> //à virer
 #include "debug/affichage.h" // à virer
-#define AFFICHAGE_DEBUG 1
+#define AFFICHAGE_DEBUG 0
 
 /*TODO : implémenter le protocole de comunication comme ça
 avait été fait dans message.c pour le code présent dans "old"*/
@@ -37,6 +37,12 @@ void new_xy_absolu(int x, int y)
 void new_theta(int theta)
 {
 	set_trajectoire_theta(theta);
+}
+
+void new_chemin()
+{
+	//faire attention à ce que la liste de positions soit inversée
+	//(le premier point dans la liste est en réalité le dernier à atteindre)
 }
 
 
