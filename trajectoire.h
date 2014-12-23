@@ -7,7 +7,9 @@ typedef enum
 	xy_absolu,
 	xy_relatif,
 	liste_xy,
-	theta
+	theta,
+	stop,
+	null
 
 } e_type_trajectoire;
 

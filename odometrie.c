@@ -63,28 +63,32 @@ void actualise_position()
 	int nbr_tick_D=get_nbr_tick_D(); //long pour utilisation ac PIC ?
 	int nbr_tick_G=get_nbr_tick_G(); //long pour utilisation ac PIC ?
 
-	int delta=(nbr_tick_D+nbr_tick_G)/2; 	//delta en tick
-		delta/=TICK_PAR_MM;					//convertion en mm
+	int delta_lu=(nbr_tick_D+nbr_tick_G)/2; 	//delta en tick
+		delta_lu/=TICK_PAR_MM;					//convertion en mm
 
-	int alpha=(nbr_tick_D-nbr_tick_G)/2; 	//alpha en ticks
-		alpha*=1000;						//convertion en milliticks
-		alpha*=DEUX_PI/TICK_PAR_TOUR; 		//convertion en milliradians
+	int alpha_lu=(nbr_tick_D-nbr_tick_G)/2; 	//alpha en ticks
+		alpha_lu*=1000;						//convertion en milliticks
+		alpha_lu*=DEUX_PI/TICK_PAR_TOUR; 		//convertion en milliradians
 
 	//calcul également possible :
-	//int alpha=(nbr_tick_D-nbr_tick_G)/TICK_PAR_MM/DEMI_ENTRAXE;
+	//int alpha_lu=(nbr_tick_D-nbr_tick_G)/TICK_PAR_MM/DEMI_ENTRAXE;
+
+	//calcul des variations
+	int d_delta=delta_lu-delta_actuel;
+	int d_alpha=alpha_lu-alpha_actuel;
 
 	//calcul dans le repère local
 	double x_local,y_local;
-	if(alpha!=0)
+	if(d_alpha!=0)
 	{
-		//delta/alpha=Rayon l'arc de cercle effectué (est-ce vraiment un arc de cercle ??)
-		x_local=/*(int)*/ (1.0-cos_precalc(alpha))*delta/(alpha/1000.0);
-		y_local=/*(int)*/ sin_precalc(alpha)*delta/(alpha/1000.0);
+		//d_delta/d_alpha=Rayon l'arc de cercle effectué (est-ce vraiment un arc de cercle ??)
+		x_local=/*(int)*/ (1.0-cos_precalc(d_alpha))*d_delta/(d_alpha/1000.0);
+		y_local=/*(int)*/ sin_precalc(d_alpha)*d_delta/(d_alpha/1000.0);
 	}
 	else
 	{
 		x_local=0;
-		y_local=(double)delta;
+		y_local=(double)d_delta;
 	}
 
 	//rotation d'angle theta pour trouver la position en absolu
@@ -97,9 +101,9 @@ void actualise_position()
 	y_actuel+=(int) (sin_precalc(theta_actuel)*x_local);
 	y_actuel+=(int) (cos_precalc(theta_actuel)*y_local);
 	//on actualise le reste
-	delta_actuel+=delta;
-	alpha_actuel+=alpha;
-	theta_actuel+=alpha;
+	delta_actuel=delta_lu;
+	alpha_actuel=alpha_lu;
+	theta_actuel=alpha_actuel;
 	
 	//TODO : faire attention à ce que theta reste borné
 	//TODO : verifier que ça le code ci-après est correct (on met theta entre -pi et pi)

@@ -10,7 +10,7 @@
 static s_trajectoire trajectoire;
 static s_consigne consigne;
 
-//TODO : réfléchir à l'idée suivante :
+//TODO : implementer l'idée suivante pour les listes de points :
 //quand on doit passer sur une liste de points donner une consigne beta constante
 //et recalculer uniquement alpha sauf pour le dernier point où il faut ralentir
 //de cette manière on ne ralentira pas en passant sur chaque points
@@ -32,9 +32,11 @@ void update_consigne()
 			/*consigne.delta=trajectoire.delta;
 			consigne.alpha=trajectoire.alpha;*/
 			make_trajectoire_alpha_delta(trajectoire.alpha,trajectoire.delta);
+			trajectoire.type=null;
 			break;
 		case theta :
 			make_trajectoire_theta(theta);
+			trajectoire.type=null;
 			break;
 		case xy_absolu :
 			make_trajectoire_xy_absolu(trajectoire.x_absolu,trajectoire.y_absolu);
@@ -46,6 +48,7 @@ void update_consigne()
 			//releve le prochain point et donne un alpha à réliser
 			//en gardant un beta constant si le point en question
 			//n'est pas le dernier
+		case null :
 			break;
 	}
 }
@@ -60,10 +63,8 @@ void update_consigne()
 
 void make_trajectoire_alpha_delta(int new_alpha, int new_delta)
 {
-	consigne.alpha=new_alpha;
-	consigne.delta=new_delta;
-	set_alpha_actuel(0);
-	set_delta_actuel(0);
+	consigne.alpha=new_alpha+get_alpha_actuel();
+	consigne.delta=new_delta+get_delta_actuel();
 }
 
 void make_trajectoire_xy_relatif(int x_voulu, int y_voulu)
@@ -124,13 +125,6 @@ void make_trajectoire_theta(int theta_voulu)
 	make_trajectoire_alpha_delta(new_alpha,0);
 }
 
-void init_trajectoire()
-{
-	trajectoire.type=alpha_delta;
-	trajectoire.delta=0;
-	trajectoire.alpha=0;
-}
-
 void set_trajectoire_alpha_delta(int alpha, int delta)
 {
 	trajectoire.type=alpha_delta;
@@ -156,6 +150,13 @@ void set_trajectoire_theta(int theta)
 {
 	trajectoire.type=theta;
 	trajectoire.alpha=theta-get_alpha_actuel();
+}
+
+void init_trajectoire()
+{
+	trajectoire.type=null;
+	trajectoire.delta=0;
+	trajectoire.alpha=0;
 }
 
 //TODO : à changer pour passer la structure "consigne" en argument de asser()
