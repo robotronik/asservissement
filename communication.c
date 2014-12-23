@@ -2,7 +2,7 @@
 #include "odometrie.h"
 #include <stdio.h> //à virer
 #include "debug/affichage.h" // à virer
-#define AFFICHAGE_DEBUG 0
+#define AFFICHAGE_DEBUG 1
 
 /*TODO : implémenter le protocole de comunication comme ça
 avait été fait dans message.c pour le code présent dans "old"*/

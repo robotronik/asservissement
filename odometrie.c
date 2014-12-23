@@ -5,7 +5,7 @@
 #include "math_precalc.h"
 #include <stdio.h> //à virer
 #include "trajectoire.h" //à virer
-#define AFFICHAGE_DEBUG 0
+#define AFFICHAGE_DEBUG 1
 
 //ici les calculs de position actuelle
 

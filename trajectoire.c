@@ -48,6 +48,9 @@ void update_consigne()
 			//releve le prochain point et donne un alpha à réliser
 			//en gardant un beta constant si le point en question
 			//n'est pas le dernier
+		case stop :
+			//TODO
+			break;
 		case null :
 			break;
 	}
@@ -57,6 +60,18 @@ void make_trajectoire_alpha_delta(int new_alpha, int new_delta)
 {
 	set_consigne_alpha_delta(new_alpha,new_delta);
 	trajectoire.type=null;
+}
+
+void make_trajectoire_theta(int theta_voulu)
+{
+	int new_alpha=theta_voulu-get_theta_actuel();
+	set_consigne_alpha_delta(new_alpha,0);
+	trajectoire.type=null;
+}
+
+void make_trajectoire_xy_absolu(int x_voulu, int y_voulu)
+{
+	make_trajectoire_xy_relatif(x_voulu-get_x_actuel(),y_voulu-get_y_actuel());
 }
 
 void make_trajectoire_xy_relatif(int x_voulu, int y_voulu)
@@ -104,18 +119,6 @@ void make_trajectoire_xy_relatif(int x_voulu, int y_voulu)
 	{
 		trajectoire.type=null;
 	}
-}
-
-void make_trajectoire_xy_absolu(int x_voulu, int y_voulu)
-{
-	make_trajectoire_xy_relatif(x_voulu-get_x_actuel(),y_voulu-get_y_actuel());
-}
-
-void make_trajectoire_theta(int theta_voulu)
-{
-	int new_alpha=theta_voulu-get_theta_actuel();
-	set_consigne_alpha_delta(new_alpha,0);
-	trajectoire.type=null;
 }
 
 void set_trajectoire_alpha_delta(int alpha, int delta)
