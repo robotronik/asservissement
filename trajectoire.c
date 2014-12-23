@@ -6,15 +6,7 @@
 #include <math.h> //utiliser un tableau pour acos ??
 #include <stdio.h> //TODO : à virer
 
-//ici le calcul de la trajectoire à effectuer
-
 //et encore de vilaines variables globales !
-static int delta_voulu;
-static int alpha_voulu;
-
-/*la gestion des changements successifs d'alpha et beta pour atteindre
-**la position en xy voulu est relativement moche -> TODO : reorganiser*/
-
 static s_trajectoire trajectoire;
 static s_consigne consigne;
 
@@ -68,8 +60,8 @@ void update_consigne()
 
 void make_trajectoire_alpha_delta(int new_alpha, int new_delta)
 {
-	set_alpha_voulu(new_alpha);
-	set_delta_voulu(new_delta);
+	consigne.alpha=new_alpha;
+	consigne.delta=new_delta;
 	set_alpha_actuel(0);
 	set_delta_actuel(0);
 }
@@ -166,24 +158,13 @@ void set_trajectoire_theta(int theta)
 	trajectoire.alpha=theta-get_alpha_actuel();
 }
 
-void set_delta_voulu(int delta)
-{
-	delta_voulu=delta;
-}
-
-void set_alpha_voulu(int alpha)
-{
-	alpha_voulu=alpha;
-}
-
+//TODO : à changer pour passer la structure "consigne" en argument de asser()
 int get_delta_voulu()
 {
-	return delta_voulu;
-	//return consigne.delta;
+	return consigne.delta;
 }
 
 int get_alpha_voulu()
 {
-	return alpha_voulu;
-	//return consigne.alpha;
+	return consigne.alpha;
 }

@@ -37,10 +37,6 @@ void set_trajectoire_alpha_delta(int alpha, int delta);
 void set_trajectoire_xy_relatif(int x, int y);
 void set_trajectoire_xy_absolu(int x, int y);
 void set_trajectoire_theta(int theta);
-void set_delta_voulu(int delta);
-void set_alpha_voulu(int alpha);
-void set_x_voulu_absolu(int x);
-void set_y_voulu_absolu(int y);
 
 void consigne_type_is_xy(int a);
 
