@@ -16,30 +16,27 @@ void analyse_message()
 {
 	//fonction appelée depuis la couche basse hardware.c
 	//en fonction du message la fonction appele les foctions correspondantes ci-dessous
+	// en se passant de se fait des fonctions en "new"
 }
 
-void set_new_alpha_delta(int alpha, int delta)
+void new_alpha_delta(int alpha, int delta)
 {
-	consigne_type_is_xy(0);
-	consigne_new_alpha_delta(alpha,delta);
+	set_trajectoire_alpha_delta(alpha,delta);
 }
 
-void set_new_xy_relatif(int x, int y)
+void new_xy_relatif(int x, int y)
 {
-	consigne_type_is_xy(1);
-	consigne_new_xy_relatif(x,y);
+	set_trajectoire_xy_relatif(x,y);
 }
 
-void set_new_xy_absolu(int x, int y)
+void new_xy_absolu(int x, int y)
 {
-	consigne_type_is_xy(1);
-	consigne_new_xy_absolu(x,y);
+	set_trajectoire_xy_absolu(x,y);
 }
 
-void set_new_theta(int theta)
+void new_theta(int theta)
 {
-	consigne_type_is_xy(0);
-	consigne_new_theta(theta);
+	set_trajectoire_theta(theta);
 }
 
 

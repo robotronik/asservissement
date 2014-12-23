@@ -14,10 +14,10 @@ typedef enum
 typedef struct
 {
 	e_type_trajectoire type;
-	int alpha_voulu;
-	int delta_voulu;
-	int x_absolu_voulu;
-	int y_absolu_voulu;
+	int alpha;
+	int delta;
+	int x_absolu;
+	int y_absolu;
 	int liste_xy;
 
 }s_trajectoire;
@@ -31,6 +31,11 @@ typedef struct
 void init_trajectoire();
 void init_alpha_delta_voulu();
 
+
+void set_trajectoire_alpha_delta(int alpha, int delta);
+void set_trajectoire_xy_relatif(int x, int y);
+void set_trajectoire_xy_absolu(int x, int y);
+void set_trajectoire_theta(int theta);
 void set_delta_voulu(int delta);
 void set_alpha_voulu(int alpha);
 void set_x_voulu_absolu(int x);

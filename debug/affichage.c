@@ -84,7 +84,7 @@ int sdl_manage_events() {
         case SDL_MOUSEBUTTONDOWN: /* Clic de la souris */
             if (evenements.button.button == SDL_BUTTON_LEFT) {
                 printf("%d %d\n", evenements.button.x*ZOOM_FACTOR, HEIGHT - evenements.button.y*ZOOM_FACTOR);
-                set_new_xy_absolu(evenements.button.x*ZOOM_FACTOR, HEIGHT - evenements.button.y*ZOOM_FACTOR);
+                new_xy_absolu(evenements.button.x*ZOOM_FACTOR, HEIGHT - evenements.button.y*ZOOM_FACTOR);
                 return 0;
             } else
                 return 0;

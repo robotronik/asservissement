@@ -64,6 +64,14 @@ void start()
 	}
 }*/
 
+void update_consigne()
+{
+	if (consigne_is_xy)
+	{
+		consigne_new_xy_relatif(x_voulu_absolu-get_x_actuel(),y_voulu_absolu-get_y_actuel());
+	}
+}
+
 void consigne_new_alpha_delta(int new_alpha, int new_delta)
 {
 	set_alpha_voulu(new_alpha);
@@ -132,14 +140,6 @@ void consigne_new_theta(int theta_voulu)
 	consigne_new_alpha_delta(new_alpha,0);
 }
 
-void update_consigne()
-{
-	if (consigne_is_xy)
-	{
-		consigne_new_xy_relatif(x_voulu_absolu-get_x_actuel(),y_voulu_absolu-get_y_actuel());
-	}
-}
-
 void init_trajectoire()
 {
 	init_alpha_delta_voulu();
@@ -148,13 +148,40 @@ void init_trajectoire()
 
 void init_alpha_delta_voulu()
 {
-	trajectoire.delta_voulu=0;
-	trajectoire.alpha_voulu=0;
+	trajectoire.delta=0;
+	trajectoire.alpha=0;
 }
 
 void consigne_type_is_xy(int a)
 {
 	consigne_is_xy=a;
+}
+
+void set_trajectoire_alpha_delta(int alpha, int delta)
+{
+	trajectoire.type=alpha_delta;
+	trajectoire.alpha=alpha;
+	trajectoire.delta=delta;
+}
+
+void set_trajectoire_xy_relatif(int x, int y)
+{
+	trajectoire.type=xy_relatif;
+	trajectoire.x_absolu=x+get_x_actuel();
+	trajectoire.y_absolu=y+get_y_actuel();
+}
+
+void set_trajectoire_xy_absolu(int x, int y)
+{
+	trajectoire.type=xy_absolu;
+	trajectoire.x_absolu=x;
+	trajectoire.y_absolu=y;
+}
+
+void set_trajectoire_theta(int theta)
+{
+	trajectoire.type=theta;
+	trajectoire.alpha=theta-get_alpha_actuel();
 }
 
 void set_delta_voulu(int delta)

@@ -63,8 +63,7 @@ void asser()
 		commande_moteur_G=0;
 		set_delta_actuel(0);
 		set_alpha_actuel(0);
-		set_delta_voulu(0);
-		set_alpha_voulu(0);
+		set_trajectoire_alpha_delta(0,0);
 		//on fait savoir que la position est atteinte
 		send_position_atteinte(); //ajouter anti-spam (ici on envoie sans arret)
 	}
