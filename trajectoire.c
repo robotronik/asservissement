@@ -14,8 +14,6 @@ static int alpha_voulu;
 
 /*la gestion des changements successifs d'alpha et beta pour atteindre
 **la position en xy voulu est relativement moche -> TODO : reorganiser*/
-static int x_voulu_absolu;
-static int y_voulu_absolu;
 
 static s_trajectoire trajectoire;
 static s_consigne consigne;
@@ -78,9 +76,7 @@ void make_trajectoire_alpha_delta(int new_alpha, int new_delta)
 
 void make_trajectoire_xy_relatif(int x_voulu, int y_voulu)
 {
-	//x et y sont relatifs mais l'orientation ne change pas avec celle du robot
-	set_x_voulu_absolu(x_voulu+get_x_actuel());
-	set_y_voulu_absolu(y_voulu+get_y_actuel());
+	//x et y sont relatifs mais l'orientation de des axes reste absolue
 
 	//voir si pas meilleur moyen pour le calcul de sqrt
 	int new_delta=(int)sqrt((double)(x_voulu*x_voulu+y_voulu*y_voulu));
@@ -178,16 +174,6 @@ void set_delta_voulu(int delta)
 void set_alpha_voulu(int alpha)
 {
 	alpha_voulu=alpha;
-}
-
-void set_x_voulu_absolu(int x)
-{
-	x_voulu_absolu=x;
-}
-
-void set_y_voulu_absolu(int y)
-{
-	y_voulu_absolu=y;
 }
 
 int get_delta_voulu()
