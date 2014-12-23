@@ -12,6 +12,7 @@ typedef struct
 } s_erreur;
 
 void asser();
+void init_asser();
 void update_erreurs(s_erreur * erreur_delta, s_erreur * erreur_alpha);
 void ecretage_reponse(long int * reponse,long int reponse_preced);
 int asser_done(int erreur_delta, int erreur_alpha);

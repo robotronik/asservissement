@@ -36,7 +36,7 @@ hardware.o: hardware.c hardware.h
 odometrie.o: odometrie.c odometrie.h reglages.h hardware.h math_precalc.h
 	$(CC) -o $@ -c $< $(CFLAGS)
 
-trajectoire.o: trajectoire.c trajectoire.h odometrie.h
+trajectoire.o: trajectoire.c trajectoire.h odometrie.h asser.h
 	$(CC) -o $@ -c $< $(CFLAGS)
 
 math_precalc.o: math_precalc.c math_precalc.h

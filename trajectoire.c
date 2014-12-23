@@ -1,6 +1,8 @@
 #include "trajectoire.h"
 #include "odometrie.h"
 #include "reglages.h"
+#include "asser.h"
+#include "debug/affichage.h" //à virer
 #include <math.h> //utiliser un tableau pour acos ??
 #include <stdio.h> //TODO : à virer
 
@@ -16,57 +18,51 @@ static int x_voulu_absolu;
 static int y_voulu_absolu;
 static int consigne_is_xy;
 
+static s_trajectoire trajectoire;
+static s_consigne consigne;
+
 //TODO : réfléchir à l'idée suivante :
 //quand on doit passer sur une liste de points donner une consigne beta constante
 //et recalculer uniquement alpha sauf pour le dernier point où il faut ralentir
 //de cette manière on ne ralentira pas en passant sur chaque points
 
-void init_trajectoire()
+void start()
 {
-	init_alpha_delta_voulu();
-	consigne_is_xy=0;
+	while(!sdl_manage_events())
+	{
+		update_consigne();
+		asser();
+	}
 }
 
-void init_alpha_delta_voulu()
+/*void update_consigne()
 {
-	delta_voulu=0;
-	alpha_voulu=0;
-}
-
-void set_delta_voulu(int delta)
-{
-	delta_voulu=delta;
-}
-
-void set_alpha_voulu(int alpha)
-{
-	alpha_voulu=alpha;
-}
-
-void set_x_voulu_absolu(int x)
-{
-	x_voulu_absolu=x;
-}
-
-void consigne_type_is_xy(int a)
-{
-	consigne_is_xy=a;
-}
-
-void set_y_voulu_absolu(int y)
-{
-	y_voulu_absolu=y;
-}
-
-int get_delta_voulu()
-{
-	return delta_voulu;
-}
-
-int get_alpha_voulu()
-{
-	return alpha_voulu;
-}
+	switch (trajectoire.type)
+	{
+		case alpha_delta :
+			consigne.delta=trajectoire.delta;
+			consigne.alpha=trajectoire.alpha;
+			break;
+		case theta :
+			consigne_new_theta();
+			asser();
+			break;
+		case xy_absolu :
+			consigne_new_xy_absolu();
+			asser();
+			break;
+		case xy_relatif :
+			consigne_new_xy_relatif();
+			asser();
+			break;
+		case liste_xy :
+			//releve le prochain point et donne un alpha à réliser
+			//en gardant un beta constant si le point en question
+			//n'est pas le dernier
+			asser();
+			break;
+	}
+}*/
 
 void consigne_new_alpha_delta(int new_alpha, int new_delta)
 {
@@ -142,4 +138,53 @@ void update_consigne()
 	{
 		consigne_new_xy_relatif(x_voulu_absolu-get_x_actuel(),y_voulu_absolu-get_y_actuel());
 	}
+}
+
+void init_trajectoire()
+{
+	init_alpha_delta_voulu();
+	consigne_is_xy=0;
+}
+
+void init_alpha_delta_voulu()
+{
+	trajectoire.delta_voulu=0;
+	trajectoire.alpha_voulu=0;
+}
+
+void consigne_type_is_xy(int a)
+{
+	consigne_is_xy=a;
+}
+
+void set_delta_voulu(int delta)
+{
+	delta_voulu=delta;
+}
+
+void set_alpha_voulu(int alpha)
+{
+	alpha_voulu=alpha;
+}
+
+void set_x_voulu_absolu(int x)
+{
+	x_voulu_absolu=x;
+}
+
+void set_y_voulu_absolu(int y)
+{
+	y_voulu_absolu=y;
+}
+
+int get_delta_voulu()
+{
+	return delta_voulu;
+	//return consigne.delta;
+}
+
+int get_alpha_voulu()
+{
+	return alpha_voulu;
+	//return consigne.alpha;
 }

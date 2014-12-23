@@ -12,6 +12,8 @@ int main()
     init_odometrie();
     init_trajectoire();
     init_hardware();
-	asser();
+    init_asser();
+    start();
+	//asser();
 	return quit_sdl_screen();
 }
