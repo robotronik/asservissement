@@ -39,6 +39,6 @@ coefficients des PID et qu'il y a overflow*/
 
 //parametre pour les chemins
 #define MAX_POSITIONS 20 //taille max de la liste de coordonnées definisant un chemin
-#define CONSTANTE_DELTA 10 //constante pour delta quand le robot suit un chemin
+#define CONSTANTE_DELTA 1000 //constante pour delta quand le robot suit un chemin
 
 #endif

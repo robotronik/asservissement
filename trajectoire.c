@@ -100,6 +100,8 @@ void make_trajectoire_chemin(s_liste liste_positions)
 		return;
 
 	}
+
+	//calcul de la consigne
 	int new_alpha;
 	int new_delta;
 	int x_voulu=liste_positions.point[liste_positions.taille-1].x-get_x_actuel();
@@ -181,7 +183,7 @@ void set_trajectoire_xy_absolu(int x, int y)
 void set_trajectoire_theta(int theta)
 {
 	trajectoire.type=theta;
-	trajectoire.alpha=theta-get_alpha_actuel();
+	trajectoire.alpha=theta-get_theta_actuel();
 }
 
 void set_trajectoire_chemin(s_liste liste_positions)
