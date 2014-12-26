@@ -37,11 +37,12 @@ void update_consigne()
 			make_trajectoire_theta(trajectoire.theta);
 			trajectoire.type=null;
 			break;
+		case xy_relatif :
+			trajectoire.x_absolu=trajectoire.x_relatif+get_x_actuel();
+			trajectoire.y_absolu=trajectoire.y_relatif+get_y_actuel();
+			trajectoire.type=xy_absolu;
 		case xy_absolu :
 			make_trajectoire_xy_absolu(trajectoire.x_absolu,trajectoire.y_absolu);
-			break;
-		case xy_relatif :
-			make_trajectoire_xy_relatif(trajectoire.x_relatif,trajectoire.y_relatif);
 			break;
 		case chemin :
 			make_trajectoire_chemin(trajectoire.chemin);
@@ -67,15 +68,17 @@ void make_trajectoire_theta(int theta_voulu)
 	trajectoire.type=null;
 }
 
-void make_trajectoire_xy_absolu(int x_voulu, int y_voulu)
+/*void make_trajectoire_xy_relatif(int x_voulu, int y_voulu)
 {
-	make_trajectoire_xy_relatif(x_voulu-get_x_actuel(),y_voulu-get_y_actuel());
-}
+	make_trajectoire_xy_absolu(x_voulu+get_x_actuel(),y_voulu+get_y_actuel());
+}*/
 
-void make_trajectoire_xy_relatif(int x_voulu, int y_voulu)
+void make_trajectoire_xy_absolu(int x_voulu, int y_voulu)
 {
 	int new_alpha;
 	int new_delta;
+	x_voulu-=get_x_actuel();
+	y_voulu-=get_y_actuel();
 	calcul_alpha_delta_restant(x_voulu, y_voulu, &new_alpha, &new_delta);
 
 	//évite que le robot ne tourne pour rien quand il a atteint xy avec la précision voulue
