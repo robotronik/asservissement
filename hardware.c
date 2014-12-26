@@ -24,8 +24,8 @@ int doit_attendre()
 #include <math.h>
 #include "hardware.h"
 
-int PWM_D;
-int PWM_G;
+long int PWM_D;
+long int PWM_G;
 
 void init_hardware()
 {}

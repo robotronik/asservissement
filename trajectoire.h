@@ -32,6 +32,7 @@ typedef struct
 	e_type_trajectoire type;
 	int alpha;
 	int delta;
+	int theta;
 	int x_absolu;
 	int y_absolu;
 	int x_relatif;
@@ -52,7 +53,7 @@ void update_consigne();
 void set_trajectoire_alpha_delta(int alpha, int delta);
 void set_trajectoire_xy_relatif(int x, int y);
 void set_trajectoire_xy_absolu(int x, int y);
-void set_trajectoire_theta(int theta);
+void set_trajectoire_theta(int new_theta);
 void set_trajectoire_chemin(s_liste liste_positions);
 
 void make_trajectoire_alpha_delta(int new_alpha, int new_delta);

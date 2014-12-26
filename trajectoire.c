@@ -34,7 +34,7 @@ void update_consigne()
 			trajectoire.type=null;
 			break;
 		case theta :
-			make_trajectoire_theta(theta);
+			make_trajectoire_theta(trajectoire.theta);
 			trajectoire.type=null;
 			break;
 		case xy_absolu :
@@ -180,10 +180,10 @@ void set_trajectoire_xy_absolu(int x, int y)
 	trajectoire.y_absolu=y;
 }
 
-void set_trajectoire_theta(int theta)
+void set_trajectoire_theta(int new_theta)
 {
 	trajectoire.type=theta;
-	trajectoire.alpha=theta-get_theta_actuel();
+	trajectoire.theta=new_theta;
 }
 
 void set_trajectoire_chemin(s_liste liste_positions)
@@ -192,10 +192,10 @@ void set_trajectoire_chemin(s_liste liste_positions)
 	trajectoire.chemin=liste_positions;
 }
 
-void set_consigne_alpha_delta(int alpha, int delta)
+void set_consigne_alpha_delta(int new_alpha, int new_delta)
 {
-	consigne.alpha=alpha+get_alpha_actuel();
-	consigne.delta=delta+get_delta_actuel();
+	consigne.alpha=new_alpha+get_alpha_actuel();
+	consigne.delta=new_delta+get_delta_actuel();
 }
 
 void init_trajectoire()

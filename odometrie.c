@@ -60,13 +60,13 @@ int get_y_actuel()
 
 void actualise_position()
 {
-	int nbr_tick_D=get_nbr_tick_D(); //long pour utilisation ac PIC ?
-	int nbr_tick_G=get_nbr_tick_G(); //long pour utilisation ac PIC ?
+	long int nbr_tick_D=get_nbr_tick_D();
+	long int nbr_tick_G=get_nbr_tick_G();
 
 	int delta_lu=(nbr_tick_D+nbr_tick_G)/2; 	//delta en tick
 		delta_lu/=TICK_PAR_MM;					//convertion en mm
 
-	int alpha_lu=(nbr_tick_D-nbr_tick_G)/2; 	//alpha en ticks
+	long int alpha_lu=(nbr_tick_D-nbr_tick_G)/2; 	//alpha en ticks
 		alpha_lu*=1000;						//convertion en milliticks
 		alpha_lu*=DEUX_PI/TICK_PAR_TOUR; 		//convertion en milliradians
 
