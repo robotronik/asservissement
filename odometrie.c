@@ -5,7 +5,7 @@
 #include "math_precalc.h"
 #include <stdio.h> //à virer
 #include "trajectoire.h" //à virer
-#define AFFICHAGE_DEBUG 1
+#define AFFICHAGE_DEBUG 0
 
 //ici les calculs de position actuelle
 
@@ -100,18 +100,13 @@ void actualise_position()
 	x_actuel-=(int) (sin_precalc(theta_actuel)*y_local);
 	y_actuel+=(int) (sin_precalc(theta_actuel)*x_local);
 	y_actuel+=(int) (cos_precalc(theta_actuel)*y_local);
+	
 	//on actualise le reste
 	delta_actuel=delta_lu;
 	alpha_actuel=alpha_lu;
-	theta_actuel=alpha_actuel;
-	
-	//TODO : faire attention à ce que theta reste borné
-	//TODO : verifier que ça le code ci-après est correct (on met theta entre -pi et pi)
-	/*
-	theta_actuel+=(int)(PI*1000.0);
-	theta_actuel%=((int)(DEUX_PI*1000.0));
-	theta_actuel-=(int)(PI*1000.0);*/
-
+	theta_actuel=alpha_lu;
+	//et on borne theta
+	//TODO : verifier que le code ci-après est correct (on met theta entre -pi et pi)
 	theta_actuel%=((int)(DEUX_PI*1000.0));
 	if (theta_actuel>(int)(PI*1000.0))
 	{

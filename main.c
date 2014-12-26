@@ -3,11 +3,12 @@
 #include "odometrie.h"
 #include "hardware.h"
 #include "debug/affichage.h"
+#include <stdio.h>
 
 int main()
 {
     if (init_sdl_screen() < 0)
-        return 1;
+        return 1; 
     
     init_odometrie();
     init_trajectoire();

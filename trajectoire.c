@@ -132,7 +132,7 @@ void calcul_alpha_delta_restant(int x_voulu, int y_voulu, int * new_alpha, int *
 	int theta_voulu=(int)(1000.0*acos((double)(y_voulu)/(double)(*new_delta))*(-1.0*sgn_x));
 	*new_alpha=theta_voulu-get_theta_actuel();
 
-	//on borne *new_alpha (à tester)
+	//on borne *new_alpha (à tester) entre pi et -pi
 	*new_alpha=*new_alpha%((int)(DEUX_PI*1000.0));
 	if (*new_alpha>(int)((DEUX_PI*1000.0)/2.0))
 	{
