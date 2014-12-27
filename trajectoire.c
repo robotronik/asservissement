@@ -10,11 +10,6 @@
 static s_trajectoire trajectoire;
 static s_consigne consigne;
 
-//TODO : implementer l'idée suivante pour les listes de points :
-//quand on doit passer sur une liste de points donner une consigne beta constante
-//et recalculer uniquement alpha sauf pour le dernier point où il faut ralentir
-//de cette manière on ne ralentira pas en passant sur chaque points
-
 void start()
 {
 	while(!sdl_manage_events())

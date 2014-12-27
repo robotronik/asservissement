@@ -105,8 +105,8 @@ void actualise_position()
 	delta_actuel=delta_lu;
 	alpha_actuel=alpha_lu;
 	theta_actuel=alpha_lu;
-	//et on borne theta
-	//TODO : verifier que le code ci-après est correct (on met theta entre -pi et pi)
+
+	//et on borne theta entre pi et -pi
 	theta_actuel%=((int)(DEUX_PI*1000.0));
 	if (theta_actuel>(int)(PI*1000.0))
 	{
