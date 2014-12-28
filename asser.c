@@ -31,8 +31,8 @@ void asser(s_consigne consigne)
 
 	//on écrête les réponses en sortie des PIDs si trop grand ou trop petit
 	//TODO : à effectuer sur les commandes moteurs plutot que sur les reponses
-	ecretage_reponse(&reponse_delta,reponse_delta_preced);
-	ecretage_reponse(&reponse_alpha,reponse_alpha_preced);
+	ecretage(&reponse_delta,reponse_delta_preced);
+	ecretage(&reponse_alpha,reponse_alpha_preced);
 	if (AFFICHAGE_DEBUG == 1)
     	printf("recr_a:%li recr_D:%li\n",reponse_alpha,reponse_delta);
 
@@ -117,36 +117,77 @@ void update_erreurs(s_consigne consigne)
 	erreur_alpha.actuelle = consigne.alpha-get_alpha_actuel();
 }
 
-void ecretage_reponse(long int * reponse,long int reponse_preced)
+void ecretage(long int * reponse,long int reponse_preced)
 {
+	//si on accelere trop
+	ecretage_acceleration(reponse, reponse_preced);
 
-	//TODO : à tester avec MIN_VITESSE différent de 0
-	//gestion de l'acceleration max et de la deceleration max
-	//si on avance
-	if (*reponse>0)
+	//si on decelere trop
+	ecretage_deceleration(reponse, reponse_preced);
+
+	//si reculait mais que maintenant on veut avancer
+	if(reponse_preced<0 && *reponse>0)
 	{
-		if ((*reponse-reponse_preced)>MAX_ACCELERATION)
+		*reponse=reponse_preced+MAX_DECELERATION;
+		if(*reponse>-MIN_VITESSE)
+		{
+			//on force le passage à 0 pour éviter un à-coup sur les moteurs
+			*reponse=0;
+		}
+	}
+
+	//si on avancait mais que maintenant on veut reculer
+	if(reponse_preced>0 && *reponse<0)
+	{
+		*reponse=reponse_preced-MAX_DECELERATION;
+		if(*reponse<MIN_VITESSE)
+		{
+			//on force le passage à 0 pour éviter un à-coup sur les moteurs
+			*reponse=0;
+		}
+	}
+
+	//si on va trop vite ou pas assez
+	ecretage_vitesse(reponse);
+
+}
+
+void ecretage_acceleration(long int * reponse,long int reponse_preced)
+{
+	if(abs(*reponse)-abs(reponse_preced)>MAX_ACCELERATION)
+	{
+		//si on avance
+		if(reponse_preced>=0 && *reponse>=0)
 		{
 			*reponse=reponse_preced+MAX_ACCELERATION;
 		}
-		if ((*reponse-reponse_preced)<-MAX_DECELERATION)
-		{
-			*reponse=reponse_preced-MAX_DECELERATION;
-		}
-	}
-	//si on recule
-	else
-	{
-		if ((*reponse-reponse_preced)<-MAX_ACCELERATION)
+		//si on recule
+		if(reponse_preced<=0 && *reponse<=0)
 		{
 			*reponse=reponse_preced-MAX_ACCELERATION;
 		}
-		if ((*reponse-reponse_preced)>MAX_DECELERATION)
+	}
+}
+
+void ecretage_deceleration(long int * reponse,long int reponse_preced)
+{
+	if(abs(*reponse)-abs(reponse_preced)<-MAX_DECELERATION)
+	{
+		//si on avance
+		if(reponse_preced>=0 && *reponse>=0)
+		{
+			*reponse=reponse_preced-MAX_DECELERATION;
+		}
+		//si on recule
+		if(reponse_preced<=0 && *reponse<=0)
 		{
 			*reponse=reponse_preced+MAX_DECELERATION;
 		}
 	}
+}
 
+void ecretage_vitesse(long int * reponse)
+{
 	//gestion de la vitesse max
 	if (*reponse>MAX_VITESSE)
 	{
