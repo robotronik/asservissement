@@ -36,7 +36,8 @@ int main()
 	//chemin.point[7].y=140; //position initiale du robot
 	set_trajectoire_chemin(chemin);
 	//set_trajectoire_theta(10000*DEUX_PI);
-	//set_trajectoire_alpha_delta(4595,0);
+	//set_trajectoire_alpha_delta(0,1000);
+	//set_trajectoire_alpha_delta(6284,0);
 	//set_trajectoire_xy_relatif(500,800);
 	//set_trajectoire_xy_absolu(500,800);
 	start();

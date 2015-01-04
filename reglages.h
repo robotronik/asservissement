@@ -31,11 +31,11 @@ coefficients des PID et qu'il y a overflow*/
 
 //precision
 #define PRECISION_DELTA 10 //precision souhaitée pour delta (en mm)
-#define PRECISION_ALPHA 100 //precision souhaitée pour alpha (en milli radian)
+#define PRECISION_ALPHA 10 //precision souhaitée pour alpha (en milli radian)
 
 //calibrage
 #define TICK_PAR_MM 22 // nombre de ticks par mm (tick/mm)
-#define TICK_PAR_TOUR 3000000 //nombre de ticks par tour complet du robot sur lui-même (tick/tour)
+#define TICK_PAR_TOUR 10367 //nombre de ticks par tour complet du robot sur lui-même (tick/tour)
 
 //parametre pour les chemins
 #define MAX_POSITIONS 20 //taille max de la liste de coordonnées definisant un chemin

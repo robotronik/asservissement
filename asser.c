@@ -10,8 +10,8 @@
 
 static s_erreur erreur_alpha;
 static s_erreur erreur_delta;
-static long int reponse_delta_preced;
-static long int reponse_alpha_preced;
+static long int commande_moteur_D_preced;
+static long int commande_moteur_G_preced;
 
 void asser(s_consigne consigne)
 {
@@ -29,38 +29,33 @@ void asser(s_consigne consigne)
 	if (AFFICHAGE_DEBUG == 1)
     	printf("r_a:%li r_D:%li ",reponse_alpha,reponse_delta);
 
-	//on écrête les réponses en sortie des PIDs si trop grand ou trop petit
-	//TODO : à effectuer sur les commandes moteurs plutot que sur les reponses
-	ecretage(&reponse_delta,reponse_delta_preced);
-	ecretage(&reponse_alpha,reponse_alpha_preced);
-	if (AFFICHAGE_DEBUG == 1)
-    	printf("recr_a:%li recr_D:%li\n",reponse_alpha,reponse_delta);
-
-	//on actualise les valeurs précédantes
-	reponse_delta_preced=reponse_delta;
-	reponse_alpha_preced=reponse_alpha;
-
 	//on convertit les réponses des PIDs en commandes pour les moteurs
 	//multiplier par DEMI_ENTRAXE n'est pas forcement utile car il peut se retrouver dans les coeffs de PID angulaire
-	long int commande_moteur_D=reponse_delta+DEMI_ENTRAXE*reponse_alpha;
-	long int commande_moteur_G=reponse_delta-DEMI_ENTRAXE*reponse_alpha;
+	long int commande_moteur_D=reponse_delta+/*DEMI_ENTRAXE**/reponse_alpha;
+	long int commande_moteur_G=reponse_delta-/*DEMI_ENTRAXE**/reponse_alpha;
 	if (AFFICHAGE_DEBUG == 1)
     	printf("com_D:%li com_G:%li\n",commande_moteur_D,commande_moteur_G);
+
+    //propotions correctes pour les commandes
+    mise_echelle(&commande_moteur_D,&commande_moteur_G);
+    //écretage (si trop forte acceleration/décélérantion)
+    ecretage(&commande_moteur_D,commande_moteur_D_preced);
+    ecretage(&commande_moteur_G,commande_moteur_G_preced);
 
 	//on regarde si on est pas arrivé à bon port
 	//et si on peut s'arreter sans risquer de tomber
 	if (asser_done(erreur_delta.actuelle,erreur_alpha.actuelle)
-		&& arret_ok(commande_moteur_D,commande_moteur_G))
+		&& arret_ok(commande_moteur_D_preced,commande_moteur_G_preced))
 	{
 		//on réinitialise les valeurs
 		erreur_delta.preced=0;
 		erreur_alpha.preced=0;
 		erreur_delta.sum=0;
 		erreur_alpha.sum=0;
-		reponse_delta_preced=0;
-		reponse_alpha_preced=0;
 		commande_moteur_D=0;
 		commande_moteur_G=0;
+		commande_moteur_D_preced=0;
+		commande_moteur_G_preced=0;
 		//set_trajectoire_alpha_delta(0,0);
 		//on fait savoir que la position est atteinte
 		send_position_atteinte(); //ajouter anti-spam (ici on envoie sans arret)
@@ -70,6 +65,10 @@ void asser(s_consigne consigne)
 		if (AFFICHAGE_DEBUG == 1)
     	printf("atteint mais peu pas s'arreter");
 	}
+
+	//actualisation des valeurs précédantes
+	commande_moteur_D_preced=commande_moteur_D;
+	commande_moteur_G_preced=commande_moteur_G;
 
 	//on convertit les commandes en PWM et direction pour les ponts en H
 	int PWM_moteur_D=convert2PWM(commande_moteur_D);
@@ -96,8 +95,8 @@ void init_asser()
 	erreur_delta.preced=0;
 	erreur_delta.actuelle=0;
 	erreur_delta.sum=0;
-	reponse_delta_preced=0;
-	reponse_alpha_preced=0;
+	commande_moteur_D_preced=0;
+	commande_moteur_G_preced=0;
 }
 
 void update_erreurs(s_consigne consigne)
@@ -148,8 +147,23 @@ void ecretage(long int * reponse,long int reponse_preced)
 	}
 
 	//si on va trop vite ou pas assez
+	//devenu inutile normalement du fait de l'ajout de mise_echelle
 	ecretage_vitesse(reponse);
 
+}
+
+void mise_echelle(long int * commande_D, long int * commande_G)
+{
+	if(abs(*commande_D)>abs(*commande_G) && abs(*commande_D)>MAX_VITESSE)
+	{
+		*commande_G=*commande_G*MAX_VITESSE/abs(*commande_D);
+		*commande_D=sgn(*commande_D)*MAX_VITESSE;
+	}
+	if(abs(*commande_G)>abs(*commande_D) && abs(*commande_G)>MAX_VITESSE)
+	{
+		*commande_D=*commande_D*MAX_VITESSE/abs(*commande_G);
+		*commande_G=sgn(*commande_G)*MAX_VITESSE;
+	}
 }
 
 void ecretage_acceleration(long int * reponse,long int reponse_preced)
