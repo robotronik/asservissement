@@ -43,6 +43,9 @@ void update_consigne()
 		case stop :
 			make_trajectoire_alpha_delta(0,0);
 			break;
+		/*case emergency_stop :
+			motors_stop(); //dans hardware.c
+			break;*/
 		case null :
 			break;
 	}

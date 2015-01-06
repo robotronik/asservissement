@@ -11,6 +11,7 @@ typedef enum
 	chemin,
 	theta,
 	stop,
+	emergency_stop,
 	null
 
 } e_type_trajectoire;
