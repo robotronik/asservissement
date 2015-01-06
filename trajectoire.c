@@ -26,11 +26,9 @@ void update_consigne()
 	{
 		case alpha_delta :
 			make_trajectoire_alpha_delta(trajectoire.alpha,trajectoire.delta);
-			trajectoire.type=null;
 			break;
 		case theta :
 			make_trajectoire_theta(trajectoire.theta);
-			trajectoire.type=null;
 			break;
 		case xy_relatif :
 			trajectoire.x_absolu=trajectoire.x_relatif+get_x_actuel();
@@ -43,7 +41,7 @@ void update_consigne()
 			make_trajectoire_chemin(trajectoire.chemin);
 			break;
 		case stop :
-			//TODO
+			make_trajectoire_alpha_delta(0,0);
 			break;
 		case null :
 			break;
@@ -142,7 +140,7 @@ void calcul_alpha_delta_restant(int x_voulu, int y_voulu, int * new_alpha, int *
 	}
 
 	//TODO : gestion point non atteignable
-	//(si l'on demande un point trop prés du robot et à la perpendiculaire de la direction du robot il se met à tourner)
+	//(si l'on demande un point trop prés du robot et à la perpendiculaire de la direction du robot il se met à tourner autour du point)
 	
 	//gestion de la marche arrière
 	if (*new_alpha>1571) //1571~=(pi/2)*1000
