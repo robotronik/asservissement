@@ -135,7 +135,6 @@ void calcul_alpha_delta_restant(int x_voulu, int y_voulu, int * new_alpha, int *
 	//voir si pas meilleur moyen pour le calcul de sqrt
 	*new_delta=(int)sqrt((double)(x_voulu*x_voulu+y_voulu*y_voulu));
 	int sgn_x=(x_voulu > 0) - (x_voulu < 0);
-	//TODO : réfléchir ce que implique sgn_x=0 -> possibilité d'entrainer des choses bizarres
 	 //voir si pas meilleur moyen pour le calcul de acos (tableau ?)
 	int theta_voulu=(int)(1000.0*acos((double)(y_voulu)/(double)(*new_delta))*(-1.0*sgn_x));
 	*new_alpha=theta_voulu-get_theta_actuel();
