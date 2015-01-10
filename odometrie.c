@@ -1,7 +1,6 @@
 #include "odometrie.h"
 #include "hardware.h"
 #include "reglages.h"
-#include <math.h>
 #include "math_precalc.h"
 #include <stdio.h> //à virer
 #include "trajectoire.h" //à virer
@@ -26,13 +25,91 @@ void init_odometrie()
 	theta_actuel=0;
 }
 
-void set_delta_actuel(int delta)
+void actualise_position()
 {
-	delta_actuel=delta;
+	long int nbr_tick_D=get_nbr_tick_D();
+	long int nbr_tick_G=get_nbr_tick_G();
+
+	//calcul de alpha et delta apparents
+	int delta_lu=delta_mm(nbr_tick_D,nbr_tick_G);
+	int alpha_lu=alpha_millirad(nbr_tick_D,nbr_tick_G);
+
+	//calcul des variations
+	int d_delta=delta_lu-delta_actuel;
+	int d_alpha=alpha_lu-alpha_actuel;
+
+	//on actualise x et y actuels
+	actualise_xy_actuels(d_delta,d_alpha,theta_actuel,&x_actuel,&y_actuel);
+	
+	//on actualise le reste
+	delta_actuel=delta_lu;
+	alpha_actuel=alpha_lu;
+	theta_actuel=borne_angle(alpha_lu);
+
+	//debug à virer
+	if (AFFICHAGE_DEBUG == 1)
+		printf("D_act:%d a_act:%d th_act:%d D_voul:%d a_voul:%d\n\n",delta_actuel,alpha_actuel,theta_actuel, get_delta_voulu(), get_alpha_voulu()); //à virer
 }
-void set_alpha_actuel(int alpha)
+
+int delta_mm(long int nbr_tick_D, long int nbr_tick_G)
 {
-	alpha_actuel=alpha;
+	int delta;
+
+	delta=(nbr_tick_D+nbr_tick_G)/2; 	//delta en tick
+	delta/=TICK_PAR_MM;					//convertion en mm
+
+	return delta;
+}
+
+int alpha_millirad(long int nbr_tick_D, long int nbr_tick_G)
+{
+	long int alpha;
+
+	alpha=(nbr_tick_D-nbr_tick_G)/2; 	//alpha en ticks
+	alpha*=1000;						//convertion en milliticks
+	alpha*=DEUX_PI/TICK_PAR_TOUR; 		//convertion en milliradians
+
+	return (int) alpha;
+}
+
+void actualise_xy_actuels(int d_delta, int d_alpha, int theta, int * x, int * y)
+{
+	//calcul des variations dans le repère local
+	double x_local,y_local;
+	if(d_alpha!=0)
+	{
+		//d_delta/(d_alpha/1000)=Rayon de "l'arc de cercle" effectué
+		x_local=(1.0-cos_precalc(d_alpha))*(d_delta/(d_alpha/1000.0));
+		y_local=sin_precalc(d_alpha)*(d_delta/(d_alpha/1000.0));
+	}
+	else
+	{
+		x_local=0;
+		y_local=(double) d_delta;
+	}
+
+	//rotation selon l'orientation du robot pour trouver la position en absolu
+	*x+=(int) (cos_precalc(theta)*x_local);
+	*x-=(int) (sin_precalc(theta)*y_local);
+	*y+=(int) (sin_precalc(theta)*x_local);
+	*y+=(int) (cos_precalc(theta)*y_local);
+}
+
+int borne_angle(int angle)
+{
+	//on borne "angle" entre pi et -pi
+
+	angle%=((int)(DEUX_PI*1000.0));
+	if (angle>(int)(PI*1000.0))
+	{
+		angle-=(int)(DEUX_PI*1000.0);
+	}
+	else if (angle<-(int)(PI*1000.0))
+	{
+		angle+=(int)(DEUX_PI*1000.0);
+	}
+
+	return angle;
 }
 
 int get_delta_actuel()
@@ -56,68 +133,4 @@ int get_x_actuel()
 int get_y_actuel()
 {
 	return y_actuel;
-}
-
-void actualise_position()
-{
-	long int nbr_tick_D=get_nbr_tick_D();
-	long int nbr_tick_G=get_nbr_tick_G();
-
-	int delta_lu=(nbr_tick_D+nbr_tick_G)/2; 	//delta en tick
-		delta_lu/=TICK_PAR_MM;					//convertion en mm
-
-	long int alpha_lu=(nbr_tick_D-nbr_tick_G)/2; 	//alpha en ticks
-		alpha_lu*=1000;						//convertion en milliticks
-		alpha_lu*=DEUX_PI/TICK_PAR_TOUR; 		//convertion en milliradians
-
-	//calcul également possible :
-	//int alpha_lu=(nbr_tick_D-nbr_tick_G)/TICK_PAR_MM/DEMI_ENTRAXE;
-
-	//calcul des variations
-	int d_delta=delta_lu-delta_actuel;
-	int d_alpha=alpha_lu-alpha_actuel;
-
-	//calcul dans le repère local
-	double x_local,y_local;
-	if(d_alpha!=0)
-	{
-		//d_delta/d_alpha=Rayon l'arc de cercle effectué (est-ce vraiment un arc de cercle ??)
-		x_local=/*(int)*/ (1.0-cos_precalc(d_alpha))*d_delta/(d_alpha/1000.0);
-		y_local=/*(int)*/ sin_precalc(d_alpha)*d_delta/(d_alpha/1000.0);
-	}
-	else
-	{
-		x_local=0;
-		y_local=(double)d_delta;
-	}
-
-	//rotation d'angle theta pour trouver la position en absolu
-	/*x_actuel+=(int) (cos((double)theta_actuel/1000.0)*x_local);
-	x_actuel-=(int) (sin((double)theta_actuel/1000.0)*y_local);
-	y_actuel+=(int) (sin((double)theta_actuel/1000.0)*x_local);
-	y_actuel+=(int) (cos((double)theta_actuel/1000.0)*y_local);*/
-	x_actuel+=(int) (cos_precalc(theta_actuel)*x_local);
-	x_actuel-=(int) (sin_precalc(theta_actuel)*y_local);
-	y_actuel+=(int) (sin_precalc(theta_actuel)*x_local);
-	y_actuel+=(int) (cos_precalc(theta_actuel)*y_local);
-	
-	//on actualise le reste
-	delta_actuel=delta_lu;
-	alpha_actuel=alpha_lu;
-	theta_actuel=alpha_lu;
-
-	//et on borne theta entre pi et -pi
-	theta_actuel%=((int)(DEUX_PI*1000.0));
-	if (theta_actuel>(int)(PI*1000.0))
-	{
-		theta_actuel-=(int)(DEUX_PI*1000.0);
-	}
-	else if (theta_actuel<-(int)(PI*1000.0))
-	{
-		theta_actuel+=(int)(DEUX_PI*1000.0);
-	}
-
-	//debug à virer
-	if (AFFICHAGE_DEBUG == 1)
-        printf("D_act:%d a_act:%d th_act:%d D_voul:%d a_voul:%d\n\n",delta_actuel,alpha_actuel,theta_actuel, get_delta_voulu(), get_alpha_voulu()); //à virer
 }

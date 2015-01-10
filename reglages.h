@@ -15,11 +15,6 @@ coefficients des PID et qu'il y a overflow*/
 #define KD_ALPHA 10//composante de dérivation
 
 //contraintes mecaniques
-//!\ l'entraxe est la distance entre les roues codeuses (et non motrices)
-//-> heu en fait pas sur …
-// TODO : voir si il faut pas créer deux defines (roues + roues codeuses)
-//#define ENTRAXE 150//mm
-#define DEMI_ENTRAXE 75 //mm ENTRAXE divisé par 2
 #define MAX_VITESSE 30 //vitesse maximale du robot
 #define MIN_VITESSE 0 //vitesse minimale du robot pour qu'il commence à avancer
 #define MAX_ACCELERATION 2 //acceleration maximale

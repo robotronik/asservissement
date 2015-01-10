@@ -52,8 +52,8 @@ void new_chemin()
 
 void send_position_atteinte()
 {
-    if (AFFICHAGE_DEBUG == 1)
-        printf("atteint\n");
+	if (AFFICHAGE_DEBUG == 1)
+		printf("atteint\n");
 }
 
 //void send_asser_pret() ??

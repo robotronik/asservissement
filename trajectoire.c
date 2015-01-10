@@ -2,6 +2,7 @@
 #include "odometrie.h"
 #include "reglages.h"
 #include "asser.h"
+#include "communication.h"
 #include "debug/affichage.h" //à virer
 #include <math.h> //utiliser un tableau pour acos ??
 #include <stdio.h> //TODO : à virer
@@ -14,9 +15,17 @@ void start()
 {
 	while(!sdl_manage_events())
 	{
+		//on met à jour la consigne pour l'asser
 		update_consigne();
+
+		//asservissement
 		asser(consigne);
-		//actualise_position ici
+
+		//on recalcule la position actuelle du robot (via les roues codeuses)
+		actualise_position();
+
+		//on envoie notre position au PC (débug)
+		send_position_xbee();
 	}
 }
 
@@ -121,7 +130,7 @@ void make_trajectoire_chemin(s_liste liste_positions)
 
 void calcul_alpha_delta_restant(int x_voulu, int y_voulu, int * new_alpha, int * new_delta)
 {
-	//x et y sont relatifs mais l'orientation de des axes reste absolue
+	//x et y sont relatifs mais l'orientation des axes reste absolue
 
 	//voir si pas meilleur moyen pour le calcul de sqrt
 	*new_delta=(int)sqrt((double)(x_voulu*x_voulu+y_voulu*y_voulu));

@@ -15,7 +15,7 @@ int main()
 	init_trajectoire();
 	init_hardware();
 	init_asser();
-	//new_alpha_delta(0,1000);
+
 	s_liste chemin;
 	chemin.taille=7;
 	chemin.point[0].x=1500;
@@ -34,13 +34,15 @@ int main()
 	chemin.point[6].y=1000;
 	//chemin.point[7].x=140; //position initiale du robot
 	//chemin.point[7].y=140; //position initiale du robot
+
 	set_trajectoire_chemin(chemin);
 	//set_trajectoire_theta(10000*DEUX_PI);
 	//set_trajectoire_alpha_delta(0,1000);
 	//set_trajectoire_alpha_delta(6284,0);
 	//set_trajectoire_xy_relatif(500,800);
 	//set_trajectoire_xy_absolu(500,800);
+
 	start();
-	//asser();
+	
 	return quit_sdl_screen();
 }

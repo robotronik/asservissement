@@ -18,8 +18,8 @@ typedef struct
 void asser(s_consigne consigne);
 void init_asser();
 void update_erreurs(s_consigne consigne);
-void ecretage(long int * reponse,long int reponse_preced);
 void mise_echelle(long int * commande_D, long int * commande_G);
+void ecretage(long int * reponse,long int reponse_preced);
 void ecretage_acceleration(long int * reponse,long int reponse_preced);
 void ecretage_deceleration(long int * reponse,long int reponse_preced);
 void ecretage_vitesse(long int * reponse);

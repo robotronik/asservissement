@@ -6,15 +6,17 @@
 
 void init_odometrie();
 
-void set_delta_actuel(int delta);
-void set_alpha_actuel(int alpha);
+void actualise_position();
+
+int delta_mm(long int nbr_tick_D, long int nbr_tick_G);
+int alpha_millirad(long int nbr_tick_D, long int nbr_tick_G);
+void actualise_xy_actuels(int d_delta, int d_alpha, int theta, int * x, int * y);
+int borne_angle(int angle);
 
 int get_delta_actuel();
 int get_alpha_actuel();
 int get_theta_actuel();
 int get_x_actuel();
 int get_y_actuel();
-
-void actualise_position();
 
 #endif
