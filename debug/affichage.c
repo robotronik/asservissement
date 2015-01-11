@@ -83,7 +83,8 @@ int sdl_manage_events() {
             return 1;
         case SDL_MOUSEBUTTONDOWN: case SDL_MOUSEMOTION: /* Clic de la souris */
             if (evenements.button.button == SDL_BUTTON_LEFT) {
-                printf("%d %d\n", evenements.button.x*ZOOM_FACTOR, HEIGHT - evenements.button.y*ZOOM_FACTOR);
+                if (AFFICHAGE_DEBUG == 1)
+                    printf("%d %d\n", evenements.button.x*ZOOM_FACTOR, HEIGHT - evenements.button.y*ZOOM_FACTOR);
                 new_xy_absolu(evenements.button.x*ZOOM_FACTOR, HEIGHT - evenements.button.y*ZOOM_FACTOR);
                 return 0;
             } else
