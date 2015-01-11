@@ -100,7 +100,7 @@ int init_sdl_screen() {
 
     SDL_WM_SetCaption("SDL : Une p'tite gestion de l'asservissement", NULL);
 
-    if (SDL_SetVideoMode(WIDTH/ZOOM_FACTOR, HEIGHT/ZOOM_FACTOR, 32, SDL_OPENGL) == 0)
+    if (SDL_SetVideoMode(WIDTH/ZOOM_FACTOR+1, HEIGHT/ZOOM_FACTOR+1, 32, SDL_OPENGL) == 0)
         return quit_sdl_screen(1);
 
     // Changer de repère : repère orthogonal avec origine bas-gauche
