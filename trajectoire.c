@@ -40,9 +40,8 @@ void update_consigne()
 			make_trajectoire_theta(trajectoire.theta);
 			break;
 		case xy_relatif :
-			trajectoire.x_absolu=trajectoire.x_relatif+get_x_actuel();
-			trajectoire.y_absolu=trajectoire.y_relatif+get_y_actuel();
-			trajectoire.type=xy_absolu;
+			make_trajectoire_xy_relatif(trajectoire.x_absolu,trajectoire.y_absolu);
+			break;
 		case xy_absolu :
 			make_trajectoire_xy_absolu(trajectoire.x_absolu,trajectoire.y_absolu);
 			break;
@@ -73,10 +72,13 @@ void make_trajectoire_theta(int theta_voulu)
 	trajectoire.type=null;
 }
 
-/*void make_trajectoire_xy_relatif(int x_voulu, int y_voulu)
+void make_trajectoire_xy_relatif(int x_voulu, int y_voulu)
 {
-	make_trajectoire_xy_absolu(x_voulu+get_x_actuel(),y_voulu+get_y_actuel());
-}*/
+	trajectoire.x_absolu=trajectoire.x_relatif+get_x_actuel();
+	trajectoire.y_absolu=trajectoire.y_relatif+get_y_actuel();
+	trajectoire.type=xy_absolu;
+	make_trajectoire_xy_absolu(trajectoire.x_absolu,trajectoire.y_absolu);
+}
 
 void make_trajectoire_xy_absolu(int x_voulu, int y_voulu)
 {
@@ -93,7 +95,7 @@ void make_trajectoire_xy_absolu(int x_voulu, int y_voulu)
 	}
 	else
 	{
-		trajectoire.type=null;
+		trajectoire.type=stop;
 	}
 }
 

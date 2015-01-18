@@ -5,7 +5,7 @@ LDFLAGS=-lm
 SDLFLAGS=-lSDL -lSDL_image -lGL -lGLU -lSOIL
 EXEC=asser_robot
 
-FICHIERS_C=asser.c PID.c communication.c hardware.c odometrie.c trajectoire.c debug/affichage.c math_precalc.c
+FICHIERS_C=asser.c PID.c communication.c hardware.c odometrie.c trajectoire.c debug/affichage.c math_precalc.c tests_unitaires.c
 FICHIERS_H=$(FICHIERS_C:.c=.h) reglages.h
 FICHIERS_O=$(FICHIERS_C:.c=.o)
 
@@ -37,6 +37,9 @@ odometrie.o: odometrie.c odometrie.h reglages.h hardware.h math_precalc.h
 	$(CC) -o $@ -c $< $(CFLAGS)
 
 trajectoire.o: trajectoire.c trajectoire.h odometrie.h asser.h
+	$(CC) -o $@ -c $< $(CFLAGS)
+
+tests_unitaires.o: tests_unitaires.c tests_unitaires.h hardware.c asser.h odometrie.h communication.h reglages.h
 	$(CC) -o $@ -c $< $(CFLAGS)
 
 math_precalc.o: math_precalc.c math_precalc.h

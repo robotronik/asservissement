@@ -2,6 +2,7 @@
 #include "trajectoire.h"
 #include "odometrie.h"
 #include "hardware.h"
+#include "tests_unitaires.h"
 #include "debug/affichage.h"
 #include <stdio.h>
 
@@ -11,11 +12,13 @@ int main()
 	if (init_sdl_screen() < 0)
 		return 1;
 	
+	/*init*/
 	init_odometrie();
 	init_trajectoire();
 	init_hardware();
 	init_asser();
 
+	/*chemin pour le test*/
 	s_liste chemin;
 	chemin.taille=7;
 	chemin.point[0].x=1500;
@@ -35,14 +38,27 @@ int main()
 	//chemin.point[7].x=140; //position initiale du robot
 	//chemin.point[7].y=140; //position initiale du robot
 
-	set_trajectoire_chemin(chemin);
-	//set_trajectoire_theta(10000*DEUX_PI);
-	//set_trajectoire_alpha_delta(0,1000);
-	//set_trajectoire_alpha_delta(6284,0);
-	//set_trajectoire_xy_relatif(500,800);
-	//set_trajectoire_xy_absolu(500,800);
+	/*tests pour réglage des parametres*/
 
-	start();
+		/*tests en boucle ouverte*/
+	    //test_vitesse(MIN_VITESSE);
+	    //test_ecretage();
+	    //test_distance(500,200000);
+	    //test_angle(3142,200000);
+
+	    /*test d'asservissement*/
+	    //test_asser_alpha_delta(0,400);
+	    //test_asser_alpha_delta(3140,0);
+	    //test_asser_theta(3142);
+	    //test_asser_xy_relatif(0,400);
+	    //test_asser_xy_absolu(140,400+140);
+	    test_asser_chemin(chemin);
+
+    /*démarage de l'asservissement*/
+	//start();
+
+	/*évite un reset automatique du microcontroleur*/
+    //while (1) {;}
 	
 	return quit_sdl_screen();
 }
