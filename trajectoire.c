@@ -74,8 +74,8 @@ void make_trajectoire_theta(int theta_voulu)
 
 void make_trajectoire_xy_relatif(int x_voulu, int y_voulu)
 {
-	trajectoire.x_absolu=trajectoire.x_relatif+get_x_actuel();
-	trajectoire.y_absolu=trajectoire.y_relatif+get_y_actuel();
+	trajectoire.x_absolu=x_voulu+get_x_actuel();
+	trajectoire.y_absolu=y_voulu+get_y_actuel();
 	trajectoire.type=xy_absolu;
 	make_trajectoire_xy_absolu(trajectoire.x_absolu,trajectoire.y_absolu);
 }
