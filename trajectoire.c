@@ -134,8 +134,12 @@ void calcul_alpha_delta_restant(int x_voulu, int y_voulu, int * new_alpha, int *
 {
 	//x et y sont relatifs mais l'orientation des axes reste absolue
 
+	//un peu moche...
+	long int x_voulu_l=x_voulu;
+	long int y_voulu_l=y_voulu;
+
 	//voir si pas meilleur moyen pour le calcul de sqrt
-	double distance = sqrt((double)(x_voulu*x_voulu+y_voulu*y_voulu));
+	double distance = sqrt((double)(x_voulu_l*x_voulu_l+y_voulu_l*y_voulu_l));
 	*new_delta=(int) distance;
 	int sgn_x=(x_voulu > 0) - (x_voulu < 0);
 	 //voir si pas meilleur moyen pour le calcul de acos (tableau ?)
