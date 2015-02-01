@@ -66,7 +66,7 @@ void calcul_alpha_delta_restant(int x_voulu, int y_voulu, int * new_alpha, int *
 
 void init_trajectoire();
 
-void set_consigne_alpha_delta();
+void set_consigne_alpha_delta(int new_alpha, int new_delta);
 
 //TODO : à virer (utile uniquement pour du debug)
 int get_delta_voulu();
