@@ -53,12 +53,12 @@ void actualise_position()
 
 int delta_mm(long int nbr_tick_D, long int nbr_tick_G)
 {
-	int delta;
+	long int delta;
 
 	delta=(nbr_tick_D+nbr_tick_G)/2; 	//delta en tick
 	delta/=TICK_PAR_MM;					//convertion en mm
 
-	return delta;
+	return (int) delta;
 }
 
 int alpha_millirad(long int nbr_tick_D, long int nbr_tick_G)
