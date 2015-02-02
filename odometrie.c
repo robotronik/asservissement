@@ -9,8 +9,8 @@
 //ici les calculs de position actuelle
 
 //oh les vilaines variables globales !
-static int x_actuel; //absolu
-static int y_actuel; //absolu
+static double x_actuel; //absolu
+static double y_actuel; //absolu
 static int theta_actuel; //absolu
 static int delta_actuel; //relatif
 static int alpha_actuel; //relatif
@@ -39,7 +39,7 @@ void actualise_position()
 	int d_alpha=alpha_lu-alpha_actuel;
 
 	//on actualise x et y actuels
-	actualise_xy_actuels(d_delta,d_alpha,theta_actuel,&x_actuel,&y_actuel);
+	actualise_xy(d_delta,d_alpha,theta_actuel,&x_actuel,&y_actuel);
 	
 	//on actualise le reste
 	delta_actuel=delta_lu;
@@ -72,27 +72,25 @@ int alpha_millirad(long int nbr_tick_D, long int nbr_tick_G)
 	return (int) alpha;
 }
 
-void actualise_xy_actuels(int d_delta, int d_alpha, int theta, int * x, int * y)
+void actualise_xy(int d_delta, int d_alpha, int theta, double * x, double * y)
 {
 	//calcul des variations dans le repère local
-	double x_local,y_local;
+	double d_x_local,d_y_local;
 	if(d_alpha!=0)
 	{
 		//d_delta/(d_alpha/1000)=Rayon de "l'arc de cercle" effectué
-		x_local=(1.0-cos_precalc(d_alpha))*(d_delta/(d_alpha/1000.0));
-		y_local=sin_precalc(d_alpha)*(d_delta/(d_alpha/1000.0));
+		d_x_local=(1.0-cos_precalc(d_alpha))*(d_delta/(d_alpha/1000.0));
+		d_y_local=sin_precalc(d_alpha)*(d_delta/(d_alpha/1000.0));
 	}
 	else
 	{
-		x_local=0;
-		y_local=(double) d_delta;
+		d_x_local=0;
+		d_y_local=(double) d_delta;
 	}
 
 	//rotation selon l'orientation du robot pour trouver la position en absolu
-	*x+=(int) (cos_precalc(theta)*x_local);
-	*x-=(int) (sin_precalc(theta)*y_local);
-	*y+=(int) (sin_precalc(theta)*x_local);
-	*y+=(int) (cos_precalc(theta)*y_local);
+	*x+=(cos_precalc(theta)*d_x_local) - (sin_precalc(theta)*d_y_local);
+	*y+=(sin_precalc(theta)*d_x_local) + (cos_precalc(theta)*d_y_local);
 }
 
 int borne_angle(int angle)
@@ -128,9 +126,9 @@ int get_theta_actuel()
 
 int get_x_actuel()
 {
-	return x_actuel;
+	return (int) x_actuel;
 }
 int get_y_actuel()
 {
-	return y_actuel;
+	return (int) y_actuel;
 }
