@@ -103,8 +103,8 @@ void update_erreurs(s_consigne consigne)
 	erreur_alpha.sum += erreur_alpha.actuelle;
 
 	//calcul de l'erreur actuelle en delta et alpha
-	erreur_delta.actuelle = consigne.delta-get_delta_actuel();
-	erreur_alpha.actuelle = consigne.alpha-get_alpha_actuel();
+	erreur_delta.actuelle = (int) (consigne.delta-get_delta_actuel());
+	erreur_alpha.actuelle = (int) (consigne.alpha-get_alpha_actuel());
 }
 
 void mise_echelle(long int * commande_D, long int * commande_G)

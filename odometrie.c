@@ -12,8 +12,8 @@
 static float x_actuel; //absolu
 static float y_actuel; //absolu
 static int theta_actuel; //absolu
-static int delta_actuel; //relatif
-static int alpha_actuel; //relatif
+static long int delta_actuel; //relatif
+static long int alpha_actuel; //relatif
 
 
 void init_odometrie()
@@ -93,7 +93,7 @@ void actualise_xy(int d_delta, int d_alpha, int theta, float * x, float * y)
 	*y+=(sin_precalc(theta)*d_x_local) + (cos_precalc(theta)*d_y_local);
 }
 
-int borne_angle(int angle)
+int borne_angle(long int angle)
 {
 	//on borne "angle" entre pi et -pi
 
@@ -107,14 +107,15 @@ int borne_angle(int angle)
 		angle+=(int)(DEUX_PI*1000.0);
 	}
 
-	return angle;
+	return (int) angle;
 }
 
-int get_delta_actuel()
+long int get_delta_actuel()
 {
 	return delta_actuel;
 }
-int get_alpha_actuel()
+
+long int get_alpha_actuel()
 {
 	return alpha_actuel;
 }
@@ -128,6 +129,7 @@ int get_x_actuel()
 {
 	return (int) x_actuel;
 }
+
 int get_y_actuel()
 {
 	return (int) y_actuel;

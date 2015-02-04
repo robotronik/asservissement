@@ -44,8 +44,8 @@ typedef struct
 
 typedef struct
 {
-	int alpha;
-	int delta;
+	long int alpha;
+	long int delta;
 } s_consigne;
 
 void start();

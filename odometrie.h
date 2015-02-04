@@ -11,10 +11,10 @@ void actualise_position();
 long int delta_mm(long int nbr_tick_D, long int nbr_tick_G);
 long int alpha_millirad(long int nbr_tick_D, long int nbr_tick_G);
 void actualise_xy(int d_delta, int d_alpha, int theta, float * x, float * y);
-int borne_angle(int angle);
+int borne_angle(long int angle);
 
-int get_delta_actuel();
-int get_alpha_actuel();
+long int get_delta_actuel();
+long int get_alpha_actuel();
 int get_theta_actuel();
 int get_x_actuel();
 int get_y_actuel();

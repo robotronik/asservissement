@@ -12,7 +12,7 @@ typedef struct
 {
 	int preced;
 	int actuelle;
-	int sum;
+	long int sum;
 } s_erreur;
 
 void asser(s_consigne consigne);
