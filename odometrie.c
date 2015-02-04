@@ -9,8 +9,8 @@
 //ici les calculs de position actuelle
 
 //oh les vilaines variables globales !
-static double x_actuel; //absolu
-static double y_actuel; //absolu
+static float x_actuel; //absolu
+static float y_actuel; //absolu
 static int theta_actuel; //absolu
 static int delta_actuel; //relatif
 static int alpha_actuel; //relatif
@@ -31,12 +31,12 @@ void actualise_position()
 	long int nbr_tick_G=get_nbr_tick_G();
 
 	//calcul de alpha et delta apparents
-	int delta_lu=delta_mm(nbr_tick_D,nbr_tick_G);
-	int alpha_lu=alpha_millirad(nbr_tick_D,nbr_tick_G);
+	long int delta_lu=delta_mm(nbr_tick_D,nbr_tick_G);
+	long int alpha_lu=alpha_millirad(nbr_tick_D,nbr_tick_G);
 
 	//calcul des variations
-	int d_delta=delta_lu-delta_actuel;
-	int d_alpha=alpha_lu-alpha_actuel;
+	int d_delta=(int) (delta_lu-delta_actuel);
+	int d_alpha=(int) (alpha_lu-alpha_actuel);
 
 	//on actualise x et y actuels
 	actualise_xy(d_delta,d_alpha,theta_actuel,&x_actuel,&y_actuel);
@@ -51,17 +51,17 @@ void actualise_position()
 		printf("D_act:%d a_act:%d th_act:%d D_voul:%d a_voul:%d\n\n",delta_actuel,alpha_actuel,theta_actuel, get_delta_voulu(), get_alpha_voulu()); //à virer
 }
 
-int delta_mm(long int nbr_tick_D, long int nbr_tick_G)
+long int delta_mm(long int nbr_tick_D, long int nbr_tick_G)
 {
 	long int delta;
 
 	delta=(nbr_tick_D+nbr_tick_G)/2; 	//delta en tick
 	delta/=TICK_PAR_MM;					//convertion en mm
 
-	return (int) delta;
+	return delta;
 }
 
-int alpha_millirad(long int nbr_tick_D, long int nbr_tick_G)
+long int alpha_millirad(long int nbr_tick_D, long int nbr_tick_G)
 {
 	long int alpha;
 
@@ -69,13 +69,13 @@ int alpha_millirad(long int nbr_tick_D, long int nbr_tick_G)
 	alpha*=1000;						//convertion en milliticks
 	alpha*=DEUX_PI/TICK_PAR_TOUR; 		//convertion en milliradians
 
-	return (int) alpha;
+	return alpha;
 }
 
-void actualise_xy(int d_delta, int d_alpha, int theta, double * x, double * y)
+void actualise_xy(int d_delta, int d_alpha, int theta, float * x, float * y)
 {
 	//calcul des variations dans le repère local
-	double d_x_local,d_y_local;
+	float d_x_local,d_y_local;
 	if(d_alpha!=0)
 	{
 		//d_delta/(d_alpha/1000)=Rayon de "l'arc de cercle" effectué
@@ -85,7 +85,7 @@ void actualise_xy(int d_delta, int d_alpha, int theta, double * x, double * y)
 	else
 	{
 		d_x_local=0;
-		d_y_local=(double) d_delta;
+		d_y_local=(float) d_delta;
 	}
 
 	//rotation selon l'orientation du robot pour trouver la position en absolu

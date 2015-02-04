@@ -20,7 +20,6 @@ int doit_attendre()
 
 //ajouter fonction d'envoi et de réception par l'uart
 //une fois quelque chose reçu on envoie à "communicution.c"*/
-
 #include <math.h>
 #include "hardware.h"
 
@@ -40,12 +39,12 @@ void set_PWM_moteur_G(int PWM)
 	PWM_G+=PWM/10;
 }
 
-int get_nbr_tick_D()
+long int get_nbr_tick_D()
 {
 	return PWM_D*5;
 }
 
-int get_nbr_tick_G()
+long int get_nbr_tick_G()
 {
 	return PWM_G*5;
 }

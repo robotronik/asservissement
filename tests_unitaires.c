@@ -38,9 +38,9 @@ void test_ecretage()
 
 void test_distance(long int distance, long int vitesse)
 {
-	long nbr_tick_D;
-	long nbr_tick_G;
-	long distance_actuelle=0;
+	long int nbr_tick_D;
+	long int nbr_tick_G;
+	long int distance_actuelle=0;
 
 	//si la distance est négative il faut changer de sens !
 	if (distance<0)
@@ -61,9 +61,9 @@ void test_distance(long int distance, long int vitesse)
 
 void test_angle(long int angle, long int vitesse)
 {
-	long nbr_tick_D;
-	long nbr_tick_G;
-	long angle_actuel=0;
+	long int nbr_tick_D;
+	long int nbr_tick_G;
+	long int angle_actuel=0;
 
 	//si l'angle est négatif il faut changer de sens !
 	if (angle<0)
