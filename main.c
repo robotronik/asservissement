@@ -5,12 +5,19 @@
 #include "tests_unitaires.h"
 #include "debug/affichage.h"
 #include <stdio.h>
+#include <pthread.h>
 
+void * main_loop()
+{
+	if (init_sdl_screen() < 0)
+		return NULL;
+	start();
+	return quit_sdl_screen();
+}
 
 int main()
 {
-	if (init_sdl_screen() < 0)
-		return 1;
+
 	
 	/*init*/
 	init_odometrie();
@@ -52,13 +59,23 @@ int main()
 	    //test_asser_theta(3142);
 	    //test_asser_xy_relatif(0,400);
 	    //test_asser_xy_absolu(140,400+140);
-	    test_asser_chemin(chemin);
+	    //test_asser_chemin(chemin);
 
     /*démarage de l'asservissement*/
 	//start();
 
 	/*évite un reset automatique du microcontroleur*/
     //while (1) {;}
+    pthread_t thread_asser;
+    int ret;
+
+    ret = pthread_create (&thread_asser, NULL, main_loop, NULL);
+    if (ret != 0)
+        fprintf(stderr, "erreur %d\n", ret);
+
+    ret = pthread_join (thread_asser, NULL);
+    if (ret != 0)
+        fprintf(stderr, "erreur %d\n", ret);
 	
-	return quit_sdl_screen();
+	//return quit_sdl_screen();
 }

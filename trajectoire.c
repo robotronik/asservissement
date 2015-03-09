@@ -40,7 +40,7 @@ void update_consigne()
 			make_trajectoire_theta(trajectoire.theta);
 			break;
 		case xy_relatif :
-			make_trajectoire_xy_relatif(trajectoire.x_absolu,trajectoire.y_absolu);
+			make_trajectoire_xy_relatif(trajectoire.x_relatif,trajectoire.y_relatif);
 			break;
 		case xy_absolu :
 			make_trajectoire_xy_absolu(trajectoire.x_absolu,trajectoire.y_absolu);

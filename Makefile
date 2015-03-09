@@ -1,7 +1,7 @@
 CC=gcc
 CFLAGS=-W -Wall
 
-LDFLAGS=-lm
+LDFLAGS=-lm -lpthread
 SDLFLAGS=-lSDL -lSDL_image -lGL -lGLU -lSOIL
 EXEC=asser_robot
 
