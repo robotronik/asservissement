@@ -107,10 +107,10 @@ void uart_interrupt()
 
             ret = search_key(c, &sk);
             if (ret >= KEY_SIZE) {
-                debug("ERREUR, clé inconnu: %d", ret);
+                debug("ERREUR, clé inconnu: %d\n", ret);
             }
             else if (ret == -1) {
-                debug("ERREUR, clé non trouvé: %d", ret);
+                debug("ERREUR, clé non trouvé: %d\n", ret);
                 // erreur, on attend la fin du message courant
                 state = WAIT_END;
             }
@@ -147,7 +147,7 @@ void uart_interrupt()
                 }
             } else {
                 // transmission en cours, on reste dans le même état
-                debug("réception de la clé en cour");
+                debug("réception de la clé en cour\n");
             }
             break;
 
@@ -160,9 +160,7 @@ void uart_interrupt()
                 break;
             }
 
-            debug("x = %d, y = %d\n", x, y);
             ret = read_int(c, vals[index_val]);
-            debug("x = %d, y = %d\n", x, y);
             debug((index_val == KEY_X)? "x = " : "y = ");
             debug("%d\n", *vals[index_val]);
 
@@ -210,7 +208,7 @@ void uart_interrupt()
             break;
     }
 
-    debug("etat final :\n");
+    debug("etat final : ");
     switch (state) {
         case KEY:       debug("KEY\n");       break;
         case VALUE_INT: debug("VALUE_INT\n"); break;
