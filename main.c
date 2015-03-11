@@ -190,7 +190,6 @@ void uart_interrupt()
             }
             else if (ret == -2) {
                 debug("ERREUR, %c n'est pas un nombre\n", c);
-                *vals[index_val] = 0;
                 state = WAIT_END;
             }
             else {
