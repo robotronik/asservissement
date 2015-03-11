@@ -15,7 +15,7 @@ go  # envoie des commandes
 # insensible à la case
 X = 2000
 Y = 1500
-go
+GO
 
 
 
