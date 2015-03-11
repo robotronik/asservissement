@@ -6,7 +6,7 @@ SDLFLAGS=-lSDL -lSDL_image -lGL -lGLU -lSOIL
 EXEC=asser_robot
 
 FICHIERS_C=asser.c PID.c communication.c hardware.c odometrie.c trajectoire.c debug/affichage.c math_precalc.c tests_unitaires.c ../robotronik.uart/text_reception.c
-FICHIERS_H=$(FICHIERS_C:.c=.h) reglages.h
+FICHIERS_H=$(FICHIERS_C:.c=.h) reglages.h ../robotronik.uart/common.h
 FICHIERS_O=$(FICHIERS_C:.c=.o)
 
 SOURCEFILES=main.c $(FICHIERS_C) $(FICHIERS_H) plateau.png
@@ -15,6 +15,11 @@ SOURCEFILES=main.c $(FICHIERS_C) $(FICHIERS_H) plateau.png
 
 view: all
 	./$(EXEC)
+
+.PHONY:demo
+
+demo: $(EXEC)
+	sh ./slow_read.sh demo.txt | ./$(EXEC)
 
 all: $(EXEC)
 
