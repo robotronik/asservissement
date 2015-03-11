@@ -31,6 +31,12 @@ char uart_getc()
 
 ////////////////////////////////////////////////////////////////////////////////
 
+
+bool is_whitespace(char c)
+{
+    return (c == ' ') || (c == '\t');
+}
+
 // pour new_xy_absolu
 #include "communication.h"
 
@@ -94,7 +100,7 @@ void uart_interrupt()
             // Lecture d'une clé
             debug("reception clé\n");
 
-            if(c == ' ') {
+            if(is_whitespace(c)) {
                 debug("espace ignoré dans la clé\n");
                 break;
             }
@@ -149,7 +155,7 @@ void uart_interrupt()
             // Lecture d'un entier
             debug("lecture entier\n");
 
-            if(c == ' ') {
+            if(is_whitespace(c)) {
                 debug("espace ignoré durant la lecture\n");
                 break;
             }
