@@ -67,7 +67,7 @@ void uart_interrupt()
     keys[KEY_X]     = "x=";
     keys[KEY_Y]     = "y=";
     keys[KEY_EXIT]  = "q";
-    keys[KEY_END]   = "end";
+    keys[KEY_END]   = "go";
     static bool found[KEY_SIZE] = {true, true, true, true};
 
     static struct search_key_t sk = {
@@ -80,7 +80,7 @@ void uart_interrupt()
     static enum {
         KEY,
         VALUE_INT,
-        WAIT_END,
+        WAIT_GO,
     } state = KEY;
 
     static int *vals[VAL_SIZE] = {&x, &y};
@@ -115,7 +115,7 @@ void uart_interrupt()
                 if (is_end(c)) {
                     state = KEY;
                 } else {
-                    state = WAIT_END;
+                    state = WAIT_GO;
                 }
             }
             else if (ret >= 0) {
@@ -137,7 +137,7 @@ void uart_interrupt()
                         // fin de trame
                         debug("fin de trame\n");
                         new_xy_absolu(x,y);
-                        state = WAIT_END;
+                        state = WAIT_GO;
                         break;
 
                     case KEY_EXIT:
@@ -186,20 +186,20 @@ void uart_interrupt()
                 // erreur
                 debug("ERREUR, d'overflow\n");
                 *vals[index_val] = 0;
-                state = WAIT_END;
+                state = WAIT_GO;
             }
             else if (ret == -2) {
                 debug("ERREUR, %c n'est pas un nombre\n", c);
-                state = WAIT_END;
+                state = WAIT_GO;
             }
             else {
                 debug("ERREUR inconnu lors de la lecture d'une valeure : %d\n", ret);
                 *vals[index_val] = 0;
-                state = WAIT_END;
+                state = WAIT_GO;
             }
             break;
 
-        case WAIT_END:
+        case WAIT_GO:
             // On attend la fin de la trame
             debug("wait end\n");
 
@@ -215,7 +215,7 @@ void uart_interrupt()
     switch (state) {
         case KEY:       debug("KEY\n");       break;
         case VALUE_INT: debug("VALUE_INT\n"); break;
-        case WAIT_END:  debug("WAIT_END\n");  break;
+        case WAIT_GO:   debug("WAIT_GO\n");  break;
     }
 }
 

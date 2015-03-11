@@ -8,14 +8,14 @@
 
 x = 1000
 y = 2000
-end  # envoie des commandes
+go  # envoie des commandes
 
 
 
 # insensible à la case
 X = 2000
 Y = 1500
-end
+go
 
 
 
@@ -23,16 +23,16 @@ end
 # seul les paramètres selectionnés sont mis à jour
 x = 0
 # Y reste inchangé (1500)
-end
+go
 
 
-# NB: si on n'envoie pas la command "end", alors le robot ne se déplace pas
+# NB: si on n'envoie pas la command "go", alors le robot ne se déplace pas
 x = 0
 
 # le robot ne déplace pas
 x = 1000    # cette valeur va écraser le x=0 du dessus
 y = 1000
-end
+go
 
 
 
@@ -40,7 +40,7 @@ end
 # l'ordre n'a pas d'importance
 y = 200
 x = 2900
-end
+go
 
 
 
@@ -48,7 +48,7 @@ end
 # les espaces et les tabs sont ignorés
 x=0
 y =	2 500
-end
+go
 
 
 
