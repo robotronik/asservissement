@@ -112,7 +112,11 @@ void uart_interrupt()
             else if (ret == -1) {
                 debug("ERREUR, clé non trouvé: %d\n", ret);
                 // erreur, on attend la fin du message courant
-                state = WAIT_END;
+                if (is_end(c)) {
+                    state = KEY;
+                } else {
+                    state = WAIT_END;
+                }
             }
             else if (ret >= 0) {
                 // On a fini de recevoir la clé
