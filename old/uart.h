@@ -13,11 +13,7 @@
 #define ALPHA_GET 0xAA
 
 int UART_putc(unsigned char c);
-
-void sendDone(void);
-void sendDerapage(void);
-
-int send_long(long message);
-int send_short(short message);
+void __attribute__((interrupt, auto_psv)) _U1RXInterrupt(void);
+void __attribute__((interrupt, auto_psv)) _U1TXInterrupt(void);
 
 #endif
