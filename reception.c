@@ -1,7 +1,8 @@
 #include <stdbool.h>
 #include <ctype.h>
 
-#include "../robotronik.uart/text_reception.h"
+#include "../common_header/common.h"
+#include "../uart/text_reception.h"
 #include "reception.h"
 #include "match.h"
 

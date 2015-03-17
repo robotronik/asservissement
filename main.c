@@ -11,7 +11,7 @@
 #include "debug/affichage.h"
 #include "match.h"
 
-#include "../robotronik.uart/text_reception.h"
+#include "../uart/text_reception.h"
 
 
 ////////////////////////////////////////////////////////////////////////////////
