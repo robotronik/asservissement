@@ -5,7 +5,7 @@ LDFLAGS=-lm -lpthread
 SDLFLAGS=-lSDL -lSDL_image -lGL -lGLU -lSOIL
 EXEC=asser_robot
 
-FICHIERS_C=asser.c PID.c communication.c hardware.c odometrie.c trajectoire.c debug/affichage.c math_precalc.c tests_unitaires.c ../robotronik.uart/text_reception.c reception.c
+FICHIERS_C=asser.c PID.c communication.c hardware.c odometrie.c trajectoire.c debug/affichage.c math_precalc.c tests_unitaires.c ../robotronik.uart/text_reception.c reception.c match.c
 FICHIERS_H=$(FICHIERS_C:.c=.h) reglages.h ../robotronik.uart/common.h
 FICHIERS_O=$(FICHIERS_C:.c=.o)
 
@@ -51,6 +51,9 @@ math_precalc.o: math_precalc.c math_precalc.h
 	$(CC) -o $@ -c $< $(CFLAGS)
 
 reception.o: reception.c reception.h communication.h
+	$(CC) -o $@ -c $< $(CFLAGS)
+
+match.o: match.c match.h debug/affichage.h
 	$(CC) -o $@ -c $< $(CFLAGS)
 
 debug/affichage.o: debug/affichage.c debug/affichage.h

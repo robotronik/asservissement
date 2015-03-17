@@ -1,11 +1,12 @@
+#include <math.h> //utiliser un tableau pour acos ??
+#include <stdio.h> //TODO : à virer
+
 #include "trajectoire.h"
 #include "odometrie.h"
 #include "reglages.h"
 #include "asser.h"
 #include "communication.h"
-#include "debug/affichage.h" //à virer
-#include <math.h> //utiliser un tableau pour acos ??
-#include <stdio.h> //TODO : à virer
+#include "match.h"
 
 //et encore de vilaines variables globales !
 static s_trajectoire trajectoire;
@@ -13,7 +14,7 @@ static s_consigne consigne;
 
 void start()
 {
-	while(!sdl_manage_events())
+	while(match_get_etat() != MATCH_FIN)
 	{
 		//on met à jour la consigne pour l'asser
 		update_consigne();

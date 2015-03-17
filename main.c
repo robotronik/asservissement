@@ -9,6 +9,7 @@
 #include "tests_unitaires.h"
 #include "reception.h"
 #include "debug/affichage.h"
+#include "match.h"
 
 #include "../robotronik.uart/text_reception.h"
 
@@ -26,10 +27,6 @@ void * main_loop()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-// variable globale permettant de signaler la fin du match (utilisé dans reception.c)
-bool end = 0;
-
-////////////////////////////////////////////////////////////////////////////////
 
 int main()
 {
@@ -91,7 +88,7 @@ int main()
 
     //////////
 
-    while(!end) {
+    while(match_get_etat() != MATCH_FIN) {
         // On lit l'entrée standard, et on passe les caractères à la fonctions
         // qui gère les interruption de l'uart
         uart_interrupt(getc(stdin));

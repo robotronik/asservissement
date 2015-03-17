@@ -3,6 +3,7 @@
 
 #include "../robotronik.uart/text_reception.h"
 #include "reception.h"
+#include "match.h"
 
 // pour new_xy_absolu
 #include "communication.h"
@@ -10,7 +11,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 static bool is_whitespace(char c);
-extern bool end;
 
 // Contient la prochaine valeure de x et de y
 static int x = 0, y = 0;
@@ -119,8 +119,8 @@ void uart_interrupt(char uart_char)
 
                     case KEY_EXIT:
                         // fin du match
-                        debug("FIN DE LA SIMULATION\n");
-                        end = true;
+                        debug("FIN DU MATCH\n");
+                        match_set_etat(MATCH_FIN);
                         break;
 
                     default:
@@ -178,7 +178,7 @@ void uart_interrupt(char uart_char)
 
         case WAIT_GO:
             // On attend la fin de la trame
-            debug("wait end\n");
+            debug("wait end of trame\n");
 
             if (is_end(c)) {
                 // On se prépare à recevoir une nouvelle trame
