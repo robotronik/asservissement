@@ -5,8 +5,11 @@ LDFLAGS=-lm -lpthread
 SDLFLAGS=-lSDL -lSDL_image -lGL -lGLU -lSOIL
 EXEC=asser_robot
 
-FICHIERS_C=asser.c PID.c communication.c hardware.c odometrie.c trajectoire.c debug/affichage.c math_precalc.c tests_unitaires.c ../uart/text_reception.c reception.c match.c
-COMMON_H=../common_header/common.h
+UART_DIR=../uart
+COMMON_DIR=../common_header/
+
+FICHIERS_C=asser.c PID.c communication.c hardware.c odometrie.c trajectoire.c debug/affichage.c math_precalc.c tests_unitaires.c $(UART_DIR)/text_reception.c reception.c match.c
+COMMON_H=$(COMMON_DIR)/common.h
 FICHIERS_H=$(FICHIERS_C:.c=.h) $(COMMON_H) reglages.h
 FICHIERS_O=$(FICHIERS_C:.c=.o)
 
