@@ -8,6 +8,8 @@
 #include "communication.h"
 #include "match.h"
 
+#include "../common_header/debug.h"
+
 //et encore de vilaines variables globales !
 static s_trajectoire trajectoire;
 static s_consigne consigne;
@@ -26,7 +28,34 @@ void start()
 		actualise_position();
 
 		//on envoie notre position au PC (débug)
-		send_position_xbee();
+		//NB: vu que le traitement un peu long, je ne l'active que si le debug
+		//est actif (de toute façon il ne se passe rien si DEBUG n'est pas
+		//actif
+#if DEBUG
+		static int prev_x	  = 0;
+		static int prev_y	  = 0;
+		static int prev_theta = 0;
+
+		int current_x	  = get_x_actuel();
+		int current_y	  = get_y_actuel();
+		int current_theta = get_theta_actuel();
+
+		if (prev_x != current_x ||
+			prev_y != current_y ||
+			prev_theta != current_theta)
+		{
+			debug("position actuelle : x=%d y=%d, theta=%d\n",
+				  get_x_actuel(), get_y_actuel(),get_theta_actuel());
+		}
+
+		prev_x	   = current_x;
+		prev_y	   = current_y;
+		prev_theta = current_theta;
+#endif
+
+#if USE_SDL
+		set_position(get_x_actuel(), get_y_actuel(),get_theta_actuel());
+#endif
 	}
 }
 

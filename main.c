@@ -18,11 +18,15 @@
 
 void * main_loop()
 {
+#if USE_SDL
 	if (init_sdl_screen() < 0)
 		return NULL;
 	start();
-    quit_sdl_screen();
+    return quit_sdl_screen();
+#else
+	start();
 	return 0;
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////

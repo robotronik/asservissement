@@ -1,26 +1,85 @@
-CC=gcc -fdiagnostics-color=auto -std=c99
-CFLAGS=-W -Wall
 
-LDFLAGS=-lm -lpthread
-SDLFLAGS=-lSDL -lSDL_image -lGL -lGLU -lSOIL
-EXEC=asser_robot
+# Options prises en compte :
+#    SDL=yes       pour utiliser le simulateur
+#    DEBUG=yes     pour activer le debug
 
-UART_DIR=../uart
-COMMON_DIR=../common_header/
+# Cibles :
+#    run: lance l'executable
+#    all: créer l'executable
+#    demo: lance un ensemble de commande au robot
 
-FICHIERS_C=asser.c PID.c communication.c hardware.c odometrie.c trajectoire.c debug/affichage.c math_precalc.c tests_unitaires.c $(UART_DIR)/text_reception.c reception.c match.c
-COMMON_H=$(COMMON_DIR)/common.h
-FICHIERS_H=$(FICHIERS_C:.c=.h) $(COMMON_H) reglages.h
-FICHIERS_O=$(FICHIERS_C:.c=.o)
+################################################################################
 
-SOURCEFILES=main.c $(FICHIERS_C) $(FICHIERS_H) plateau.png
+CC = gcc
+
+CFLAGS  = -W -Wall -fdiagnostics-color=auto -std=c99
+LDFLAGS = -lm -lpthread
+
+EXEC  = asser_robot
+
+# options
+SDL   = yes
+DEBUG = no
+
+################################################################################
+
+# Modules externe
+
+UART_DIR        = ../uart
+FICHIERS_UART_C = $(UART_DIR)/text_reception.c
+
+COMMON_DIR =../common_header
+COMMON_H   = $(COMMON_DIR)/*.h
+
+################################################################################
+
+# Fichiers du projet
+
+FICHIERS_C =\
+	$(FICHIERS_UART_C) \
+	asser.c \
+	PID.c \
+	communication.c \
+	hardware.c \
+	odometrie.c \
+	trajectoire.c \
+	math_precalc.c \
+	tests_unitaires.c \
+	reception.c \
+	match.c
+
+FICHIERS_H =\
+	reglages.h
+
+SOURCEFILES =\
+	plateau.png \
+	main.c
+
+################################################################################
+
+# Gestion des options
+
+ifeq ($(SDL),yes)
+	LDFLAGS    += -lSDL -lSDL_image -lGL -lGLU -lSOIL
+	FICHIERS_C += debug/affichage.c
+	CFLAGS += -DUSE_SDL=1
+endif
+
+ifeq ($(DEBUG),yes)
+	CFLAGS += -DDEBUG=1 -g
+endif
+
+################################################################################
+
+FICHIERS_H  += $(FICHIERS_C:.c=.h) $(COMMON_H)
+FICHIERS_O  += $(FICHIERS_C:.c=.o)
+SOURCEFILES += $(FICHIERS_C) $(FICHIERS_H)
 
 .PHONY:$(EXEC)
-
-view: all
-	./$(EXEC)
-
 .PHONY:demo
+
+run: all
+	./$(EXEC)
 
 demo: $(EXEC)
 	sh ./slow_read.sh demo.txt | ./$(EXEC)
@@ -28,40 +87,40 @@ demo: $(EXEC)
 all: $(EXEC)
 
 $(EXEC): main.c $(FICHIERS_O) $(COMMON_H)
-	$(CC) -o $@ $^ $(LDFLAGS) $(SDLFLAGS)
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS) $(SDLFLAGS)
 
 asser.o: asser.c asser.h PID.h trajectoire.h odometrie.h reglages.h $(COMMON_H)
-	$(CC) -o $@ -c $< $(CFLAGS)
+	$(CC) $(CFLAGS) -o $@ -c $<
 
 PID.o: PID.c PID.h reglages.h $(COMMON_H)
-	$(CC) -o $@ -c $< $(CFLAGS)
+	$(CC) $(CFLAGS) -o $@ -c $<
 
 communication.o: communication.c communication.h trajectoire.h $(COMMON_H)
-	$(CC) -o $@ -c $< $(CFLAGS)
+	$(CC) $(CFLAGS) -o $@ -c $<
 
 hardware.o: hardware.c hardware.h $(COMMON_H)
-	$(CC) -o $@ -c $< $(CFLAGS)
+	$(CC) $(CFLAGS) -o $@ -c $<
 
 odometrie.o: odometrie.c odometrie.h reglages.h hardware.h math_precalc.h $(COMMON_H)
-	$(CC) -o $@ -c $< $(CFLAGS)
+	$(CC) $(CFLAGS) -o $@ -c $<
 
 trajectoire.o: trajectoire.c trajectoire.h odometrie.h asser.h $(COMMON_H)
-	$(CC) -o $@ -c $< $(CFLAGS)
+	$(CC) $(CFLAGS) -o $@ -c $<
 
 tests_unitaires.o: tests_unitaires.c tests_unitaires.h hardware.c asser.h odometrie.h communication.h reglages.h $(COMMON_H)
-	$(CC) -o $@ -c $< $(CFLAGS)
+	$(CC) $(CFLAGS) -o $@ -c $<
 
 math_precalc.o: math_precalc.c math_precalc.h $(COMMON_H)
-	$(CC) -o $@ -c $< $(CFLAGS)
+	$(CC) $(CFLAGS) -o $@ -c $<
 
 reception.o: reception.c reception.h communication.h $(COMMON_H)
-	$(CC) -o $@ -c $< $(CFLAGS)
+	$(CC) $(CFLAGS) -o $@ -c $<
 
 match.o: match.c match.h debug/affichage.h $(COMMON_H)
-	$(CC) -o $@ -c $< $(CFLAGS)
+	$(CC) $(CFLAGS) -o $@ -c $<
 
 debug/affichage.o: debug/affichage.c debug/affichage.h $(COMMON_H)
-	$(CC) -o $@ -c $< $(CFLAGS)
+	$(CC) $(CFLAGS) -o $@ -c $<
 
 tarall: $(SOURCEFILES)
 	tar -jcvf $(EXEC).tar.bz2 $^

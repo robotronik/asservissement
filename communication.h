@@ -11,6 +11,4 @@ void new_chemin();
 void send_position_atteinte();
 //void send_asser_pret(); ??
 
-void send_position_xbee();
-
 #endif

@@ -55,10 +55,3 @@ void send_position_atteinte()
 	if (AFFICHAGE_DEBUG == 1)
 		printf("atteint\n");
 }
-
-//void send_asser_pret() ??
-
-void send_position_xbee() // ??
-{
-	set_position(get_x_actuel(), get_y_actuel(),get_theta_actuel()); //à virer
-}
