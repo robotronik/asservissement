@@ -10,6 +10,8 @@
 
 ################################################################################
 
+# Valeur par défaut
+
 CC = gcc
 
 CFLAGS  = -W -Wall -fdiagnostics-color=auto -std=c99
@@ -71,6 +73,8 @@ endif
 
 ################################################################################
 
+# Cibles du projet
+
 FICHIERS_H  += $(FICHIERS_C:.c=.h) $(COMMON_H)
 FICHIERS_O  += $(FICHIERS_C:.c=.o)
 SOURCEFILES += $(FICHIERS_C) $(FICHIERS_H)
@@ -89,38 +93,28 @@ all: $(EXEC)
 $(EXEC): main.c $(FICHIERS_O) $(COMMON_H)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS) $(SDLFLAGS)
 
-asser.o: asser.c asser.h PID.h trajectoire.h odometrie.h reglages.h $(COMMON_H)
+asser.o: PID.h trajectoire.h odometrie.h reglages.h
+
+PID.o: reglages.h
+
+communication.o: trajectoire.h
+
+odometrie.o: reglages.h hardware.h math_precalc.h
+
+trajectoire.o: odometrie.h asser.h
+
+tests_unitaires.o: hardware.c asser.h odometrie.h communication.h reglages.h
+
+reception.o: communication.h
+
+match.o: debug/affichage.h
+
+%.o: %.c %.h $(COMMON_H)
 	$(CC) $(CFLAGS) -o $@ -c $<
 
-PID.o: PID.c PID.h reglages.h $(COMMON_H)
-	$(CC) $(CFLAGS) -o $@ -c $<
+################################################################################
 
-communication.o: communication.c communication.h trajectoire.h $(COMMON_H)
-	$(CC) $(CFLAGS) -o $@ -c $<
-
-hardware.o: hardware.c hardware.h $(COMMON_H)
-	$(CC) $(CFLAGS) -o $@ -c $<
-
-odometrie.o: odometrie.c odometrie.h reglages.h hardware.h math_precalc.h $(COMMON_H)
-	$(CC) $(CFLAGS) -o $@ -c $<
-
-trajectoire.o: trajectoire.c trajectoire.h odometrie.h asser.h $(COMMON_H)
-	$(CC) $(CFLAGS) -o $@ -c $<
-
-tests_unitaires.o: tests_unitaires.c tests_unitaires.h hardware.c asser.h odometrie.h communication.h reglages.h $(COMMON_H)
-	$(CC) $(CFLAGS) -o $@ -c $<
-
-math_precalc.o: math_precalc.c math_precalc.h $(COMMON_H)
-	$(CC) $(CFLAGS) -o $@ -c $<
-
-reception.o: reception.c reception.h communication.h $(COMMON_H)
-	$(CC) $(CFLAGS) -o $@ -c $<
-
-match.o: match.c match.h debug/affichage.h $(COMMON_H)
-	$(CC) $(CFLAGS) -o $@ -c $<
-
-debug/affichage.o: debug/affichage.c debug/affichage.h $(COMMON_H)
-	$(CC) $(CFLAGS) -o $@ -c $<
+# Cibles génériques
 
 tarall: $(SOURCEFILES)
 	tar -jcvf $(EXEC).tar.bz2 $^
@@ -130,3 +124,4 @@ clean:
 
 mrproper: clean
 	rm -rf $(EXEC) $(EXEC).tar.bz2
+
