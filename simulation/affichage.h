@@ -10,7 +10,7 @@
 #define ROBOT_HEIGHT 250
 #define ROBOT_WIDTH  230
 
-void set_position(int x, int y, int alpha);
+void bouge_robot_sdl(int x, int y, int alpha);
 int sdl_manage_events();
 int init_sdl_screen();
 int quit_sdl_screen();

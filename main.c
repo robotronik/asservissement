@@ -8,7 +8,7 @@
 #include "hardware.h"
 #include "tests_unitaires.h"
 #include "reception.h"
-#include "debug/affichage.h"
+#include "simulation/affichage.h"
 #include "match.h"
 
 #include "../uart/text_reception.h"
@@ -35,7 +35,7 @@ void * main_loop()
 int main()
 {
 
-	
+
 	/*init*/
 	init_odometrie();
 	init_trajectoire();

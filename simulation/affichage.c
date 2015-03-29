@@ -54,6 +54,11 @@ void dessine_fond() {
     glEnd();
 }
 
+void bouge_robot_sdl(int x, int y, int alpha_mrad) {
+    set_position(x, y, alpha_mrad);
+    //sdl_manage_events(); // On gère les événements qui sont apparus, au cas où
+}
+
 void set_position(int x, int y, int alpha) {
     float alpha_deg = alpha * MRAD2DEGRES;
     if (AFFICHAGE_DEBUG == 1)

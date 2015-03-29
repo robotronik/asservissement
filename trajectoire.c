@@ -8,7 +8,7 @@
 #include "communication.h"
 #include "match.h"
 
-#include "../common_header/debug.h"
+#include "../common_code/debug.h"
 
 //et encore de vilaines variables globales !
 static s_trajectoire trajectoire;
@@ -16,7 +16,11 @@ static s_consigne consigne;
 
 void start()
 {
-	while(match_get_etat() != MATCH_FIN)
+	while(
+#if USE_SDL
+    	sdl_manage_events()==0 &&
+#endif
+		match_get_etat() != MATCH_FIN)
 	{
 		//on met à jour la consigne pour l'asser
 		update_consigne();
@@ -54,7 +58,7 @@ void start()
 #endif
 
 #if USE_SDL
-		set_position(get_x_actuel(), get_y_actuel(),get_theta_actuel());
+	bouge_robot_sdl(get_x_actuel(), get_y_actuel(),get_theta_actuel());
 #endif
 	}
 }
@@ -189,7 +193,7 @@ void calcul_alpha_delta_restant(int x_voulu, int y_voulu, int * new_alpha, int *
 
 	//TODO : gestion point non atteignable
 	//(si l'on demande un point trop prés du robot et à la perpendiculaire de la direction du robot il se met à tourner autour du point)
-	
+
 	//gestion de la marche arrière
 	if (*new_alpha>1571) //1571~=(pi/2)*1000
 	{

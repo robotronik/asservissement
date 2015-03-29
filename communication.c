@@ -1,7 +1,7 @@
 #include "trajectoire.h"
 #include "odometrie.h"
 #include <stdio.h> //à virer
-#include "debug/affichage.h" // à virer
+#include "simulation/affichage.h" // à virer
 #define AFFICHAGE_DEBUG 0
 
 /*TODO : implémenter le protocole de comunication comme ça

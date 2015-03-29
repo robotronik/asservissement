@@ -30,7 +30,7 @@ DEBUG = no
 UART_DIR        = ../uart
 FICHIERS_UART_C = $(UART_DIR)/text_reception.c
 
-COMMON_DIR =../common_header
+COMMON_DIR =../common_code
 COMMON_H   = $(COMMON_DIR)/*.h
 
 ################################################################################
@@ -63,7 +63,7 @@ SOURCEFILES =\
 
 ifeq ($(SDL),yes)
 	LDFLAGS    += -lSDL -lSDL_image -lGL -lGLU -lSOIL
-	FICHIERS_C += debug/affichage.c
+	FICHIERS_C += simulation/affichage.c #simulation/asservissement.c
 	CFLAGS += -DUSE_SDL=1
 endif
 
@@ -107,7 +107,7 @@ tests_unitaires.o: hardware.c asser.h odometrie.h communication.h reglages.h
 
 reception.o: communication.h
 
-match.o: debug/affichage.h
+match.o: simulation/affichage.h
 
 %.o: %.c %.h $(COMMON_H)
 	$(CC) $(CFLAGS) -o $@ -c $<
