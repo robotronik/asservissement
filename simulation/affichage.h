@@ -4,8 +4,8 @@
 // Le facteur de zoom (mm par pixel)
 #define ZOOM_FACTOR 5
 
-#define HEIGHT 2000
-#define WIDTH 3000
+#define PLATEAU_HEIGHT 2000
+#define PLATEAU_WIDTH 3000
 
 #define ROBOT_HEIGHT 250
 #define ROBOT_WIDTH  230
