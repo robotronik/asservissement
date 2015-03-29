@@ -8,7 +8,9 @@
 #include "hardware.h"
 #include "tests_unitaires.h"
 #include "reception.h"
-#include "simulation/affichage.h"
+#if USE_SDL
+#include "simulation/affichage.h" // à virer
+#endif
 #include "match.h"
 
 #include "../uart/text_reception.h"

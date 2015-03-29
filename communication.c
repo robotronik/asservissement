@@ -1,7 +1,9 @@
 #include "trajectoire.h"
 #include "odometrie.h"
 #include <stdio.h> //à virer
+#if USE_SDL
 #include "simulation/affichage.h" // à virer
+#endif
 #define AFFICHAGE_DEBUG 0
 
 /*TODO : implémenter le protocole de comunication comme ça

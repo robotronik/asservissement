@@ -20,7 +20,7 @@ LDFLAGS = -lm -lpthread
 EXEC  = asser_robot
 
 # options
-SDL   = yes
+SDL   = no
 DEBUG = no
 
 ################################################################################
@@ -63,7 +63,7 @@ SOURCEFILES =\
 
 ifeq ($(SDL),yes)
 	LDFLAGS    += -lSDL -lSDL_image -lGL -lGLU -lSOIL
-	FICHIERS_C += simulation/affichage.c #simulation/asservissement.c
+	FICHIERS_C += simulation/affichage.c
 	CFLAGS += -DUSE_SDL=1
 endif
 
@@ -107,7 +107,7 @@ tests_unitaires.o: hardware.c asser.h odometrie.h communication.h reglages.h
 
 reception.o: communication.h
 
-match.o: simulation/affichage.h
+match.o: 
 
 %.o: %.c %.h $(COMMON_H)
 	$(CC) $(CFLAGS) -o $@ -c $<
