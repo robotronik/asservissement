@@ -8,7 +8,7 @@
 #include "communication.h"
 #include "match.h"
 
-#include "../common_header/debug.h"
+#include "../common_code/debug.h"
 
 //et encore de vilaines variables globales !
 static s_trajectoire trajectoire;
@@ -75,6 +75,12 @@ void update_consigne()
 		case xy_absolu :
 			make_trajectoire_xy_absolu(trajectoire.x_absolu,trajectoire.y_absolu);
 			break;
+		case xy_relatif_tendu :
+			make_trajectoire_xy_relatif_tendu(trajectoire.x_relatif,trajectoire.y_relatif);
+			break;
+		case xy_absolu_tendu :
+			make_trajectoire_xy_absolu_tendu(trajectoire.x_absolu,trajectoire.y_absolu);
+			break;
 		case chemin :
 			make_trajectoire_chemin(trajectoire.chemin);
 			break;
@@ -127,6 +133,42 @@ void make_trajectoire_xy_absolu(int x_voulu, int y_voulu)
 	{
 		trajectoire.type=stop;
 	}
+}
+
+void make_trajectoire_xy_relatif_tendu(int x_voulu, int y_voulu)
+{
+	trajectoire.x_absolu=x_voulu+get_x_actuel();
+	trajectoire.y_absolu=y_voulu+get_y_actuel();
+	trajectoire.type=xy_absolu;
+	make_trajectoire_xy_absolu_tendu(trajectoire.x_absolu,trajectoire.y_absolu);
+}
+
+void make_trajectoire_xy_absolu_tendu(int x_voulu, int y_voulu)
+{
+	int new_alpha;
+	int new_delta;
+	x_voulu-=get_x_actuel();
+	y_voulu-=get_y_actuel();
+	calcul_alpha_delta_restant(x_voulu, y_voulu, &new_alpha, &new_delta);
+
+	//on tourne pour se mettre dans la bonne direction
+	if (new_alpha<-PRECISION_ALPHA || PRECISION_ALPHA<new_alpha)
+	{
+		set_consigne_alpha_delta(new_alpha,0);
+	}
+	//puis on avance tout droit (/!\ perte de précision)
+	else if (new_delta<-PRECISION_DELTA || PRECISION_DELTA<new_delta)
+	{
+		trajectoire.type=alpha_delta;
+		trajectoire.delta=new_delta;
+		trajectoire.alpha=0;
+		//set_consigne_alpha_delta(0,new_delta);
+	}
+	//si la précision voulue est atteinte on s'arrete
+	//else
+	//{
+	//	trajectoire.type=stop;
+	//}
 }
 
 void make_trajectoire_chemin(s_liste liste_positions)
@@ -220,6 +262,20 @@ void set_trajectoire_xy_relatif(int x, int y)
 void set_trajectoire_xy_absolu(int x, int y)
 {
 	trajectoire.type=xy_absolu;
+	trajectoire.x_absolu=x;
+	trajectoire.y_absolu=y;
+}
+
+void set_trajectoire_xy_relatif_tendu(int x, int y)
+{
+	trajectoire.type=xy_relatif_tendu;
+	trajectoire.x_relatif=x;
+	trajectoire.y_relatif=y;
+}
+
+void set_trajectoire_xy_absolu_tendu(int x, int y)
+{
+	trajectoire.type=xy_absolu_tendu;
 	trajectoire.x_absolu=x;
 	trajectoire.y_absolu=y;
 }

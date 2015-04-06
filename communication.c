@@ -31,7 +31,7 @@ void new_xy_relatif(int x, int y)
 
 void new_xy_absolu(int x, int y)
 {
-	set_trajectoire_xy_absolu(x,y);
+	set_trajectoire_xy_absolu_tendu(x,y);
 }
 
 void new_theta(int theta)

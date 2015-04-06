@@ -30,7 +30,7 @@ DEBUG = no
 UART_DIR        = ../uart
 FICHIERS_UART_C = $(UART_DIR)/text_reception.c
 
-COMMON_DIR =../common_header
+COMMON_DIR =../common_code
 COMMON_H   = $(COMMON_DIR)/*.h
 
 ################################################################################
