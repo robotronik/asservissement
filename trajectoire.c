@@ -1,18 +1,18 @@
 #include <math.h> //utiliser un tableau pour acos ??
 #include <stdio.h> //TODO : à virer
 
+#include "../common_code/debug.h"
+
+#if USE_SDL
+#   include "../common_code/simulation/affichage.h"
+#endif
+
 #include "trajectoire.h"
 #include "odometrie.h"
 #include "reglages.h"
 #include "asser.h"
 #include "communication.h"
 #include "match.h"
-
-#include "../common_code/debug.h"
-
-#if USE_SDL
-#include "../common_code/simulation/affichage.h"
-#endif
 
 //et encore de vilaines variables globales !
 static s_trajectoire trajectoire;
