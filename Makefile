@@ -13,16 +13,16 @@
 
 # Valeur par défaut
 
-CC = gcc
+export CC = gcc
 
-CFLAGS  = -W -Wall -fdiagnostics-color=auto -std=c99
-LDFLAGS = -lm -lpthread
+export CFLAGS  = -W -Wall -fdiagnostics-color=auto -std=c99
+export LDFLAGS = -lm -lpthread
 
 EXEC  = asser_robot
 
 # options
-SDL   = no
-DEBUG = 0
+export SDL   = yes
+export DEBUG = 0
 
 ################################################################################
 
