@@ -12,14 +12,18 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 enum state_t {
-    WAIT_KEY,
     WAIT_X,
     WAIT_Y,
-    WAIT_GO,
+    WAIT_ALPHA,
+    WAIT_DELTA,
+    WAIT_THETA,
+    WAIT_FONCTION,
+    WAIT_NEW_LINE,
 };
 
 static bool is_whitespace(char c);
-enum state_t lecture_cle(char c, struct search_key_t *sk, int *x, int *y,
+enum state_t lecture_cle(char c, struct search_key_t *sk,
+                         int *x, int *y, int *alpha, int *delta, int *theta,
                          enum state_t current_state);
 enum state_t lecture_val(char c, struct search_key_t *sk, int *val,
                          enum state_t current_state);
@@ -30,20 +34,33 @@ enum key_t {
     // valeurs
     KEY_X,
     KEY_Y,
+    KEY_ALPHA,
+    KEY_DELTA,
+    KEY_THETA,
     // control
-    KEY_EXIT,
-    KEY_END,
+    FCT_QUIT,
+    FCT_ALPHA_DELTA,
+    FCT_XY_RELATIF,
+    FCT_XY_ABSOLU,
+    FCT_THETA,
 
     // info
     KEY_SIZE,
-    VAL_SIZE = KEY_EXIT
+    VAL_SIZE = KEY_THETA + 1
 };
 
 static char *keys[KEY_SIZE] = {
-    [KEY_X]     = "x=",
-    [KEY_Y]     = "y=",
-    [KEY_EXIT]  = "q",
-    [KEY_END]   = "go"
+    [KEY_X]            = "x=",
+    [KEY_Y]            = "y=",
+    [KEY_ALPHA]        = "alpha=",
+    [KEY_DELTA]        = "delta=",
+    [KEY_THETA]        = "theta=",
+
+    [FCT_QUIT]         = "q",
+    [FCT_ALPHA_DELTA]  = "alpha_delta()",
+    [FCT_XY_RELATIF]   = "xy_relatif()",
+    [FCT_XY_ABSOLU]    = "xy_absolu()",
+    [FCT_THETA]        = "theta()",
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -53,7 +70,8 @@ static bool is_whitespace(char c)
     return (c == ' ') || (c == '\t');
 }
 
-enum state_t lecture_cle(char c, struct search_key_t *sk, int *x, int *y,
+enum state_t lecture_cle(char c, struct search_key_t *sk,
+                         int *x, int *y, int *alpha, int *delta, int *theta,
                          enum state_t current_state)
 {
     // Lecture d'une clé
@@ -74,35 +92,59 @@ enum state_t lecture_cle(char c, struct search_key_t *sk, int *x, int *y,
     if (ret == -1) {
         debug("ERREUR, clé non trouvé: %d\n", ret);
         if (is_end(c)) {
-            return WAIT_KEY;
+            return WAIT_FONCTION;
         } else {
-            return WAIT_GO;
+            return WAIT_NEW_LINE;
         }
     }
 
     // On a fini de recevoir la clé
     if (ret >= 0) {
-        debug("CLÉ TROUVÉ : ");
-        debug((ret == KEY_X)? "x\n" : "y\n");
+        debug("CLÉ TROUVÉ : %s", keys[ret]);
 
         switch (ret) {
             case KEY_X:
+                *x = 0;
                 return WAIT_X;
             case KEY_Y:
+                *y = 0;
                 return WAIT_Y;
+            case KEY_ALPHA:
+                *alpha = 0;
+                return WAIT_ALPHA;
+            case KEY_DELTA:
+                *delta = 0;
+                return WAIT_DELTA;
+            case KEY_THETA:
+                *theta = 0;
+                return WAIT_THETA;
 
-            case KEY_END:
-                // fin de trame
-                debug("fin de trame\n");
-                new_xy_absolu(*x,*y);
-                return WAIT_GO;
-
-            case KEY_EXIT:
+            case FCT_QUIT:
                 // fin du match
                 // NB: ce cas n'est normalement pas à être géré par l'assert
                 debug("FIN DU MATCH\n");
                 match_set_etat(MATCH_FIN);
                 return current_state;
+
+            case FCT_ALPHA_DELTA:
+                debug("fct_alpha_delta");
+                new_alpha_delta(*alpha, *delta);
+                return WAIT_NEW_LINE;
+
+            case FCT_XY_RELATIF:
+                debug("fct_xy_relatif");
+                new_xy_relatif(*x, *y);
+                return WAIT_NEW_LINE;
+
+            case FCT_XY_ABSOLU:
+                debug("fct_xy_absolu");
+                new_xy_absolu(*x,*y);
+                return WAIT_NEW_LINE;
+
+            case FCT_THETA:
+                debug("fct_theta");
+                new_theta(*theta);
+                return WAIT_NEW_LINE;
 
             default:
                 debug("ERREUR dans le programme de lecture des clées\n");
@@ -142,23 +184,23 @@ enum state_t lecture_val(char c, struct search_key_t *sk, int *val,
 
         // On se prépare à recevoir une nouvelle trame
         reset_search(sk);
-        return WAIT_KEY;
+        return WAIT_FONCTION;
     }
 
     // erreur
     if (ret == -1) {
         debug("ERREUR, d'overflow\n");
         *val = 0;
-        return WAIT_GO;
+        return WAIT_NEW_LINE;
     }
     else if (ret == -2) {
         debug("ERREUR, %c n'est pas un nombre\n", c);
-        return WAIT_GO;
+        return WAIT_NEW_LINE;
     }
     else {
         debug("ERREUR inconnu lors de la lecture d'une valeure : %d\n", ret);
         *val = 0;
-        return WAIT_GO;
+        return WAIT_NEW_LINE;
     }
 }
 
@@ -170,7 +212,7 @@ enum state_t wait_end_of_trame(char c, struct search_key_t *sk, enum state_t cur
     if (is_end(c)) {
         // On se prépare à recevoir une nouvelle trame
         reset_search(sk);
-        return WAIT_KEY;
+        return WAIT_FONCTION;
     }
 
     return current_state;
@@ -178,10 +220,11 @@ enum state_t wait_end_of_trame(char c, struct search_key_t *sk, enum state_t cur
 
 void uart_interrupt(char uart_char)
 {
-    // Contient la prochaine valeure de x et de y
-    static int x = 0, y = 0;
+    // Contient la prochaine valeure des variables du programme
+    static int x = 0, y = 0, alpha = 0, delta = 0, theta = 0;
 
-    static bool to_search[KEY_SIZE] = {true, true, true, true};
+    static bool to_search[KEY_SIZE] = {true, true, true, true, true,
+                                       true, true, true, true, true};
 
     static struct search_key_t sk = {
         0,
@@ -190,7 +233,7 @@ void uart_interrupt(char uart_char)
         to_search
     };
 
-    static enum state_t state = WAIT_KEY;
+    static enum state_t state = WAIT_FONCTION;
 
     ////////////////////
 
@@ -203,8 +246,8 @@ void uart_interrupt(char uart_char)
 
     // on calcule l'état suivant
     switch (state) {
-        case WAIT_KEY:
-            state = lecture_cle(c, &sk, &x, &y, state);
+        case WAIT_FONCTION:
+            state = lecture_cle(c, &sk, &x, &y, &alpha, &delta, &theta, state);
             break;
 
         case WAIT_X:
@@ -213,19 +256,20 @@ void uart_interrupt(char uart_char)
         case WAIT_Y:
             state = lecture_val(c, &sk, &y, state);
             break;
+        case WAIT_ALPHA:
+            state = lecture_val(c, &sk, &alpha, state);
+            break;
+        case WAIT_DELTA:
+            state = lecture_val(c, &sk, &delta, state);
+            break;
+        case WAIT_THETA:
+            state = lecture_val(c, &sk, &theta, state);
+            break;
 
-        case WAIT_GO:
+        case WAIT_NEW_LINE:
             state = wait_end_of_trame(c, &sk, state);
             break;
     }
 
-#if DEBUG
-    debug("etat final : ");
-    switch (state) {
-        case WAIT_KEY:       debug("WAIT_KEY\n");       break;
-        case WAIT_X: debug("WAIT_X\n"); break;
-        case WAIT_Y: debug("WAIT_Y\n"); break;
-        case WAIT_GO:   debug("WAIT_GO\n");  break;
-    }
-#endif
+    debug("etat final : %s", keys[state]);
 }
