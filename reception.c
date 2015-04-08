@@ -5,8 +5,6 @@
 #include "../uart/text_reception.h"
 #include "reception.h"
 #include "match.h"
-
-// pour new_xy_absolu
 #include "communication.h"
 
 ////////////////////////////////////////////////////////////////////////////////
