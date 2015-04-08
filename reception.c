@@ -7,6 +7,7 @@
 #include "match.h"
 #include "communication.h"
 #include "odometrie.h"
+#include "trajectoire.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -35,13 +36,15 @@ static char *state_name[STATE_SIZE] = {
 
 static bool is_whitespace(char c);
 enum state_t lecture_cle(char c, struct search_key_t *sk,
-                         int *x, int *y, int *alpha, int *delta, int *theta,
+                         int *x, int *y, int *alpha, int *delta, int *theta, s_liste *chemin,
                          enum state_t current_state);
 enum state_t lecture_val(char c, struct search_key_t *sk, int *val,
                          enum state_t current_state);
 static enum state_t wait_end_of_trame(char c, struct search_key_t *sk,
     enum state_t current_state);
 void help();
+void efface_chemin(s_liste *chemin);
+void add_point(int x, int y, s_liste *chemin);
 
 enum key_t {
     // valeurs
@@ -58,6 +61,9 @@ enum key_t {
     FCT_XY_RELATIF,
     FCT_XY_ABSOLU,
     FCT_THETA,
+    FCT_ADD,
+    FCT_CLEAR,
+    FCT_CHEMIN,
     FCT_UPDATE,
 
     // info
@@ -79,6 +85,9 @@ static char *keys[KEY_SIZE] = {
     [FCT_XY_RELATIF]   = "xy_relatif()",
     [FCT_XY_ABSOLU]    = "xy_absolu()",
     [FCT_THETA]        = "theta()",
+    [FCT_ADD]          = "add()",
+    [FCT_CHEMIN]       = "chemin()",
+    [FCT_CLEAR]        = "clear()",
     [FCT_UPDATE]       = "update()",
 };
 
@@ -97,6 +106,9 @@ static char *keys_help[KEY_SIZE] = {
     [FCT_XY_RELATIF]   = "new_xy_relatif(x,y)",
     [FCT_XY_ABSOLU]    = "new_xy_absolu(x,y)",
     [FCT_THETA]        = "new_theta(theta)",
+    [FCT_ADD]          = "Ajoute les points x et y dans le prochain chemin",
+    [FCT_CLEAR]        = "Efface le chemin en cours de construction",
+    [FCT_CHEMIN]       = "Envoie le chemin précédemment construit",
     [FCT_UPDATE]       = "met à jour les variables du protocole de simulation "
             "pour qu'elle correspondent à celle utilisées par l'assert",
     /*[FCT_CHEMIN]       = "chemin()",*/
@@ -111,7 +123,7 @@ static bool is_whitespace(char c)
 }
 
 enum state_t lecture_cle(char c, struct search_key_t *sk,
-                         int *x, int *y, int *alpha, int *delta, int *theta,
+                         int *x, int *y, int *alpha, int *delta, int *theta, s_liste *chemin,
                          enum state_t current_state)
 {
     // Lecture d'une clé
@@ -189,6 +201,26 @@ enum state_t lecture_cle(char c, struct search_key_t *sk,
             case FCT_THETA:
                 debug("new_theta(%d);\n", *theta);
                 new_theta(*theta);
+                return WAIT_NEW_LINE;
+
+            case FCT_ADD:
+                add_point(*x, *y, chemin);
+                return WAIT_NEW_LINE;
+
+            case FCT_CLEAR:
+                efface_chemin(chemin);
+                return WAIT_NEW_LINE;
+
+            case FCT_CHEMIN:
+                add_point(*x, *y, chemin);
+#if DEBUG
+                debug("Envoie du chemin\n");
+                for (int i = 0; i < chemin->taille; i++) {
+                    debug("	%d, %d\n", chemin->point[i].x, chemin->point[i].y);
+                }
+#endif
+                set_trajectoire_chemin(*chemin);
+                efface_chemin(chemin);
                 return WAIT_NEW_LINE;
 
             case FCT_UPDATE:
@@ -277,10 +309,11 @@ void uart_interrupt(char uart_char)
 {
     // Contient la prochaine valeure des variables du programme
     static int x = 0, y = 0, alpha = 0, delta = 0, theta = 0;
+	static s_liste chemin = { .taille = 0 };
 
     static bool to_search[KEY_SIZE] = {true, true, true, true, true,
                                        true, true, true, true, true,
-                                       true, true};
+                                       true, true, true, true, true};
 
     static struct search_key_t sk = {
         0,
@@ -303,7 +336,7 @@ void uart_interrupt(char uart_char)
     // on calcule l'état suivant
     switch (state) {
         case WAIT_FONCTION:
-            state = lecture_cle(c, &sk, &x, &y, &alpha, &delta, &theta, state);
+            state = lecture_cle(c, &sk, &x, &y, &alpha, &delta, &theta, &chemin, state);
             break;
 
         case WAIT_X:
@@ -330,6 +363,7 @@ void uart_interrupt(char uart_char)
     debug("etat final : %s\n", state_name[state]);
 }
 
+
 void help()
 {
     printf("\n-------------------------------\n");
@@ -342,4 +376,22 @@ void help()
         printf("\n");
     }
     printf("-------------------------------\n\n");
+}
+
+void efface_chemin(s_liste *chemin)
+{
+    debug("chemin effacé\n");
+    chemin->taille = 0;
+}
+
+void add_point(int x, int y, s_liste *chemin)
+{
+    debug("ajout du point %d, %d\n", x, y);
+    if (chemin->taille >= MAX_POSITIONS) {
+        debug("\nAttention, le chemin est **trop long**. Point ignoré\n");
+        return;
+    }
+    chemin->point[chemin->taille].x = x;
+    chemin->point[chemin->taille].y = y;
+    chemin->taille++;
 }
