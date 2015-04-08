@@ -16,7 +16,9 @@ static long int commande_moteur_G_preced;
 void asser(s_consigne consigne)
 {
 	//synchronisation à une fréquence régulière
-	while(doit_attendre());
+	while(attente_synchro());
+	//on relance la synchro pour le prochain appel
+	reset_synchro();
 
 	//mise à jour des erreurs en delta et alpha
 	update_erreurs(consigne);

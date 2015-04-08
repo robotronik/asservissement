@@ -49,7 +49,10 @@ long int get_nbr_tick_G()
 	return PWM_G*5;
 }
 
-int doit_attendre()
+int attente_synchro()
 {
 	return 0;
 }
+
+void reset_synchro()
+{}

@@ -12,6 +12,7 @@ void set_PWM_moteur_D(int PWM);
 void set_PWM_moteur_G(int PWM);
 long int get_nbr_tick_D();
 long int get_nbr_tick_G();
-int doit_attendre();
+int attente_synchro();
+void reset_synchro();
 
 #endif

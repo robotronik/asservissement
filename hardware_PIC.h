@@ -35,7 +35,8 @@ void motors_stop(void); // Arrete les moteurs
 long get_nbr_tick_D();
 long get_nbr_tick_G();
 void reset_nbr_tick();
-int doit_attendre();
+int attente_synchro();
+void reset_synchro();
 void allumer_del(void);
 void eteindre_del(void);
 void pause_ms(unsigned short n);

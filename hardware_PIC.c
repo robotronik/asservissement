@@ -363,9 +363,14 @@ void __attribute__((interrupt, auto_psv)) _QEI2Interrupt(void)
 /*----------------------------------------------------------------*
  * Timer pour la synchronisation de asser()                       *
  *----------------------------------------------------------------*/
-int doit_attendre()
+int attente_synchro()
 {
 	return doitAttendre;
+}
+
+void reset_synchro()
+{
+    doitAttendre=1;
 }
 
 void __attribute__((__interrupt__, no_auto_psv)) _T1Interrupt(void)
