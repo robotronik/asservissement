@@ -23,6 +23,8 @@
  * xy_absolu()   : new_xy_absolu(x,y);
  * theta()       : new_theta(theta);
  *
+ * update()      : met à jour les variables utilisées dans la simulation
+ *
  * \exemple
  *
  * x=300

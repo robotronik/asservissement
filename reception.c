@@ -6,6 +6,7 @@
 #include "reception.h"
 #include "match.h"
 #include "communication.h"
+#include "odometrie.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -54,6 +55,7 @@ enum key_t {
     FCT_XY_RELATIF,
     FCT_XY_ABSOLU,
     FCT_THETA,
+    FCT_UPDATE,
 
     // info
     KEY_SIZE,
@@ -72,6 +74,7 @@ static char *keys[KEY_SIZE] = {
     [FCT_XY_RELATIF]   = "xy_relatif()",
     [FCT_XY_ABSOLU]    = "xy_absolu()",
     [FCT_THETA]        = "theta()",
+    [FCT_UPDATE]       = "update()",
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -157,6 +160,16 @@ enum state_t lecture_cle(char c, struct search_key_t *sk,
                 new_theta(*theta);
                 return WAIT_NEW_LINE;
 
+            case FCT_UPDATE:
+                debug("update()\n");
+                *theta = get_theta_actuel();
+                *x     = get_x_actuel();
+                *y     = get_y_actuel();
+                *alpha = get_alpha_actuel();
+                *delta = get_delta_actuel();
+                debug("Desormais, x = %d, y=%d, theta=%d, alpha=%d, delta=%d\n", *x, *y, *theta, *alpha, *delta);
+                return WAIT_NEW_LINE;
+
             default:
                 debug("ERREUR dans le programme de lecture des clées\n");
                 return current_state;
@@ -235,7 +248,8 @@ void uart_interrupt(char uart_char)
     static int x = 0, y = 0, alpha = 0, delta = 0, theta = 0;
 
     static bool to_search[KEY_SIZE] = {true, true, true, true, true,
-                                       true, true, true, true, true};
+                                       true, true, true, true, true,
+                                       true};
 
     static struct search_key_t sk = {
         0,
