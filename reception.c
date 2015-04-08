@@ -19,7 +19,20 @@ enum state_t {
     WAIT_THETA,
     WAIT_FONCTION,
     WAIT_NEW_LINE,
+    STATE_SIZE,
 };
+
+#if DEBUG
+static char *state_name[STATE_SIZE] = {
+    [WAIT_X] = "wait_x",
+    [WAIT_Y] = "wait_y",
+    [WAIT_ALPHA] = "wait_alpha",
+    [WAIT_DELTA] = "wait_delta",
+    [WAIT_THETA] = "wait_theta",
+    [WAIT_FONCTION] = "wait_fonction",
+    [WAIT_NEW_LINE] = "wait_new_line",
+};
+#endif
 
 static bool is_whitespace(char c);
 enum state_t lecture_cle(char c, struct search_key_t *sk,
@@ -100,7 +113,7 @@ enum state_t lecture_cle(char c, struct search_key_t *sk,
 
     // On a fini de recevoir la clé
     if (ret >= 0) {
-        debug("CLÉ TROUVÉ : %s", keys[ret]);
+        debug("CLÉ TROUVÉ : %s\n", keys[ret]);
 
         switch (ret) {
             case KEY_X:
@@ -127,22 +140,22 @@ enum state_t lecture_cle(char c, struct search_key_t *sk,
                 return current_state;
 
             case FCT_ALPHA_DELTA:
-                debug("fct_alpha_delta");
+                debug("new_alpha_delta(%d, %d);\n", *alpha, *delta);
                 new_alpha_delta(*alpha, *delta);
                 return WAIT_NEW_LINE;
 
             case FCT_XY_RELATIF:
-                debug("fct_xy_relatif");
+                debug("new_xy_relatif(%d, %d);\n", *x, *y);
                 new_xy_relatif(*x, *y);
                 return WAIT_NEW_LINE;
 
             case FCT_XY_ABSOLU:
-                debug("fct_xy_absolu");
+                debug("new_xy_absolu(%d, %d);\n", *x,*y);
                 new_xy_absolu(*x,*y);
                 return WAIT_NEW_LINE;
 
             case FCT_THETA:
-                debug("fct_theta");
+                debug("new_theta(%d);\n", *theta);
                 new_theta(*theta);
                 return WAIT_NEW_LINE;
 
@@ -169,7 +182,7 @@ enum state_t lecture_val(char c, struct search_key_t *sk, int *val,
     }
 
     int ret = read_int(c, val);
-    debug("value read: %d", *val);
+    debug("value read: %d\n", *val);
 
     // la récéption n'est pas fini, on reste dans le même état
     if (ret == 0) {
@@ -271,5 +284,5 @@ void uart_interrupt(char uart_char)
             break;
     }
 
-    debug("etat final : %s", keys[state]);
+    debug("etat final : %s\n", state_name[state]);
 }
