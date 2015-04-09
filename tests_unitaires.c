@@ -96,15 +96,31 @@ void test_asser_theta(int theta)
 	start();
 }
 
-void test_asser_xy_relatif(int x, int y)
+void test_asser_xy_relatif_courbe(int x, int y)
 {
 	new_xy_relatif(x,y);
+	set_mode_courbe();
 	start();
 }
 
-void test_asser_xy_absolu(int x, int y)
+void test_asser_xy_absolu_courbe(int x, int y)
 {
 	new_xy_absolu(x,y);
+	set_mode_courbe();
+	start();
+}
+
+void test_asser_xy_relatif_tendu(int x, int y)
+{
+	new_xy_relatif(x,y);
+	set_mode_tendu();
+	start();
+}
+
+void test_asser_xy_absolu_tendu(int x, int y)
+{
+	new_xy_absolu(x,y);
+	set_mode_tendu();
 	start();
 }
 

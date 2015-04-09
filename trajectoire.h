@@ -8,8 +8,6 @@ typedef enum
 	alpha_delta,
 	xy_absolu,
 	xy_relatif,
-	xy_absolu_tendu,
-	xy_relatif_tendu,
 	chemin,
 	theta,
 	stop,
@@ -30,9 +28,16 @@ typedef struct
 	int taille;
 }s_liste;
 
+typedef enum
+{
+	tendu,
+	courbe
+} e_mode_deplacement;
+
 typedef struct
 {
 	e_type_trajectoire type;
+	e_mode_deplacement mode;
 	int alpha;
 	int delta;
 	int theta;
@@ -58,10 +63,9 @@ void start();
 void set_trajectoire_alpha_delta(int alpha, int delta);
 void set_trajectoire_xy_relatif(int x, int y);
 void set_trajectoire_xy_absolu(int x, int y);
-void set_trajectoire_xy_relatif_tendu(int x, int y);
-void set_trajectoire_xy_absolu_tendu(int x, int y);
 void set_trajectoire_theta(int new_theta);
 void set_trajectoire_chemin(s_liste liste_positions);
+void set_trajectoire_mode(e_mode_deplacement mode);
 
 //utile uniquement pour du debug
 int get_delta_voulu();

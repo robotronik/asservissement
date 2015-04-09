@@ -10,8 +10,10 @@ void test_distance(long int distance, long int vitesse);
 void test_angle(long int angle, long int vitesse);
 void test_asser_alpha_delta(int alpha, int delta);
 void test_asser_theta(int theta);
-void test_asser_xy_relatif(int x, int y);
-void test_asser_xy_absolu(int x, int y);
+void test_asser_xy_relatif_courbe(int x, int y);
+void test_asser_xy_absolu_courbe(int x, int y);
+void test_asser_xy_relatif_tendu(int x, int y);
+void test_asser_xy_absolu_tendu(int x, int y);
 void test_asser_chemin(s_liste chemin);
 
 #endif

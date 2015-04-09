@@ -20,8 +20,6 @@ void update_consigne();
 void make_trajectoire_alpha_delta(int new_alpha, int new_delta);
 void make_trajectoire_xy_relatif(int x_voulu, int y_voulu);
 void make_trajectoire_xy_absolu(int x_voulu, int y_voulu);
-void make_trajectoire_xy_relatif_tendu(int x_voulu, int y_voulu);
-void make_trajectoire_xy_absolu_tendu(int x_voulu, int y_voulu);
 void make_trajectoire_theta(int theta_voulu);
 void make_trajectoire_chemin(s_liste liste_positions);
 void calcul_alpha_delta_restant(int x_voulu, int y_voulu, int * new_alpha, int * new_delta);
@@ -97,12 +95,6 @@ void update_consigne()
 		case xy_absolu :
 			make_trajectoire_xy_absolu(trajectoire.x_absolu,trajectoire.y_absolu);
 			break;
-		case xy_relatif_tendu :
-			make_trajectoire_xy_relatif_tendu(trajectoire.x_relatif,trajectoire.y_relatif);
-			break;
-		case xy_absolu_tendu :
-			make_trajectoire_xy_absolu_tendu(trajectoire.x_absolu,trajectoire.y_absolu);
-			break;
 		case chemin :
 			make_trajectoire_chemin(trajectoire.chemin);
 			break;
@@ -146,63 +138,41 @@ void make_trajectoire_xy_absolu(int x_voulu, int y_voulu)
 	y_voulu-=get_y_actuel();
 	calcul_alpha_delta_restant(x_voulu, y_voulu, &new_alpha, &new_delta);
 
-	//évite que le robot ne tourne pour rien quand il a atteint xy avec la précision voulue
-	if (new_delta<-PRECISION_DELTA || PRECISION_DELTA<new_delta)
+	if(trajectoire.mode==courbe)
 	{
-		set_consigne_alpha_delta(new_alpha,new_delta);
+		//évite que le robot ne tourne pour rien quand il a atteint xy avec la précision voulue
+		if (new_delta<-PRECISION_DELTA || PRECISION_DELTA<new_delta)
+		{
+			set_consigne_alpha_delta(new_alpha,new_delta);
+		}
+		else
+		{
+			trajectoire.type=stop;
+		}
 	}
-	else
+	else if(trajectoire.mode==tendu)
 	{
-		trajectoire.type=stop;
+		//on tourne pour se mettre dans la bonne direction
+		if (new_alpha<-PRECISION_ALPHA || PRECISION_ALPHA<new_alpha)
+		{
+			set_consigne_alpha_delta(new_alpha,0);
+		}
+		//puis on avance tout droit (/!\ perte de précision)
+		else
+		{
+			trajectoire.type=alpha_delta;
+			trajectoire.delta=new_delta;
+			trajectoire.alpha=0;
+		}
 	}
-}
-
-void make_trajectoire_xy_relatif_tendu(int x_voulu, int y_voulu)
-{
-	trajectoire.x_absolu=x_voulu+get_x_actuel();
-	trajectoire.y_absolu=y_voulu+get_y_actuel();
-	trajectoire.type=xy_absolu;
-	make_trajectoire_xy_absolu_tendu(trajectoire.x_absolu,trajectoire.y_absolu);
-}
-
-void make_trajectoire_xy_absolu_tendu(int x_voulu, int y_voulu)
-{
-	int new_alpha;
-	int new_delta;
-	x_voulu-=get_x_actuel();
-	y_voulu-=get_y_actuel();
-	calcul_alpha_delta_restant(x_voulu, y_voulu, &new_alpha, &new_delta);
-
-	//on tourne pour se mettre dans la bonne direction
-	if (new_alpha<-PRECISION_ALPHA || PRECISION_ALPHA<new_alpha)
-	{
-		set_consigne_alpha_delta(new_alpha,0);
-	}
-	//puis on avance tout droit (/!\ perte de précision)
-	else if (new_delta<-PRECISION_DELTA || PRECISION_DELTA<new_delta)
-	{
-		trajectoire.type=alpha_delta;
-		trajectoire.delta=new_delta;
-		trajectoire.alpha=0;
-		//set_consigne_alpha_delta(0,new_delta);
-	}
-	//si la précision voulue est atteinte on s'arrete
-	//else
-	//{
-	//	trajectoire.type=stop;
-	//}
 }
 
 void make_trajectoire_chemin(s_liste liste_positions)
 {
-	//si il ne reste plus qu'un point la trajectoire n'est plus du même type
-	if (trajectoire.chemin.taille==1)
+	if(trajectoire.chemin.taille==0)
 	{
-		trajectoire.type=xy_absolu;
-		trajectoire.x_absolu=liste_positions.point[0].x;
-		trajectoire.y_absolu=liste_positions.point[0].y;
+		trajectoire.type=stop;
 		return;
-
 	}
 
 	//calcul de la consigne
@@ -216,7 +186,11 @@ void make_trajectoire_chemin(s_liste liste_positions)
 	//gestion du changement de point "cible"
 	if (new_delta<-PRECISION_DELTA || PRECISION_DELTA<new_delta)
 	{
-		set_consigne_alpha_delta(new_alpha,sgn_delta*CONSTANTE_DELTA);
+		//si il n'y a plus qu'un point la vitesse ne doit plus être constante, il faut ralentir
+		if(trajectoire.chemin.taille==1)
+			set_consigne_alpha_delta(new_alpha,new_delta);
+		else
+			set_consigne_alpha_delta(new_alpha,sgn_delta*CONSTANTE_DELTA);
 	}
 	else
 	{
@@ -288,20 +262,6 @@ void set_trajectoire_xy_absolu(int x, int y)
 	trajectoire.y_absolu=y;
 }
 
-void set_trajectoire_xy_relatif_tendu(int x, int y)
-{
-	trajectoire.type=xy_relatif_tendu;
-	trajectoire.x_relatif=x;
-	trajectoire.y_relatif=y;
-}
-
-void set_trajectoire_xy_absolu_tendu(int x, int y)
-{
-	trajectoire.type=xy_absolu_tendu;
-	trajectoire.x_absolu=x;
-	trajectoire.y_absolu=y;
-}
-
 void set_trajectoire_theta(int new_theta)
 {
 	trajectoire.type=theta;
@@ -320,11 +280,17 @@ void set_consigne_alpha_delta(int new_alpha, int new_delta)
 	consigne.delta=new_delta+get_delta_actuel();
 }
 
+void set_trajectoire_mode(e_mode_deplacement mode)
+{
+	trajectoire.mode=mode;
+}
+
 void init_trajectoire()
 {
 	trajectoire.type=null;
 	trajectoire.delta=0;
 	trajectoire.alpha=0;
+	set_trajectoire_mode(MODE_TRAJECTOIRE);
 }
 
 //TODO : à virer (utile uniquement pour du debug)
