@@ -8,6 +8,14 @@
 #include <stdio.h> //à virer
 #define AFFICHAGE_DEBUG 0
 
+void update_erreurs(s_consigne consigne);
+void mise_echelle(long int * commande_D, long int * commande_G);
+void ecretage_acceleration(long int * reponse,long int reponse_preced);
+void ecretage_deceleration(long int * reponse,long int reponse_preced);
+void ecretage_vitesse(long int * reponse);
+int asser_done(int erreur_delta, int erreur_alpha);
+int arret_ok(long int commande_moteur_D,long int commande_moteur_G);
+
 static s_erreur erreur_alpha;
 static s_erreur erreur_delta;
 static long int commande_moteur_D_preced;

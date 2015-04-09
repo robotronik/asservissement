@@ -50,9 +50,11 @@ typedef struct
 	long int delta;
 } s_consigne;
 
-void start();
-void update_consigne();
 
+void init_trajectoire();
+void start();
+
+//appelé par la stratégie
 void set_trajectoire_alpha_delta(int alpha, int delta);
 void set_trajectoire_xy_relatif(int x, int y);
 void set_trajectoire_xy_absolu(int x, int y);
@@ -61,20 +63,7 @@ void set_trajectoire_xy_absolu_tendu(int x, int y);
 void set_trajectoire_theta(int new_theta);
 void set_trajectoire_chemin(s_liste liste_positions);
 
-void make_trajectoire_alpha_delta(int new_alpha, int new_delta);
-void make_trajectoire_xy_relatif(int x_voulu, int y_voulu);
-void make_trajectoire_xy_absolu(int x_voulu, int y_voulu);
-void make_trajectoire_xy_relatif_tendu(int x_voulu, int y_voulu);
-void make_trajectoire_xy_absolu_tendu(int x_voulu, int y_voulu);
-void make_trajectoire_theta(int theta_voulu);
-void make_trajectoire_chemin(s_liste liste_positions);
-void calcul_alpha_delta_restant(int x_voulu, int y_voulu, int * new_alpha, int * new_delta);
-
-void init_trajectoire();
-
-void set_consigne_alpha_delta(int new_alpha, int new_delta);
-
-//TODO : à virer (utile uniquement pour du debug)
+//utile uniquement pour du debug
 int get_delta_voulu();
 int get_alpha_voulu();
 

@@ -14,6 +14,20 @@
 #include "communication.h"
 #include "match.h"
 
+
+void update_consigne();
+
+void make_trajectoire_alpha_delta(int new_alpha, int new_delta);
+void make_trajectoire_xy_relatif(int x_voulu, int y_voulu);
+void make_trajectoire_xy_absolu(int x_voulu, int y_voulu);
+void make_trajectoire_xy_relatif_tendu(int x_voulu, int y_voulu);
+void make_trajectoire_xy_absolu_tendu(int x_voulu, int y_voulu);
+void make_trajectoire_theta(int theta_voulu);
+void make_trajectoire_chemin(s_liste liste_positions);
+void calcul_alpha_delta_restant(int x_voulu, int y_voulu, int * new_alpha, int * new_delta);
+
+void set_consigne_alpha_delta(int new_alpha, int new_delta);
+
 //et encore de vilaines variables globales !
 static s_trajectoire trajectoire;
 static s_consigne consigne;
