@@ -10,6 +10,10 @@
 
 #include "../common_code/debug.h"
 
+#if USE_SDL
+#include "../common_code/simulation/affichage.h"
+#endif
+
 //et encore de vilaines variables globales !
 static s_trajectoire trajectoire;
 static s_consigne consigne;

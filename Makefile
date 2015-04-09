@@ -33,6 +33,8 @@ FICHIERS_UART_C = $(UART_DIR)/text_reception.c
 
 COMMON_DIR =../common_code
 COMMON_H   = $(COMMON_DIR)/*.h
+FICHIER_AFFICHAGE_C = $(COMMON_DIR)/simulation/affichage.c
+
 
 ################################################################################
 
@@ -64,7 +66,7 @@ SOURCEFILES =\
 
 ifeq ($(SDL),yes)
 	LDFLAGS    += -lSDL -lSDL_image -lGL -lGLU -lSOIL
-	FICHIERS_C += simulation/affichage.c
+	FICHIERS_C += $(FICHIER_AFFICHAGE_C)
 	CFLAGS += -DUSE_SDL=1
 endif
 
@@ -122,7 +124,9 @@ tarall: $(SOURCEFILES)
 	tar -jcvf $(EXEC).tar.bz2 $^
 
 clean:
-	rm -f $(FICHIERS_O)
+	rm -f $(FICHIERS_O) $(FICHIER_AFFICHAGE_C:.c=.o)
+	# Ne pas oublié de supprimé les .o généré conditionnelement tel que ceux
+	# qui dépendent de la SDL
 
 mrproper: clean
 	rm -rf $(EXEC) $(EXEC).tar.bz2
