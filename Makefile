@@ -1,7 +1,8 @@
 
 # Options prises en compte :
 #    SDL=yes       pour utiliser le simulateur
-#    DEBUG=yes     pour activer le debug
+#    DEBUG=lvl     pour activer le debug
+# NB : lvl = 1 à 3 selon le niveau souhaité, 3 étant le plus élevé
 
 # Cibles :
 #    run: lance l'executable
@@ -21,7 +22,7 @@ EXEC  = asser_robot
 
 # options
 SDL   = no
-DEBUG = no
+DEBUG = 0
 
 ################################################################################
 
@@ -67,8 +68,9 @@ ifeq ($(SDL),yes)
 	CFLAGS += -DUSE_SDL=1
 endif
 
-ifeq ($(DEBUG),yes)
-	CFLAGS += -DDEBUG=1 -g
+ifeq ($(DEBUG),0)
+else
+	CFLAGS += -DDEBUG=$(DEBUG) -g
 endif
 
 ################################################################################
