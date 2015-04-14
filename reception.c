@@ -49,8 +49,9 @@ enum key_t {
     KEY_ALPHA,
     KEY_DELTA,
     KEY_THETA,
-    // control
-    FCT_QUIT,
+    // commandes
+    CMD_QUIT,
+    // fonction
     FCT_ALPHA_DELTA,
     FCT_XY_RELATIF,
     FCT_XY_ABSOLU,
@@ -69,7 +70,8 @@ static char *keys[KEY_SIZE] = {
     [KEY_DELTA]        = "delta=",
     [KEY_THETA]        = "theta=",
 
-    [FCT_QUIT]         = "q",
+    [CMD_QUIT]         = "q",
+
     [FCT_ALPHA_DELTA]  = "alpha_delta()",
     [FCT_XY_RELATIF]   = "xy_relatif()",
     [FCT_XY_ABSOLU]    = "xy_absolu()",
@@ -133,7 +135,7 @@ enum state_t lecture_cle(char c, struct search_key_t *sk,
                 *theta = 0;
                 return WAIT_THETA;
 
-            case FCT_QUIT:
+            case CMD_QUIT:
                 // fin du match
                 // NB: ce cas n'est normalement pas à être géré par l'assert
                 debug("FIN DU MATCH\n");
