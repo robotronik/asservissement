@@ -76,8 +76,10 @@ int main()
 	    //test_asser_alpha_delta(0,400);
 	    //test_asser_alpha_delta(3140,0);
 	    //test_asser_theta(3142);
-	    //test_asser_xy_relatif(0,400);
-	    //test_asser_xy_absolu(140,400+140);
+	    //test_asser_xy_relatif_courbe(0,400);
+	    //test_asser_xy_absolu_courbe(140,400+140);
+		//test_asser_xy_relatif_tendu(0,400);
+	    //test_asser_xy_absolu_tendu(140,400+140);
 	    //test_asser_chemin(chemin);
 
     /*démarage de l'asservissement*/

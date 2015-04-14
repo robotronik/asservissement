@@ -6,6 +6,9 @@
 #include "trajectoire.h" //à virer
 #define AFFICHAGE_DEBUG 0
 
+void actualise_xy(int d_delta, int d_alpha, int theta, float * x, float * y);
+int borne_angle(long int angle);
+
 //ici les calculs de position actuelle
 
 //oh les vilaines variables globales !
