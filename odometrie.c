@@ -51,7 +51,7 @@ void actualise_position()
 
 	//debug à virer
 	if (AFFICHAGE_DEBUG == 1)
-		printf("D_act:%d a_act:%d th_act:%d D_voul:%d a_voul:%d\n\n",delta_actuel,alpha_actuel,theta_actuel, get_delta_voulu(), get_alpha_voulu()); //à virer
+		printf("D_act:%ld a_act:%ld th_act:%d D_voul:%d a_voul:%d\n\n",delta_actuel,alpha_actuel,theta_actuel, get_delta_voulu(), get_alpha_voulu()); //à virer
 }
 
 long int delta_mm(long int nbr_tick_D, long int nbr_tick_G)

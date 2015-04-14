@@ -358,6 +358,9 @@ void uart_interrupt(char uart_char)
         case WAIT_NEW_LINE:
             state = wait_end_of_trame(c, &sk, state);
             break;
+
+        case STATE_SIZE: // pour éviter un warning inutile
+            break;
     }
 
     debug("etat final : %s\n", state_name[state]);
