@@ -309,7 +309,7 @@ void uart_interrupt(char uart_char)
 {
     // Contient la prochaine valeure des variables du programme
     static int x = 0, y = 0, alpha = 0, delta = 0, theta = 0;
-	static s_liste chemin = { .taille = 0 };
+    static s_liste chemin = { .taille = 0 };
 
     static bool to_search[KEY_SIZE] = {true, true, true, true, true,
                                        true, true, true, true, true,
