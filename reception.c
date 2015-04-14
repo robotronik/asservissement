@@ -41,6 +41,7 @@ enum state_t lecture_val(char c, struct search_key_t *sk, int *val,
                          enum state_t current_state);
 static enum state_t wait_end_of_trame(char c, struct search_key_t *sk,
     enum state_t current_state);
+void help();
 
 enum key_t {
     // valeurs
@@ -51,6 +52,7 @@ enum key_t {
     KEY_THETA,
     // commandes
     CMD_QUIT,
+    CMD_HELP,
     // fonction
     FCT_ALPHA_DELTA,
     FCT_XY_RELATIF,
@@ -71,6 +73,7 @@ static char *keys[KEY_SIZE] = {
     [KEY_THETA]        = "theta=",
 
     [CMD_QUIT]         = "q",
+    [CMD_HELP]         = "?",
 
     [FCT_ALPHA_DELTA]  = "alpha_delta()",
     [FCT_XY_RELATIF]   = "xy_relatif()",
@@ -78,6 +81,27 @@ static char *keys[KEY_SIZE] = {
     [FCT_THETA]        = "theta()",
     [FCT_UPDATE]       = "update()",
 };
+
+#if DEBUG
+static char *keys_help[KEY_SIZE] = {
+    [KEY_X]            = "coordonnées absolu en cm",
+    [KEY_Y]            = "coordonnées absolu en cm",
+    [KEY_ALPHA]        = "angle relatif en ???? degré? milidegré?",
+    [KEY_DELTA]        = "distance relative en cm",
+    [KEY_THETA]        = "angle absolu en ???? degré? milidegré?",
+
+    [CMD_QUIT]         = "quitter la simulation",
+    [CMD_HELP]         = "affiche l'aide",
+
+    [FCT_ALPHA_DELTA]  = "new_alpha_delta(alpha, delta)",
+    [FCT_XY_RELATIF]   = "new_xy_relatif(x,y)",
+    [FCT_XY_ABSOLU]    = "new_xy_absolu(x,y)",
+    [FCT_THETA]        = "new_theta(theta)",
+    [FCT_UPDATE]       = "met à jour les variables du protocole de simulation "
+            "pour qu'elle correspondent à celle utilisées par l'assert",
+    /*[FCT_CHEMIN]       = "chemin()",*/
+};
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -106,7 +130,8 @@ enum state_t lecture_cle(char c, struct search_key_t *sk,
 
     // erreur, on attend la fin du message courant
     if (ret == -1) {
-        debug("ERREUR, clé non trouvé: %d\n", ret);
+        debug("ERREUR, clé non trouvé\n");
+        help();
         if (is_end(c)) {
             return WAIT_FONCTION;
         } else {
@@ -141,6 +166,10 @@ enum state_t lecture_cle(char c, struct search_key_t *sk,
                 debug("FIN DU MATCH\n");
                 match_set_etat(MATCH_FIN);
                 return current_state;
+
+            case CMD_HELP:
+                help();
+                return WAIT_NEW_LINE;
 
             case FCT_ALPHA_DELTA:
                 debug("new_alpha_delta(%d, %d);\n", *alpha, *delta);
@@ -251,7 +280,7 @@ void uart_interrupt(char uart_char)
 
     static bool to_search[KEY_SIZE] = {true, true, true, true, true,
                                        true, true, true, true, true,
-                                       true};
+                                       true, true};
 
     static struct search_key_t sk = {
         0,
@@ -299,4 +328,18 @@ void uart_interrupt(char uart_char)
     }
 
     debug("etat final : %s\n", state_name[state]);
+}
+
+void help()
+{
+    printf("\n-------------------------------\n");
+    printf("Liste des commandes supportées:\n");
+    for (int i = 0; i < KEY_SIZE; i++) {
+        printf("%s", keys[i]);
+#if DEBUG
+        printf("		%s", keys_help[i]);
+#endif
+        printf("\n");
+    }
+    printf("-------------------------------\n\n");
 }

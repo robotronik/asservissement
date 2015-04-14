@@ -18,6 +18,8 @@
  * theta=value   : mise à jour de la variable theta (angle absolu en degré)
  *
  * q             : quitte la simulation
+ * ?             : affiche l'aide
+ *
  * alpha_delta() : new_alpha_delta(alpha, delta);
  * xy_relatif()  : new_xy_relatif(x,y);
  * xy_absolu()   : new_xy_absolu(x,y);
