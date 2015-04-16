@@ -5,8 +5,7 @@
 #include "odometrie.h"
 #include "communication.h"
 #include "reglages.h"
-#include <stdio.h> //à virer
-#define AFFICHAGE_DEBUG 0
+#include "../common_code/debug.h"
 
 void update_erreurs(s_consigne consigne);
 void mise_echelle(long int * commande_D, long int * commande_G);
@@ -30,20 +29,17 @@ void asser(s_consigne consigne)
 
 	//mise à jour des erreurs en delta et alpha
 	update_erreurs(consigne);
-	if (AFFICHAGE_DEBUG == 1)
-		printf("e_a:%i e_D:%i ",erreur_alpha.actuelle,erreur_delta.actuelle);
+	debug("e_a:%i e_D:%i ",erreur_alpha.actuelle,erreur_delta.actuelle);
 
 	//calcul des réponses provenant des PIDs
 	long int reponse_delta=PID_lineique(erreur_delta);
 	long int reponse_alpha=PID_angulaire(erreur_alpha);
-	if (AFFICHAGE_DEBUG == 1)
-		printf("r_a:%li r_D:%li ",reponse_alpha,reponse_delta);
+	debug("r_a:%li r_D:%li ",reponse_alpha,reponse_delta);
 
 	//on convertit les réponses des PIDs en commandes pour les moteurs
 	long int commande_moteur_D=reponse_delta+reponse_alpha;
 	long int commande_moteur_G=reponse_delta-reponse_alpha;
-	if (AFFICHAGE_DEBUG == 1)
-		printf("com_D:%li com_G:%li\n",commande_moteur_D,commande_moteur_G);
+	debug("com_D:%li com_G:%li\n",commande_moteur_D,commande_moteur_G);
 
 	//propotions correctes pour les commandes
 	mise_echelle(&commande_moteur_D,&commande_moteur_G);
@@ -70,8 +66,7 @@ void asser(s_consigne consigne)
 	}
 	else if (asser_done(erreur_delta.actuelle,erreur_alpha.actuelle))
 	{
-		if (AFFICHAGE_DEBUG == 1)
-		printf("atteint mais peu pas s'arreter");
+		debug("atteint mais peu pas s'arreter");
 	}
 
 	//actualisation des valeurs précédantes
@@ -81,8 +76,7 @@ void asser(s_consigne consigne)
 	//on convertit les commandes en PWM et direction pour les ponts en H
 	int PWM_moteur_D=convert2PWM(commande_moteur_D);
 	int PWM_moteur_G=convert2PWM(commande_moteur_G);
-	if (AFFICHAGE_DEBUG == 1)
-		printf("PWM_D:%i PWM_G:%i\n",PWM_moteur_D,PWM_moteur_G);
+	debug("PWM_D:%i PWM_G:%i\n",PWM_moteur_D,PWM_moteur_G);
 
 	//on applique les PWM et signaux de direction
 	set_PWM_moteur_D(PWM_moteur_D);

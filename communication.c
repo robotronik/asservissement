@@ -1,10 +1,9 @@
 #include "trajectoire.h"
 #include "odometrie.h"
-#include <stdio.h> //à virer
+#include "../common_code/debug.h" //à virer
 #if USE_SDL
 #include "simulation/affichage.h" // à virer
 #endif
-#define AFFICHAGE_DEBUG 0
 
 /*TODO : implémenter le protocole de comunication comme ça
 avait été fait dans message.c pour le code présent dans "old"*/
@@ -64,6 +63,5 @@ void new_chemin()
 
 void send_position_atteinte()
 {
-	if (AFFICHAGE_DEBUG == 1)
-		printf("atteint\n");
+	debug("atteint\n");
 }

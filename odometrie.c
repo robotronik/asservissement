@@ -2,9 +2,8 @@
 #include "hardware.h"
 #include "reglages.h"
 #include "math_precalc.h"
-#include <stdio.h> //à virer
+#include "../common_code/debug.h" //à virer
 #include "trajectoire.h" //à virer
-#define AFFICHAGE_DEBUG 0
 
 void actualise_xy(int d_delta, int d_alpha, int theta, float * x, float * y);
 int borne_angle(long int angle);
@@ -49,9 +48,7 @@ void actualise_position()
 	alpha_actuel=alpha_lu;
 	theta_actuel=borne_angle(alpha_lu);
 
-	//debug à virer
-	if (AFFICHAGE_DEBUG == 1)
-		printf("D_act:%ld a_act:%ld th_act:%d D_voul:%d a_voul:%d\n\n",delta_actuel,alpha_actuel,theta_actuel, get_delta_voulu(), get_alpha_voulu()); //à virer
+	debug("D_act:%ld a_act:%ld th_act:%d D_voul:%d a_voul:%d\n\n",delta_actuel,alpha_actuel,theta_actuel, get_delta_voulu(), get_alpha_voulu()); //à virer
 }
 
 long int delta_mm(long int nbr_tick_D, long int nbr_tick_G)
