@@ -24,7 +24,7 @@ void * main_loop()
 	if (init_sdl_screen() < 0)
 		return NULL;
 	start();
-    return quit_sdl_screen();
+    return (void*) (long) quit_sdl_screen();
 #else
 	start();
 	return 0;
@@ -44,25 +44,25 @@ int main()
 	init_hardware();
 	init_asser();
 
-	/*chemin pour le test*/
-	s_liste chemin;
-	chemin.taille=7;
-	chemin.point[0].x=1500;
-	chemin.point[0].y=1000;
-	chemin.point[1].x=2650;
-	chemin.point[1].y=300;
-	chemin.point[2].x=2350;
-	chemin.point[2].y=1200;
-	chemin.point[3].x=2700;
-	chemin.point[3].y=1600;
-	chemin.point[4].x=2000;
-	chemin.point[4].y=800;
-	chemin.point[5].x=1000;
-	chemin.point[5].y=1000;
-	chemin.point[6].x=250;
-	chemin.point[6].y=1000;
-	//chemin.point[7].x=140; //position initiale du robot
-	//chemin.point[7].y=140; //position initiale du robot
+		/*chemin pour le test*/
+		//s_liste chemin;
+		//chemin.taille=7;
+		//chemin.point[0].x=1500;
+		//chemin.point[0].y=1000;
+		//chemin.point[1].x=2650;
+		//chemin.point[1].y=300;
+		//chemin.point[2].x=2350;
+		//chemin.point[2].y=1200;
+		//chemin.point[3].x=2700;
+		//chemin.point[3].y=1600;
+		//chemin.point[4].x=2000;
+		//chemin.point[4].y=800;
+		//chemin.point[5].x=1000;
+		//chemin.point[5].y=1000;
+		//chemin.point[6].x=250;
+		//chemin.point[6].y=1000;
+		////chemin.point[7].x=140; //position initiale du robot
+		////chemin.point[7].y=140; //position initiale du robot
 
 	/*tests pour réglage des parametres*/
 
