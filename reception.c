@@ -65,6 +65,8 @@ enum key_t {
     FCT_CLEAR,
     FCT_CHEMIN,
     FCT_UPDATE,
+    FCT_MODE_TENDU,
+    FCT_MODE_COURBE,
 
     // info
     KEY_SIZE,
@@ -89,6 +91,8 @@ static char *keys[KEY_SIZE] = {
     [FCT_CHEMIN]       = "chemin()",
     [FCT_CLEAR]        = "clear()",
     [FCT_UPDATE]       = "update()",
+    [FCT_MODE_TENDU]   = "mode(tendu)",
+    [FCT_MODE_COURBE]  = "mode(courbe)",
 };
 
 #if DEBUG
@@ -111,7 +115,8 @@ static char *keys_help[KEY_SIZE] = {
     [FCT_CHEMIN]       = "Envoie le chemin précédemment construit",
     [FCT_UPDATE]       = "met à jour les variables du protocole de simulation "
             "pour qu'elle correspondent à celle utilisées par l'assert",
-    /*[FCT_CHEMIN]       = "chemin()",*/
+    [FCT_MODE_TENDU]   = "déplacement en mode tendu",
+    [FCT_MODE_COURBE]  = "déplacement en mode courbe",
 };
 #endif
 
@@ -231,6 +236,16 @@ enum state_t lecture_cle(char c, struct search_key_t *sk,
                 *alpha = get_alpha_actuel();
                 *delta = get_delta_actuel();
                 debug("Desormais, x = %d, y=%d, theta=%d, alpha=%d, delta=%d\n", *x, *y, *theta, *alpha, *delta);
+                return WAIT_NEW_LINE;
+
+            case FCT_MODE_TENDU:
+                debug("utilisation du mode tendu\n");
+                set_trajectoire_mode(tendu);
+                return WAIT_NEW_LINE;
+
+            case FCT_MODE_COURBE:
+                set_trajectoire_mode(courbe);
+                debug("utilisation du mode courbe\n");
                 return WAIT_NEW_LINE;
 
             default:
