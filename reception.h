@@ -25,6 +25,14 @@
  * xy_absolu()   : new_xy_absolu(x,y);
  * theta()       : new_theta(theta);
  *
+ * add()         : Ajoute les points x et y dans le prochain chemin
+ * clear()       : Efface le chemin en cours de construction
+ * chemin()      : set_trajectoire_chemin(chemin);
+ * NB: chemin() fait un appel à `add()`, set_trajectoire_chemin() puis `clear()`
+ *
+ * mode(tendu)   : set_trajectoire_mode(tendu);
+ * mode(courbe)  : set_trajectoire_mode(courbe);
+ *
  * update()      : met à jour les variables utilisées dans la simulation
  *
  * \exemple
