@@ -8,7 +8,7 @@
 int doitAttendre;
 
 /*----------------------------------------------------------------*
- * fonctions de debug                                             *
+ * fonctions de debug                         *
  *----------------------------------------------------------------*/
 
 void allumer_del(void)
@@ -26,8 +26,8 @@ void pause_ms(unsigned short n)
     unsigned short i,j;
     for(j=0; j<n; j++)
     {
-        for(i=0; i<4000; i++)
-            Nop();
+    for(i=0; i<4000; i++)
+        Nop();
     }
 }
 
@@ -35,11 +35,11 @@ void pause_s(unsigned short n)
 {
     unsigned short i;
     for(i=0; i<n; i++)
-        pause_ms(1000);
+    pause_ms(1000);
 }
 
 /*----------------------------------------------------------------*
-* Init du registre et des variables                                 *
+* Init du registre et des variables                 *
 *-----------------------------------------------------------------*/
 
 _FOSCSEL(FNOSC_FRCPLL & IESO_ON)
@@ -52,11 +52,11 @@ void init_osc()
 	CLKDIVbits.PLLPRE = 0;		// (FRC) /2
 	PLLFBD = 41;				// (FRC/2) *43
 	CLKDIVbits.PLLPOST = 0;		// (FRC/2*43) /2
-	
+
 	__builtin_write_OSCCONH((OSCCONH | 1 )& 0xF9);	// Choix de l'horloge FRC avec PLL
 	__builtin_write_OSCCONL(OSCCONL | 1);			// Changement d'horloge
 	//while (!OSCCONbits.LOCK);						// Attend le bloquage de la PLL (debug)
-	
+
 
 
 	while (OSCCONbits.OSWEN); 						// Attend le changement
@@ -102,16 +102,16 @@ void PWM1_init ()
 	//P1TCONbits.PTSIDL = 1;	// Arret en pause
 
     P1TPER = MAX_SPEED/2;		// Période du timer
-    P1DC1 = 0;                 	// Duty-cycle PWM1H1 = 0%
-    P1DC2 = 0;                 	// Duty-cycle PWM1H2 = 0%
+    P1DC1 = 0;         	// Duty-cycle PWM1H1 = 0%
+    P1DC2 = 0;         	// Duty-cycle PWM1H2 = 0%
 
     PWM1CON1bits.PMOD1 = 1;     // Sorties PWM1H1 et PWM1L1 indépendantes
     PWM1CON1bits.PMOD2 = 1;     // Sorties PWM1H2 et PWM1L2 indépendantes
     motors_stop();
 
-    P1TCONbits.PTEN = 1;        // Active le Timer des PWMs
+    P1TCONbits.PTEN = 1;    // Active le Timer des PWMs
     P1TCONbits.PTOPS = 5-1;	// Reset automatique aux modif de P1TCON
-	
+
 }
 
 void timer_init()
@@ -156,7 +156,7 @@ void timer_init()
 	IPC1bits.T2IP = 0x01; // Set Timer1 Interrupt Priority Level
 	IFS0bits.T2IF = 0; // Clear Timer1 Interrupt Flag
 	IEC0bits.T2IE = 1; //Enable interupt
-}	
+}
 
 
 void QEI_init ()
@@ -168,15 +168,15 @@ void QEI_init ()
     QEI2CONbits.QEIM   = 0b000;
 
     /* Connection des modules QEI1 : LEFT et QEI2 : RIGHT aux pins RPx du PIC */
-    RPINR14bits.QEA1R  = 11;             // QEA1 sur RP11
-    RPINR14bits.QEB1R  = 10;             // QEB1 sur RP10
-    RPINR16bits.QEA2R  = 6;              // QEA2 sur RP6
-    RPINR16bits.QEB2R  = 7;              // QEB2 sur RP7
+    RPINR14bits.QEA1R  = 11;         // QEA1 sur RP11
+    RPINR14bits.QEB1R  = 10;         // QEB1 sur RP10
+    RPINR16bits.QEA2R  = 6;          // QEA2 sur RP6
+    RPINR16bits.QEB2R  = 7;          // QEB2 sur RP7
 
     /* Initialisation QEI1 (roue gauche) */
 	QEI1CONbits.QEISIDL = 1;			// Lors de la mise en pause le compteur s'arrete
-    QEI1CONbits.SWPAB  = 1;            	// A et B inversés
-    DFLT1CONbits.CEID  = 1;             // Pas d'interruption sur erreur
+    QEI1CONbits.SWPAB  = 1;        	// A et B inversés
+    DFLT1CONbits.CEID  = 1;         // Pas d'interruption sur erreur
 	MAX1CNT = 65535;					// Valeur maximale du compteur
 
     /* Initialisation QEI2 (roue droite) */
@@ -189,13 +189,13 @@ void QEI_init ()
     /* Reset compteurs */
     POS1CNT = 0;
     POS2CNT = 0;
-	
+
 	/* Activation des interruptions sur débordement des compteurs */
 	IEC3bits.QEI1IE = 1;
 	IEC4bits.QEI2IE = 1;
 
     /* Activation QEI1 et QEI2 */
-    QEI1CONbits.QEIM   = 0b111;          // Mode 4x, reset et interruption sur MAXxCNT
+    QEI1CONbits.QEIM   = 0b111;      // Mode 4x, reset et interruption sur MAXxCNT
     QEI2CONbits.QEIM   = 0b111;
 }
 
@@ -210,10 +210,10 @@ void UART_init()
 	// Low speed : BRG = 79,23 MHz / 32 / Baudrate - 1
 	U1MODEbits.BRGH = 1;	// High speed : BRG = 79,23 MHz / 8 / Baudrate - 1
 	U1BRG = 85; 			// BAUD Rate Setting for 115200 gives 115160 bauds
-	
+
 #ifdef INT_UART_TX
 	U1STAbits.UTXISEL1 = 1;	// Interrupt on empty FIFO, last byte is being sent
-	U1STAbits.UTXISEL0 = 0;	//                      "
+	U1STAbits.UTXISEL0 = 0;	//              "
 #endif //#ifdef INT_UART_TX
 
 	IFS0bits.U1RXIF = 0; 	// On evite des interruptions à l'activation
@@ -242,37 +242,37 @@ void init_hardware()
 }
 
 /*----------------------------------------------------------------*
- * génération des PWMs de commande des moteurs                    *
+ * génération des PWMs de commande des moteurs            *
  *----------------------------------------------------------------*/
 void set_PWM_moteur_D(int PWM)
 {
 	short speedR=(short) PWM/1000*MAX_SPEED;
    	if (speedR == 0)    // On s arrete
     {
-        PWM1CON1bits.PEN2H = 0;
-        PWM1CON1bits.PEN2L = 0;
+    PWM1CON1bits.PEN2H = 0;
+    PWM1CON1bits.PEN2L = 0;
     }
     else if(speedR >= MAX_SPEED){
-        PWM1CON1bits.PEN2H = 0;
-        PWM1CON1bits.PEN2L = 1;
-        P1DC2 = MAX_SPEED;
+    PWM1CON1bits.PEN2H = 0;
+    PWM1CON1bits.PEN2L = 1;
+    P1DC2 = MAX_SPEED;
     }
     else if(speedR <= -MAX_SPEED){
-        PWM1CON1bits.PEN2H = 1;
-        PWM1CON1bits.PEN2L = 0;
-        P1DC2 = MAX_SPEED;
+    PWM1CON1bits.PEN2H = 1;
+    PWM1CON1bits.PEN2L = 0;
+    P1DC2 = MAX_SPEED;
     }
 	else if (speedR > 0)  // On avance
     {
-        PWM1CON1bits.PEN2H = 0;
-        PWM1CON1bits.PEN2L = 1;
-        P1DC2 = speedR;
+    PWM1CON1bits.PEN2H = 0;
+    PWM1CON1bits.PEN2L = 1;
+    P1DC2 = speedR;
     }
    	else if (speedR < 0)   // On recule
     {
-        PWM1CON1bits.PEN2H = 1;
-        PWM1CON1bits.PEN2L = 0;
-        P1DC2 = -speedR;
+    PWM1CON1bits.PEN2H = 1;
+    PWM1CON1bits.PEN2L = 0;
+    P1DC2 = -speedR;
     }
 }
 
@@ -281,18 +281,18 @@ void set_PWM_moteur_G(int PWM)
 	short speedL=(short) PWM/1000*MAX_SPEED;
 	if (speedL == 0)    // On s arrete
     {
-        PWM1CON1bits.PEN1H = 0;	// /!\ Reset le timer
-        PWM1CON1bits.PEN1L = 0;
+    PWM1CON1bits.PEN1H = 0;	// /!\ Reset le timer
+    PWM1CON1bits.PEN1L = 0;
     }
     else if(speedL >= MAX_SPEED){
-        PWM1CON1bits.PEN1H = 0;
-        PWM1CON1bits.PEN1L = 1;
-        P1DC1 = MAX_SPEED;
+    PWM1CON1bits.PEN1H = 0;
+    PWM1CON1bits.PEN1L = 1;
+    P1DC1 = MAX_SPEED;
     }
     else if(speedL <= -MAX_SPEED){
-        PWM1CON1bits.PEN1H = 1;
-        PWM1CON1bits.PEN1L = 0;
-        P1DC1 = MAX_SPEED;
+    PWM1CON1bits.PEN1H = 1;
+    PWM1CON1bits.PEN1L = 0;
+    P1DC1 = MAX_SPEED;
     }
 	else if (speedL > 0)  // On avance
     {
@@ -302,9 +302,9 @@ void set_PWM_moteur_G(int PWM)
     }
    	else if (speedL < 0)   // On recule
     {
-        PWM1CON1bits.PEN1H = 1;
-        PWM1CON1bits.PEN1L = 0;
-        P1DC1 = -speedL;
+    PWM1CON1bits.PEN1H = 1;
+    PWM1CON1bits.PEN1L = 0;
+    P1DC1 = -speedL;
     }
 }
 
@@ -318,7 +318,7 @@ void motors_stop(void)
 }
 
 /*----------------------------------------------------------------*
- * gestion des ticks effectués sur les roues codeuses             *
+ * gestion des ticks effectués sur les roues codeuses         *
  *----------------------------------------------------------------*/
 short distLHigh, distRHigh;
 
@@ -361,7 +361,7 @@ void __attribute__((interrupt, auto_psv)) _QEI2Interrupt(void)
 }
 
 /*----------------------------------------------------------------*
- * Timer pour la synchronisation de asser()                       *
+ * Timer pour la synchronisation de asser()               *
  *----------------------------------------------------------------*/
 int attente_synchro()
 {
@@ -381,7 +381,7 @@ void __attribute__((__interrupt__, no_auto_psv)) _T1Interrupt(void)
 }
 
 /*---------------------------------------------------------------------------*
- * Couche basse uart                                                         *
+ * Couche basse uart                             *
  *---------------------------------------------------------------------------*/
 
 
@@ -404,95 +404,95 @@ volatile unsigned short txBufferLength = 0;
 void UART_putc(unsigned char c)
 {
 #ifdef INT_UART_TX
-        if(txBufferLength || U1STAbits.UTXBF) {         // Si la file contient une donnée ou que le buffer du périphérique est plein
-                while (txBufferLength >= TX_BUFFER_SIZE);
-                IEC0bits.U1TXIE = 0;    // Désactivation de l'interruption pour modifier les variables globales
-                txBuffer[(indexTxBuffer + txBufferLength) % TX_BUFFER_SIZE] = c;
-                txBufferLength ++;
-                IEC0bits.U1TXIE = 1;    // Activation de l'interruption
-                return;
-        } else U1TXREG = c;
-       
-#else //#ifdef INT_UART_TX
-       
-        while (U1STAbits.UTXBF);
-        U1TXREG = c;
-#endif //#ifdef INT_UART_TX
-       
+    if(txBufferLength || U1STAbits.UTXBF) {     // Si la file contient une donnée ou que le buffer du périphérique est plein
+        while (txBufferLength >= TX_BUFFER_SIZE);
+        IEC0bits.U1TXIE = 0;    // Désactivation de l'interruption pour modifier les variables globales
+        txBuffer[(indexTxBuffer + txBufferLength) % TX_BUFFER_SIZE] = c;
+        txBufferLength ++;
+        IEC0bits.U1TXIE = 1;    // Activation de l'interruption
         return;
+    } else U1TXREG = c;
+
+#else //#ifdef INT_UART_TX
+
+    while (U1STAbits.UTXBF);
+    U1TXREG = c;
+#endif //#ifdef INT_UART_TX
+
+    return;
 }
 
 void UART_send_tab(unsigned char *addr, unsigned char size) {
-        addr += size;
-        for (;size > 0; size --) {
-                addr --;
-                UART_putc(*addr);
-        }
+    addr += size;
+    for (;size > 0; size --) {
+        addr --;
+        UART_putc(*addr);
+    }
 }
 
 int UART_getc(unsigned char *byte) {
-        if (rxBufferLength) {
-                *byte = rxBuffer[indexRxBuffer];
-                IEC0bits.U1RXIE = 0;    // Désactivation de l'interruption pour modifier les variables globales
-                rxBufferLength --;
-                indexRxBuffer ++; indexRxBuffer %= RX_BUFFER_SIZE;
-                IEC0bits.U1RXIE = 1;    // Activation de l'interruption
-                return 1;
-        }
-        return 0;
-}      
+    if (rxBufferLength) {
+        *byte = rxBuffer[indexRxBuffer];
+        IEC0bits.U1RXIE = 0;    // Désactivation de l'interruption pour modifier les variables globales
+        rxBufferLength --;
+        indexRxBuffer ++; indexRxBuffer %= RX_BUFFER_SIZE;
+        IEC0bits.U1RXIE = 1;    // Activation de l'interruption
+        return 1;
+    }
+    return 0;
+}
 
 void __attribute__((interrupt, auto_psv)) _U1RXInterrupt(void)
 {
-        IFS0bits.U1RXIF = 0; // On s'acquitte de l'interruption
+    IFS0bits.U1RXIF = 0; // On s'acquitte de l'interruption
 
-        if(U1STAbits.FERR == 1) // Erreurs ?
-                return ;
-        /* must clear the overrun error to keep uart receiving */
-        if(U1STAbits.OERR == 1)
-        {
-                U1STAbits.OERR = 0;
-                return ;
-        }
+    if(U1STAbits.FERR == 1) // Erreurs ?
+        return ;
+    /* must clear the overrun error to keep uart receiving */
+    if(U1STAbits.OERR == 1)
+    {
+        U1STAbits.OERR = 0;
+        return ;
+    }
 
-        /* get the data */
-        if(U1STAbits.URXDA == 1) {
-                rxBuffer[(indexRxBuffer + rxBufferLength) % RX_BUFFER_SIZE] = U1RXREG;
-                rxBufferLength ++;
-        }
-        //if(U1STAbits.URXDA == 1) message_processing(U1RXREG);
+    /* get the data */
+    if(U1STAbits.URXDA == 1) {
+        rxBuffer[(indexRxBuffer + rxBufferLength) % RX_BUFFER_SIZE] = U1RXREG;
+        rxBufferLength ++;
+    }
+    //if(U1STAbits.URXDA == 1) message_processing(U1RXREG);
 }
 
 /*void __attribute__((interrupt, auto_psv)) _U1ErrInterrupt(void)
 {
-        IFS4bits.U1EIF = 0; // On s'acquitte de l'interruption
-        if(U1STAbits.FERR == 1) // Erreurs ?
-                return ;
-        // must clear the overrun error to keep uart receiving
-        if(U1STAbits.OERR == 1)
-                U1STAbits.OERR = 0;
-        //error();
+    IFS4bits.U1EIF = 0; // On s'acquitte de l'interruption
+    if(U1STAbits.FERR == 1) // Erreurs ?
+        return ;
+    // must clear the overrun error to keep uart receiving
+    if(U1STAbits.OERR == 1)
+        U1STAbits.OERR = 0;
+    //error();
 
 }*/
 
 #ifdef INT_UART_TX
 void __attribute__((interrupt, auto_psv)) _U1TXInterrupt(void)
 {
-        IFS0bits.U1TXIF = 0; // On s'acquitte de l'interruption
-       
-        if(U1STAbits.FERR == 1) // Erreurs ?
-                return ;
-        // must clear the overrun error to keep uart receiving
-        if(U1STAbits.OERR == 1)
-        {
-                U1STAbits.OERR = 0;
-                return ;
-        }
-       
-        while (txBufferLength && !U1STAbits.UTXBF) {            // Si le buffer du module n'est pas plein
-                U1TXREG = txBuffer[indexTxBuffer];
-                txBufferLength --;
-                indexTxBuffer ++; indexTxBuffer %= TX_BUFFER_SIZE;
-        }
+    IFS0bits.U1TXIF = 0; // On s'acquitte de l'interruption
+
+    if(U1STAbits.FERR == 1) // Erreurs ?
+        return ;
+    // must clear the overrun error to keep uart receiving
+    if(U1STAbits.OERR == 1)
+    {
+        U1STAbits.OERR = 0;
+        return ;
+    }
+
+    while (txBufferLength && !U1STAbits.UTXBF) {        // Si le buffer du module n'est pas plein
+        U1TXREG = txBuffer[indexTxBuffer];
+        txBufferLength --;
+        indexTxBuffer ++; indexTxBuffer %= TX_BUFFER_SIZE;
+    }
 }
 #endif //#ifdef INT_UART_TX
