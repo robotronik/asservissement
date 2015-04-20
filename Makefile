@@ -108,24 +108,21 @@ FICHIERS_H  += $(FICHIERS_C:.c=.h) $(COMMON_H)
 FICHIERS_O  += $(FICHIERS_C:.c=.o)
 SOURCEFILES += $(FICHIERS_C) $(FICHIERS_H)
 
+all:$(EXEC)
+.PHONY: all
 
 ################################################################################
+.PHONY: flash run demo
 ifeq ($(PIC), yes)
-# Compilation pour le PIC.
-
-.PHONY:flash
-
-flash:$(PIC_HEX)
-	pk2cmd -P -Q -M -F$(PIC_HEX) -J -T
-
+# Exécution pour le PIC.
 $(PIC_HEX):$(PIC_ELF)
 	/opt/xc16-toolchain-bin/bin/xc16-bin2hex $^ -a -omf=elf
 
+flash:$(PIC_HEX)
+	pk2cmd -P -M -F$(PIC_HEX) -J -T
+
 else
-# Compilation pour le PC.
-
-.PHONY:$(EXEC)
-
+# Exécution pour le PC.
 run: all
 	./$(EXEC)
 
@@ -134,7 +131,9 @@ demo: $(EXEC)
 
 endif
 
-all: $(EXEC)
+################################################################################
+
+# Compilation
 
 $(EXEC): main.c $(FICHIERS_O) $(COMMON_H)
 	$(CC) -o $@ $^ $(LDFLAGS) $(SDLFLAGS)
@@ -161,15 +160,14 @@ match.o:
 ################################################################################
 
 # Cibles génériques
+.PHONY:tarall clean mrproprer
 
 tarall: $(SOURCEFILES)
 	tar -jcvf $(EXEC).tar.bz2 $^
 
 clean:
 	rm -f $(FICHIERS_O) $(FICHIER_AFFICHAGE_C:.c=.o)
-	# Ne pas oublié de supprimé les .o généré conditionnelement tel que ceux
-	# qui dépendent de la SDL
 
 mrproper: clean
-	rm -rf $(EXEC) $(EXEC).tar.bz2
+	rm -rf $(EXEC) $(PIC_ELF) $(PIC_HEX) $(EXEC).tar.bz2
 
