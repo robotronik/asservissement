@@ -1,7 +1,7 @@
 /*//ici la couche d'abstraction du microcontroleur utilisé
 //on fait ceci afin de rendre le code portable*/
 
-#include "hardware.h"
+#include "hardware_PIC.h"
 #include <p33FJ128MC802.h>
 
 
@@ -11,7 +11,7 @@ int doitAttendre;
  * fonctions de debug                         *
  *----------------------------------------------------------------*/
 
-void allumer_del(void)
+void allumer_del()
 {
     _RB5 = 0; // nouvelle carte
 }

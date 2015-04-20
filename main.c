@@ -1,11 +1,15 @@
 #include <stdio.h>
-#include <pthread.h>
+//#include <pthread.h>
 #include <stdbool.h>
 
 #include "asser.h"
 #include "trajectoire.h"
 #include "odometrie.h"
+#if PIC_BUILD
+#include "hardware_PIC.h"
+#else
 #include "hardware.h"
+#endif
 #include "tests_unitaires.h"
 #include "reception.h"
 #if USE_SDL
@@ -43,6 +47,12 @@ int main()
 	init_trajectoire();
 	init_hardware();
 	init_asser();
+    while(1) {
+        allumer_del();
+        pause_ms(500);
+        eteindre_del();
+        pause_ms(500);
+    }
 
 		/*chemin pour le test*/
 		//s_liste chemin;
@@ -87,7 +97,7 @@ int main()
 
 	/*évite un reset automatique du microcontroleur*/
     //while (1) {;}
-    pthread_t thread_asser;
+  /*  pthread_t thread_asser;
     int ret;
 
     ret = pthread_create (&thread_asser, NULL, main_loop, NULL);
@@ -106,5 +116,5 @@ int main()
 
     ret = pthread_cancel(thread_asser);
     if (ret != 0)
-        fprintf(stderr, "erreur %d\n", ret);
+        fprintf(stderr, "erreur %d\n", ret);*/
 }

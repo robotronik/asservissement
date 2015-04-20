@@ -1,6 +1,10 @@
 #include "asser.h"
 #include "PID.h"
+#if PIC_BUILD
+#include "hardware_PIC.h"
+#else
 #include "hardware.h"
+#endif
 #include "trajectoire.h"
 #include "odometrie.h"
 #include "communication.h"
@@ -43,7 +47,7 @@ void asser(s_consigne consigne)
 
 	//propotions correctes pour les commandes
 	mise_echelle(&commande_moteur_D,&commande_moteur_G);
-	
+
 	//écretage (si trop forte acceleration/décélérantion)
 	ecretage(&commande_moteur_D,commande_moteur_D_preced);
 	ecretage(&commande_moteur_G,commande_moteur_G_preced);

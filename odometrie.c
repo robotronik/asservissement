@@ -1,5 +1,9 @@
 #include "odometrie.h"
+#if PIC_BUILD
+#include "hardware_PIC.h"
+#else
 #include "hardware.h"
+#endif
 #include "reglages.h"
 #include "math_precalc.h"
 #include "../common_code/debug.h" //à virer
@@ -42,7 +46,7 @@ void actualise_position()
 
 	//on actualise x et y actuels
 	actualise_xy(d_delta,d_alpha,theta_actuel,&x_actuel,&y_actuel);
-	
+
 	//on actualise le reste
 	delta_actuel=delta_lu;
 	alpha_actuel=alpha_lu;

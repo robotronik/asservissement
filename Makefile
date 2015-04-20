@@ -26,13 +26,15 @@ export PIC_ELF    = $(PC_EXEC).elf
 export PIC_HEX    = $(PC_EXEC).hex
 export PIC_CC     = /opt/xc16-toolchain-bin/bin/xc16-gcc
 export PIC_ELF2HEX= /opt/xc16-toolchain-bin/bin/xc16-bin2hex
-export PIC_CFLAGS = -W -Wall -std=c99 -mcpu=33FJ128MC802  -MMD -MF -g -omf=elf -O0 -msmart-io=1 -Wall -msfr-warn=off
-export PIC_LDFLAGS= -mcpu=33FJ128MC802 -omf=elf -Wl,,--defsym=__MPLAB_BUILD=1,,--script=p33FJ128MC802.gld,--stack=16,--check-sections,--data-init,--pack-data,--handles,--isr,--no-gc-sections,--fill-upper=0,--stackguard=16,--no-force-link,--smart-io,--report-mem
+
+export PIC_CFLAGS = -DPIC_BUILD=1 -W -Wall -std=c99 -O0 -mcpu=33FJ128MC802 -omf=elf -msmart-io=1
+
+export PIC_LDFLAGS= $(PIC_CFLAGS) -Wl,--script=p33FJ128MC802.gld,--stack=16,--check-sections,--data-init,--pack-data,--handles,--isr,--no-gc-sections,--fill-upper=0,--stackguard=16,--no-force-link,--smart-io,--report-mem
 
 
 # options
 export PIC   = yes
-export SDL   = no
+export SDL   = yes
 export DEBUG = no
 ################################################################################
 
@@ -55,7 +57,6 @@ FICHIERS_C =\
 	asser.c \
 	PID.c \
 	communication.c \
-	hardware.c \
 	odometrie.c \
 	trajectoire.c \
 	math_precalc.c \
@@ -79,11 +80,13 @@ ifeq ($(PIC), yes)
 	CC      = $(PIC_CC)
 	CFLAGS  = $(PIC_CFLAGS)
 	LDFLAGS = $(PIC_LDFLAGS)
+	FICHIERS_C += hardware_PIC.c
 else
 	EXEC    = $(PC_EXEC)
 	CC      = $(PC_CC)
 	CFLAGS  = $(PC_CFLAGS)
 	LDFLAGS = $(PC_LDFLAGS)
+	FICHIERS_C += hardware.c
 
 	ifeq ($(SDL),yes)
 		CFLAGS      += $(PC_SDL_CF)
@@ -110,9 +113,10 @@ SOURCEFILES += $(FICHIERS_C) $(FICHIERS_H)
 ifeq ($(PIC), yes)
 # Compilation pour le PIC.
 
-.PHONY:$(PIC_HEX)
+.PHONY:flash
 
 flash:$(PIC_HEX)
+	pk2cmd -P -Q -M -F$(PIC_HEX) -J -T
 
 $(PIC_HEX):$(PIC_ELF)
 	/opt/xc16-toolchain-bin/bin/xc16-bin2hex $^ -a -omf=elf
@@ -149,7 +153,7 @@ tests_unitaires.o: hardware.c asser.h odometrie.h communication.h reglages.h
 
 reception.o: communication.h
 
-match.o: 
+match.o:
 
 %.o: %.c %.h $(COMMON_H)
 	$(CC) $(CFLAGS) -o $@ -c $<

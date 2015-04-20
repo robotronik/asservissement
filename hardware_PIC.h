@@ -37,7 +37,7 @@ long get_nbr_tick_G();
 void reset_nbr_tick();
 int attente_synchro();
 void reset_synchro();
-void allumer_del(void);
+void allumer_del();
 void eteindre_del(void);
 void pause_ms(unsigned short n);
 void pause_s(unsigned short n);
