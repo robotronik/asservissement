@@ -160,7 +160,7 @@ match.o:
 ################################################################################
 
 # Cibles génériques
-.PHONY:tarall clean mrproprer
+.PHONY:tarall clean mrproper
 
 tarall: $(SOURCEFILES)
 	tar -jcvf $(EXEC).tar.bz2 $^
