@@ -384,7 +384,7 @@ void uart_interrupt(char uart_char)
 
 void help()
 {
-    printf("\n-------------------------------\n");
+    /*printf("\n-------------------------------\n");
     printf("Liste des commandes supportées:\n");
     for (int i = 0; i < KEY_SIZE; i++) {
         printf("%s", keys[i]);
@@ -393,7 +393,7 @@ void help()
 #endif
         printf("\n");
     }
-    printf("-------------------------------\n\n");
+    printf("-------------------------------\n\n");*/
 }
 
 void efface_chemin(s_liste *chemin)
