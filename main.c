@@ -51,7 +51,7 @@ int main()
         allumer_del();
         pause_ms(500);
         eteindre_del();
-        pause_ms(500);
+        pause_ms(100);
     }
 
 		/*chemin pour le test*/
