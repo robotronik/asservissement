@@ -9,10 +9,16 @@
 
 #include "trajectoire.h"
 #include "odometrie.h"
-#include "reglages.h"
 #include "asser.h"
 #include "communication.h"
 #include "match.h"
+#if PIC_BUILD
+#include "hardware_PIC.h"
+#include "reglages.h"
+#else
+#include "hardware.h"
+#include "reglages_SIMU.h"
+#endif
 
 
 void update_consigne();
@@ -34,12 +40,23 @@ void start()
 {
 	while(
 #if USE_SDL
-    	sdl_manage_events()==0 &&
+		sdl_manage_events()==0 &&
 #endif
 		match_get_etat() != MATCH_FIN)
 	{
 		//on met à jour la consigne pour l'asser
 		update_consigne();
+
+		//test si synchro ok : attention bloquant à retirer pour la coupe
+		/*if(!attente_synchro())
+		{
+			while(1) {
+				allumer_del();
+				pause_ms(500);
+				eteindre_del();
+				pause_ms(100);
+			}
+		}*/
 
 		//asservissement
 		asser(consigne);

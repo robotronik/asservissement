@@ -64,8 +64,8 @@ FICHIERS_C =\
 	reception.c \
 	match.c
 
-FICHIERS_H =\
-	reglages.h
+#FICHIERS_H =\
+#	reglages.h
 
 SOURCEFILES =\
 	plateau.png \
@@ -81,12 +81,14 @@ ifeq ($(PIC), yes)
 	CFLAGS  = $(PIC_CFLAGS)
 	LDFLAGS = $(PIC_LDFLAGS)
 	FICHIERS_C += hardware_PIC.c
+	FICHIERS_H += reglages.h
 else
 	EXEC    = $(PC_EXEC)
 	CC      = $(PC_CC)
 	CFLAGS  = $(PC_CFLAGS)
 	LDFLAGS = $(PC_LDFLAGS)
 	FICHIERS_C += hardware.c
+	FICHIERS_H += reglages_SIMU.h
 
 	ifeq ($(SDL),yes)
 		CFLAGS      += $(PC_SDL_CF)

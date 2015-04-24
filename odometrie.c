@@ -1,10 +1,11 @@
 #include "odometrie.h"
 #if PIC_BUILD
 #include "hardware_PIC.h"
+#include "reglages.h"
 #else
 #include "hardware.h"
+#include "reglages_SIMU.h"
 #endif
-#include "reglages.h"
 #include "math_precalc.h"
 #include "../common_code/debug.h" //à virer
 #include "trajectoire.h" //à virer
@@ -24,11 +25,11 @@ static long int alpha_actuel; //relatif
 
 void init_odometrie()
 {
-	x_actuel=140;
-	y_actuel=140;
+	x_actuel=X_INIT;
+	y_actuel=Y_INIT;
 	delta_actuel=0;
 	alpha_actuel=0;
-	theta_actuel=0;
+	theta_actuel=THETA_INIT;
 }
 
 void actualise_position()

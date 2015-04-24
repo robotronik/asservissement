@@ -1,7 +1,11 @@
 #ifndef TRAJECTOIRE_H
 #define TRAJECTOIRE_H
 
+#if PIC_BUILD
 #include "reglages.h"
+#else
+#include "reglages_SIMU.h"
+#endif
 
 typedef enum
 {

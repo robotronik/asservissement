@@ -47,12 +47,12 @@ int main()
 	init_trajectoire();
 	init_hardware();
 	init_asser();
-    while(1) {
+    /*while(1) {
         allumer_del();
         pause_ms(500);
         eteindre_del();
         pause_ms(100);
-    }
+    }*/
 
 		/*chemin pour le test*/
 		//s_liste chemin;
@@ -93,10 +93,10 @@ int main()
 	    //test_asser_chemin(chemin);
 
     /*démarage de l'asservissement*/
-	//start();
+	start();
 
 	/*évite un reset automatique du microcontroleur*/
-    //while (1) {;}
+    while (1) {;}
   /*  pthread_t thread_asser;
     int ret;
 

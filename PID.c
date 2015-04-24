@@ -1,5 +1,9 @@
 #include "PID.h"
+#if PIC_BUILD
 #include "reglages.h"
+#else
+#include "reglages_SIMU.h"
+#endif
 #include "asser.h"
 
 long int PID_lineique(s_erreur erreur_delta)

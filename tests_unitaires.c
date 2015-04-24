@@ -1,9 +1,10 @@
 #include "tests_unitaires.h"
-#include "reglages.h"
 #if PIC_BUILD
 #include "hardware_PIC.h"
+#include "reglages.h"
 #else
 #include "hardware.h"
+#include "reglages_SIMU.h"
 #endif
 #include "asser.h"
 #include "odometrie.h"
