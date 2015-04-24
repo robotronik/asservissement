@@ -54,7 +54,7 @@ void start()
 				allumer_del();
 				pause_ms(500);
 				eteindre_del();
-				pause_ms(100);
+				pause_ms(500);
 			}
 		}*/
 
@@ -305,8 +305,7 @@ void set_trajectoire_mode(e_mode_deplacement mode)
 void init_trajectoire()
 {
 	trajectoire.type=null;
-	trajectoire.delta=0;
-	trajectoire.alpha=0;
+	set_consigne_alpha_delta(0,0);
 	set_trajectoire_mode(MODE_TRAJECTOIRE);
 }
 

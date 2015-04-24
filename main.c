@@ -1,5 +1,4 @@
 #include <stdio.h>
-//#include <pthread.h>
 #include <stdbool.h>
 
 #include "asser.h"
@@ -9,6 +8,7 @@
 #include "hardware_PIC.h"
 #else
 #include "hardware.h"
+#include <pthread.h>
 #endif
 #include "tests_unitaires.h"
 #include "reception.h"
@@ -47,32 +47,26 @@ int main()
 	init_trajectoire();
 	init_hardware();
 	init_asser();
-    /*while(1) {
-        allumer_del();
-        pause_ms(500);
-        eteindre_del();
-        pause_ms(100);
-    }*/
 
-		/*chemin pour le test*/
-		//s_liste chemin;
-		//chemin.taille=7;
-		//chemin.point[0].x=1500;
-		//chemin.point[0].y=1000;
-		//chemin.point[1].x=2650;
-		//chemin.point[1].y=300;
-		//chemin.point[2].x=2350;
-		//chemin.point[2].y=1200;
-		//chemin.point[3].x=2700;
-		//chemin.point[3].y=1600;
-		//chemin.point[4].x=2000;
-		//chemin.point[4].y=800;
-		//chemin.point[5].x=1000;
-		//chemin.point[5].y=1000;
-		//chemin.point[6].x=250;
-		//chemin.point[6].y=1000;
-		////chemin.point[7].x=140; //position initiale du robot
-		////chemin.point[7].y=140; //position initiale du robot
+	/*chemin pour le test*/
+	//s_liste chemin;
+	//chemin.taille=7;
+	//chemin.point[0].x=1500;
+	//chemin.point[0].y=1000;
+	//chemin.point[1].x=2650;
+	//chemin.point[1].y=300;
+	//chemin.point[2].x=2350;
+	//chemin.point[2].y=1200;
+	//chemin.point[3].x=2700;
+	//chemin.point[3].y=1600;
+	//chemin.point[4].x=2000;
+	//chemin.point[4].y=800;
+	//chemin.point[5].x=1000;
+	//chemin.point[5].y=1000;
+	//chemin.point[6].x=250;
+	//chemin.point[6].y=1000;
+	////chemin.point[7].x=140; //position initiale du robot
+	////chemin.point[7].y=140; //position initiale du robot
 
 	/*tests pour réglage des parametres*/
 
@@ -92,12 +86,15 @@ int main()
 	    //test_asser_xy_absolu_tendu(140,400+140);
 	    //test_asser_chemin(chemin);
 
+	#if PIC_BUILD
     /*démarage de l'asservissement*/
 	start();
 
 	/*évite un reset automatique du microcontroleur*/
     while (1) {;}
-  /*  pthread_t thread_asser;
+
+    #else
+	pthread_t thread_asser;
     int ret;
 
     ret = pthread_create (&thread_asser, NULL, main_loop, NULL);
@@ -116,5 +113,6 @@ int main()
 
     ret = pthread_cancel(thread_asser);
     if (ret != 0)
-        fprintf(stderr, "erreur %d\n", ret);*/
+        fprintf(stderr, "erreur %d\n", ret);
+    #endif
 }

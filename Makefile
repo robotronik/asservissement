@@ -34,7 +34,7 @@ export PIC_LDFLAGS= $(PIC_CFLAGS) -Wl,--script=p33FJ128MC802.gld,--stack=16,--ch
 
 # options
 export PIC   = yes
-export SDL   = yes
+export SDL   = no
 export DEBUG = no
 ################################################################################
 
@@ -81,14 +81,14 @@ ifeq ($(PIC), yes)
 	CFLAGS  = $(PIC_CFLAGS)
 	LDFLAGS = $(PIC_LDFLAGS)
 	FICHIERS_C += hardware_PIC.c
-	FICHIERS_H += reglages.h
+	FICHIERS_H = reglages.h
 else
 	EXEC    = $(PC_EXEC)
 	CC      = $(PC_CC)
 	CFLAGS  = $(PC_CFLAGS)
 	LDFLAGS = $(PC_LDFLAGS)
 	FICHIERS_C += hardware.c
-	FICHIERS_H += reglages_SIMU.h
+	FICHIERS_H = reglages_SIMU.h
 
 	ifeq ($(SDL),yes)
 		CFLAGS      += $(PC_SDL_CF)
@@ -146,11 +146,11 @@ PID.o: reglages.h
 
 communication.o: trajectoire.h
 
-odometrie.o: reglages.h hardware.h math_precalc.h
+odometrie.o: reglages.h hardware_PIC.h math_precalc.h
 
 trajectoire.o: odometrie.h asser.h
 
-tests_unitaires.o: hardware.c asser.h odometrie.h communication.h reglages.h
+tests_unitaires.o: hardware_PIC.c asser.h odometrie.h communication.h reglages.h
 
 reception.o: communication.h
 
