@@ -5,17 +5,17 @@
 ################################################################################
 
 # Options
-export PIC   = yes
+export PIC   = no
 export ROBOT = gros
 export SDL   = yes
-export DEBUG = 0
+export DEBUG = 1
 
 # Constantes de compilation
 
 export PC_EXEC    = asser_robot
 
 export PC_CC      = gcc
-export PC_CFLAGS  = -W -Wall -std=c99 -fdiagnostics-color=auto
+export PC_CFLAGS  = -DPIC_BUILD=0 -W -Wall -std=c99 -fdiagnostics-color=auto
 export PC_LDFLAGS = -lm -lpthread
 
 export PC_SDL_CF  = -DUSE_SDL=1
@@ -75,7 +75,7 @@ ifeq ($(PIC), yes)
 	LDFLAGS = $(PIC_LDFLAGS)
 
 	F_HARDWARE_C = hardware_PIC.c
-	F_REGLAGES_H = reglages_$(ROBOT).h
+	F_REGLAGES_H = reglages_PC.h
 
 	ifeq ($(ROBOT),petit)
 		CFLAGS  += -DGROS=0 -DPETIT=1
@@ -110,7 +110,7 @@ endif
 FICHIERS_C  += $(F_HARDWARE_C)
 
 FICHIERS_H  += $(FICHIERS_C:.c=.h) hardware.h $(F_REGLAGES_H) $(COMMON_H)
-FICHIERS_O  += $(FICHIERS_C:.c=.o)
+FICHIERS_O  += $(FICHIERS_C:.c=.o) main.o
 SOURCEFILES += $(FICHIERS_C) $(FICHIERS_H)
 
 all:$(EXEC)
@@ -140,7 +140,7 @@ endif
 
 # Compilation
 
-$(EXEC): main.o $(FICHIERS_O)
+$(EXEC): $(FICHIERS_O)
 	$(CC) -o $@ $^ $(LDFLAGS) $(SDLFLAGS)
 
 asser.o: PID.h trajectoire.h odometrie.h $(F_REGLAGES_H)
@@ -160,7 +160,7 @@ reception.o: communication.h
 match.o:
 
 %.o: %.c $(COMMON_H)
-	$(CC) $(CFLAGS) -o $@ -c -DUART_DIR=$(UART_DIR) $<
+	$(CC) $(CFLAGS) -o $@ -c $<
 
 ################################################################################
 
