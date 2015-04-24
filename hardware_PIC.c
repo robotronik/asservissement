@@ -1,7 +1,7 @@
 /*//ici la couche d'abstraction du microcontroleur utilisé
 //on fait ceci afin de rendre le code portable*/
 
-#include "hardware_PIC.h"
+#include "hardware.h"
 #include <p33FJ128MC802.h>
 
 #define MAX_SPEED 3999  // Entrée max des PWMs = 2*Période des PWMs

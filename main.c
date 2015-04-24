@@ -1,15 +1,21 @@
 #include <stdio.h>
 #include <stdbool.h>
 
+#include "hardware.h"
+#if PIC_BUILD
+#	if   GROS
+#		include "reglages_gros.h"
+#	elif PETIT
+#		include "reglages_petit.h"
+#	endif
+#else
+#	include "reglages_PC.h"
+#	include <pthread.h>
+#endif
+
 #include "asser.h"
 #include "trajectoire.h"
 #include "odometrie.h"
-#if PIC_BUILD
-#include "hardware_PIC.h"
-#else
-#include "hardware.h"
-#include <pthread.h>
-#endif
 #include "tests_unitaires.h"
 #include "reception.h"
 #if USE_SDL

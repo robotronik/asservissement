@@ -1,12 +1,17 @@
 #include "asser.h"
 #include "PID.h"
-#if PIC_BUILD
-#include "hardware_PIC.h"
-#include "reglages.h"
-#else
 #include "hardware.h"
-#include "reglages_SIMU.h"
+
+#if PIC_BUILD
+#	if   GROS
+#		include "reglages_gros.h"
+#	elif PETIT
+#		include "reglages_petit.h"
+#	endif
+#else
+#	include "reglages_PC.h"
 #endif
+
 #include "trajectoire.h"
 #include "odometrie.h"
 #include "communication.h"

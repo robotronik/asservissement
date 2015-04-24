@@ -1,8 +1,12 @@
 #include "PID.h"
 #if PIC_BUILD
-#include "reglages.h"
+#	if   GROS
+#		include "reglages_gros.h"
+#	elif PETIT
+#		include "reglages_petit.h"
+#	endif
 #else
-#include "reglages_SIMU.h"
+#	include "reglages_PC.h"
 #endif
 #include "asser.h"
 

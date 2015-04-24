@@ -1,26 +1,25 @@
-
-# Options prises en compte :
-#    SDL=yes       pour utiliser le simulateur
-#    DEBUG=lvl     pour activer le debug
-# NB : lvl = 1 à 3 selon le niveau souhaité, 3 étant le plus élevé
-
 # Cibles :
 #    run: lance l'executable
 #    all: créer l'executable
 #    demo: lance un ensemble de commande au robot
-
 ################################################################################
 
-# Options de compilation
+# Options
+export PIC   = yes
+export ROBOT = gros
+export SDL   = yes
+export DEBUG = 0
+
+# Constantes de compilation
 
 export PC_EXEC    = asser_robot
 
 export PC_CC      = gcc
 export PC_CFLAGS  = -W -Wall -std=c99 -fdiagnostics-color=auto
-export PC_LDFLAGS = $(PC_CFLAGS) -lm -lpthread
+export PC_LDFLAGS = -lm -lpthread
 
 export PC_SDL_CF  = -DUSE_SDL=1
-export PC_SDL_LDF = $(PC_SDL_CF) -lSDL -lSDL_image -lGL -lGLU -lSOIL
+export PC_SDL_LDF = -lSDL -lSDL_image -lGL -lGLU -lSOIL
 
 export PIC_ELF    = $(PC_EXEC).elf
 export PIC_HEX    = $(PC_EXEC).hex
@@ -29,14 +28,8 @@ export PIC_ELF2HEX= /opt/xc16-toolchain-bin/bin/xc16-bin2hex
 
 export PIC_CFLAGS = -DPIC_BUILD=1 -W -Wall -std=c99 -O0 -mcpu=33FJ128MC802 -omf=elf -msmart-io=1
 
-export PIC_LDFLAGS= $(PIC_CFLAGS) -Wl,--script=p33FJ128MC802.gld,--stack=16,--check-sections,--data-init,--pack-data,--handles,--isr,--no-gc-sections,--fill-upper=0,--stackguard=16,--no-force-link,--smart-io,--report-mem
+export PIC_LDFLAGS= -Wl,--script=p33FJ128MC802.gld,--stack=16,--check-sections,--data-init,--pack-data,--handles,--isr,--no-gc-sections,--fill-upper=0,--stackguard=16,--no-force-link,--smart-io,--report-mem
 
-
-# options
-export PIC   = no
-export ROBOT = gros
-export SDL   = yes
-export DEBUG = 0
 ################################################################################
 
 # Modules externe
@@ -83,6 +76,13 @@ ifeq ($(PIC), yes)
 
 	F_HARDWARE_C = hardware_PIC.c
 	F_REGLAGES_H = reglages_$(ROBOT).h
+
+	ifeq ($(ROBOT),petit)
+		CFLAGS  += -DGROS=0 -DPETIT=1
+	else
+		CFLAGS  += -DGROS=1 -DPETIT=0
+	endif
+
 else
 	EXEC    = $(PC_EXEC)
 	CC      = $(PC_CC)
@@ -140,20 +140,20 @@ endif
 
 # Compilation
 
-$(EXEC): main.c $(FICHIERS_O) $(COMMON_H)
+$(EXEC): main.o $(FICHIERS_O)
 	$(CC) -o $@ $^ $(LDFLAGS) $(SDLFLAGS)
 
-asser.o: PID.h trajectoire.h odometrie.h reglages.h
+asser.o: PID.h trajectoire.h odometrie.h $(F_REGLAGES_H)
 
-PID.o: reglages.h
+PID.o: $(F_REGLAGES_H)
 
 communication.o: trajectoire.h
 
-odometrie.o: reglages.h hardware.h math_precalc.h
+odometrie.o: $(F_REGLAGES_H) hardware.h math_precalc.h
 
 trajectoire.o: odometrie.h asser.h
 
-tests_unitaires.o: $(F_HARDWARE_C) asser.h odometrie.h communication.h reglages.h
+tests_unitaires.o: $(F_HARDWARE_C) asser.h odometrie.h communication.h $(F_REGLAGES_H)
 
 reception.o: communication.h
 
