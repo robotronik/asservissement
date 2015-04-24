@@ -324,18 +324,20 @@ short distLHigh, distRHigh;
 
 long get_nbr_tick_D()
 {
-	long pPosR;
+	long PosR;
+    long * pPosR = &PosR;
 	((T_dividedLong *) pPosR)->part.high = distRHigh;
 	((T_dividedLong *) pPosR)->part.low = POS2CNT;
-	return pPosR;
+	return PosR;
 }
 
 long get_nbr_tick_G()
 {
-	long pPosL;
+    long PosL;
+	long * pPosL=&PosL;
 	((T_dividedLong *) pPosL)->part.high = distLHigh;
 	((T_dividedLong *) pPosL)->part.low = POS1CNT;
-	return pPosL;
+	return PosL;
 }
 
 void reset_nbr_tick()
