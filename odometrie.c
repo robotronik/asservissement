@@ -57,6 +57,35 @@ void actualise_position()
 	theta_actuel=borne_angle(alpha_lu);
 
 	//debug("D_act:%ld a_act:%ld th_act:%d D_voul:%d a_voul:%d\n\n",delta_actuel,alpha_actuel,theta_actuel, get_delta_voulu(), get_alpha_voulu()); //à virer
+
+	//on envoie notre position au PC (débug)
+	//NB: vu que le traitement un peu long, je ne l'active que si le debug
+	//est actif (de toute façon il ne se passe rien si DEBUG n'est pas
+	//actif
+#if DEBUG
+	static int prev_x	  = 0;
+	static int prev_y	  = 0;
+	static int prev_theta = 0;
+
+	int current_x	  = get_x_actuel();
+	int current_y	  = get_y_actuel();
+	int current_theta = get_theta_actuel();
+
+	if (prev_x != current_x ||
+		prev_y != current_y ||
+		prev_theta != current_theta)
+	{
+		debug("position actuelle : x=%d y=%d, theta=%d\n",
+		x_actuel, y_actuel,theta_actuel);
+	}
+	prev_x	   = current_x;
+	prev_y	   = current_y;
+	prev_theta = current_theta;
+#endif
+
+#if USE_SDL
+	bouge_robot_sdl(get_x_actuel(), get_y_actuel(),get_theta_actuel());
+#endif
 }
 
 long int delta_mm(long int nbr_tick_D, long int nbr_tick_G)
