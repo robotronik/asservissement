@@ -44,25 +44,26 @@ void start()
 #endif
 		match_get_etat() != MATCH_FIN)
 	{
+		//asservissement
+		asser(consigne);
+
+		//on recalcule la position actuelle du robot (via les roues codeuses)
+		actualise_position();
+
 		//on met à jour la consigne pour l'asser
 		update_consigne();
 
 		//test si synchro ok : attention bloquant à retirer pour la coupe
-		/*if(!attente_synchro())
+		if(!attente_synchro())
 		{
+			motors_stop();
 			while(1) {
 				allumer_del();
 				pause_ms(500);
 				eteindre_del();
 				pause_ms(500);
 			}
-		}*/
-
-		//asservissement
-		asser(consigne);
-
-		//on recalcule la position actuelle du robot (via les roues codeuses)
-		actualise_position();
+		}
 
 		//on envoie notre position au PC (débug)
 		//NB: vu que le traitement un peu long, je ne l'active que si le debug
