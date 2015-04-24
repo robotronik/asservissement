@@ -17,7 +17,7 @@
 #endif
 #include "match.h"
 
-#include "../uart/text_reception.h"
+#include "../common_code/uart/text_reception.h"
 
 
 ////////////////////////////////////////////////////////////////////////////////

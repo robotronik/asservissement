@@ -2,7 +2,7 @@
 #include <ctype.h>
 
 #include "../common_code/common.h"
-#include "../uart/text_reception.h"
+#include "../common_code/uart/text_reception.h"
 #include "reception.h"
 #include "match.h"
 #include "communication.h"

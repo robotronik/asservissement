@@ -63,5 +63,5 @@ void new_chemin()
 
 void send_position_atteinte()
 {
-	debug("atteint\n");
+	//debug("atteint\n");
 }

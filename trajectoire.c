@@ -54,7 +54,7 @@ void start()
 		update_consigne();
 
 		//test si synchro ok : attention bloquant à retirer pour la coupe
-		if(!attente_synchro())
+	/*	if(!attente_synchro())
 		{
 			motors_stop();
 			while(1) {
@@ -64,7 +64,7 @@ void start()
 				pause_ms(500);
 			}
 		}
-
+*/
 		//on envoie notre position au PC (débug)
 		//NB: vu que le traitement un peu long, je ne l'active que si le debug
 		//est actif (de toute façon il ne se passe rien si DEBUG n'est pas
