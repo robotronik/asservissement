@@ -132,22 +132,22 @@ enum state_t lecture_cle(char c, struct search_key_t *sk,
                          enum state_t current_state)
 {
     // Lecture d'une clé
-    debug("reception clé\n");
+    debug(1, "reception clé\n");
 
     if(is_whitespace(c)) {
-        debug("espace ignoré dans la clé\n");
+        debug(1, "espace ignoré dans la clé\n");
         return current_state;
     }
 
     int ret = search_key(c, sk);
 
     if (ret >= KEY_SIZE) {
-        debug("ERREUR, clé inconnu: %d\n", ret);
+        debug(1, "ERREUR, clé inconnu: %d\n", ret);
     }
 
     // erreur, on attend la fin du message courant
     if (ret == -1) {
-        debug("ERREUR, clé non trouvé\n");
+        debug(1, "ERREUR, clé non trouvé\n");
         help();
         if (is_end(c)) {
             return WAIT_FONCTION;
@@ -158,7 +158,7 @@ enum state_t lecture_cle(char c, struct search_key_t *sk,
 
     // On a fini de recevoir la clé
     if (ret >= 0) {
-        debug("CLÉ TROUVÉ : %s\n", keys[ret]);
+        debug(1, "CLÉ TROUVÉ : %s\n", keys[ret]);
 
         switch (ret) {
             case KEY_X:
@@ -180,7 +180,7 @@ enum state_t lecture_cle(char c, struct search_key_t *sk,
             case CMD_QUIT:
                 // fin du match
                 // NB: ce cas n'est normalement pas à être géré par l'assert
-                debug("FIN DU MATCH\n");
+                debug(1, "FIN DU MATCH\n");
                 match_set_etat(MATCH_FIN);
                 return current_state;
 
@@ -189,22 +189,22 @@ enum state_t lecture_cle(char c, struct search_key_t *sk,
                 return WAIT_NEW_LINE;
 
             case FCT_ALPHA_DELTA:
-                debug("new_alpha_delta(%d, %d);\n", *alpha, *delta);
+                debug(1, "new_alpha_delta(%d, %d);\n", *alpha, *delta);
                 new_alpha_delta(*alpha, *delta);
                 return WAIT_NEW_LINE;
 
             case FCT_XY_RELATIF:
-                debug("new_xy_relatif(%d, %d);\n", *x, *y);
+                debug(1, "new_xy_relatif(%d, %d);\n", *x, *y);
                 new_xy_relatif(*x, *y);
                 return WAIT_NEW_LINE;
 
             case FCT_XY_ABSOLU:
-                debug("new_xy_absolu(%d, %d);\n", *x,*y);
+                debug(1, "new_xy_absolu(%d, %d);\n", *x,*y);
                 new_xy_absolu(*x,*y);
                 return WAIT_NEW_LINE;
 
             case FCT_THETA:
-                debug("new_theta(%d);\n", *theta);
+                debug(1, "new_theta(%d);\n", *theta);
                 new_theta(*theta);
                 return WAIT_NEW_LINE;
 
@@ -219,9 +219,9 @@ enum state_t lecture_cle(char c, struct search_key_t *sk,
             case FCT_CHEMIN:
                 add_point(*x, *y, chemin);
 #if DEBUG
-                debug("Envoie du chemin\n");
+                debug(1, "Envoie du chemin\n");
                 for (int i = 0; i < chemin->taille; i++) {
-                    debug("	%d, %d\n", chemin->point[i].x, chemin->point[i].y);
+                    debug(1, "	%d, %d\n", chemin->point[i].x, chemin->point[i].y);
                 }
 #endif
                 set_trajectoire_chemin(*chemin);
@@ -229,33 +229,33 @@ enum state_t lecture_cle(char c, struct search_key_t *sk,
                 return WAIT_NEW_LINE;
 
             case FCT_UPDATE:
-                debug("update()\n");
+                debug(1, "update()\n");
                 *theta = get_theta_actuel();
                 *x     = get_x_actuel();
                 *y     = get_y_actuel();
                 *alpha = get_alpha_actuel();
                 *delta = get_delta_actuel();
-                debug("Desormais, x = %d, y=%d, theta=%d, alpha=%d, delta=%d\n", *x, *y, *theta, *alpha, *delta);
+                debug(1, "Desormais, x = %d, y=%d, theta=%d, alpha=%d, delta=%d\n", *x, *y, *theta, *alpha, *delta);
                 return WAIT_NEW_LINE;
 
             case FCT_MODE_TENDU:
-                debug("utilisation du mode tendu\n");
+                debug(1, "utilisation du mode tendu\n");
                 set_trajectoire_mode(tendu);
                 return WAIT_NEW_LINE;
 
             case FCT_MODE_COURBE:
                 set_trajectoire_mode(courbe);
-                debug("utilisation du mode courbe\n");
+                debug(1, "utilisation du mode courbe\n");
                 return WAIT_NEW_LINE;
 
             default:
-                debug("ERREUR dans le programme de lecture des clées\n");
+                debug(1, "ERREUR dans le programme de lecture des clées\n");
                 return current_state;
         }
     }
 
     // transmission en cours, on reste dans le même état
-    debug("réception de la clé en cour\n");
+    debug(1, "réception de la clé en cour\n");
     return current_state;
 }
 
@@ -266,10 +266,10 @@ enum state_t lecture_val(char c, struct search_key_t *sk, int *val,
     static bool is_neg_number = false;
 
     // Lecture d'un entier
-    debug("lecture entier\n");
+    debug(1, "lecture entier\n");
 
     if(is_whitespace(c)) {
-        debug("espace ignoré durant la lecture\n");
+        debug(1, "espace ignoré durant la lecture\n");
         return current_state;
     }
 
@@ -277,18 +277,18 @@ enum state_t lecture_val(char c, struct search_key_t *sk, int *val,
     if (first_char) {
         first_char = false;
         if (c == '-') {
-            debug("Le nombre est négatif\n");
+            debug(1, "Le nombre est négatif\n");
             is_neg_number = true;
             return current_state;
         }
     }
 
     int ret = read_int(c, val);
-    debug("value read: %d\n", *val);
+    debug(1, "value read: %d\n", *val);
 
     // la récéption n'est pas fini, on reste dans le même état
     if (ret == 0) {
-        debug("reception en cour\n");
+        debug(1, "reception en cour\n");
         return current_state;
     }
 
@@ -297,8 +297,8 @@ enum state_t lecture_val(char c, struct search_key_t *sk, int *val,
         if (is_neg_number) {
             *val = -*val;
         }
-        debug("reception terminé\n");
-        debug("valeur: %d\n", *val);
+        debug(1, "reception terminé\n");
+        debug(1, "valeur: %d\n", *val);
 
         // On se prépare à recevoir une nouvelle trame
         reset_search(sk);
@@ -309,16 +309,16 @@ enum state_t lecture_val(char c, struct search_key_t *sk, int *val,
 
     // erreur
     if (ret == -1) {
-        debug("ERREUR, d'overflow\n");
+        debug(1, "ERREUR, d'overflow\n");
         *val = 0;
         return WAIT_NEW_LINE;
     }
     else if (ret == -2) {
-        debug("ERREUR, %c n'est pas un nombre\n", c);
+        debug(1, "ERREUR, %c n'est pas un nombre\n", c);
         return WAIT_NEW_LINE;
     }
     else {
-        debug("ERREUR inconnu lors de la lecture d'une valeure : %d\n", ret);
+        debug(1, "ERREUR inconnu lors de la lecture d'une valeure : %d\n", ret);
         *val = 0;
         return WAIT_NEW_LINE;
     }
@@ -327,7 +327,7 @@ enum state_t lecture_val(char c, struct search_key_t *sk, int *val,
 enum state_t wait_end_of_trame(char c, struct search_key_t *sk, enum state_t current_state)
 {
     // On attend la fin de la trame
-    debug("wait end of trame\n");
+    debug(1, "wait end of trame\n");
 
     if (is_end(c)) {
         // On se prépare à recevoir une nouvelle trame
@@ -362,9 +362,9 @@ void uart_interrupt(char uart_char)
     // on ne tient pas compte de la casse
     char c = tolower(uart_char);
 
-    debug("\n");
-    debug("\n");
-    debug("charactère lu : %c\n", c);
+    debug(1, "\n");
+    debug(1, "\n");
+    debug(1, "charactère lu : %c\n", c);
 
     // on calcule l'état suivant
     switch (state) {
@@ -396,7 +396,7 @@ void uart_interrupt(char uart_char)
             break;
     }
 
-    debug("etat final : %s\n", state_name[state]);
+    debug(1, "etat final : %s\n", state_name[state]);
 }
 
 
@@ -416,15 +416,15 @@ void help()
 
 void efface_chemin(s_liste *chemin)
 {
-    debug("chemin effacé\n");
+    debug(1, "chemin effacé\n");
     chemin->taille = 0;
 }
 
 void add_point(int x, int y, s_liste *chemin)
 {
-    debug("ajout du point %d, %d\n", x, y);
+    debug(1, "ajout du point %d, %d\n", x, y);
     if (chemin->taille >= MAX_POSITIONS) {
-        debug("\nAttention, le chemin est **trop long**. Point ignoré\n");
+        debug(1, "\nAttention, le chemin est **trop long**. Point ignoré\n");
         return;
     }
     chemin->point[chemin->taille].x = x;

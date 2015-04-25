@@ -5,10 +5,10 @@
 ################################################################################
 
 # Options
-export PIC   = yes
+export PIC   = no
 export ROBOT = gros
 export SDL   = no
-export DEBUG = 0
+export DEBUG = 2
 
 # Constantes de compilation
 

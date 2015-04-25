@@ -56,7 +56,7 @@ void actualise_position()
 	alpha_actuel=alpha_lu;
 	theta_actuel=borne_angle(alpha_lu);
 
-	//debug("D_act:%ld a_act:%ld th_act:%d D_voul:%d a_voul:%d\n\n",delta_actuel,alpha_actuel,theta_actuel, get_delta_voulu(), get_alpha_voulu()); //à virer
+	debug(3, "D_act:%ld a_act:%ld th_act:%d D_voul:%d a_voul:%d\n\n",delta_actuel,alpha_actuel,theta_actuel, get_delta_voulu(), get_alpha_voulu()); //à virer
 
 	//on envoie notre position au PC (débug)
 	//NB: vu que le traitement un peu long, je ne l'active que si le debug
@@ -75,7 +75,7 @@ void actualise_position()
 		prev_y != current_y ||
 		prev_theta != current_theta)
 	{
-		debug("position actuelle : x=%d y=%d, theta=%d\n",
+		debug(2, "position actuelle : x=%d y=%d, theta=%d\n",
 		x_actuel, y_actuel,theta_actuel);
 	}
 	prev_x	   = current_x;

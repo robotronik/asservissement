@@ -24,6 +24,7 @@
 #include "match.h"
 
 #include "../common_code/uart/text_reception.h"
+#include "../common_code/debug.h"
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -53,6 +54,9 @@ int main()
 	init_trajectoire();
 	init_hardware();
 	init_asser();
+    debug(-1, "auie\n");
+
+    debug_byte(1, 'b');
 
 	/*chemin pour le test*/
 	//s_liste chemin;
