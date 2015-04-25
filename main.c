@@ -121,4 +121,6 @@ int main()
     if (ret != 0)
         fprintf(stderr, "erreur %d\n", ret);
     #endif
+
+    return 0;
 }
