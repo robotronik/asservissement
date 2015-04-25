@@ -151,11 +151,11 @@ odometrie.o: $(F_REGLAGES_H) hardware.h math_precalc.h
 
 trajectoire.o: odometrie.h asser.h
 
-tests_unitaires.o: $(F_HARDWARE_H) asser.h odometrie.h communication.h $(F_REGLAGES_H)
+tests_unitaires.o: asser.h odometrie.h communication.h $(F_REGLAGES_H)
 
 reception.o: communication.h
 
-hardware.o: $(F_HARDWARE_C) $(F_HARDWARE_H)
+hardware.o: $(F_HARDWARE_C)
 	$(CC) $(CFLAGS) -o $@ -c $<
 
 match.o:
