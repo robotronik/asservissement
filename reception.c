@@ -262,12 +262,25 @@ enum state_t lecture_cle(char c, struct search_key_t *sk,
 enum state_t lecture_val(char c, struct search_key_t *sk, int *val,
                          enum state_t current_state)
 {
+    static bool first_char = true;
+    static bool is_neg_number = false;
+
     // Lecture d'un entier
     debug("lecture entier\n");
 
     if(is_whitespace(c)) {
         debug("espace ignoré durant la lecture\n");
         return current_state;
+    }
+
+    // le premier char peut être un signe '-'
+    if (first_char) {
+        first_char = false;
+        if (c == '-') {
+            debug("Le nombre est négatif\n");
+            is_neg_number = true;
+            return current_state;
+        }
     }
 
     int ret = read_int(c, val);
@@ -281,11 +294,16 @@ enum state_t lecture_val(char c, struct search_key_t *sk, int *val,
 
     // reception terminée
     if (ret > 0) {
+        if (is_neg_number) {
+            *val = -*val;
+        }
         debug("reception terminé\n");
         debug("valeur: %d\n", *val);
 
         // On se prépare à recevoir une nouvelle trame
         reset_search(sk);
+        first_char = true;
+        is_neg_number = false;
         return WAIT_FONCTION;
     }
 
