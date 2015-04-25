@@ -17,6 +17,8 @@
  * delta=value   : mise à jour de la variable delta (distance en cm)
  * theta=value   : mise à jour de la variable theta (angle absolu en degré)
  *
+ * NB : les nombres négatifs sont prix en compte (ex: `x = -300`)
+ *
  * q             : quitte la simulation
  * ?             : affiche l'aide
  *
