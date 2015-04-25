@@ -107,10 +107,8 @@ endif
 ################################################################################
 
 # Cibles du projet
-FICHIERS_C  += $(F_HARDWARE_C)
-
 FICHIERS_H  += $(FICHIERS_C:.c=.h) hardware.h $(F_REGLAGES_H) $(COMMON_H)
-FICHIERS_O  += $(FICHIERS_C:.c=.o) main.o
+FICHIERS_O  += $(FICHIERS_C:.c=.o) main.o hardware.o
 SOURCEFILES += $(FICHIERS_C) $(FICHIERS_H)
 
 all:$(EXEC)
@@ -153,9 +151,12 @@ odometrie.o: $(F_REGLAGES_H) hardware.h math_precalc.h
 
 trajectoire.o: odometrie.h asser.h
 
-tests_unitaires.o: $(F_HARDWARE_C) asser.h odometrie.h communication.h $(F_REGLAGES_H)
+tests_unitaires.o: $(F_HARDWARE_H) asser.h odometrie.h communication.h $(F_REGLAGES_H)
 
 reception.o: communication.h
+
+hardware.o: $(F_HARDWARE_C) $(F_HARDWARE_H)
+	$(CC) $(CFLAGS) -o $@ -c $<
 
 match.o:
 
