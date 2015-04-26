@@ -37,7 +37,7 @@ export PIC_LDFLAGS= -Wl,-mcpu=33FJ128MC802,--script=p33FJ128MC802.gld,--stack=16
 COMMON_DIR = ../common_code/
 COMMON_H   = $(COMMON_DIR)/*.h
 UART_DIR   = $(COMMON_DIR)/uart/
-FICHIERS_UART_C = $(UART_DIR)/text_reception.c
+FICHIERS_UART_C = $(UART_DIR)/text_reception.c $(UART_DIR)/protocole.c
 
 FICHIER_AFFICHAGE_C = $(COMMON_DIR)/simulation/affichage.c
 

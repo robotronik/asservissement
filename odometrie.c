@@ -75,7 +75,7 @@ void actualise_position()
 		prev_y != current_y ||
 		prev_theta != current_theta)
 	{
-		debug(2, "position actuelle : x=%d y=%d, theta=%d\n",
+		debug(2, "position actuelle : x=%f y=%f, theta=%d\n",
 		x_actuel, y_actuel,theta_actuel);
 	}
 	prev_x	   = current_x;
