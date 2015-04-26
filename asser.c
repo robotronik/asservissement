@@ -1,7 +1,3 @@
-#include "asser.h"
-#include "PID.h"
-#include "hardware.h"
-
 #if PIC_BUILD
 #	if   GROS
 #		include "reglages_gros.h"
@@ -12,10 +8,14 @@
 #	include "reglages_PC.h"
 #endif
 
+#include "PID.h"
+#include "hardware.h"
 #include "trajectoire.h"
 #include "odometrie.h"
 #include "communication.h"
 #include "../common_code/debug.h"
+
+#include "asser.h"
 
 void update_erreurs(s_consigne consigne);
 void mise_echelle(long int * commande_D, long int * commande_G);

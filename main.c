@@ -17,13 +17,14 @@
 #include "trajectoire.h"
 #include "odometrie.h"
 #include "tests_unitaires.h"
-#include "reception.h"
 #if USE_SDL
-#include "simulation/affichage.h" // à virer
+#   include "simulation/affichage.h" // à virer
 #endif
 #include "match.h"
 
+#include "../common_code/uart/reception.h"
 #include "../common_code/uart/text_reception.h"
+#include "../common_code/uart/protocole.h"
 #include "../common_code/debug.h"
 
 
@@ -54,10 +55,16 @@ int main()
 	init_trajectoire();
 	init_hardware();
 	init_asser();
-    debug(-1, "auie\n");
 
-    debug_byte(1, 'b');
+    uart_trame_builder_init();
+    uart_trame_builder_append_envoie_coordonnees(110, 1280);
+    uart_trame_builder_append_mouvement_xy_absolu();
+    debug(-1, "\n%s", uart_trame_builder_get_string());
 
+    uart_trame_builder_init();
+    uart_trame_builder_append_envoie_coordonnees(110, 1280);
+    uart_trame_builder_append_mouvement_xy_absolu();
+    debug(-1, "\n%s", uart_trame_builder_get_string());
 	/*chemin pour le test*/
 	//s_liste chemin;
 	//chemin.taille=7;
@@ -97,10 +104,10 @@ int main()
 	    //test_asser_chemin(chemin);
 
 	#if PIC_BUILD
-    /*démarage de l'asservissement*/
+    //démarage de l'asservissement
 	start();
 
-	/*évite un reset automatique du microcontroleur*/
+	//évite un reset automatique du microcontroleur
     while (1) {;}
 
     #else

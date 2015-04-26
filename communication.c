@@ -1,9 +1,6 @@
 #include "trajectoire.h"
 #include "odometrie.h"
 #include "../common_code/debug.h" //à virer
-#if USE_SDL
-#include "simulation/affichage.h" // à virer
-#endif
 
 /*TODO : implémenter le protocole de comunication comme ça
 avait été fait dans message.c pour le code présent dans "old"*/

@@ -4,6 +4,10 @@
 #include "hardware.h"
 #include <p33FJ128MC802.h>
 
+void reset_nbr_tick_G();
+void reset_nbr_tick_D();
+
+
 #define MAX_SPEED 3999  // Entrée max des PWMs = 2*Période des PWMs
                         // Fréquence des PWMs = 20 kHz
 #define MIN_SPEED 900   // Entrée min sauf pour l'arrêt
@@ -25,19 +29,6 @@ typedef union {
     } part;
 } T_dividedULong;
 
-void init_osc();
-void io_init();
-void PWM1_init ();
-void QEI_init ();
-void timer_init();
-void UART_init();
-void motors_stop(void); // Arrete les moteurs
-void reset_nbr_tick_G();
-void reset_nbr_tick_D();
-void allumer_del();
-void eteindre_del(void);
-void pause_ms(unsigned short n);
-void pause_s(unsigned short n);
 
 
 int doitAttendre=1;
@@ -87,11 +78,11 @@ void init_osc()
 	CLKDIVbits.PLLPRE = 0;		// (FRC) /2
 	PLLFBD = 41;				// (FRC/2) *43
 	CLKDIVbits.PLLPOST = 0;		// (FRC/2*43) /2
-	
+
 	__builtin_write_OSCCONH((OSCCONH | 1 )& 0xF9);	// Choix de l'horloge FRC avec PLL
 	__builtin_write_OSCCONL(OSCCONL | 1);		// Changement d'horloge
 	//while (!OSCCONbits.LOCK);	// Attend le bloquage de la PLL (debug)
-	
+
 
 
 	while (OSCCONbits.OSWEN); 						// Attend le changement
@@ -132,7 +123,7 @@ void io_init()
 }
 
 /** Initialise le module PWM PWM1 **/
-void PWM1_init ()
+void PWM1_init()
 {
 	//P1TCONbits.PTSIDL = 1;	// Arret en pause
 
@@ -146,7 +137,7 @@ void PWM1_init ()
 
     P1TCONbits.PTEN = 1;        // Active le Timer des PWMs
     P1TCONbits.PTOPS = 5-1;	// Reset automatique aux modif de P1TCON
-	
+
 }
 
 void timer_init()
@@ -191,10 +182,10 @@ void timer_init()
 	IPC1bits.T2IP = 0x01; // Set Timer1 Interrupt Priority Level
 	IFS0bits.T2IF = 0; // Clear Timer1 Interrupt Flag
 	IEC0bits.T2IE = 1; //Enable interupt
-}	
+}
 
 
-void QEI_init ()
+void QEI_init()
 {
     /* Initialise les décodeurs en quadrature QEI1 et QEI2 */
 
@@ -224,7 +215,7 @@ void QEI_init ()
     /* Reset compteurs */
     POS1CNT = 0;
     POS2CNT = 0;
-	
+
 	/* Activation des interruptions sur débordement des compteurs */
 	IEC3bits.QEI1IE = 1;
 	IEC4bits.QEI2IE = 1;
@@ -245,7 +236,7 @@ void UART_init()
 	// Low speed : BRG = 79,23 MHz / 32 / Baudrate - 1
 	U1MODEbits.BRGH = 1;	// High speed : BRG = 79,23 MHz / 8 / Baudrate - 1
 	U1BRG = 85; 			// BAUD Rate Setting for 115200 gives 115160 bauds
-	
+
 #ifdef INT_UART_TX
 	U1STAbits.UTXISEL1 = 1;	// Interrupt on empty FIFO, last byte is being sent
 	U1STAbits.UTXISEL0 = 0;	//                      "
@@ -269,8 +260,8 @@ void init_hardware()
 	init_osc();
 	//__builtin_write_OSCCONL(OSCCON & ~(0x40));	// Débloquage des RPIN et RPOR
     io_init();
-    PWM1_init ();
-    QEI_init ();
+    PWM1_init();
+    QEI_init();
     UART_init();
     timer_init();
 	//__builtin_write_OSCCONL(OSCCON | 0x40);		// Rebloquage des RPIN et RPOR
@@ -468,13 +459,13 @@ void UART_putc(unsigned char c)
                 IEC0bits.U1TXIE = 1;    // Activation de l'interruption
                 return;
         } else U1TXREG = c;
-       
+
 #else //#ifdef INT_UART_TX
-       
+
         while (U1STAbits.UTXBF);
         U1TXREG = c;
 #endif //#ifdef INT_UART_TX
-       
+
         return;
 }
 
@@ -496,7 +487,7 @@ int UART_getc(unsigned char *byte) {
                 return 1;
         }
         return 0;
-}      
+}
 
 void __attribute__((interrupt, auto_psv)) _U1RXInterrupt(void)
 {
@@ -535,7 +526,7 @@ void __attribute__((interrupt, auto_psv)) _U1RXInterrupt(void)
 void __attribute__((interrupt, auto_psv)) _U1TXInterrupt(void)
 {
         IFS0bits.U1TXIF = 0; // On s'acquitte de l'interruption
-       
+
         if(U1STAbits.FERR == 1) // Erreurs ?
                 return ;
         // must clear the overrun error to keep uart receiving
@@ -544,7 +535,7 @@ void __attribute__((interrupt, auto_psv)) _U1TXInterrupt(void)
                 U1STAbits.OERR = 0;
                 return ;
         }
-       
+
         while (txBufferLength && !U1STAbits.UTXBF) {            // Si le buffer du module n'est pas plein
                 U1TXREG = txBuffer[indexTxBuffer];
                 txBufferLength --;

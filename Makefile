@@ -7,7 +7,7 @@
 # Options
 export PIC   = no
 export ROBOT = gros
-export SDL   = no
+export SDL   = yes
 export DEBUG = 2
 
 # Constantes de compilation
@@ -37,7 +37,7 @@ export PIC_LDFLAGS= -Wl,-mcpu=33FJ128MC802,--script=p33FJ128MC802.gld,--stack=16
 COMMON_DIR = ../common_code/
 COMMON_H   = $(COMMON_DIR)/*.h
 UART_DIR   = $(COMMON_DIR)/uart/
-FICHIERS_UART_C = $(UART_DIR)/text_reception.c $(UART_DIR)/protocole.c
+FICHIERS_UART_C = $(UART_DIR)/text_reception.c $(UART_DIR)/reception.c $(UART_DIR)/protocole.c
 
 FICHIER_AFFICHAGE_C = $(COMMON_DIR)/simulation/affichage.c
 
@@ -54,7 +54,6 @@ FICHIERS_C =\
 	trajectoire.c \
 	math_precalc.c \
 	tests_unitaires.c \
-	reception.c \
 	match.c
 
 #FICHIERS_H =\
@@ -153,7 +152,7 @@ trajectoire.o: odometrie.h asser.h
 
 tests_unitaires.o: asser.h odometrie.h communication.h $(F_REGLAGES_H)
 
-reception.o: communication.h
+$(UART_DIR)reception.o: communication.h
 
 hardware.o: $(F_HARDWARE_C)
 	$(CC) $(CFLAGS) -o $@ -c $<
