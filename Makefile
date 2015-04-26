@@ -5,7 +5,7 @@
 ################################################################################
 
 # Options
-export PIC   = no
+export PIC   = yes
 export ROBOT = gros
 export SDL   = yes
 export DEBUG = 2

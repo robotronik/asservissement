@@ -15,4 +15,9 @@ long int get_nbr_tick_G();
 int attente_synchro();
 void reset_synchro();
 
+void allumer_del();
+void pause_ms(unsigned short n);
+void eteindre_del();
+void motors_stop();
+
 #endif

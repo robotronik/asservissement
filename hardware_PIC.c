@@ -42,7 +42,7 @@ void allumer_del()
     _RB5 = 0; // nouvelle carte
 }
 
-void eteindre_del(void)
+void eteindre_del()
 {
     _RB5 = 1; // nouvelle carte
 }
@@ -336,7 +336,7 @@ void set_PWM_moteur_G(int PWM)
     }
 }
 
-void motors_stop(void)
+void motors_stop()
 {
 	// On met les 4 sorties en logique
 	PWM1CON1bits.PEN1H = 0;
@@ -365,6 +365,11 @@ long get_nbr_tick_G()
 	long * pPosL=&PosL;
 	((T_dividedLong *) pPosL)->part.high = distLHigh;
 	((T_dividedLong *) pPosL)->part.low = POS1CNT;
+    if (PosL == 0) {
+        allumer_del();
+    } else {
+        eteindre_del();
+    }
 	return PosL;
 }
 
@@ -380,14 +385,14 @@ void reset_nbr_tick_D()
 	distRHigh = 0;
 }
 
-void __attribute__((interrupt, auto_psv)) _QEI1Interrupt(void)
+void __attribute__((interrupt, auto_psv)) _QEI1Interrupt()
 {
 	IFS3bits.QEI1IF = 0; // On s'acquitte de l'interruption
 	if ((unsigned short) POS1CNT < 32768) distLHigh ++;
 	else distLHigh --;
 }
 
-void __attribute__((interrupt, auto_psv)) _QEI2Interrupt(void)
+void __attribute__((interrupt, auto_psv)) _QEI2Interrupt()
 {
 	IFS4bits.QEI2IF = 0; // On s'acquitte de l'interruption
 	if ((unsigned short) POS2CNT < 32768) distRHigh ++;
@@ -407,7 +412,7 @@ void reset_synchro()
     doitAttendre=1;
 }
 
-void __attribute__((__interrupt__, no_auto_psv)) _T1Interrupt(void)
+void __attribute__((__interrupt__, no_auto_psv)) _T1Interrupt()
 {
     doitAttendre = 0;
     IFS0bits.T1IF = 0;
@@ -489,7 +494,7 @@ int UART_getc(unsigned char *byte) {
         return 0;
 }
 
-void __attribute__((interrupt, auto_psv)) _U1RXInterrupt(void)
+void __attribute__((interrupt, auto_psv)) _U1RXInterrupt()
 {
         IFS0bits.U1RXIF = 0; // On s'acquitte de l'interruption
 
@@ -510,7 +515,7 @@ void __attribute__((interrupt, auto_psv)) _U1RXInterrupt(void)
         //if(U1STAbits.URXDA == 1) message_processing(U1RXREG);
 }
 
-/*void __attribute__((interrupt, auto_psv)) _U1ErrInterrupt(void)
+/*void __attribute__((interrupt, auto_psv)) _U1ErrInterrupt()
 {
         IFS4bits.U1EIF = 0; // On s'acquitte de l'interruption
         if(U1STAbits.FERR == 1) // Erreurs ?
@@ -523,7 +528,7 @@ void __attribute__((interrupt, auto_psv)) _U1RXInterrupt(void)
 }*/
 
 #ifdef INT_UART_TX
-void __attribute__((interrupt, auto_psv)) _U1TXInterrupt(void)
+void __attribute__((interrupt, auto_psv)) _U1TXInterrupt()
 {
         IFS0bits.U1TXIF = 0; // On s'acquitte de l'interruption
 
