@@ -1,4 +1,4 @@
-
+#include "trajectoire.h"
 /* ================================= */
 /* PROTOCOLE DE TRANSMISSION TEXTE   */
 /* ================================= */
@@ -33,6 +33,10 @@ void uart_received_theta(int theta) {
 
 // Gestion des chemins de points
 void uart_received_nouveau_point_dans_chemin() {
+    if(!add_point_chemin(received_x, received_y)) {
+        debug(1, "\nAttention, le chemin est **trop long**. Point ignoré\n");
+    }
+
 }
 void uart_received_execute_le_chemin() {
 }
