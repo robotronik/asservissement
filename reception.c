@@ -72,7 +72,9 @@ enum key_t {
 
     // info
     KEY_SIZE,
-    VAL_SIZE = KEY_THETA + 1
+    VAL_SIZE = KEY_THETA + 1,
+    CMD_INDEX = CMD_QUIT,
+    FCT_INDEX = FCT_ALPHA_DELTA,
 };
 
 static char *keys[KEY_SIZE] = {
@@ -99,11 +101,11 @@ static char *keys[KEY_SIZE] = {
 
 #if DEBUG
 static char *keys_help[KEY_SIZE] = {
-    [KEY_X]            = "coordonnées absolu en cm",
-    [KEY_Y]            = "coordonnées absolu en cm",
-    [KEY_ALPHA]        = "angle relatif en ???? degré? milidegré?",
-    [KEY_DELTA]        = "distance relative en cm",
-    [KEY_THETA]        = "angle absolu en ???? degré? milidegré?",
+    [KEY_X]            = "(*) coordonnées absolu en cm",
+    [KEY_Y]            = "(*) coordonnées absolu en cm",
+    [KEY_ALPHA]        = "(*) angle relatif en ???? degré? milidegré?",
+    [KEY_DELTA]        = "(*) distance relative en cm",
+    [KEY_THETA]        = "(*) angle absolu en ???? degré? milidegré?",
 
     [CMD_QUIT]         = "quitter la simulation",
     [CMD_HELP]         = "affiche l'aide",
@@ -115,8 +117,8 @@ static char *keys_help[KEY_SIZE] = {
     [FCT_ADD]          = "Ajoute les points x et y dans le prochain chemin",
     [FCT_CLEAR]        = "Efface le chemin en cours de construction",
     [FCT_CHEMIN]       = "Envoie le chemin précédemment construit",
-    [FCT_UPDATE]       = "met à jour les variables du protocole de simulation "
-            "pour qu'elle correspondent à celle utilisées par l'assert",
+    [FCT_UPDATE]       = "met à jour les variables du protocole de simulation pour \n"
+            "                    qu'elle correspondent à celle utilisées par l'assert",
     [FCT_MODE_TENDU]   = "déplacement en mode tendu",
     [FCT_MODE_COURBE]  = "déplacement en mode courbe",
 };
@@ -398,18 +400,42 @@ void uart_interrupt(char uart_char)
             break;
     }
 
+#if DEBUG
     debug(1, "etat final : %s\n", state_name[state]);
+#endif // DEBUG
 }
 
 
 void help()
 {
-    debug(1,"\n-------------------------------\n");
-    debug(1,"Liste des commandes supportées:\n");
+    info("\n-------------------------------\n");
+    info("Liste des commandes supportées:\n\n");
+
     for (int i = 0; i < KEY_SIZE; i++) {
-        debug(1,"%s\t\t%s\n", keys[i], keys_help[i]);
+
+        // séparation des parties
+        if ((i == CMD_INDEX) || (i == FCT_INDEX)) {
+            info("\n");
+        }
+
+        // affichage de l'aide
+        // NB: elle est plus complète si elle est compilé avec le débug
+        info("%-20s", keys[i]);
+#if DEBUG
+        debug(1,"%s", keys_help[i]);
+#endif // DEBUG
+
+        info("\n");
+
     }
-    debug(1,"-------------------------------\n\n");
+
+    debug(1,"\n\n"
+        "(*) Les commades suivantes permettent de préparer les arguments d'autres \n"
+        "commandes. Elles sont suivit sur la même lignes d'une valeure entiere (pouvant \n"
+        "être précédé d'un signe `-`). Cette valeure sera affecté à la variable.\n"
+        );
+    debug(1,"\nRemarque: les espaces et les tabulations sont ignorées dans les commandes.\n");
+    info("-------------------------------\n\n");
 }
 
 void efface_chemin(s_liste *chemin)
