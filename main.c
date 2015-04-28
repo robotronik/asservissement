@@ -51,18 +51,18 @@ int main()
 
 
 	/*init*/
-	init_odometrie();
-	init_trajectoire();
-	init_hardware();
-	init_asser();
+	//init_odometrie();
+	//init_trajectoire();
+	//init_hardware();
+	//init_asser();
 
     uart_trame_builder_init();
-    uart_trame_builder_append_envoie_coordonnees(110, 1280);
+    uart_trame_builder_append_coordonnees(110, 1280);
     uart_trame_builder_append_mouvement_xy_absolu();
     debug(-1, "\n%s", uart_trame_builder_get_string());
 
     uart_trame_builder_init();
-    uart_trame_builder_append_envoie_coordonnees(110, 1280);
+    uart_trame_builder_append_coordonnees(110, 1280);
     uart_trame_builder_append_mouvement_xy_absolu();
     debug(-1, "\n%s", uart_trame_builder_get_string());
 	/*chemin pour le test*/
@@ -102,7 +102,7 @@ int main()
 		//test_asser_xy_relatif_tendu(0,400);
 	    //test_asser_xy_absolu_tendu(140,400+140);
 	    //test_asser_chemin(chemin);
-
+/*
 	#if PIC_BUILD
     //démarage de l'asservissement
 	start();
@@ -132,6 +132,6 @@ int main()
     if (ret != 0)
         fprintf(stderr, "erreur %d\n", ret);
     #endif
-
+*/
     return 0;
 }
