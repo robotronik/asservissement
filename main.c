@@ -58,12 +58,9 @@ int main()
     uart_trame_builder_init();
     uart_trame_builder_append_coordonnees(110, 1280);
     uart_trame_builder_append_mouvement_xy_absolu();
-    debug(-1, "\n%s", uart_trame_builder_get_string());
+    //debug(-1, "\n%s", uart_trame_builder_get_string());
+    uart_trame_builder_send_string();
 
-    uart_trame_builder_init();
-    uart_trame_builder_append_coordonnees(110, 1280);
-    uart_trame_builder_append_mouvement_xy_absolu();
-    debug(-1, "\n%s", uart_trame_builder_get_string());
 	/*chemin pour le test*/
 	//s_liste chemin;
 	//chemin.taille=7;
