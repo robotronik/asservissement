@@ -22,6 +22,7 @@ int doit_attendre()
 //une fois quelque chose reçu on envoie à "communicution.c"*/
 #include <math.h>
 #include "hardware.h"
+#include "../common_code/common.h"
 
 long int PWM_D;
 long int PWM_G;
@@ -56,3 +57,7 @@ int attente_synchro()
 
 void reset_synchro()
 {}
+
+void UART_putc(unsigned char c) {
+    debug_byte(1, c);
+}
