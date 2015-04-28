@@ -3,15 +3,16 @@
 /* PROTOCOLE DE TRANSMISSION TEXTE   */
 /* ================================= */
 
+// Ici devra exister un gros "switch" traitant toutes les clés ( = define)
+// pour appeler les fonctions qu'il faut dans l'asser.
 
-//*************** Implémentation de l'API de réception :
-/* Voici les définitions des fonctions déclarées dans l'UART.
- * On peut bien sûr implémenter des fonctions vides, si on ne veut pas
- * gérer certains messages ! ;)
+// Les fonctions commentées ci-dessous listent l'ensemble des événements à gérer.
 
- (Quoi, moi, influencé par le java ? Noooooooon…)
- */
 
+
+
+
+/*
 int received_x = 0,
     received_y = 0;
 int received_alpha = 0,
@@ -36,9 +37,10 @@ void uart_received_nouveau_point_dans_chemin() {
     if(!add_point_chemin(received_x, received_y)) {
         debug(1, "\nAttention, le chemin est **trop long**. Point ignoré\n");
     }
-
 }
+
 void uart_received_execute_le_chemin() {
+    //set_trajectoire_chemin();
 }
 
 // Déplacements classiques
@@ -65,8 +67,10 @@ void uart_received_mouvement_theta() {
 
 // Modes de déplacement
 void uart_received_mode_tendu() {
+    set_trajectoire_mode(tendu);
 }
 void uart_received_mode_courbe() {
+    set_trajectoire_mode(courbe);
 }
 void uart_received_stop_normal() {
 }
@@ -74,7 +78,4 @@ void uart_received_stop_urgence() {
 }
 
 
-// "Feedback" de l'asser à la stratégie
-void uart_received_position_atteinte() {
-}
-
+*/
