@@ -12,34 +12,34 @@ export DEBUG = 2
 
 # Constantes de compilation
 
-export PC_EXEC    = asser_robot
+PC_EXEC    = asser_robot
 
-export PC_CC      = gcc
-export PC_CFLAGS  = -DPIC_BUILD=0 -W -Wall -std=c99 -fdiagnostics-color=auto
-export PC_LDFLAGS = -lm -lpthread
+PC_CC      = gcc
+PC_CFLAGS  = -DPIC_BUILD=0 -W -Wall -std=c99 -fdiagnostics-color=auto
+PC_LDFLAGS = -lm -lpthread
 
-export PC_SDL_CF  = -DUSE_SDL=1
-export PC_SDL_LDF = -lSDL -lSDL_image -lGL -lGLU -lSOIL
+PC_SDL_CF  = -DUSE_SDL=1
+PC_SDL_LDF = -lSDL -lSDL_image -lGL -lGLU -lSOIL
 
-export PIC_ELF    = $(PC_EXEC).elf
-export PIC_HEX    = $(PC_EXEC).hex
-export PIC_CC     = /opt/xc16-toolchain-bin/bin/xc16-gcc
-export PIC_ELF2HEX= /opt/xc16-toolchain-bin/bin/xc16-bin2hex
+PIC_ELF    = $(PC_EXEC).elf
+PIC_HEX    = $(PC_EXEC).hex
+PIC_CC     = /opt/xc16-toolchain-bin/bin/xc16-gcc
+PIC_ELF2HEX= /opt/xc16-toolchain-bin/bin/xc16-bin2hex
 
-export PIC_CFLAGS = -DPIC_BUILD=1 -W -Wall -std=c99 -O0 -mcpu=33FJ128MC802 -omf=elf -msmart-io=1
+PIC_CFLAGS = -DPIC_BUILD=1 -W -Wall -std=c99 -O0 -mcpu=33FJ128MC802 -omf=elf -msmart-io=1
 
-export PIC_LDFLAGS= -Wl,--script=p33FJ128MC802.gld,--stack=16,--check-sections,--data-init,--pack-data,--handles,--isr,--no-gc-sections,--fill-upper=0,--stackguard=16,--no-force-link,--smart-io,--report-mem
+PIC_LDFLAGS= -Wl,--script=p33FJ128MC802.gld,--stack=16,--check-sections,--data-init,--pack-data,--handles,--isr,--no-gc-sections,--fill-upper=0,--stackguard=16,--no-force-link,--smart-io,--report-mem
 
 ################################################################################
 
 # Modules externe
 
 COMMON_DIR = ../common_code/
-COMMON_H   = $(COMMON_DIR)/*.h
-UART_DIR   = $(COMMON_DIR)/uart/
-F_UART_PROTOCOLE_H = $(COMMON_DIR)/protocole_uart.h
+COMMON_H   = $(COMMON_DIR)*.h
+UART_DIR   = $(COMMON_DIR)uart/
+F_UART_PROTOCOLE_H = $(COMMON_DIR)protocole_uart.h
 
-FICHIER_AFFICHAGE_C = $(COMMON_DIR)/simulation/affichage.c
+FICHIER_AFFICHAGE_C = $(COMMON_DIR)simulation/affichage.c
 
 ################################################################################
 
