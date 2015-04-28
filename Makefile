@@ -5,7 +5,7 @@
 ################################################################################
 
 # Options
-export PIC   = yes
+export PIC   = no
 export ROBOT = gros
 export SDL   = yes
 export DEBUG = 2
@@ -37,7 +37,7 @@ export PIC_LDFLAGS= -Wl,--script=p33FJ128MC802.gld,--stack=16,--check-sections,-
 COMMON_DIR = ../common_code/
 COMMON_H   = $(COMMON_DIR)/*.h
 UART_DIR   = $(COMMON_DIR)/uart/
-FICHIERS_UART_C = $(UART_DIR)/text_reception.c $(UART_DIR)/reception.c $(UART_DIR)/protocole.c
+F_UART_PROTOCOLE_H = $(COMMON_DIR)/protocole_uart.h
 
 FICHIER_AFFICHAGE_C = $(COMMON_DIR)/simulation/affichage.c
 
@@ -46,7 +46,6 @@ FICHIER_AFFICHAGE_C = $(COMMON_DIR)/simulation/affichage.c
 # Fichiers du projet
 
 FICHIERS_C =\
-	$(FICHIERS_UART_C) \
 	asser.c \
 	PID.c \
 	communication.c \
@@ -54,10 +53,10 @@ FICHIERS_C =\
 	trajectoire.c \
 	math_precalc.c \
 	tests_unitaires.c \
-	match.c
-
-#FICHIERS_H =\
-#	reglages.h
+	match.c 	\
+	reception.c \
+	text_reception.c 	\
+	../common_code/uart_emission.c # À retirer "en prod"
 
 SOURCEFILES =\
 	plateau.png \
@@ -106,7 +105,7 @@ endif
 ################################################################################
 
 # Cibles du projet
-FICHIERS_H  += $(FICHIERS_C:.c=.h) hardware.h $(F_REGLAGES_H) $(COMMON_H)
+FICHIERS_H   = $(FICHIERS_C:.c=.h) hardware.h $(F_REGLAGES_H) $(COMMON_H)
 FICHIERS_O  += $(FICHIERS_C:.c=.o) main.o hardware.o
 SOURCEFILES += $(FICHIERS_C) $(FICHIERS_H)
 

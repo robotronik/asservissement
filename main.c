@@ -22,11 +22,10 @@
 #endif
 #include "match.h"
 
-#include "../common_code/uart/reception.h"
-#include "../common_code/uart/text_reception.h"
-#include "../common_code/uart/protocole.h"
-#include "../common_code/debug.h"
-
+#include "reception.h"
+#include "text_reception.h"
+#include "../common_code/common.h"
+#include "../common_code/uart_emission.h"   // Pour des fins de tests
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -51,10 +50,10 @@ int main()
 
 
 	/*init*/
-	//init_odometrie();
-	//init_trajectoire();
-	//init_hardware();
-	//init_asser();
+	init_odometrie();
+	init_trajectoire();
+	init_hardware();
+	init_asser();
 
     uart_trame_builder_init();
     uart_trame_builder_append_coordonnees(110, 1280);
@@ -102,7 +101,7 @@ int main()
 		//test_asser_xy_relatif_tendu(0,400);
 	    //test_asser_xy_absolu_tendu(140,400+140);
 	    //test_asser_chemin(chemin);
-/*
+
 	#if PIC_BUILD
     //démarage de l'asservissement
 	start();
@@ -132,6 +131,6 @@ int main()
     if (ret != 0)
         fprintf(stderr, "erreur %d\n", ret);
     #endif
-*/
+
     return 0;
 }
