@@ -17,8 +17,8 @@ long int get_alpha_actuel();
 int get_theta_actuel();
 int get_x_actuel();
 int get_y_actuel();
-int set_theta_actuel(int new_theta);
-int set_x_actuel(int new_x);
-int set_y_actuel(int new_y);
+void set_theta_actuel(int new_theta);
+void set_x_actuel(int new_x);
+void set_y_actuel(int new_y);
 
 #endif

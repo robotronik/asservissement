@@ -174,17 +174,17 @@ int get_y_actuel()
 	return (int) y_actuel;
 }
 
-int set_theta_actuel(int new_theta)
+void set_theta_actuel(int new_theta)
 {
 	theta_actuel=new_theta;
 }
 
-int set_x_actuel(int new_x)
+void set_x_actuel(int new_x)
 {
 	x_actuel=new_x;
 }
 
-int set_y_actuel(int new_y)
+void set_y_actuel(int new_y)
 {
 	y_actuel=new_y;
 }
