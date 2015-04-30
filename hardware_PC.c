@@ -58,18 +58,13 @@ long int get_nbr_tick_G()
 	return PWM_G*5;
 }
 
-int attente_synchro()
-{
-	return 0;
-}
+void attente_synchro()
+{}
 
 void motors_stop()
 {
 	moteurs_arret=1;
 }
-
-void reset_synchro()
-{}
 
 void UART_send_message(char* message) {
     char *actuel = message;

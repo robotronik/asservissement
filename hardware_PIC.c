@@ -402,14 +402,26 @@ void __attribute__((interrupt, auto_psv)) _QEI2Interrupt()
 /*----------------------------------------------------------------*
  * Timer pour la synchronisation de asser()                       *
  *----------------------------------------------------------------*/
-int attente_synchro()
-{
-	return doitAttendre;
-}
 
 void reset_synchro()
 {
     doitAttendre=1;
+}
+
+void attente_synchro()
+{
+    /*Si il ne faut pas attendre cela veut dire que la fréquence de synchro
+    est trop rapide par rapport au temps nécessaire à la boucle principale.
+    On le signale donc en allumant la led de débug.*/
+    //TODO : Envoyer l'erreur rencontrée par UART
+    if (!doitAttendre)
+    {
+        allumer_del();
+    }
+    //boucle d'attente
+    while(doitAttendre){;}
+    //on "redémarre" la synchro
+    reset_synchro();
 }
 
 void __attribute__((__interrupt__, no_auto_psv)) _T1Interrupt()

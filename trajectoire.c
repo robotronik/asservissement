@@ -54,20 +54,6 @@ void start()
 
 		//on met à jour la consigne pour l'asser
 		update_consigne();
-
-		//test si synchro ok : attention bloquant à retirer pour la coupe
-#if PIC_BUILD
-		if(!attente_synchro())
-		{
-			motors_stop();
-			while(1) {
-				allumer_del();
-				pause_ms(500);
-				eteindre_del();
-				pause_ms(500);
-			}
-		}
-#endif
 	}
 }
 
