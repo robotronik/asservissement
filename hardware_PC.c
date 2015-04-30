@@ -71,6 +71,9 @@ void motors_stop()
 void reset_synchro()
 {}
 
-void UART_putc(unsigned char c) {
-    debug_byte(1, c);
+void UART_send_message(char* message) {
+    char *actuel = message;
+    while (*actuel)
+        debug_byte(0,  *actuel++);
+    debug_byte(0,'\0');
 }
