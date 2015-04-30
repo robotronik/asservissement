@@ -1,3 +1,12 @@
+#if PIC_BUILD
+#	if   GROS
+#		include "reglages_gros.h"
+#	elif PETIT
+#		include "reglages_petit.h"
+#	endif
+#else
+#	include "reglages_PC.h"
+#endif
 #include "trajectoire.h"
 #include "odometrie.h"
 #include "../common_code/debug.h" //à virer
@@ -9,6 +18,8 @@ avait été fait dans message.c pour le code présent dans "old"*/
 /*---------------------------------------------------------------------------*
  * RECEPTION                                                                 *
  *---------------------------------------------------------------------------*/
+
+int compteur_spam=0;
 
 void analyse_message()
 {
@@ -58,7 +69,12 @@ void new_chemin()
  * ENVOI                                                                     *
  *---------------------------------------------------------------------------*/
 
+//cette fonction n'est pas forcement à sa place ici mais l'idée est là
 void send_position_atteinte()
 {
-	debug(3, "atteint\n");
+	if (compteur_spam==0)
+	{
+		debug(3, "atteint\n");
+	}
+	compteur_spam=(compteur_spam+1)%ANTI_SPAM;
 }

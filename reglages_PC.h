@@ -44,4 +44,7 @@ coefficients des PID et qu'il y a overflow*/
 //mode de déplacement par défaut
 #define MODE_TRAJECTOIRE courbe //"tendu" ou "courbe"
 
+//communication
+#define ANTI_SPAM 100
+
 #endif
