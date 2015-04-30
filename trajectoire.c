@@ -83,6 +83,7 @@ void update_consigne()
 			motors_stop(); //dans hardware_*.c
 			break;
 		case null :
+			//il n'y a plus rien a faire
 			break;
 	}
 }
@@ -278,6 +279,11 @@ void init_trajectoire()
 	trajectoire.type=null;
 	set_consigne_alpha_delta(0,0);
 	set_trajectoire_mode(MODE_TRAJECTOIRE);
+}
+
+int trajectoire_type_is_null()
+{
+	return (trajectoire.type==null);
 }
 
 //TODO : à virer (utile uniquement pour du debug)

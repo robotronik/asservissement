@@ -70,7 +70,7 @@ void asser(s_consigne consigne)
 		commande_moteur_D=0;
 		commande_moteur_G=0;
 		//on fait savoir que la position est atteinte
-		send_position_atteinte(); //ajouter anti-spam (ici on envoie sans arret)
+		if (trajectoire_type_is_null()) send_position_atteinte();
 	}
 	else if (asser_done(erreur_delta.actuelle,erreur_alpha.actuelle))
 	{

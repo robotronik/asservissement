@@ -77,6 +77,9 @@ void set_trajectoire_stop();
 void set_trajectoire_emergency_stop(); //stop définitif et violent (fin de match)
 void set_trajectoire_mode(e_mode_deplacement mode);
 
+//appelé dans l'asser pour send_position_atteinte
+int trajectoire_type_is_null();
+
 //utile uniquement pour du debug
 int get_delta_voulu();
 int get_alpha_voulu();
