@@ -74,6 +74,7 @@ void send_position_atteinte()
 {
 	if (compteur_spam==0)
 	{
+		//TODO : remplacer "debug" par une vraie fonction d'envoi ;)
 		debug(3, "atteint\n");
 	}
 	compteur_spam=(compteur_spam+1)%ANTI_SPAM;
