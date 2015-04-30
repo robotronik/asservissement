@@ -96,10 +96,7 @@ else
 		FICHIERS_C  += $(FICHIER_AFFICHAGE_C)
 	endif
 
-	ifeq ($(DEBUG),0)
-	else
-		CFLAGS += -DDEBUG=$(DEBUG) -g
-	endif
+	CFLAGS += -DDEBUG=$(DEBUG) -g
 endif
 
 ################################################################################
