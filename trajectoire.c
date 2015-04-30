@@ -94,7 +94,7 @@ void update_consigne()
 			make_trajectoire_alpha_delta(0,0);
 			break;
 		case emergency_stop :
-			//motors_stop(); //dans hardware.c
+			motors_stop(); //dans hardware_*.c
 			break;
 		case null :
 			break;
@@ -270,6 +270,16 @@ void set_consigne_alpha_delta(int new_alpha, int new_delta)
 {
 	consigne.alpha=new_alpha+get_alpha_actuel();
 	consigne.delta=new_delta+get_delta_actuel();
+}
+
+void set_trajectoire_stop()
+{
+	trajectoire.type=stop;
+}
+
+void set_trajectoire_emergency_stop()
+{
+	trajectoire.type=emergency_stop;
 }
 
 void set_trajectoire_mode(e_mode_deplacement mode)

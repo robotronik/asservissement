@@ -26,18 +26,26 @@ int doit_attendre()
 
 long int PWM_D;
 long int PWM_G;
+int moteurs_arret=0;
+
 
 void init_hardware()
 {}
 
 void set_PWM_moteur_D(int PWM)
 {
-	PWM_D+=PWM/10;
+	if (!moteurs_arret)
+	{
+		PWM_D+=PWM/10;
+	}
 }
 
 void set_PWM_moteur_G(int PWM)
 {
-	PWM_G+=PWM/10;
+	if (!moteurs_arret)
+	{
+		PWM_G+=PWM/10;
+	}
 }
 
 long int get_nbr_tick_D()
@@ -53,6 +61,11 @@ long int get_nbr_tick_G()
 int attente_synchro()
 {
 	return 0;
+}
+
+void motors_stop()
+{
+	moteurs_arret=1;
 }
 
 void reset_synchro()
