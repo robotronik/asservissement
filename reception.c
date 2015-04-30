@@ -118,7 +118,7 @@ static char *keys_help[KEY_SIZE] = {
     [FCT_CLEAR]        = "Efface le chemin en cours de construction",
     [FCT_CHEMIN]       = "Envoie le chemin précédemment construit",
     [FCT_UPDATE]       = "met à jour les variables du protocole de simulation pour \n"
-            "                    qu'elle correspondent à celle utilisées par l'assert",
+            "                    qu'elles correspondent à celle utilisées par l'assert",
     [FCT_MODE_TENDU]   = "déplacement en mode tendu",
     [FCT_MODE_COURBE]  = "déplacement en mode courbe",
 };
@@ -422,7 +422,7 @@ void help()
         // NB: elle est plus complète si elle est compilé avec le débug
         info("%-20s", keys[i]);
 #if DEBUG
-        debug(1,"%s", keys_help[i]);
+        info("%s", keys_help[i]);
 #endif // DEBUG
 
         info("\n");
@@ -431,10 +431,10 @@ void help()
 
     debug(1,"\n\n"
         "(*) Les commades suivantes permettent de préparer les arguments d'autres \n"
-        "commandes. Elles sont suivit sur la même lignes d'une valeure entiere (pouvant \n"
-        "être précédé d'un signe `-`). Cette valeure sera affecté à la variable.\n"
+        "commandes. Elles sont suivit sur la même lignes d'une valeur entiere (pouvant \n"
+        "être précédé d'un signe `-`). Cette valeur sera affectée à la variable.\n"
         );
-    debug(1,"\nRemarque: les espaces et les tabulations sont ignorées dans les commandes.\n");
+    debug(1,"\nRemarque: les espaces et les tabulations sont ignorés dans les commandes.\n");
     info("-------------------------------\n\n");
 }
 
