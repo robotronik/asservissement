@@ -55,7 +55,8 @@ void actualise_position()
 	//on actualise le reste
 	delta_actuel=delta_lu;
 	alpha_actuel=alpha_lu;
-	theta_actuel=borne_angle(alpha_lu);
+	//theta_actuel=borne_angle(alpha_lu);
+	theta_actuel=borne_angle(theta_actuel+d_alpha); //TODO : vérifier
 
 	debug(3, "D_act:%ld a_act:%ld th_act:%d D_voul:%d a_voul:%d\n\n",delta_actuel,alpha_actuel,theta_actuel, get_delta_voulu(), get_alpha_voulu()); //à virer
 
@@ -171,4 +172,19 @@ int get_x_actuel()
 int get_y_actuel()
 {
 	return (int) y_actuel;
+}
+
+int set_theta_actuel(int new_theta)
+{
+	theta_actuel=new_theta;
+}
+
+int set_x_actuel(int new_x)
+{
+	x_actuel=new_x;
+}
+
+int set_y_actuel(int new_y)
+{
+	y_actuel=new_y;
 }
