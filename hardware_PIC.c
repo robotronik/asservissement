@@ -498,7 +498,7 @@ void UART_send_message(char* message) {
     char *actuel = message;
     while (*actuel)
         UART_putc(*actuel++);
-    UART_putc(0,'\0');
+    UART_putc('\0');
 }
 
 int UART_getc(unsigned char *byte) {
