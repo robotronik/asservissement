@@ -37,20 +37,20 @@
         <itemPath>../asservissement/tests_unitaires.h</itemPath>
         <itemPath>../asservissement/trajectoire.c</itemPath>
         <itemPath>../asservissement/trajectoire.h</itemPath>
+        <itemPath>../asservissement/protocole_reception.c</itemPath>
+        <itemPath>../asservissement/reception.c</itemPath>
+        <itemPath>../asservissement/reception.h</itemPath>
+        <itemPath>../asservissement/text_reception.c</itemPath>
+        <itemPath>../asservissement/text_reception.h</itemPath>
       </logicalFolder>
       <logicalFolder name="common_code" displayName="common_code" projectFiles="true">
-        <logicalFolder name="uart" displayName="uart" projectFiles="true">
-          <itemPath>../common_code/uart/protocole.c</itemPath>
-          <itemPath>../common_code/uart/protocole.h</itemPath>
-          <itemPath>../common_code/uart/reception.c</itemPath>
-          <itemPath>../common_code/uart/reception.h</itemPath>
-          <itemPath>../common_code/uart/text_reception.c</itemPath>
-          <itemPath>../common_code/uart/text_reception.h</itemPath>
-        </logicalFolder>
         <itemPath>../common_code/common.h</itemPath>
         <itemPath>../common_code/debug.h</itemPath>
         <itemPath>../common_code/maths.h</itemPath>
         <itemPath>../common_code/inttypes.h</itemPath>
+        <itemPath>../common_code/protocole_uart.h</itemPath>
+        <itemPath>../common_code/uart_emission.c</itemPath>
+        <itemPath>../common_code/uart_emission.h</itemPath>
       </logicalFolder>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
@@ -335,7 +335,7 @@
         <property key="output-file-format" value="elf"/>
         <property key="relaxed-math" value="false"/>
         <property key="save-temps" value="false"/>
-        <appendMe value="-DPIC_BUILD=1 -DGROS=1 -std=c99"/>
+        <appendMe value="-DPIC_BUILD=1 -DDEBUG=0 -DGROS=1 -std=c99"/>
       </C30Global>
       <PICkit2PlatformTool>
         <property key="pk2settings.3state" value="false"/>
