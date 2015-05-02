@@ -81,6 +81,7 @@ ifeq ($(PIC), yes)
 		CFLAGS  += -DGROS=1 -DPETIT=0
 	endif
 
+	CFLAGS += -DDEBUG=$(DEBUG)
 else
 	EXEC    = $(PC_EXEC)
 	CC      = $(PC_CC)
