@@ -1,3 +1,5 @@
+#include <stdbool.h>
+
 #if PIC_BUILD
 #	if   GROS
 #		include "reglages_gros.h"
@@ -59,6 +61,7 @@ void asser(s_consigne consigne)
 
 	//on regarde si on est pas arrivé à bon port
 	//et si on peut s'arreter sans risquer de tomber
+    static bool deja_notifie = false;
 	if (asser_done(erreur_delta.actuelle,erreur_alpha.actuelle)
 		&& arret_ok(commande_moteur_D_preced,commande_moteur_G_preced))
 	{
@@ -71,11 +74,17 @@ void asser(s_consigne consigne)
 		commande_moteur_D=0;
 		commande_moteur_G=0;
 		//on fait savoir que la position est atteinte
-		a2s_send_message(A2S_CMD_DONE); //ajouter anti-spam (ici on envoie sans arret)
+		if (!deja_notifie) {
+			a2s_send_message(A2S_CMD_DONE); //ajouter anti-spam (ici on envoie sans arret)
+			deja_notifie = true;
+		}
 	}
 	else if (asser_done(erreur_delta.actuelle,erreur_alpha.actuelle))
 	{
+		deja_notifie = false;
 		debug(2, "atteint mais peu pas s'arreter");
+	} else {
+		deja_notifie = false;
 	}
 
 	//actualisation des valeurs précédantes
