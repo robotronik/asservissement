@@ -526,12 +526,15 @@ void __attribute__((interrupt, auto_psv)) _U1RXInterrupt()
                 return ;
         }
 
-        /* get the data */
+        // Attention, il ne faut accéder UNE SEULE fois au registre U1RXREG.
+        // get the data
+        /*
         if(U1STAbits.URXDA == 1) {
                 rxBuffer[(indexRxBuffer + rxBufferLength) % RX_BUFFER_SIZE] = U1RXREG;
                 rxBufferLength ++;
         }
-        //if(U1STAbits.URXDA == 1) message_processing(U1RXREG);
+        */
+        if(U1STAbits.URXDA == 1) uart_interrupt(U1RXREG);
 }
 
 /*void __attribute__((interrupt, auto_psv)) _U1ErrInterrupt()
