@@ -5,10 +5,10 @@
 ################################################################################
 
 # Options
-export PIC   = no
+export ARCH  = PIC
 export ROBOT = gros
 export SDL   = yes
-export DEBUG = 2
+export DEBUG = _WARNING_
 
 # Constantes de compilation
 
@@ -34,10 +34,14 @@ PIC_LDFLAGS= -Wl,--script=p33FJ128MC802.gld,--stack=16,--check-sections,--data-i
 
 # Modules externe
 
+BUILDIR = build
+OBJDIR = $(BUILDIR)/$(ARCH)/$(DEBUG)
+
 COMMON_DIR = ../common_code/
 COMMON_H   = $(COMMON_DIR)*.h
-UART_DIR   = $(COMMON_DIR)uart/
-F_UART_PROTOCOLE_H = $(COMMON_DIR)protocole_uart.h
+
+COMMUNICATION_DIR = ../common_code/communication
+COMMUNICATION_OBJ_DIR = $(COMMUNICATION_DIR)/$(OBJDIR)
 
 FICHIER_AFFICHAGE_C = $(COMMON_DIR)simulation/affichage.c
 
@@ -48,15 +52,11 @@ FICHIER_AFFICHAGE_C = $(COMMON_DIR)simulation/affichage.c
 FICHIERS_C =\
 	asser.c \
 	PID.c \
-	communication.c \
 	odometrie.c \
 	trajectoire.c \
 	math_precalc.c \
 	tests_unitaires.c \
 	match.c 	\
-	reception.c \
-	text_reception.c 	\
-	../common_code/uart_emission.c # À retirer "en prod"
 
 SOURCEFILES =\
 	plateau.png \
@@ -66,7 +66,7 @@ SOURCEFILES =\
 
 # Gestion des options
 
-ifeq ($(PIC), yes)
+ifeq ($(ARCH), PIC)
 	EXEC    = $(PIC_ELF)
 	CC      = $(PIC_CC)
 	CFLAGS  = $(PIC_CFLAGS)
@@ -112,7 +112,7 @@ all:$(EXEC)
 
 ################################################################################
 .PHONY: flash run demo
-ifeq ($(PIC), yes)
+ifeq ($(ARCH), PIC)
 # Exécution pour le PIC.
 $(PIC_HEX):$(PIC_ELF)
 	/opt/xc16-toolchain-bin/bin/xc16-bin2hex $^ -a -omf=elf
@@ -134,22 +134,18 @@ endif
 
 # Compilation
 
-$(EXEC): $(FICHIERS_O)
+$(EXEC): $(FICHIERS_O) $(COMMUNICATION_OBJ_DIR)/comm_asser.a $(COMMUNICATION_OBJ_DIR)/comm_strategie.a
 	$(CC) -o $@ $^ $(LDFLAGS) $(SDLFLAGS)
 
 asser.o: PID.h trajectoire.h odometrie.h $(F_REGLAGES_H)
 
 PID.o: $(F_REGLAGES_H)
 
-communication.o: trajectoire.h
-
 odometrie.o: $(F_REGLAGES_H) hardware.h math_precalc.h
 
 trajectoire.o: odometrie.h asser.h
 
-tests_unitaires.o: asser.h odometrie.h communication.h $(F_REGLAGES_H)
-
-$(UART_DIR)reception.o: communication.h
+tests_unitaires.o: asser.h odometrie.h $(F_REGLAGES_H)
 
 hardware.o: $(F_HARDWARE_C)
 	$(CC) $(CFLAGS) -o $@ -c $<
@@ -158,6 +154,16 @@ match.o:
 
 %.o: %.c $(COMMON_H)
 	$(CC) $(CFLAGS) -o $@ -c $<
+
+# Librairies
+
+.PHONY: $(COMMUNICATION_OBJ_DIR)/comm_asser.a $(COMMUNICATION_OBJ_DIR)/comm_strategie.a
+
+$(COMMUNICATION_OBJ_DIR)/comm_asser.a:
+	cd $(COMMUNICATION_DIR) && $(MAKE) $(OBJDIR)/comm_asser.a
+
+$(COMMUNICATION_OBJ_DIR)/comm_strategie.a:
+	cd $(COMMUNICATION_DIR) && $(MAKE) $(OBJDIR)/comm_strategie.a
 
 ################################################################################
 
@@ -169,6 +175,7 @@ tarall: $(SOURCEFILES)
 
 clean:
 	rm -f $(FICHIERS_O) $(FICHIER_AFFICHAGE_C:.c=.o)
+	cd $(COMMUNICATION_DIR) && $(MAKE) $@
 
 mrproper: clean
 	rm -rf $(EXEC) $(PIC_ELF) $(PIC_HEX) $(EXEC).tar.bz2

@@ -13,6 +13,8 @@
 #	include <pthread.h>
 #endif
 
+#include "../common_code/communication/s2a_reception.h"
+
 #include "asser.h"
 #include "trajectoire.h"
 #include "odometrie.h"
@@ -22,10 +24,7 @@
 #endif
 #include "match.h"
 
-#include "reception.h"
-#include "text_reception.h"
 #include "../common_code/common.h"
-#include "../common_code/uart_emission.h"   // Pour des fins de tests
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -54,15 +53,6 @@ int main()
 	init_trajectoire();
 	init_hardware();
 	init_asser();
-
-
-	// Test d'émission par UART
-	/*
-    uart_trame_builder_init();
-    uart_trame_builder_append_coordonnees(110, 1280);
-    uart_trame_builder_append_mouvement_xy_absolu();
-    uart_trame_builder_send_string();
-    //*/
 
 	/*chemin pour le test*/
 	//s_liste chemin;
@@ -122,7 +112,7 @@ int main()
     while(match_get_etat() != MATCH_FIN) {
         // On lit l'entrée standard, et on passe les caractères à la fonctions
         // qui gère les interruption de l'uart
-        uart_interrupt(getc(stdin));
+        s2a_lecture_message(getc(stdin));
     }
 
     //////////

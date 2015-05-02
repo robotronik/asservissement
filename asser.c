@@ -8,11 +8,12 @@
 #	include "reglages_PC.h"
 #endif
 
+#include "../common_code/communication/a2s_emmission.h"
+
 #include "PID.h"
 #include "hardware.h"
 #include "trajectoire.h"
 #include "odometrie.h"
-#include "communication.h"
 #include "../common_code/debug.h"
 
 #include "asser.h"
@@ -70,7 +71,7 @@ void asser(s_consigne consigne)
 		commande_moteur_D=0;
 		commande_moteur_G=0;
 		//on fait savoir que la position est atteinte
-		if (trajectoire_type_is_null()) send_position_atteinte();
+		a2s_send_message(A2S_CMD_DONE); //ajouter anti-spam (ici on envoie sans arret)
 	}
 	else if (asser_done(erreur_delta.actuelle,erreur_alpha.actuelle))
 	{
