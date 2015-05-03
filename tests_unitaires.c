@@ -10,7 +10,7 @@
 #	include "reglages_PC.h"
 #endif
 
-#include "../common_code/communication/s2a_emmission.h"
+#include "../common_code/communication/s2a_emission.h"
 
 #include "asser.h"
 #include "odometrie.h"

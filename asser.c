@@ -10,7 +10,7 @@
 #	include "reglages_PC.h"
 #endif
 
-#include "../common_code/communication/a2s_emmission.h"
+#include "../common_code/communication/a2s_emission.h"
 
 #include "PID.h"
 #include "hardware.h"
