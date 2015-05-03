@@ -534,7 +534,7 @@ void __attribute__((interrupt, auto_psv)) _U1RXInterrupt()
                 rxBufferLength ++;
         }
         */
-        if(U1STAbits.URXDA == 1) uart_interrupt(U1RXREG);
+        if(U1STAbits.URXDA == 1) s2a_lecture_message(U1RXREG);
 }
 
 /*void __attribute__((interrupt, auto_psv)) _U1ErrInterrupt()
