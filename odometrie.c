@@ -181,10 +181,10 @@ void set_theta_actuel(int new_theta)
 
 void set_x_actuel(int new_x)
 {
-	x_actuel=new_x;
+	x_actuel= (float) new_x;
 }
 
 void set_y_actuel(int new_y)
 {
-	y_actuel=new_y;
+	y_actuel= (float) new_y;
 }
