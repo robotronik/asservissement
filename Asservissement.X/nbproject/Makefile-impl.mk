@@ -31,7 +31,7 @@ DEFAULTCONF=Robot
 CONF=${DEFAULTCONF}
 
 # All Configurations
-ALLCONFS=default Robot 
+ALLCONFS=Robot 
 
 
 # build
@@ -45,14 +45,12 @@ ALLCONFS=default Robot
 
 # clobber
 .clobber-impl: .clobber-pre .depcheck-impl
-	    ${MAKE} SUBPROJECTS=${SUBPROJECTS} CONF=default clean
 	    ${MAKE} SUBPROJECTS=${SUBPROJECTS} CONF=Robot clean
 
 
 
 # all
 .all-impl: .all-pre .depcheck-impl
-	    ${MAKE} SUBPROJECTS=${SUBPROJECTS} CONF=default build
 	    ${MAKE} SUBPROJECTS=${SUBPROJECTS} CONF=Robot build
 
 

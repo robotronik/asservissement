@@ -45,17 +45,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=../asservissement/asser.c ../asservissement/communication.c ../asservissement/hardware_PIC.c ../asservissement/main.c ../asservissement/match.c ../asservissement/math_precalc.c ../asservissement/odometrie.c ../asservissement/PID.c ../asservissement/tests_unitaires.c ../asservissement/trajectoire.c ../asservissement/protocole_reception.c ../asservissement/reception.c ../asservissement/text_reception.c ../common_code/uart_emission.c
+SOURCEFILES_QUOTED_IF_SPACED=../asservissement/asser.c ../asservissement/hardware_PIC.c ../asservissement/main.c ../asservissement/match.c ../asservissement/math_precalc.c ../asservissement/odometrie.c ../asservissement/PID.c ../asservissement/tests_unitaires.c ../asservissement/trajectoire.c ../common_code/uart_emission.c ../common_code/communication/a2s.c ../common_code/communication/a2s_emission.c ../common_code/communication/a2s_reception.c ../common_code/communication/s2a.c ../common_code/communication/s2a_emission.c ../common_code/communication/s2a_reception.c ../common_code/communication/text_reception.c ../common_code/communication/hardware/PC/text_emission.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/_ext/1141334063/asser.o ${OBJECTDIR}/_ext/1141334063/communication.o ${OBJECTDIR}/_ext/1141334063/hardware_PIC.o ${OBJECTDIR}/_ext/1141334063/main.o ${OBJECTDIR}/_ext/1141334063/match.o ${OBJECTDIR}/_ext/1141334063/math_precalc.o ${OBJECTDIR}/_ext/1141334063/odometrie.o ${OBJECTDIR}/_ext/1141334063/PID.o ${OBJECTDIR}/_ext/1141334063/tests_unitaires.o ${OBJECTDIR}/_ext/1141334063/trajectoire.o ${OBJECTDIR}/_ext/1141334063/protocole_reception.o ${OBJECTDIR}/_ext/1141334063/reception.o ${OBJECTDIR}/_ext/1141334063/text_reception.o ${OBJECTDIR}/_ext/1749121522/uart_emission.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/_ext/1141334063/asser.o.d ${OBJECTDIR}/_ext/1141334063/communication.o.d ${OBJECTDIR}/_ext/1141334063/hardware_PIC.o.d ${OBJECTDIR}/_ext/1141334063/main.o.d ${OBJECTDIR}/_ext/1141334063/match.o.d ${OBJECTDIR}/_ext/1141334063/math_precalc.o.d ${OBJECTDIR}/_ext/1141334063/odometrie.o.d ${OBJECTDIR}/_ext/1141334063/PID.o.d ${OBJECTDIR}/_ext/1141334063/tests_unitaires.o.d ${OBJECTDIR}/_ext/1141334063/trajectoire.o.d ${OBJECTDIR}/_ext/1141334063/protocole_reception.o.d ${OBJECTDIR}/_ext/1141334063/reception.o.d ${OBJECTDIR}/_ext/1141334063/text_reception.o.d ${OBJECTDIR}/_ext/1749121522/uart_emission.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/_ext/1141334063/asser.o ${OBJECTDIR}/_ext/1141334063/hardware_PIC.o ${OBJECTDIR}/_ext/1141334063/main.o ${OBJECTDIR}/_ext/1141334063/match.o ${OBJECTDIR}/_ext/1141334063/math_precalc.o ${OBJECTDIR}/_ext/1141334063/odometrie.o ${OBJECTDIR}/_ext/1141334063/PID.o ${OBJECTDIR}/_ext/1141334063/tests_unitaires.o ${OBJECTDIR}/_ext/1141334063/trajectoire.o ${OBJECTDIR}/_ext/1749121522/uart_emission.o ${OBJECTDIR}/_ext/1126628985/a2s.o ${OBJECTDIR}/_ext/1126628985/a2s_emission.o ${OBJECTDIR}/_ext/1126628985/a2s_reception.o ${OBJECTDIR}/_ext/1126628985/s2a.o ${OBJECTDIR}/_ext/1126628985/s2a_emission.o ${OBJECTDIR}/_ext/1126628985/s2a_reception.o ${OBJECTDIR}/_ext/1126628985/text_reception.o ${OBJECTDIR}/_ext/900622108/text_emission.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/_ext/1141334063/asser.o.d ${OBJECTDIR}/_ext/1141334063/hardware_PIC.o.d ${OBJECTDIR}/_ext/1141334063/main.o.d ${OBJECTDIR}/_ext/1141334063/match.o.d ${OBJECTDIR}/_ext/1141334063/math_precalc.o.d ${OBJECTDIR}/_ext/1141334063/odometrie.o.d ${OBJECTDIR}/_ext/1141334063/PID.o.d ${OBJECTDIR}/_ext/1141334063/tests_unitaires.o.d ${OBJECTDIR}/_ext/1141334063/trajectoire.o.d ${OBJECTDIR}/_ext/1749121522/uart_emission.o.d ${OBJECTDIR}/_ext/1126628985/a2s.o.d ${OBJECTDIR}/_ext/1126628985/a2s_emission.o.d ${OBJECTDIR}/_ext/1126628985/a2s_reception.o.d ${OBJECTDIR}/_ext/1126628985/s2a.o.d ${OBJECTDIR}/_ext/1126628985/s2a_emission.o.d ${OBJECTDIR}/_ext/1126628985/s2a_reception.o.d ${OBJECTDIR}/_ext/1126628985/text_reception.o.d ${OBJECTDIR}/_ext/900622108/text_emission.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/_ext/1141334063/asser.o ${OBJECTDIR}/_ext/1141334063/communication.o ${OBJECTDIR}/_ext/1141334063/hardware_PIC.o ${OBJECTDIR}/_ext/1141334063/main.o ${OBJECTDIR}/_ext/1141334063/match.o ${OBJECTDIR}/_ext/1141334063/math_precalc.o ${OBJECTDIR}/_ext/1141334063/odometrie.o ${OBJECTDIR}/_ext/1141334063/PID.o ${OBJECTDIR}/_ext/1141334063/tests_unitaires.o ${OBJECTDIR}/_ext/1141334063/trajectoire.o ${OBJECTDIR}/_ext/1141334063/protocole_reception.o ${OBJECTDIR}/_ext/1141334063/reception.o ${OBJECTDIR}/_ext/1141334063/text_reception.o ${OBJECTDIR}/_ext/1749121522/uart_emission.o
+OBJECTFILES=${OBJECTDIR}/_ext/1141334063/asser.o ${OBJECTDIR}/_ext/1141334063/hardware_PIC.o ${OBJECTDIR}/_ext/1141334063/main.o ${OBJECTDIR}/_ext/1141334063/match.o ${OBJECTDIR}/_ext/1141334063/math_precalc.o ${OBJECTDIR}/_ext/1141334063/odometrie.o ${OBJECTDIR}/_ext/1141334063/PID.o ${OBJECTDIR}/_ext/1141334063/tests_unitaires.o ${OBJECTDIR}/_ext/1141334063/trajectoire.o ${OBJECTDIR}/_ext/1749121522/uart_emission.o ${OBJECTDIR}/_ext/1126628985/a2s.o ${OBJECTDIR}/_ext/1126628985/a2s_emission.o ${OBJECTDIR}/_ext/1126628985/a2s_reception.o ${OBJECTDIR}/_ext/1126628985/s2a.o ${OBJECTDIR}/_ext/1126628985/s2a_emission.o ${OBJECTDIR}/_ext/1126628985/s2a_reception.o ${OBJECTDIR}/_ext/1126628985/text_reception.o ${OBJECTDIR}/_ext/900622108/text_emission.o
 
 # Source Files
-SOURCEFILES=../asservissement/asser.c ../asservissement/communication.c ../asservissement/hardware_PIC.c ../asservissement/main.c ../asservissement/match.c ../asservissement/math_precalc.c ../asservissement/odometrie.c ../asservissement/PID.c ../asservissement/tests_unitaires.c ../asservissement/trajectoire.c ../asservissement/protocole_reception.c ../asservissement/reception.c ../asservissement/text_reception.c ../common_code/uart_emission.c
+SOURCEFILES=../asservissement/asser.c ../asservissement/hardware_PIC.c ../asservissement/main.c ../asservissement/match.c ../asservissement/math_precalc.c ../asservissement/odometrie.c ../asservissement/PID.c ../asservissement/tests_unitaires.c ../asservissement/trajectoire.c ../common_code/uart_emission.c ../common_code/communication/a2s.c ../common_code/communication/a2s_emission.c ../common_code/communication/a2s_reception.c ../common_code/communication/s2a.c ../common_code/communication/s2a_emission.c ../common_code/communication/s2a_reception.c ../common_code/communication/text_reception.c ../common_code/communication/hardware/PC/text_emission.c
 
 
 CFLAGS=
@@ -83,201 +83,257 @@ MP_LINKER_FILE_OPTION=,--script=p33FJ128MC802.gld
 # Rules for buildStep: compile
 ifeq ($(TYPE_IMAGE), DEBUG_RUN)
 ${OBJECTDIR}/_ext/1141334063/asser.o: ../asservissement/asser.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/1141334063" 
+	@${MKDIR} ${OBJECTDIR}/_ext/1141334063 
 	@${RM} ${OBJECTDIR}/_ext/1141334063/asser.o.d 
 	@${RM} ${OBJECTDIR}/_ext/1141334063/asser.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  ../asservissement/asser.c  -o ${OBJECTDIR}/_ext/1141334063/asser.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1141334063/asser.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PICKIT2=1    -omf=elf -DPIC_BUILD=1 -DDEBUG=0 -DGROS=1 -std=c99 -O0 -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1141334063/asser.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
-${OBJECTDIR}/_ext/1141334063/communication.o: ../asservissement/communication.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/1141334063" 
-	@${RM} ${OBJECTDIR}/_ext/1141334063/communication.o.d 
-	@${RM} ${OBJECTDIR}/_ext/1141334063/communication.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  ../asservissement/communication.c  -o ${OBJECTDIR}/_ext/1141334063/communication.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1141334063/communication.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PICKIT2=1    -omf=elf -DPIC_BUILD=1 -DDEBUG=0 -DGROS=1 -std=c99 -O0 -msmart-io=1 -Wall -msfr-warn=off
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1141334063/communication.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
-	
 ${OBJECTDIR}/_ext/1141334063/hardware_PIC.o: ../asservissement/hardware_PIC.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/1141334063" 
+	@${MKDIR} ${OBJECTDIR}/_ext/1141334063 
 	@${RM} ${OBJECTDIR}/_ext/1141334063/hardware_PIC.o.d 
 	@${RM} ${OBJECTDIR}/_ext/1141334063/hardware_PIC.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  ../asservissement/hardware_PIC.c  -o ${OBJECTDIR}/_ext/1141334063/hardware_PIC.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1141334063/hardware_PIC.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PICKIT2=1    -omf=elf -DPIC_BUILD=1 -DDEBUG=0 -DGROS=1 -std=c99 -O0 -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1141334063/hardware_PIC.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/_ext/1141334063/main.o: ../asservissement/main.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/1141334063" 
+	@${MKDIR} ${OBJECTDIR}/_ext/1141334063 
 	@${RM} ${OBJECTDIR}/_ext/1141334063/main.o.d 
 	@${RM} ${OBJECTDIR}/_ext/1141334063/main.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  ../asservissement/main.c  -o ${OBJECTDIR}/_ext/1141334063/main.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1141334063/main.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PICKIT2=1    -omf=elf -DPIC_BUILD=1 -DDEBUG=0 -DGROS=1 -std=c99 -O0 -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1141334063/main.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/_ext/1141334063/match.o: ../asservissement/match.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/1141334063" 
+	@${MKDIR} ${OBJECTDIR}/_ext/1141334063 
 	@${RM} ${OBJECTDIR}/_ext/1141334063/match.o.d 
 	@${RM} ${OBJECTDIR}/_ext/1141334063/match.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  ../asservissement/match.c  -o ${OBJECTDIR}/_ext/1141334063/match.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1141334063/match.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PICKIT2=1    -omf=elf -DPIC_BUILD=1 -DDEBUG=0 -DGROS=1 -std=c99 -O0 -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1141334063/match.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/_ext/1141334063/math_precalc.o: ../asservissement/math_precalc.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/1141334063" 
+	@${MKDIR} ${OBJECTDIR}/_ext/1141334063 
 	@${RM} ${OBJECTDIR}/_ext/1141334063/math_precalc.o.d 
 	@${RM} ${OBJECTDIR}/_ext/1141334063/math_precalc.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  ../asservissement/math_precalc.c  -o ${OBJECTDIR}/_ext/1141334063/math_precalc.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1141334063/math_precalc.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PICKIT2=1    -omf=elf -DPIC_BUILD=1 -DDEBUG=0 -DGROS=1 -std=c99 -O0 -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1141334063/math_precalc.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/_ext/1141334063/odometrie.o: ../asservissement/odometrie.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/1141334063" 
+	@${MKDIR} ${OBJECTDIR}/_ext/1141334063 
 	@${RM} ${OBJECTDIR}/_ext/1141334063/odometrie.o.d 
 	@${RM} ${OBJECTDIR}/_ext/1141334063/odometrie.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  ../asservissement/odometrie.c  -o ${OBJECTDIR}/_ext/1141334063/odometrie.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1141334063/odometrie.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PICKIT2=1    -omf=elf -DPIC_BUILD=1 -DDEBUG=0 -DGROS=1 -std=c99 -O0 -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1141334063/odometrie.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/_ext/1141334063/PID.o: ../asservissement/PID.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/1141334063" 
+	@${MKDIR} ${OBJECTDIR}/_ext/1141334063 
 	@${RM} ${OBJECTDIR}/_ext/1141334063/PID.o.d 
 	@${RM} ${OBJECTDIR}/_ext/1141334063/PID.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  ../asservissement/PID.c  -o ${OBJECTDIR}/_ext/1141334063/PID.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1141334063/PID.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PICKIT2=1    -omf=elf -DPIC_BUILD=1 -DDEBUG=0 -DGROS=1 -std=c99 -O0 -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1141334063/PID.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/_ext/1141334063/tests_unitaires.o: ../asservissement/tests_unitaires.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/1141334063" 
+	@${MKDIR} ${OBJECTDIR}/_ext/1141334063 
 	@${RM} ${OBJECTDIR}/_ext/1141334063/tests_unitaires.o.d 
 	@${RM} ${OBJECTDIR}/_ext/1141334063/tests_unitaires.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  ../asservissement/tests_unitaires.c  -o ${OBJECTDIR}/_ext/1141334063/tests_unitaires.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1141334063/tests_unitaires.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PICKIT2=1    -omf=elf -DPIC_BUILD=1 -DDEBUG=0 -DGROS=1 -std=c99 -O0 -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1141334063/tests_unitaires.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/_ext/1141334063/trajectoire.o: ../asservissement/trajectoire.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/1141334063" 
+	@${MKDIR} ${OBJECTDIR}/_ext/1141334063 
 	@${RM} ${OBJECTDIR}/_ext/1141334063/trajectoire.o.d 
 	@${RM} ${OBJECTDIR}/_ext/1141334063/trajectoire.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  ../asservissement/trajectoire.c  -o ${OBJECTDIR}/_ext/1141334063/trajectoire.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1141334063/trajectoire.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PICKIT2=1    -omf=elf -DPIC_BUILD=1 -DDEBUG=0 -DGROS=1 -std=c99 -O0 -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1141334063/trajectoire.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
-${OBJECTDIR}/_ext/1141334063/protocole_reception.o: ../asservissement/protocole_reception.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/1141334063" 
-	@${RM} ${OBJECTDIR}/_ext/1141334063/protocole_reception.o.d 
-	@${RM} ${OBJECTDIR}/_ext/1141334063/protocole_reception.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  ../asservissement/protocole_reception.c  -o ${OBJECTDIR}/_ext/1141334063/protocole_reception.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1141334063/protocole_reception.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PICKIT2=1    -omf=elf -DPIC_BUILD=1 -DDEBUG=0 -DGROS=1 -std=c99 -O0 -msmart-io=1 -Wall -msfr-warn=off
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1141334063/protocole_reception.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
-	
-${OBJECTDIR}/_ext/1141334063/reception.o: ../asservissement/reception.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/1141334063" 
-	@${RM} ${OBJECTDIR}/_ext/1141334063/reception.o.d 
-	@${RM} ${OBJECTDIR}/_ext/1141334063/reception.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  ../asservissement/reception.c  -o ${OBJECTDIR}/_ext/1141334063/reception.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1141334063/reception.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PICKIT2=1    -omf=elf -DPIC_BUILD=1 -DDEBUG=0 -DGROS=1 -std=c99 -O0 -msmart-io=1 -Wall -msfr-warn=off
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1141334063/reception.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
-	
-${OBJECTDIR}/_ext/1141334063/text_reception.o: ../asservissement/text_reception.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/1141334063" 
-	@${RM} ${OBJECTDIR}/_ext/1141334063/text_reception.o.d 
-	@${RM} ${OBJECTDIR}/_ext/1141334063/text_reception.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  ../asservissement/text_reception.c  -o ${OBJECTDIR}/_ext/1141334063/text_reception.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1141334063/text_reception.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PICKIT2=1    -omf=elf -DPIC_BUILD=1 -DDEBUG=0 -DGROS=1 -std=c99 -O0 -msmart-io=1 -Wall -msfr-warn=off
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1141334063/text_reception.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
-	
 ${OBJECTDIR}/_ext/1749121522/uart_emission.o: ../common_code/uart_emission.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/1749121522" 
+	@${MKDIR} ${OBJECTDIR}/_ext/1749121522 
 	@${RM} ${OBJECTDIR}/_ext/1749121522/uart_emission.o.d 
 	@${RM} ${OBJECTDIR}/_ext/1749121522/uart_emission.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  ../common_code/uart_emission.c  -o ${OBJECTDIR}/_ext/1749121522/uart_emission.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1749121522/uart_emission.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PICKIT2=1    -omf=elf -DPIC_BUILD=1 -DDEBUG=0 -DGROS=1 -std=c99 -O0 -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1749121522/uart_emission.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
+${OBJECTDIR}/_ext/1126628985/a2s.o: ../common_code/communication/a2s.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/1126628985 
+	@${RM} ${OBJECTDIR}/_ext/1126628985/a2s.o.d 
+	@${RM} ${OBJECTDIR}/_ext/1126628985/a2s.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../common_code/communication/a2s.c  -o ${OBJECTDIR}/_ext/1126628985/a2s.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1126628985/a2s.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PICKIT2=1    -omf=elf -DPIC_BUILD=1 -DDEBUG=0 -DGROS=1 -std=c99 -O0 -msmart-io=1 -Wall -msfr-warn=off
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1126628985/a2s.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
+	
+${OBJECTDIR}/_ext/1126628985/a2s_emission.o: ../common_code/communication/a2s_emission.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/1126628985 
+	@${RM} ${OBJECTDIR}/_ext/1126628985/a2s_emission.o.d 
+	@${RM} ${OBJECTDIR}/_ext/1126628985/a2s_emission.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../common_code/communication/a2s_emission.c  -o ${OBJECTDIR}/_ext/1126628985/a2s_emission.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1126628985/a2s_emission.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PICKIT2=1    -omf=elf -DPIC_BUILD=1 -DDEBUG=0 -DGROS=1 -std=c99 -O0 -msmart-io=1 -Wall -msfr-warn=off
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1126628985/a2s_emission.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
+	
+${OBJECTDIR}/_ext/1126628985/a2s_reception.o: ../common_code/communication/a2s_reception.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/1126628985 
+	@${RM} ${OBJECTDIR}/_ext/1126628985/a2s_reception.o.d 
+	@${RM} ${OBJECTDIR}/_ext/1126628985/a2s_reception.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../common_code/communication/a2s_reception.c  -o ${OBJECTDIR}/_ext/1126628985/a2s_reception.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1126628985/a2s_reception.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PICKIT2=1    -omf=elf -DPIC_BUILD=1 -DDEBUG=0 -DGROS=1 -std=c99 -O0 -msmart-io=1 -Wall -msfr-warn=off
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1126628985/a2s_reception.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
+	
+${OBJECTDIR}/_ext/1126628985/s2a.o: ../common_code/communication/s2a.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/1126628985 
+	@${RM} ${OBJECTDIR}/_ext/1126628985/s2a.o.d 
+	@${RM} ${OBJECTDIR}/_ext/1126628985/s2a.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../common_code/communication/s2a.c  -o ${OBJECTDIR}/_ext/1126628985/s2a.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1126628985/s2a.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PICKIT2=1    -omf=elf -DPIC_BUILD=1 -DDEBUG=0 -DGROS=1 -std=c99 -O0 -msmart-io=1 -Wall -msfr-warn=off
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1126628985/s2a.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
+	
+${OBJECTDIR}/_ext/1126628985/s2a_emission.o: ../common_code/communication/s2a_emission.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/1126628985 
+	@${RM} ${OBJECTDIR}/_ext/1126628985/s2a_emission.o.d 
+	@${RM} ${OBJECTDIR}/_ext/1126628985/s2a_emission.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../common_code/communication/s2a_emission.c  -o ${OBJECTDIR}/_ext/1126628985/s2a_emission.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1126628985/s2a_emission.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PICKIT2=1    -omf=elf -DPIC_BUILD=1 -DDEBUG=0 -DGROS=1 -std=c99 -O0 -msmart-io=1 -Wall -msfr-warn=off
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1126628985/s2a_emission.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
+	
+${OBJECTDIR}/_ext/1126628985/s2a_reception.o: ../common_code/communication/s2a_reception.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/1126628985 
+	@${RM} ${OBJECTDIR}/_ext/1126628985/s2a_reception.o.d 
+	@${RM} ${OBJECTDIR}/_ext/1126628985/s2a_reception.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../common_code/communication/s2a_reception.c  -o ${OBJECTDIR}/_ext/1126628985/s2a_reception.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1126628985/s2a_reception.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PICKIT2=1    -omf=elf -DPIC_BUILD=1 -DDEBUG=0 -DGROS=1 -std=c99 -O0 -msmart-io=1 -Wall -msfr-warn=off
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1126628985/s2a_reception.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
+	
+${OBJECTDIR}/_ext/1126628985/text_reception.o: ../common_code/communication/text_reception.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/1126628985 
+	@${RM} ${OBJECTDIR}/_ext/1126628985/text_reception.o.d 
+	@${RM} ${OBJECTDIR}/_ext/1126628985/text_reception.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../common_code/communication/text_reception.c  -o ${OBJECTDIR}/_ext/1126628985/text_reception.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1126628985/text_reception.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PICKIT2=1    -omf=elf -DPIC_BUILD=1 -DDEBUG=0 -DGROS=1 -std=c99 -O0 -msmart-io=1 -Wall -msfr-warn=off
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1126628985/text_reception.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
+	
+${OBJECTDIR}/_ext/900622108/text_emission.o: ../common_code/communication/hardware/PC/text_emission.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/900622108 
+	@${RM} ${OBJECTDIR}/_ext/900622108/text_emission.o.d 
+	@${RM} ${OBJECTDIR}/_ext/900622108/text_emission.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../common_code/communication/hardware/PC/text_emission.c  -o ${OBJECTDIR}/_ext/900622108/text_emission.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/900622108/text_emission.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PICKIT2=1    -omf=elf -DPIC_BUILD=1 -DDEBUG=0 -DGROS=1 -std=c99 -O0 -msmart-io=1 -Wall -msfr-warn=off
+	@${FIXDEPS} "${OBJECTDIR}/_ext/900622108/text_emission.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
+	
 else
 ${OBJECTDIR}/_ext/1141334063/asser.o: ../asservissement/asser.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/1141334063" 
+	@${MKDIR} ${OBJECTDIR}/_ext/1141334063 
 	@${RM} ${OBJECTDIR}/_ext/1141334063/asser.o.d 
 	@${RM} ${OBJECTDIR}/_ext/1141334063/asser.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  ../asservissement/asser.c  -o ${OBJECTDIR}/_ext/1141334063/asser.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1141334063/asser.o.d"        -g -omf=elf -DPIC_BUILD=1 -DDEBUG=0 -DGROS=1 -std=c99 -O0 -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1141334063/asser.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
-${OBJECTDIR}/_ext/1141334063/communication.o: ../asservissement/communication.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/1141334063" 
-	@${RM} ${OBJECTDIR}/_ext/1141334063/communication.o.d 
-	@${RM} ${OBJECTDIR}/_ext/1141334063/communication.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  ../asservissement/communication.c  -o ${OBJECTDIR}/_ext/1141334063/communication.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1141334063/communication.o.d"        -g -omf=elf -DPIC_BUILD=1 -DDEBUG=0 -DGROS=1 -std=c99 -O0 -msmart-io=1 -Wall -msfr-warn=off
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1141334063/communication.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
-	
 ${OBJECTDIR}/_ext/1141334063/hardware_PIC.o: ../asservissement/hardware_PIC.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/1141334063" 
+	@${MKDIR} ${OBJECTDIR}/_ext/1141334063 
 	@${RM} ${OBJECTDIR}/_ext/1141334063/hardware_PIC.o.d 
 	@${RM} ${OBJECTDIR}/_ext/1141334063/hardware_PIC.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  ../asservissement/hardware_PIC.c  -o ${OBJECTDIR}/_ext/1141334063/hardware_PIC.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1141334063/hardware_PIC.o.d"        -g -omf=elf -DPIC_BUILD=1 -DDEBUG=0 -DGROS=1 -std=c99 -O0 -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1141334063/hardware_PIC.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/_ext/1141334063/main.o: ../asservissement/main.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/1141334063" 
+	@${MKDIR} ${OBJECTDIR}/_ext/1141334063 
 	@${RM} ${OBJECTDIR}/_ext/1141334063/main.o.d 
 	@${RM} ${OBJECTDIR}/_ext/1141334063/main.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  ../asservissement/main.c  -o ${OBJECTDIR}/_ext/1141334063/main.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1141334063/main.o.d"        -g -omf=elf -DPIC_BUILD=1 -DDEBUG=0 -DGROS=1 -std=c99 -O0 -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1141334063/main.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/_ext/1141334063/match.o: ../asservissement/match.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/1141334063" 
+	@${MKDIR} ${OBJECTDIR}/_ext/1141334063 
 	@${RM} ${OBJECTDIR}/_ext/1141334063/match.o.d 
 	@${RM} ${OBJECTDIR}/_ext/1141334063/match.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  ../asservissement/match.c  -o ${OBJECTDIR}/_ext/1141334063/match.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1141334063/match.o.d"        -g -omf=elf -DPIC_BUILD=1 -DDEBUG=0 -DGROS=1 -std=c99 -O0 -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1141334063/match.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/_ext/1141334063/math_precalc.o: ../asservissement/math_precalc.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/1141334063" 
+	@${MKDIR} ${OBJECTDIR}/_ext/1141334063 
 	@${RM} ${OBJECTDIR}/_ext/1141334063/math_precalc.o.d 
 	@${RM} ${OBJECTDIR}/_ext/1141334063/math_precalc.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  ../asservissement/math_precalc.c  -o ${OBJECTDIR}/_ext/1141334063/math_precalc.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1141334063/math_precalc.o.d"        -g -omf=elf -DPIC_BUILD=1 -DDEBUG=0 -DGROS=1 -std=c99 -O0 -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1141334063/math_precalc.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/_ext/1141334063/odometrie.o: ../asservissement/odometrie.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/1141334063" 
+	@${MKDIR} ${OBJECTDIR}/_ext/1141334063 
 	@${RM} ${OBJECTDIR}/_ext/1141334063/odometrie.o.d 
 	@${RM} ${OBJECTDIR}/_ext/1141334063/odometrie.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  ../asservissement/odometrie.c  -o ${OBJECTDIR}/_ext/1141334063/odometrie.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1141334063/odometrie.o.d"        -g -omf=elf -DPIC_BUILD=1 -DDEBUG=0 -DGROS=1 -std=c99 -O0 -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1141334063/odometrie.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/_ext/1141334063/PID.o: ../asservissement/PID.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/1141334063" 
+	@${MKDIR} ${OBJECTDIR}/_ext/1141334063 
 	@${RM} ${OBJECTDIR}/_ext/1141334063/PID.o.d 
 	@${RM} ${OBJECTDIR}/_ext/1141334063/PID.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  ../asservissement/PID.c  -o ${OBJECTDIR}/_ext/1141334063/PID.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1141334063/PID.o.d"        -g -omf=elf -DPIC_BUILD=1 -DDEBUG=0 -DGROS=1 -std=c99 -O0 -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1141334063/PID.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/_ext/1141334063/tests_unitaires.o: ../asservissement/tests_unitaires.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/1141334063" 
+	@${MKDIR} ${OBJECTDIR}/_ext/1141334063 
 	@${RM} ${OBJECTDIR}/_ext/1141334063/tests_unitaires.o.d 
 	@${RM} ${OBJECTDIR}/_ext/1141334063/tests_unitaires.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  ../asservissement/tests_unitaires.c  -o ${OBJECTDIR}/_ext/1141334063/tests_unitaires.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1141334063/tests_unitaires.o.d"        -g -omf=elf -DPIC_BUILD=1 -DDEBUG=0 -DGROS=1 -std=c99 -O0 -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1141334063/tests_unitaires.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/_ext/1141334063/trajectoire.o: ../asservissement/trajectoire.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/1141334063" 
+	@${MKDIR} ${OBJECTDIR}/_ext/1141334063 
 	@${RM} ${OBJECTDIR}/_ext/1141334063/trajectoire.o.d 
 	@${RM} ${OBJECTDIR}/_ext/1141334063/trajectoire.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  ../asservissement/trajectoire.c  -o ${OBJECTDIR}/_ext/1141334063/trajectoire.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1141334063/trajectoire.o.d"        -g -omf=elf -DPIC_BUILD=1 -DDEBUG=0 -DGROS=1 -std=c99 -O0 -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1141334063/trajectoire.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
-${OBJECTDIR}/_ext/1141334063/protocole_reception.o: ../asservissement/protocole_reception.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/1141334063" 
-	@${RM} ${OBJECTDIR}/_ext/1141334063/protocole_reception.o.d 
-	@${RM} ${OBJECTDIR}/_ext/1141334063/protocole_reception.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  ../asservissement/protocole_reception.c  -o ${OBJECTDIR}/_ext/1141334063/protocole_reception.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1141334063/protocole_reception.o.d"        -g -omf=elf -DPIC_BUILD=1 -DDEBUG=0 -DGROS=1 -std=c99 -O0 -msmart-io=1 -Wall -msfr-warn=off
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1141334063/protocole_reception.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
-	
-${OBJECTDIR}/_ext/1141334063/reception.o: ../asservissement/reception.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/1141334063" 
-	@${RM} ${OBJECTDIR}/_ext/1141334063/reception.o.d 
-	@${RM} ${OBJECTDIR}/_ext/1141334063/reception.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  ../asservissement/reception.c  -o ${OBJECTDIR}/_ext/1141334063/reception.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1141334063/reception.o.d"        -g -omf=elf -DPIC_BUILD=1 -DDEBUG=0 -DGROS=1 -std=c99 -O0 -msmart-io=1 -Wall -msfr-warn=off
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1141334063/reception.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
-	
-${OBJECTDIR}/_ext/1141334063/text_reception.o: ../asservissement/text_reception.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/1141334063" 
-	@${RM} ${OBJECTDIR}/_ext/1141334063/text_reception.o.d 
-	@${RM} ${OBJECTDIR}/_ext/1141334063/text_reception.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  ../asservissement/text_reception.c  -o ${OBJECTDIR}/_ext/1141334063/text_reception.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1141334063/text_reception.o.d"        -g -omf=elf -DPIC_BUILD=1 -DDEBUG=0 -DGROS=1 -std=c99 -O0 -msmart-io=1 -Wall -msfr-warn=off
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1141334063/text_reception.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
-	
 ${OBJECTDIR}/_ext/1749121522/uart_emission.o: ../common_code/uart_emission.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/1749121522" 
+	@${MKDIR} ${OBJECTDIR}/_ext/1749121522 
 	@${RM} ${OBJECTDIR}/_ext/1749121522/uart_emission.o.d 
 	@${RM} ${OBJECTDIR}/_ext/1749121522/uart_emission.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  ../common_code/uart_emission.c  -o ${OBJECTDIR}/_ext/1749121522/uart_emission.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1749121522/uart_emission.o.d"        -g -omf=elf -DPIC_BUILD=1 -DDEBUG=0 -DGROS=1 -std=c99 -O0 -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1749121522/uart_emission.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
+	
+${OBJECTDIR}/_ext/1126628985/a2s.o: ../common_code/communication/a2s.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/1126628985 
+	@${RM} ${OBJECTDIR}/_ext/1126628985/a2s.o.d 
+	@${RM} ${OBJECTDIR}/_ext/1126628985/a2s.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../common_code/communication/a2s.c  -o ${OBJECTDIR}/_ext/1126628985/a2s.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1126628985/a2s.o.d"        -g -omf=elf -DPIC_BUILD=1 -DDEBUG=0 -DGROS=1 -std=c99 -O0 -msmart-io=1 -Wall -msfr-warn=off
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1126628985/a2s.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
+	
+${OBJECTDIR}/_ext/1126628985/a2s_emission.o: ../common_code/communication/a2s_emission.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/1126628985 
+	@${RM} ${OBJECTDIR}/_ext/1126628985/a2s_emission.o.d 
+	@${RM} ${OBJECTDIR}/_ext/1126628985/a2s_emission.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../common_code/communication/a2s_emission.c  -o ${OBJECTDIR}/_ext/1126628985/a2s_emission.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1126628985/a2s_emission.o.d"        -g -omf=elf -DPIC_BUILD=1 -DDEBUG=0 -DGROS=1 -std=c99 -O0 -msmart-io=1 -Wall -msfr-warn=off
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1126628985/a2s_emission.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
+	
+${OBJECTDIR}/_ext/1126628985/a2s_reception.o: ../common_code/communication/a2s_reception.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/1126628985 
+	@${RM} ${OBJECTDIR}/_ext/1126628985/a2s_reception.o.d 
+	@${RM} ${OBJECTDIR}/_ext/1126628985/a2s_reception.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../common_code/communication/a2s_reception.c  -o ${OBJECTDIR}/_ext/1126628985/a2s_reception.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1126628985/a2s_reception.o.d"        -g -omf=elf -DPIC_BUILD=1 -DDEBUG=0 -DGROS=1 -std=c99 -O0 -msmart-io=1 -Wall -msfr-warn=off
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1126628985/a2s_reception.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
+	
+${OBJECTDIR}/_ext/1126628985/s2a.o: ../common_code/communication/s2a.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/1126628985 
+	@${RM} ${OBJECTDIR}/_ext/1126628985/s2a.o.d 
+	@${RM} ${OBJECTDIR}/_ext/1126628985/s2a.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../common_code/communication/s2a.c  -o ${OBJECTDIR}/_ext/1126628985/s2a.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1126628985/s2a.o.d"        -g -omf=elf -DPIC_BUILD=1 -DDEBUG=0 -DGROS=1 -std=c99 -O0 -msmart-io=1 -Wall -msfr-warn=off
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1126628985/s2a.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
+	
+${OBJECTDIR}/_ext/1126628985/s2a_emission.o: ../common_code/communication/s2a_emission.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/1126628985 
+	@${RM} ${OBJECTDIR}/_ext/1126628985/s2a_emission.o.d 
+	@${RM} ${OBJECTDIR}/_ext/1126628985/s2a_emission.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../common_code/communication/s2a_emission.c  -o ${OBJECTDIR}/_ext/1126628985/s2a_emission.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1126628985/s2a_emission.o.d"        -g -omf=elf -DPIC_BUILD=1 -DDEBUG=0 -DGROS=1 -std=c99 -O0 -msmart-io=1 -Wall -msfr-warn=off
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1126628985/s2a_emission.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
+	
+${OBJECTDIR}/_ext/1126628985/s2a_reception.o: ../common_code/communication/s2a_reception.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/1126628985 
+	@${RM} ${OBJECTDIR}/_ext/1126628985/s2a_reception.o.d 
+	@${RM} ${OBJECTDIR}/_ext/1126628985/s2a_reception.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../common_code/communication/s2a_reception.c  -o ${OBJECTDIR}/_ext/1126628985/s2a_reception.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1126628985/s2a_reception.o.d"        -g -omf=elf -DPIC_BUILD=1 -DDEBUG=0 -DGROS=1 -std=c99 -O0 -msmart-io=1 -Wall -msfr-warn=off
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1126628985/s2a_reception.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
+	
+${OBJECTDIR}/_ext/1126628985/text_reception.o: ../common_code/communication/text_reception.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/1126628985 
+	@${RM} ${OBJECTDIR}/_ext/1126628985/text_reception.o.d 
+	@${RM} ${OBJECTDIR}/_ext/1126628985/text_reception.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../common_code/communication/text_reception.c  -o ${OBJECTDIR}/_ext/1126628985/text_reception.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1126628985/text_reception.o.d"        -g -omf=elf -DPIC_BUILD=1 -DDEBUG=0 -DGROS=1 -std=c99 -O0 -msmart-io=1 -Wall -msfr-warn=off
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1126628985/text_reception.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
+	
+${OBJECTDIR}/_ext/900622108/text_emission.o: ../common_code/communication/hardware/PC/text_emission.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/900622108 
+	@${RM} ${OBJECTDIR}/_ext/900622108/text_emission.o.d 
+	@${RM} ${OBJECTDIR}/_ext/900622108/text_emission.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../common_code/communication/hardware/PC/text_emission.c  -o ${OBJECTDIR}/_ext/900622108/text_emission.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/900622108/text_emission.o.d"        -g -omf=elf -DPIC_BUILD=1 -DDEBUG=0 -DGROS=1 -std=c99 -O0 -msmart-io=1 -Wall -msfr-warn=off
+	@${FIXDEPS} "${OBJECTDIR}/_ext/900622108/text_emission.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 endif
 
