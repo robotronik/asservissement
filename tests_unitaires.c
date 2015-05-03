@@ -96,52 +96,41 @@ void test_angle(long int angle, long int vitesse)
 
 void test_asser_alpha_delta(int alpha, int delta)
 {
-	s2a_send_message(S2A_KEY_ALPHA, alpha);
-	s2a_send_message(S2A_KEY_DELTA, delta);
-	s2a_send_message(S2A_FCT_ALPHA_DELTA);
+	set_trajectoire_alpha_delta(alpha,delta);
 	start();
 }
 
 void test_asser_theta(int theta)
 {
-	s2a_send_message(S2A_KEY_THETA, theta);
-	s2a_send_message(S2A_FCT_THETA);
+	set_trajectoire_theta(theta);
 	start();
 }
 
 void test_asser_xy_relatif_courbe(int x, int y)
 {
-	s2a_send_message(S2A_KEY_X, x);
-	s2a_send_message(S2A_KEY_Y, y);
-	s2a_send_message(S2A_FCT_XY_RELATIF);
-	s2a_send_message(S2A_FCT_MODE_COURBE);
+	set_trajectoire_mode(courbe);
+	set_trajectoire_xy_relatif(x,y);
 	start();
 }
 
 void test_asser_xy_absolu_courbe(int x, int y)
 {
-	s2a_send_message(S2A_KEY_X, x);
-	s2a_send_message(S2A_KEY_Y, y);
-	s2a_send_message(S2A_FCT_XY_ABSOLU);
-	s2a_send_message(S2A_FCT_MODE_COURBE);
+	set_trajectoire_mode(courbe);
+	set_trajectoire_xy_absolu(x,y);
 	start();
 }
 
 void test_asser_xy_relatif_tendu(int x, int y)
 {
-	s2a_send_message(S2A_KEY_X, x);
-	s2a_send_message(S2A_KEY_Y, y);
-	s2a_send_message(S2A_FCT_XY_RELATIF);
-	s2a_send_message(S2A_FCT_MODE_TENDU);
+	set_trajectoire_mode(tendu);
+	set_trajectoire_xy_relatif(x,y);
 	start();
 }
 
 void test_asser_xy_absolu_tendu(int x, int y)
 {
-	s2a_send_message(S2A_KEY_X, x);
-	s2a_send_message(S2A_KEY_Y, y);
-	s2a_send_message(S2A_FCT_XY_ABSOLU);
-	s2a_send_message(S2A_FCT_MODE_TENDU);
+	set_trajectoire_mode(tendu);
+	set_trajectoire_xy_absolu(x,y);
 	start();
 }
 
