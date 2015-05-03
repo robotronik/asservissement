@@ -4,6 +4,8 @@
 #include "hardware.h"
 #include <p33FJ128MC802.h>
 
+#include "../common_code/communication/s2a_reception.h"
+
 void reset_nbr_tick_G();
 void reset_nbr_tick_D();
 
