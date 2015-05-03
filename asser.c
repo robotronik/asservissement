@@ -82,7 +82,7 @@ void asser(s_consigne consigne)
 	else if (asser_done(erreur_delta.actuelle,erreur_alpha.actuelle))
 	{
 		deja_notifie = false;
-		debug(_VERBOSE_, "atteint mais peu pas s'arreter");
+		debug(_ERROR_, "atteint mais peu pas s'arreter");
 	} else {
 		deja_notifie = false;
 	}
