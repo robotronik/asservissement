@@ -96,9 +96,9 @@ else
 		LDFLAGS     += $(PC_SDL_LDF)
 		FICHIERS_C  += $(FICHIER_AFFICHAGE_C)
 	endif
-
-	CFLAGS += -DDEBUG=$(DEBUG) -g
 endif
+
+CFLAGS += -DDEBUG=$(DEBUG) -g
 
 ################################################################################
 
@@ -160,10 +160,12 @@ match.o:
 .PHONY: $(COMMUNICATION_OBJ_DIR)/comm_asser.a $(COMMUNICATION_OBJ_DIR)/comm_strategie.a
 
 $(COMMUNICATION_OBJ_DIR)/comm_asser.a:
-	cd $(COMMUNICATION_DIR) && $(MAKE) $(OBJDIR)/comm_asser.a
+	cd $(COMMUNICATION_DIR) && \
+	$(MAKE) ARCH=$(ARCH) ROBOT=$(ROBOT) SDL=$(SDL) DEBUG=$(DEBUG) $(OBJDIR)/comm_asser.a
 
 $(COMMUNICATION_OBJ_DIR)/comm_strategie.a:
-	cd $(COMMUNICATION_DIR) && $(MAKE) $(OBJDIR)/comm_strategie.a
+	cd $(COMMUNICATION_DIR) && \
+	$(MAKE) ARCH=$(ARCH) ROBOT=$(ROBOT) SDL=$(SDL) DEBUG=$(DEBUG) $(OBJDIR)/comm_strategie.a
 
 ################################################################################
 
