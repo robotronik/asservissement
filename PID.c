@@ -38,7 +38,7 @@ long int PID_angulaire(s_erreur erreur_alpha)
 	//composante intégrale
 	commande+=(long int) KI_ALPHA*erreur_alpha.sum;
 	//composante dérivée
-	commande+=(long int) kp_alpha*(erreur_alpha.actuelle-erreur_alpha.preced);
+	commande+=(long int) kd_alpha*(erreur_alpha.actuelle-erreur_alpha.preced);
 
 	return commande;
 }
