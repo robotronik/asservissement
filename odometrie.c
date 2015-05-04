@@ -41,6 +41,10 @@ void actualise_position()
 	long int nbr_tick_D=get_nbr_tick_D();
 	long int nbr_tick_G=get_nbr_tick_G();
 
+	//correction
+	nbr_tick_D*=COEFF_CODEUR_D;
+	nbr_tick_G*=COEFF_CODEUR_G;
+
 	//calcul de alpha et delta apparents
 	long int delta_lu=delta_mm(nbr_tick_D,nbr_tick_G);
 	long int alpha_lu=alpha_millirad(nbr_tick_D,nbr_tick_G);

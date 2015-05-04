@@ -29,6 +29,10 @@ coefficients des PID et qu'il y a overflow*/
 //"vitesse" correspond à la commande pour chaque moteur avant convertion en PWM
 //"acceleration" et "deceleration" : différence entre deux valeurs de "vitesses" consécutives
 
+//correction mécanique
+#define COEFF_CODEUR_D 1
+#define COEFF_CODEUR_G 1
+
 //precision
 #define PRECISION_DELTA 10 //precision souhaitée pour delta (en mm)
 #define PRECISION_ALPHA 10 //precision souhaitée pour alpha (en milli radian)
