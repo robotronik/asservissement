@@ -63,6 +63,8 @@ void test_distance(long int distance, long int vitesse)
 	{
 		nbr_tick_D=get_nbr_tick_D();
 		nbr_tick_G=get_nbr_tick_G();
+		nbr_tick_D*=COEFF_CODEUR_D;
+		nbr_tick_G*=COEFF_CODEUR_G;
 		distance_actuelle=delta_mm(nbr_tick_D,nbr_tick_G);
 	}
 	test_vitesse(0);
@@ -89,6 +91,8 @@ void test_angle(long int angle, long int vitesse)
 	{
 		nbr_tick_D=get_nbr_tick_D();
 		nbr_tick_G=get_nbr_tick_G();
+		nbr_tick_D*=COEFF_CODEUR_D;
+		nbr_tick_G*=COEFF_CODEUR_G;
 		angle_actuel=alpha_millirad(nbr_tick_D,nbr_tick_G);
 	}
 	test_vitesse(0);
