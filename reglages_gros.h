@@ -31,7 +31,9 @@ coefficients des PID et qu'il y a overflow*/
 
 //correction mécanique
 #define COEFF_CODEUR_D 1
-#define COEFF_CODEUR_G 1.07
+#define COEFF_CODEUR_G 1 // 1.016 //1.07
+#define COEFF_MOTEUR_D 1 //1.085
+#define COEFF_MOTEUR_G 1 //1 //1.10
 
 //precision
 #define PRECISION_DELTA 10 //precision souhaitée pour delta (en mm)
