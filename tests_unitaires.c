@@ -16,12 +16,36 @@
 #include "odometrie.h"
 #include "trajectoire.h"
 
+void test_moteur_D(long int vitesse)
+{
+        int PWM_D=convert2PWM(vitesse);
+        set_PWM_moteur_D(PWM_D);
+}
+
+void test_moteur_G(long int vitesse)
+{
+        int PWM_G=convert2PWM(vitesse);
+        set_PWM_moteur_G(PWM_G);
+}
+
+void test_codeur_D()
+{
+    while(get_nbr_tick_D()==0){;}
+    allumer_del();
+}
+
+void test_codeur_G()
+{
+    while(get_nbr_tick_G()==0){;}
+    allumer_del();
+}
 
 void test_vitesse(long int vitesse)
 {
-	int PWM=convert2PWM(vitesse);
-	set_PWM_moteur_D(PWM);
-	set_PWM_moteur_G(PWM);
+	int PWM_G=convert2PWM(COEFF_MOTEUR_G*vitesse);
+	int PWM_D=convert2PWM(COEFF_MOTEUR_D*vitesse);
+	set_PWM_moteur_D(PWM_D);
+	set_PWM_moteur_G(PWM_G);
 }
 
 void test_ecretage()
