@@ -18,13 +18,13 @@
 
 void test_moteur_D(long int vitesse)
 {
-        int PWM_D=convert2PWM(vitesse);
+        int PWM_D=convert2PWM(COEFF_MOTEUR_D*vitesse);
         set_PWM_moteur_D(PWM_D);
 }
 
 void test_moteur_G(long int vitesse)
 {
-        int PWM_G=convert2PWM(vitesse);
+        int PWM_G=convert2PWM(COEFF_MOTEUR_G*vitesse);
         set_PWM_moteur_G(PWM_G);
 }
 
@@ -42,10 +42,8 @@ void test_codeur_G()
 
 void test_vitesse(long int vitesse)
 {
-	int PWM_G=convert2PWM(COEFF_MOTEUR_G*vitesse);
-	int PWM_D=convert2PWM(COEFF_MOTEUR_D*vitesse);
-	set_PWM_moteur_D(PWM_D);
-	set_PWM_moteur_G(PWM_G);
+        test_moteur_D(vitesse);
+        test_moteur_G(vitesse);
 }
 
 void test_ecretage()
@@ -107,9 +105,8 @@ void test_angle(long int angle, long int vitesse)
 		vitesse=-vitesse;
 	}
 
-	int PWM=convert2PWM(vitesse);
-	set_PWM_moteur_D(PWM);
-	set_PWM_moteur_G(-PWM);
+        test_moteur_D(vitesse);
+        test_moteur_G(-vitesse);
 
 	while(abs(angle_actuel)<abs(angle))
 	{
