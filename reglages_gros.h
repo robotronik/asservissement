@@ -11,27 +11,27 @@ coefficients des PID et qu'il y a overflow*/
 #define THETA_INIT 0
 
 //PID lineique
-#define KP_DELTA 500//constante de proportionalité
-#define KI_DELTA 0//composante d'intégration
-#define KD_DELTA 0//composante de dérivation
+#define KP_DELTA 1600 //constante de proportionalité
+#define KI_DELTA 0    //composante d'intégration
+#define KD_DELTA 10   //composante de dérivation
 //PID angulaire
-#define KP_ALPHA 130//constante de proportionalité
-#define KI_ALPHA 0//composante d'intégration
-#define KD_ALPHA 70//composante de dérivation
+#define KP_ALPHA 360  //constante de proportionalité
+#define KI_ALPHA 0    //composante d'intégration
+#define KD_ALPHA 220  //composante de dérivation
 
 //contraintes mecaniques
 #define MAX_VITESSE 400000 //vitesse maximale du robot
-#define MIN_VITESSE 70000 //vitesse minimale du robot pour qu'il commence à avancer
-#define MAX_ACCELERATION 2000 //acceleration maximale
-#define MAX_DECELERATION 2500 //deceleration maximale (valeur absolue)
-#define VIT_MAX_ARRET 80000 //vitesse maximale à laquelle on peut s'arreter sans tomber
+#define MIN_VITESSE 100000 //vitesse minimale du robot pour qu'il commence à avancer
+#define MAX_ACCELERATION 310 //acceleration maximale
+#define MAX_DECELERATION 2750 //deceleration maximale (valeur absolue)
+#define VIT_MAX_ARRET 200000 //vitesse maximale à laquelle on peut s'arreter sans tomber
 #define PWM_MAX 1 //PWM maximal, à cette valeur le robot est à sa vitesse maximale admissible
 //"vitesse" correspond à la commande pour chaque moteur avant convertion en PWM
 //"acceleration" et "deceleration" : différence entre deux valeurs de "vitesses" consécutives
 
 //correction mécanique
 #define COEFF_CODEUR_D 1
-#define COEFF_CODEUR_G 1 // 1.016 //1.07
+#define COEFF_CODEUR_G 1.005 //1.07
 #define COEFF_MOTEUR_D 1 //1.085
 #define COEFF_MOTEUR_G 1 //1 //1.10
 
