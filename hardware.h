@@ -19,6 +19,4 @@ void pause_ms(unsigned short n);
 void eteindre_del();
 void motors_stop();
 
-void UART_send_message(char* message);
-
 #endif
