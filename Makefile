@@ -43,6 +43,9 @@ COMMON_H   = $(COMMON_DIR)*.h
 COMMUNICATION_DIR = ../common_code/communication
 COMMUNICATION_OBJ_DIR = $(COMMUNICATION_DIR)/$(OBJDIR)
 
+LIBCOMMON_DIR = ../common_code
+LIBCOMMON_OBJ_DIR = $(LIBCOMMON_DIR)/$(OBJDIR)
+
 FICHIER_AFFICHAGE_C = $(COMMON_DIR)simulation/affichage.c
 
 ################################################################################
@@ -139,7 +142,7 @@ endif
 
 # Compilation
 
-$(EXEC): $(FICHIERS_O) $(COMMUNICATION_OBJ_DIR)/comm_asser.a $(COMMUNICATION_OBJ_DIR)/comm_strategie.a
+$(EXEC): $(FICHIERS_O) $(COMMUNICATION_OBJ_DIR)/comm_asser.a $(LIBCOMMON_OBJ_DIR)/libCommon.a
 	$(CC) -o $@ $^ $(LDFLAGS) $(SDLFLAGS)
 
 asser.o: PID.h trajectoire.h odometrie.h $(F_REGLAGES_H)
@@ -162,15 +165,14 @@ match.o:
 
 # Librairies
 
-.PHONY: $(COMMUNICATION_OBJ_DIR)/comm_asser.a $(COMMUNICATION_OBJ_DIR)/comm_strategie.a
+.PHONY: $(COMMUNICATION_OBJ_DIR)/comm_asser.a $(LIBCOMMON_OBJ_DIR)/libCommon.a
 
 $(COMMUNICATION_OBJ_DIR)/comm_asser.a:
 	cd $(COMMUNICATION_DIR) && \
 	$(MAKE) ARCH=$(ARCH) ROBOT=$(ROBOT) SDL=$(SDL) DEBUG=$(DEBUG) $(OBJDIR)/comm_asser.a
 
-$(COMMUNICATION_OBJ_DIR)/comm_strategie.a:
-	cd $(COMMUNICATION_DIR) && \
-	$(MAKE) ARCH=$(ARCH) ROBOT=$(ROBOT) SDL=$(SDL) DEBUG=$(DEBUG) $(OBJDIR)/comm_strategie.a
+$(LIBCOMMON_OBJ_DIR)/libCommon.a:
+	$(MAKE) -C $(LIBCOMMON_DIR)
 
 ################################################################################
 
@@ -182,8 +184,11 @@ tarall: $(SOURCEFILES)
 
 clean:
 	rm -f $(FICHIERS_O) $(FICHIER_AFFICHAGE_C:.c=.o)
-	cd $(COMMUNICATION_DIR) && $(MAKE) $@
+	$(MAKE) -C $(COMMUNICATION_DIR) $@
+	$(MAKE) -C $(LIBCOMMON_DIR) $@
 
 mrproper: clean
 	rm -rf $(EXEC) $(PIC_ELF) $(PIC_HEX) $(EXEC).tar.bz2
+	$(MAKE) -C $(COMMUNICATION_DIR) $@
+	$(MAKE) -C $(LIBCOMMON_DIR) $@
 
