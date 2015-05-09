@@ -5,10 +5,10 @@
 ################################################################################
 
 # Options
-export ARCH  = PIC
-export ROBOT = gros
-export SDL   = yes
-export DEBUG = _WARNING_
+ARCH  = PIC
+ROBOT = gros
+SDL   = yes
+DEBUG = _WARNING_
 
 # Constantes de compilation
 
@@ -101,6 +101,11 @@ endif
 CFLAGS += -DDEBUG=$(DEBUG) -g
 
 ################################################################################
+
+export ARCH
+export ROBOT
+export SDL
+export DEBUG
 
 # Cibles du projet
 FICHIERS_H   = $(FICHIERS_C:.c=.h) hardware.h $(F_REGLAGES_H) $(COMMON_H)
