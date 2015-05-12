@@ -129,17 +129,10 @@ int main()
 
  extern unsigned short rxBufferDebut;
  extern unsigned short rxBufferFin;
-        long int i = 0;
         char c;
         extern s_consigne consigne;
         while(match_get_etat() != MATCH_FIN)
         {
-            i = (i+1)%4000;
-            if (!i)
-            {
-                send_cmd("I'm alive");
-            }
-
             //asservissement
             asser(consigne);
 
