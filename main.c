@@ -73,18 +73,23 @@ int main()
 	//chemin.point[6].y=1000;
 	////chemin.point[7].x=140; //position initiale du robot
 	////chemin.point[7].y=140; //position initiale du robot
-
+        //test_moteur_D(400000);
+        //test_moteur_G(400000);
+        //test_codeur_D();
+        //test_codeur_G();
 	/*tests pour réglage des parametres*/
 
 		/*tests en boucle ouverte*/
 	    //test_vitesse(MIN_VITESSE);
+            //test_vitesse(400000);
 	    //test_ecretage();
 	    //test_distance(500,200000);
-	    //test_angle(3142,200000);
+	    //test_angle(3142,400000);
 
 	    /*test d'asservissement*/
-	    //test_asser_alpha_delta(0,400);
-	    //test_asser_alpha_delta(3140,0);
+            //test_sens_codeur_D();
+	    //test_asser_alpha_delta(0,13800);
+	    //test_asser_alpha_delta(3142,0);
 	    //test_asser_theta(3142);
 	    //test_asser_xy_relatif_courbe(0,400);
 	    //test_asser_xy_absolu_courbe(140,400+140);
@@ -92,35 +97,65 @@ int main()
 	    //test_asser_xy_absolu_tendu(140,400+140);
 	    //test_asser_chemin(chemin);
 
-	#if PIC_BUILD
-    //démarage de l'asservissement
-	start();
+//	#if PIC_BUILD
+//    //démarage de l'asservissement
+//	//start();
+//
+//	//évite un reset automatique du microcontroleur
+//    while (1) {;}
+//
+//    #else
+//	pthread_t thread_asser;
+//    int ret;
+//
+//    ret = pthread_create (&thread_asser, NULL, main_loop, NULL);
+//    if (ret != 0)
+//        fprintf(stderr, "erreur %d\n", ret);
+//
+//    //////////
+//
+//    while(match_get_etat() != MATCH_FIN) {
+//        // On lit l'entrée standard, et on passe les caractères à la fonctions
+//        // qui gère les interruption de l'uart
+//        s2a_lecture_message(getc(stdin));
+//    }
+//
+//    //////////
+//
+//    ret = pthread_cancel(thread_asser);
+//    if (ret != 0)
+//        fprintf(stderr, "erreur %d\n", ret);
+//    #endif
 
-	//évite un reset automatique du microcontroleur
-    while (1) {;}
+ extern unsigned short rxBufferDebut;
+ extern unsigned short rxBufferFin;
+        long int i = 0;
+        char c;
+        extern s_consigne consigne;
+        while(match_get_etat() != MATCH_FIN)
+        {
+            i = (i+1)%4000;
+            if (!i)
+            {
+                send_cmd("I'm alive");
+            }
 
-    #else
-	pthread_t thread_asser;
-    int ret;
+            //asservissement
+            asser(consigne);
 
-    ret = pthread_create (&thread_asser, NULL, main_loop, NULL);
-    if (ret != 0)
-        fprintf(stderr, "erreur %d\n", ret);
+            //on recalcule la position actuelle du robot (via les roues codeuses)
+            actualise_position();
 
-    //////////
+            //on met à jour la consigne pour l'asser
+            update_consigne();
 
-    while(match_get_etat() != MATCH_FIN) {
-        // On lit l'entrée standard, et on passe les caractères à la fonctions
-        // qui gère les interruption de l'uart
-        s2a_lecture_message(getc(stdin));
-    }
+            if (UART_getc(&c)) {
+                s2a_lecture_message(c);
+            }
+        }
 
-    //////////
-
-    ret = pthread_cancel(thread_asser);
-    if (ret != 0)
-        fprintf(stderr, "erreur %d\n", ret);
-    #endif
-
+        while(1) {
+        }
+        //while(1);
     return 0;
 }
