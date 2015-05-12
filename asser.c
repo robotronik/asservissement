@@ -53,8 +53,16 @@ void asser(s_consigne consigne)
 	long int commande_moteur_G=reponse_delta-reponse_alpha;
 	debug(_VERBOSE_, "com_D:%li com_G:%li\n",commande_moteur_D,commande_moteur_G);
 
+        //correction eventuelle des commandes
+        commande_moteur_D*=COEFF_MOTEUR_D;
+        commande_moteur_G*=COEFF_MOTEUR_G;
+        
 	//propotions correctes pour les commandes
-	mise_echelle(&commande_moteur_D,&commande_moteur_G);
+#       if PIC_BUILD
+	//mise_echelle(&commande_moteur_D,&commande_moteur_G);
+#       else
+        mise_echelle(&commande_moteur_D,&commande_moteur_G);
+#        endif
 
 	//écretage (si trop forte acceleration/décélérantion)
 	ecretage(&commande_moteur_D,commande_moteur_D_preced);
