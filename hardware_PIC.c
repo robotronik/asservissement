@@ -321,11 +321,6 @@ long get_nbr_tick_G()
 	long * pPosL=&PosL;
 	((T_dividedLong *) pPosL)->part.high = distLHigh;
 	((T_dividedLong *) pPosL)->part.low = POS1CNT;
-    if (PosL == 0) {
-        allumer_del();
-    } else {
-        eteindre_del();
-    }
 	return PosL;
 }
 
