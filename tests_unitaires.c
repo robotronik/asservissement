@@ -17,12 +17,66 @@
 #include "odometrie.h"
 #include "trajectoire.h"
 
+void test_moteur_D(long int vitesse)
+{
+        int PWM_D=convert2PWM(COEFF_MOTEUR_D*vitesse);
+        set_PWM_moteur_D(PWM_D);
+}
+
+void test_moteur_G(long int vitesse)
+{
+        int PWM_G=convert2PWM(COEFF_MOTEUR_G*vitesse);
+        set_PWM_moteur_G(PWM_G);
+}
+
+void test_codeur_D()
+{
+    while(get_nbr_tick_D()==0){;}
+    allumer_del();
+}
+
+void test_codeur_G()
+{
+    while(get_nbr_tick_G()==0){;}
+    allumer_del();
+}
+
+void test_sens_codeur_D()
+{
+    while(1)
+    {
+        int nbr_tick_D=get_nbr_tick_D();
+        if (nbr_tick_D>0)
+        {
+            allumer_del();
+        }
+        else
+        {
+            eteindre_del();
+        }
+    }
+}
+
+void test_sens_codeur_G()
+{
+    while(1)
+    {
+        int nbr_tick_G=get_nbr_tick_G();
+        if (nbr_tick_G>0)
+        {
+            allumer_del();
+        }
+        else
+        {
+            eteindre_del();
+        }
+    }
+}
 
 void test_vitesse(long int vitesse)
 {
-	int PWM=convert2PWM(vitesse);
-	set_PWM_moteur_D(PWM);
-	set_PWM_moteur_G(PWM);
+        test_moteur_D(vitesse);
+        test_moteur_G(vitesse);
 }
 
 void test_ecretage()
@@ -64,6 +118,8 @@ void test_distance(long int distance, long int vitesse)
 	{
 		nbr_tick_D=get_nbr_tick_D();
 		nbr_tick_G=get_nbr_tick_G();
+		nbr_tick_D*=COEFF_CODEUR_D;
+		nbr_tick_G*=COEFF_CODEUR_G;
 		distance_actuelle=delta_mm(nbr_tick_D,nbr_tick_G);
 	}
 	test_vitesse(0);
@@ -82,14 +138,15 @@ void test_angle(long int angle, long int vitesse)
 		vitesse=-vitesse;
 	}
 
-	int PWM=convert2PWM(vitesse);
-	set_PWM_moteur_D(PWM);
-	set_PWM_moteur_G(-PWM);
+        test_moteur_D(vitesse);
+        test_moteur_G(-vitesse);
 
 	while(abs(angle_actuel)<abs(angle))
 	{
 		nbr_tick_D=get_nbr_tick_D();
 		nbr_tick_G=get_nbr_tick_G();
+		nbr_tick_D*=COEFF_CODEUR_D;
+		nbr_tick_G*=COEFF_CODEUR_G;
 		angle_actuel=alpha_millirad(nbr_tick_D,nbr_tick_G);
 	}
 	test_vitesse(0);
