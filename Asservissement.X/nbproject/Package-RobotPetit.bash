@@ -6,7 +6,7 @@
 
 # Macros
 TOP=`pwd`
-CND_CONF=Robot
+CND_CONF=RobotPetit
 CND_DISTDIR=dist
 TMPDIR=build/${CND_CONF}/${IMAGE_TYPE}/tmp-packaging
 TMPDIRNAME=tmp-packaging

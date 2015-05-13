@@ -15,57 +15,64 @@
       <logicalFolder name="asservissement"
                      displayName="asservissement"
                      projectFiles="true">
-        <logicalFolder name="f1" displayName="hardware" projectFiles="true">
-          <logicalFolder name="f1" displayName="PC" projectFiles="true">
-            <itemPath>../common_code/communication/hardware/PC/text_emission.c</itemPath>
-          </logicalFolder>
-        </logicalFolder>
-        <itemPath>../asservissement/asser.c</itemPath>
-        <itemPath>../asservissement/asser.h</itemPath>
-        <itemPath>../asservissement/hardware.h</itemPath>
-        <itemPath>../asservissement/hardware_PIC.c</itemPath>
-        <itemPath>../asservissement/main.c</itemPath>
-        <itemPath>../asservissement/match.c</itemPath>
-        <itemPath>../asservissement/match.h</itemPath>
-        <itemPath>../asservissement/math_precalc.c</itemPath>
-        <itemPath>../asservissement/math_precalc.h</itemPath>
-        <itemPath>../asservissement/odometrie.c</itemPath>
-        <itemPath>../asservissement/odometrie.h</itemPath>
-        <itemPath>../asservissement/PID.c</itemPath>
-        <itemPath>../asservissement/PID.h</itemPath>
-        <itemPath>../asservissement/reglages_gros.h</itemPath>
-        <itemPath>../asservissement/tests_unitaires.c</itemPath>
-        <itemPath>../asservissement/tests_unitaires.h</itemPath>
-        <itemPath>../asservissement/trajectoire.c</itemPath>
-        <itemPath>../asservissement/trajectoire.h</itemPath>
-        <itemPath>../asservissement/reglages_PC.h</itemPath>
-        <itemPath>../asservissement/reglages_orig.h</itemPath>
+        <itemPath>../asser.c</itemPath>
+        <itemPath>../asser.h</itemPath>
+        <itemPath>../hardware.h</itemPath>
+        <itemPath>../hardware_PIC.c</itemPath>
+        <itemPath>../main.c</itemPath>
+        <itemPath>../match.c</itemPath>
+        <itemPath>../match.h</itemPath>
+        <itemPath>../math_precalc.c</itemPath>
+        <itemPath>../math_precalc.h</itemPath>
+        <itemPath>../odometrie.c</itemPath>
+        <itemPath>../odometrie.h</itemPath>
+        <itemPath>../PID.c</itemPath>
+        <itemPath>../PID.h</itemPath>
+        <itemPath>../reglages_gros.h</itemPath>
+        <itemPath>../reglages_orig.h</itemPath>
+        <itemPath>../reglages_PC.h</itemPath>
+        <itemPath>../reglages_petit.h</itemPath>
+        <itemPath>../tests_unitaires.c</itemPath>
+        <itemPath>../tests_unitaires.h</itemPath>
+        <itemPath>../trajectoire.c</itemPath>
+        <itemPath>../trajectoire.h</itemPath>
       </logicalFolder>
       <logicalFolder name="common_code" displayName="common_code" projectFiles="true">
-        <logicalFolder name="f1" displayName="communication" projectFiles="true">
-          <itemPath>../common_code/communication/a2s.c</itemPath>
-          <itemPath>../common_code/communication/a2s.h</itemPath>
-          <itemPath>../common_code/communication/a2s_emission.c</itemPath>
-          <itemPath>../common_code/communication/a2s_emission.h</itemPath>
-          <itemPath>../common_code/communication/a2s_reception.c</itemPath>
-          <itemPath>../common_code/communication/a2s_reception.h</itemPath>
-          <itemPath>../common_code/communication/s2a.c</itemPath>
-          <itemPath>../common_code/communication/s2a.h</itemPath>
-          <itemPath>../common_code/communication/s2a_emission.c</itemPath>
-          <itemPath>../common_code/communication/s2a_emission.h</itemPath>
-          <itemPath>../common_code/communication/s2a_reception.c</itemPath>
-          <itemPath>../common_code/communication/s2a_reception.h</itemPath>
-          <itemPath>../common_code/communication/text_emission.h</itemPath>
-          <itemPath>../common_code/communication/text_reception.c</itemPath>
-          <itemPath>../common_code/communication/text_reception.h</itemPath>
+        <logicalFolder name="communication"
+                       displayName="communication"
+                       projectFiles="true">
+          <logicalFolder name="hardware" displayName="hardware" projectFiles="true">
+            <logicalFolder name="PIC" displayName="PIC" projectFiles="true">
+              <itemPath>../../common_code/communication/hardware/PIC/uart.c</itemPath>
+            </logicalFolder>
+          </logicalFolder>
+          <itemPath>../../common_code/communication/a2s.c</itemPath>
+          <itemPath>../../common_code/communication/a2s.h</itemPath>
+          <itemPath>../../common_code/communication/a2s_reception.c</itemPath>
+          <itemPath>../../common_code/communication/a2s_reception.h</itemPath>
+          <itemPath>../../common_code/communication/s2a.c</itemPath>
+          <itemPath>../../common_code/communication/s2a.h</itemPath>
+          <itemPath>../../common_code/communication/s2a_reception.c</itemPath>
+          <itemPath>../../common_code/communication/s2a_reception.h</itemPath>
+          <itemPath>../../common_code/communication/text_emission.c</itemPath>
+          <itemPath>../../common_code/communication/text_emission.h</itemPath>
+          <itemPath>../../common_code/communication/text_reception.c</itemPath>
+          <itemPath>../../common_code/communication/text_reception.h</itemPath>
+          <itemPath>../../common_code/communication/uart.h</itemPath>
         </logicalFolder>
-        <itemPath>../common_code/common.h</itemPath>
-        <itemPath>../common_code/debug.h</itemPath>
-        <itemPath>../common_code/inttypes.h</itemPath>
-        <itemPath>../common_code/maths.h</itemPath>
-        <itemPath>../common_code/protocole_uart.h</itemPath>
-        <itemPath>../common_code/uart_emission.c</itemPath>
-        <itemPath>../common_code/uart_emission.h</itemPath>
+        <logicalFolder name="hardware" displayName="hardware" projectFiles="true">
+          <logicalFolder name="PIC" displayName="PIC" projectFiles="true">
+            <itemPath>../../common_code/hardware/PIC/time.c</itemPath>
+          </logicalFolder>
+        </logicalFolder>
+        <itemPath>../../common_code/common.h</itemPath>
+        <itemPath>../../common_code/debug.h</itemPath>
+        <itemPath>../../common_code/inttypes.h</itemPath>
+        <itemPath>../../common_code/maths.h</itemPath>
+        <itemPath>../../common_code/protocole_uart.h</itemPath>
+        <itemPath>../../common_code/time.h</itemPath>
+        <itemPath>../../common_code/uart_emission.c</itemPath>
+        <itemPath>../../common_code/uart_emission.h</itemPath>
       </logicalFolder>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
@@ -75,12 +82,12 @@
     </logicalFolder>
   </logicalFolder>
   <sourceRootList>
-    <Elem>../asservissement</Elem>
-    <Elem>../common_code</Elem>
+    <Elem>..</Elem>
+    <Elem>../../common_code</Elem>
   </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
-    <conf name="Robot" type="2">
+    <conf name="RobotPetit" type="2">
       <toolsSet>
         <developmentServer>localhost</developmentServer>
         <targetDevice>dsPIC33FJ128MC802</targetDevice>
@@ -88,7 +95,7 @@
         <targetPluginBoard></targetPluginBoard>
         <platformTool>PICkit2PlatformTool</platformTool>
         <languageToolchain>XC16</languageToolchain>
-        <languageToolchainVersion>1.22</languageToolchainVersion>
+        <languageToolchainVersion>1.24</languageToolchainVersion>
         <platform>3</platform>
       </toolsSet>
       <compileType>
@@ -212,12 +219,12 @@
         <property key="output-file-format" value="elf"/>
         <property key="relaxed-math" value="false"/>
         <property key="save-temps" value="false"/>
-        <appendMe value="-DPIC_BUILD=1 -DDEBUG=0 -DGROS=1 -std=c99"/>
+        <appendMe value="-std=c99 -DPIC_BUILD=1 -DDEBUG=0 -DGROS=0 -DPETIT=1"/>
       </C30Global>
       <PICkit2PlatformTool>
         <property key="pk2settings.3state" value="false"/>
         <property key="pk2settings.preserveee" value="false"/>
-        <property key="pk2settings.setvddvoltage" value="3,25"/>
+        <property key="pk2settings.setvddvoltage" value=""/>
         <property key="pk2settings.userpgmexec" value="true"/>
         <property key="pk2settings.usetargetpower" value="false"/>
       </PICkit2PlatformTool>
