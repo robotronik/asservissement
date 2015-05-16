@@ -24,14 +24,14 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=Asservissement.X
+PROJECTNAME=Asser Petit.X
 
 # Active Configuration
-DEFAULTCONF=RobotGros
+DEFAULTCONF=default
 CONF=${DEFAULTCONF}
 
 # All Configurations
-ALLCONFS=RobotPetit RobotGros 
+ALLCONFS=default 
 
 
 # build
@@ -45,15 +45,13 @@ ALLCONFS=RobotPetit RobotGros
 
 # clobber
 .clobber-impl: .clobber-pre .depcheck-impl
-	    ${MAKE} SUBPROJECTS=${SUBPROJECTS} CONF=RobotPetit clean
-	    ${MAKE} SUBPROJECTS=${SUBPROJECTS} CONF=RobotGros clean
+	    ${MAKE} SUBPROJECTS=${SUBPROJECTS} CONF=default clean
 
 
 
 # all
 .all-impl: .all-pre .depcheck-impl
-	    ${MAKE} SUBPROJECTS=${SUBPROJECTS} CONF=RobotPetit build
-	    ${MAKE} SUBPROJECTS=${SUBPROJECTS} CONF=RobotGros build
+	    ${MAKE} SUBPROJECTS=${SUBPROJECTS} CONF=default build
 
 
 
