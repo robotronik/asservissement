@@ -367,7 +367,7 @@ void attente_synchro()
     //TODO : Envoyer l'erreur rencontrée par UART
     if (!doitAttendre)
     {
-        allumer_del();
+        //allumer_del();
     }
     //boucle d'attente
     while(doitAttendre){;}

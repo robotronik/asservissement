@@ -25,7 +25,7 @@ coefficients des PID et qu'il y a overflow*/
 #define MAX_ACCELERATION 310 //acceleration maximale
 #define MAX_DECELERATION 2750 //deceleration maximale (valeur absolue)
 #define VIT_MAX_ARRET 200000 //vitesse maximale à laquelle on peut s'arreter sans tomber
-#define PWM_MAX 1 //PWM maximal, à cette valeur le robot est à sa vitesse maximale admissible
+#define PWM_MAX 0.7  //PWM maximal, à cette valeur le robot est à sa vitesse maximale admissible
 //"vitesse" correspond à la commande pour chaque moteur avant convertion en PWM
 //"acceleration" et "deceleration" : différence entre deux valeurs de "vitesses" consécutives
 
