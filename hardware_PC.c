@@ -72,3 +72,13 @@ void UART_send_message(char* message) {
         debug_byte(0,  *actuel++);
     debug_byte(0,'\0');
 }
+
+void allumer_del()
+{
+
+}
+
+void eteindre_del()
+{
+
+}

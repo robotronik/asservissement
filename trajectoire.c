@@ -187,7 +187,7 @@ void calcul_alpha_delta_restant(int x_voulu, int y_voulu, int * new_alpha, int *
 	//voir si pas meilleur moyen pour le calcul de sqrt
 	double distance = sqrt((double)(x_voulu_l*x_voulu_l+y_voulu_l*y_voulu_l));
 	*new_delta=(int) distance;
-	int sgn_x=(x_voulu > 0) - (x_voulu < 0);
+	int sgn_x=(x_voulu >= 0) - (x_voulu < 0);
 	 //voir si pas meilleur moyen pour le calcul de acos (tableau ?)
 	int theta_voulu=(int)(1000.0*acos((double)(y_voulu)/distance)*(-1.0*sgn_x));
 	*new_alpha=theta_voulu-get_theta_actuel();
