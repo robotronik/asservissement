@@ -17,11 +17,11 @@
 #define KD_ALPHA 0    //composante de dérivation
 
 //contraintes mecaniques
-#define MAX_VITESSE 600000 //vitesse maximale du robot
+#define MAX_VITESSE 400000 //vitesse maximale du robot
 #define MIN_VITESSE 140000 //vitesse minimale du robot pour qu'il commence à avancer
-#define MAX_ACCELERATION 1000 //acceleration maximale
+#define MAX_ACCELERATION 500 //acceleration maximale
 #define MAX_DECELERATION 100 //deceleration maximale (valeur absolue)
-#define VIT_MAX_ARRET 200000 //vitesse maximale à laquelle on peut s'arreter sans tomber
+#define VIT_MAX_ARRET 180000 //vitesse maximale à laquelle on peut s'arreter sans tomber
 #define PWM_MAX 1 //PWM maximal, à cette valeur le robot est à sa vitesse maximale admissible
 //"vitesse" correspond à la commande pour chaque moteur avant convertion en PWM
 //"acceleration" et "deceleration" : différence entre deux valeurs de "vitesses" consécutives
