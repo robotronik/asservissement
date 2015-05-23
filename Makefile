@@ -42,14 +42,6 @@ FICHIERS_C+= $(HARDWARE_C) main.c
 ################################################################################
 # Gestion des options
 
-ifeq ($(ARCH), PC)
-	ifeq ($(SDL),yes)
-		FICHIERS_C  += $(FICHIER_AFFICHAGE_C)
-	endif
-endif
-
-CFLAGS += -DDEBUG=$(DEBUG) -g
-
 FICHIERS_O  += $(addprefix $(BUILD_DIR)/, $(FICHIERS_C:.c=.o) )
 ################################################################################
 
@@ -116,8 +108,8 @@ $(COMMON_DIR)/$(BUILD_DIR)/libCommon.a:
 	@$(MAKE) ARCH=$(ARCH) ROBOT=$(ROBOT) SDL=$(SDL) DEBUG=$(DEBUG) -C $(COMMON_DIR) libCommon
 
 ################################################################################
-
 # Cibles génériques
+
 .PHONY:tarall clean mrproper
 
 clean:
