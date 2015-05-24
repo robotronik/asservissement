@@ -117,10 +117,9 @@ $(COMMON_DIR)/$(BUILD_DIR)/libCommon.a:
 clean:
 	@echo "Cleaning $(PROJECT) directory…"
 	@find $(BUILD_DIR) -name '*.o' -delete
-	@rmdir -p --ignore-fail-on-non-empty $(BUILD_DIR)/*/* 2>/dev/null || true
 
 mrproper: clean
 	@echo "Hard-cleaning  $(PROJECT) directory…"
-	@rm -rf $(EXEC) $(PIC_ELF) $(PIC_HEX) $(EXEC).tar.bz2
+	@rm -rf $(BUILD_DIR) $(EXEC) $(PIC_ELF) $(PIC_HEX) $(EXEC).tar.bz2
 	@$(MAKE) clean -C $(COMMUNICATION_DIR)
 	@$(MAKE) clean -C $(COMMON_DIR)
