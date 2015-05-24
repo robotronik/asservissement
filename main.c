@@ -35,96 +35,32 @@ int main()
 	init_trajectoire();
 	init_hardware();
 	init_asser();
-	//runTest();
-    runMatch();
-    return 0;
-}
+	//launch_tests();
+	runMatch();
 
-int runTest() {
-    	/*chemin pour le test*/
-	//s_liste chemin;
-//	chemin.taille=7;
-//	chemin.point[0].x=140;
-//	chemin.point[0].y=300;
-//	chemin.point[1].x=540;
-//	chemin.point[1].y=300;
-//	chemin.point[2].x=540;
-//	chemin.point[2].y=500;
-////	chemin.point[3].x=2700;
-////	chemin.point[3].y=1600;
-////	chemin.point[4].x=2000;
-////	chemin.point[4].y=800;
-////	chemin.point[5].x=1000;
-////	chemin.point[5].y=1000;
-////	chemin.point[6].x=250;
-////	chemin.point[6].y=1000;
-//	chemin.point[3].x=140; //position initiale du robot
-//	chemin.point[3].y=140; //position initiale du robot
-//        test_moteur_D(400000);
-        //test_moteur_G(400000);
-        //test_codeur_D();
-        //test_codeur_G();
-	/*tests pour rÃ©glage des parametres*/
-
-		/*tests en boucle ouverte*/
-	    //test_vitesse(MIN_VITESSE);
-            //test_vitesse(140000);
-	    //test_ecretage();
-	    //test_distance(10000,400000); //240 000
-
-
-	    //test_angle(3142,400000);
-
-	    /*test d'asservissement*/
-            //test_sens_codeur_D();
-	    test_asser_alpha_delta(0,1000);
-	    //test_asser_alpha_delta(31420,0);
-	    //test_asser_alpha_delta(-3142,0);
-	    //test_asser_theta(3142);
-	    //test_asser_xy_relatif_courbe(400,400);
-	    //test_asser_xy_absolu_courbe(140,400+140);
-            //test_asser_xy_relatif_tendu(400,400);
-	    //test_asser_xy_absolu_tendu(140,400+140);
-	    //test_asser_chemin(chemin);
-	    while(1);
-}
-
-int runMatch() {
+	//évite un reset automatique du microcontrôleur
 	#if PIC_BUILD
-		allumer_del();
-	    extern unsigned short rxBufferDebut;
-	    extern unsigned short rxBufferFin;
-	    char c;
-	    extern s_consigne consigne;
-	    while(match_get_etat() != MATCH_FIN)
-	    {
-	        //asservissement
-	        asser(consigne);
+		while(1);
+	#endif
 
-	        //on recalcule la position actuelle du robot (via les roues codeuses)
-	        actualise_position();
+	return 0;
+}
 
-	        //on met Ã  jour la consigne pour l'asser
-	        update_consigne();
-
-	        if (UART_getc(&c)) {
-	            s2a_lecture_message(c);
-	        }
-	    }
-
-    #else
-
-	    #if USE_SDL
+int runMatch()
+{
+	#if PIC_BUILD
+		start();
+	#else
+		#if USE_SDL
 			if (init_sdl_screen() < 0)
-				return NULL;
+				return 0;
 			start();
-    		return (void*) (long) quit_sdl_screen();
+			return quit_sdl_screen();
 		#else
 			start();
 			return 0;
 		#endif
-    #endif
+	#endif
 
-    while(1){};
-    return 0;
+	return 0;
 }
