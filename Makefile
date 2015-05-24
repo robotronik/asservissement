@@ -27,11 +27,12 @@ FICHIERS_C =\
 	match.c \
 
 # Fichier de réglages dépendant de la plateforme
+REGLAGES_H = reglages.h
 ifeq ($(ARCH), PC)
-	REGLAGES_H = reglages_$(ARCH).h
+	REGLAGES_H += reglages/$(ARCH).h
 else
-	REGLAGES_H = reglages_$(ROBOT).h
-endif	
+	REGLAGES_H += reglages/$(ROBOT)_robot.h
+endif
 
 FICHIERS_H = hardware.h $(REGLAGES_H) $(FICHIERS_C:.c=.h)
 

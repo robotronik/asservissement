@@ -1,5 +1,5 @@
-#ifndef REGLAGES_H
-#define REGLAGES_H
+#ifndef PETIT_ROBOT_H
+#define PETIT_ROBOT_H
 
 
 //position initiale du robot

@@ -1,15 +1,7 @@
 #ifndef TRAJECTOIRE_H
 #define TRAJECTOIRE_H
 
-#if PIC_BUILD
-#	if   GROS
-#		include "reglages_gros.h"
-#	elif PETIT
-#		include "reglages_petit.h"
-#	endif
-#else
-#	include "reglages_PC.h"
-#endif
+#include "reglages.h"
 
 typedef enum
 {
