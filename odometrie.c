@@ -1,14 +1,6 @@
 #include "odometrie.h"
 #include "hardware.h"
-#if PIC_BUILD
-#	if   GROS
-#		include "reglages_gros.h"
-#	elif PETIT
-#		include "reglages_petit.h"
-#	endif
-#else
-#	include "reglages_PC.h"
-#endif
+#include "reglages.h"
 #include "math_precalc.h"
 #include "../common_code/debug.h" //à virer
 #include "trajectoire.h" //à virer

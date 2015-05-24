@@ -1,5 +1,5 @@
-#ifndef REGLAGES_H
-#define REGLAGES_H
+#ifndef GROS_ROBOT_H
+#define GROS_ROBOT_H
 
 /*/!\ si le robot commence à effectuer le mouvement et revient mystérieusement
 en arrière c'est peut-être que vous avez un peu exagéré sur les valeurs des

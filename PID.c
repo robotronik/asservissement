@@ -1,13 +1,5 @@
 #include "PID.h"
-#if PIC_BUILD
-#	if   GROS
-#		include "reglages_gros.h"
-#	elif PETIT
-#		include "reglages_petit.h"
-#	endif
-#else
-#	include "reglages_PC.h"
-#endif
+#include "reglages.h"
 #include "asser.h"
 
 static int kp_delta=KP_DELTA;
