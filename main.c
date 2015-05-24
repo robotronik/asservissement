@@ -43,6 +43,8 @@ void * main_loop()
 
 ////////////////////////////////////////////////////////////////////////////////
 
+int runTest();
+int runMatch();
 
 int main()
 {
@@ -51,7 +53,7 @@ int main()
 	init_trajectoire();
 	init_hardware();
 	init_asser();
-
+	//runTest();
     runMatch();
     return 0;
 }
@@ -102,58 +104,54 @@ int runTest() {
             //test_asser_xy_relatif_tendu(400,400);
 	    //test_asser_xy_absolu_tendu(140,400+140);
 	    //test_asser_chemin(chemin);
+	    while(1);
+}
 
+int runMatch() {
 	#if PIC_BUILD
-    //dÃ©marage de l'asservissement
-	//start();
+		allumer_del();
+	    extern unsigned short rxBufferDebut;
+	    extern unsigned short rxBufferFin;
+	    char c;
+	    extern s_consigne consigne;
+	    while(match_get_etat() != MATCH_FIN)
+	    {
+	        //asservissement
+	        asser(consigne);
 
-	//Ã©vite un reset automatique du microcontroleur
-    //while (1) {;}
+	        //on recalcule la position actuelle du robot (via les roues codeuses)
+	        actualise_position();
+
+	        //on met Ã  jour la consigne pour l'asser
+	        update_consigne();
+
+	        if (UART_getc(&c)) {
+	            s2a_lecture_message(c);
+	        }
+	    }
 
     #else
-	pthread_t thread_asser;
-    int ret;
+		pthread_t thread_asser;
+	    int ret;
 
-    ret = pthread_create (&thread_asser, NULL, main_loop, NULL);
-    if (ret != 0)
-        fprintf(stderr, "erreur %d\n", ret);
+	    ret = pthread_create (&thread_asser, NULL, main_loop, NULL);
+	    if (ret != 0)
+	        fprintf(stderr, "erreur %d\n", ret);
 
-    //////////
+	    //////////
 
-    while(match_get_etat() != MATCH_FIN) {
-        // On lit l'entrÃ©e standard, et on passe les caractÃ¨res Ã  la fonctions
-        // qui gÃ¨re les interruption de l'uart
-        s2a_lecture_message(getc(stdin));
-    }
+	    while(match_get_etat() != MATCH_FIN) {
+	        // On lit l'entrÃ©e standard, et on passe les caractÃ¨res Ã  la fonctions
+	        // qui gÃ¨re les interruption de l'uart
+	        s2a_lecture_message(getc(stdin));
+	    }
 
-    //////////
+	    //////////
 
-    ret = pthread_cancel(thread_asser);
-    if (ret != 0)
-        fprintf(stderr, "erreur %d\n", ret);
+	    ret = pthread_cancel(thread_asser);
+	    if (ret != 0)
+	        fprintf(stderr, "erreur %d\n", ret);
     #endif
-}
-int runMatch() {
-    allumer_del();
-    extern unsigned short rxBufferDebut;
-    extern unsigned short rxBufferFin;
-    char c;
-    extern s_consigne consigne;
-    while(match_get_etat() != MATCH_FIN)
-    {
-        //asservissement
-        asser(consigne);
-
-        //on recalcule la position actuelle du robot (via les roues codeuses)
-        actualise_position();
-
-        //on met Ã  jour la consigne pour l'asser
-        update_consigne();
-
-        if (UART_getc(&c)) {
-            s2a_lecture_message(c);
-        }
-    }
 
     while(1){};
     return 0;
