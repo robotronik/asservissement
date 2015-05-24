@@ -23,14 +23,32 @@ int doit_attendre()
 #include <math.h>
 #include "hardware.h"
 #include "../common_code/common.h"
+#include <pthread.h>
+#include "match.h"
 
 long int PWM_D;
 long int PWM_G;
 int moteurs_arret=0;
 
+void * fake_RX()
+{
+	while(match_get_etat() != MATCH_FIN) {
+		// On lit l'entrÃ©e standard, et on passe les caractÃ¨res Ã  la fonctions
+		// qui gÃ¨re les interruption de l'uart
+		s2a_lecture_message(getc(stdin));
+	}
+	return NULL;
+}
 
 void init_hardware()
-{}
+{
+	pthread_t thread_RX;
+	int ret;
+
+	ret = pthread_create (&thread_RX, NULL, fake_RX, NULL);
+	if (ret != 0)
+		fprintf(stderr, "erreur %d\n", ret);
+}
 
 void set_PWM_moteur_D(int PWM)
 {
@@ -67,10 +85,10 @@ void motors_stop()
 }
 
 void UART_send_message(char* message) {
-    char *actuel = message;
-    while (*actuel)
-        debug_byte(0,  *actuel++);
-    debug_byte(0,'\0');
+	char *actuel = message;
+	while (*actuel)
+		debug_byte(0,  *actuel++);
+	debug_byte(0,'\0');
 }
 
 void allumer_del()

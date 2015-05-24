@@ -10,7 +10,6 @@
 #	endif
 #else
 #	include "reglages_PC.h"
-#	include <pthread.h>
 #endif
 
 #include "../common_code/communication/s2a_reception.h"
@@ -25,23 +24,6 @@
 #include "match.h"
 
 #include "../common_code/common.h"
-
-////////////////////////////////////////////////////////////////////////////////
-
-void * main_loop()
-{
-#if USE_SDL
-	if (init_sdl_screen() < 0)
-		return NULL;
-	start();
-    return (void*) (long) quit_sdl_screen();
-#else
-	start();
-	return 0;
-#endif
-}
-
-////////////////////////////////////////////////////////////////////////////////
 
 int runTest();
 int runMatch();
@@ -131,26 +113,16 @@ int runMatch() {
 	    }
 
     #else
-		pthread_t thread_asser;
-	    int ret;
 
-	    ret = pthread_create (&thread_asser, NULL, main_loop, NULL);
-	    if (ret != 0)
-	        fprintf(stderr, "erreur %d\n", ret);
-
-	    //////////
-
-	    while(match_get_etat() != MATCH_FIN) {
-	        // On lit l'entrÃ©e standard, et on passe les caractÃ¨res Ã  la fonctions
-	        // qui gÃ¨re les interruption de l'uart
-	        s2a_lecture_message(getc(stdin));
-	    }
-
-	    //////////
-
-	    ret = pthread_cancel(thread_asser);
-	    if (ret != 0)
-	        fprintf(stderr, "erreur %d\n", ret);
+	    #if USE_SDL
+			if (init_sdl_screen() < 0)
+				return NULL;
+			start();
+    		return (void*) (long) quit_sdl_screen();
+		#else
+			start();
+			return 0;
+		#endif
     #endif
 
     while(1){};
