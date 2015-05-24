@@ -96,6 +96,16 @@ void make_trajectoire_alpha_delta(int new_alpha, int new_delta)
 void make_trajectoire_theta(int theta_voulu)
 {
 	int new_alpha=theta_voulu-get_theta_actuel();
+	//on borne *new_alpha entre pi et -pi
+	new_alpha=new_alpha%((int)(DEUX_PI*1000.0));
+	if (new_alpha>(int)((DEUX_PI*1000.0)/2.0))
+	{
+		new_alpha-=(int)(DEUX_PI*1000.0);
+	}
+	else if (new_alpha<-(int)((DEUX_PI*1000.0)/2.0))
+	{
+		new_alpha+=(int)(DEUX_PI*1000.0);
+	}
 	set_consigne_alpha_delta(new_alpha,0);
 	trajectoire.type=null;
 }
