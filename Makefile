@@ -80,7 +80,7 @@ all:$(EXEC)
 # Compilation
 
 $(EXEC): $(FICHIERS_O) $(COMMON_DIR)/$(BUILD_DIR)/libCommon.a $(COMMUNICATION_DIR)/$(BUILD_DIR)/libCommAsser.a
-	@$(CC) -o $@ $^ $(LDFLAGS) $(SDLFLAGS)
+	@$(CC) -o $@ $^ $(CFLAGS) $(LDFLAGS)
 
 # Dépendances en headers, pas utile en réalité, mais mieux
 $(BUILD_DIR)/asser.o: asser.h odometrie.h PID.h trajectoire.h # $(REGLAGES_H)
@@ -88,7 +88,7 @@ $(BUILD_DIR)/PID.o: PID.h $(REGLAGES_H)
 $(BUILD_DIR)/odometrie.o: odometrie.h $(REGLAGES_H)
 $(BUILD_DIR)/trajectoire.o: asser.h odometrie.h trajectoire.h
 $(BUILD_DIR)/tests_unitaires.o: tests_unitaires.h asser.h odometrie.h $(REGLAGES_H)
-$(BUILD_DIR)/hardware.o:
+$(BUILD_DIR)/hardware.o: $(HARDWARE_C) hardware.h
 $(BUILD_DIR)/match.o: match.h
 
 $(BUILD_DIR)/%.o: %.c | $(BUILD_DIR)
@@ -96,10 +96,12 @@ $(BUILD_DIR)/%.o: %.c | $(BUILD_DIR)
 	@$(CC) $(CFLAGS) -o $@ -c $<
 
 $(BUILD_DIR):
-	@mkdir $(BUILD_DIR) $ -p
+	@mkdir -p $(BUILD_DIR)
+	@mkdir -p $(BUILD_DIR)/reglages
+	@mkdir -p $(BUILD_DIR)/hardware
 
 # Librairies
-.PHONY: $(COMMUNICATION_OBJ_DIR)/comm_asser.a $(LIBCOMMON_OBJ_DIR)/libCommon.a
+.PHONY: $(COMMON_DIR)/$(BUILD_DIR)/libCommon.a $(COMMUNICATION_DIR)/$(BUILD_DIR)/libCommAsser.a
 
 $(COMMUNICATION_DIR)/$(BUILD_DIR)/libCommAsser.a:
 	@$(MAKE) ARCH=$(ARCH) ROBOT=$(ROBOT) SDL=$(SDL) DEBUG=$(DEBUG) -C $(COMMUNICATION_DIR) libCommAsser
@@ -122,4 +124,3 @@ mrproper: clean
 	@rm -rf $(EXEC) $(PIC_ELF) $(PIC_HEX) $(EXEC).tar.bz2
 	@$(MAKE) clean -C $(COMMUNICATION_DIR)
 	@$(MAKE) clean -C $(COMMON_DIR)
-
