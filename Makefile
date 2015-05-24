@@ -1,55 +1,20 @@
-# Cibles :
-#    run: lance l'executable
-#    all: créer l'executable
-#    demo: lance un ensemble de commande au robot
-################################################################################
+PROJECT=asservissement
 
-# Options
-ARCH  = PIC
-ROBOT = gros
-SDL   = yes
-DEBUG = _WARNING_
+# Default Options
+export ARCH  = PC
+export ROBOT = gros
+export SDL   = yes
+export DEBUG = _WARNING_
+
+export PARENT_DIR = ../
+include $(PARENT_DIR)/common_code/common.mk
 
 # Constantes de compilation
-
-PC_EXEC    = asser_robot
-
-PC_CC      = gcc
-PC_CFLAGS  = -DPIC_BUILD=0 -W -Wall -std=c99 -fdiagnostics-color=auto
-PC_LDFLAGS = -lm -lpthread
-
-PC_SDL_CF  = -DUSE_SDL=1
-PC_SDL_LDF = -lSDL -lSDL_image -lGL -lGLU -lSOIL
-
-PIC_ELF    = $(PC_EXEC).elf
-PIC_HEX    = $(PC_EXEC).hex
-PIC_CC     = /opt/xc16-toolchain-bin/bin/xc16-gcc
-PIC_ELF2HEX= /opt/xc16-toolchain-bin/bin/xc16-bin2hex
-
-PIC_CFLAGS = -DPIC_BUILD=1 -W -Wall -std=c99 -O0 -mcpu=33FJ128MC802 -omf=elf -msmart-io=1
-
-PIC_LDFLAGS= -Wl,--script=p33FJ128MC802.gld,--stack=16,--check-sections,--data-init,--pack-data,--handles,--isr,--no-gc-sections,--fill-upper=0,--stackguard=16,--no-force-link,--smart-io,--report-mem
+EXEC    = asser_robot
+PIC_ELF = $(EXEC).elf
+PIC_HEX = $(EXEC).hex
 
 ################################################################################
-
-# Modules externe
-
-BUILDIR = build
-OBJDIR = $(BUILDIR)/$(ARCH)/$(DEBUG)
-
-COMMON_DIR = ../common_code/
-COMMON_H   = $(COMMON_DIR)*.h
-
-COMMUNICATION_DIR = ../common_code/communication
-COMMUNICATION_OBJ_DIR = $(COMMUNICATION_DIR)/$(OBJDIR)
-
-LIBCOMMON_DIR = ../common_code
-LIBCOMMON_OBJ_DIR = $(LIBCOMMON_DIR)/$(OBJDIR)
-
-FICHIER_AFFICHAGE_C = $(COMMON_DIR)simulation/affichage.c
-
-################################################################################
-
 # Fichiers du projet
 
 FICHIERS_C =\
@@ -59,76 +24,46 @@ FICHIERS_C =\
 	trajectoire.c \
 	math_precalc.c \
 	tests_unitaires.c \
-	match.c 	\
+	match.c \
 
-SOURCEFILES =\
-	plateau.png \
-	main.c
+# Fichier de réglages dépendant de la plateforme
+ifeq ($(ARCH), PC)
+	REGLAGES_H = reglages_$(ARCH).h
+else
+	REGLAGES_H = reglages_$(ROBOT).h
+endif	
+
+FICHIERS_H = hardware.h $(REGLAGES_H) $(FICHIERS_C:.c=.h)
+
+# Fichier de hardware dépendant de l'architecture
+HARDWARE_C = hardware_$(ARCH).c
+FICHIERS_C+= $(HARDWARE_C) main.c
 
 ################################################################################
-
 # Gestion des options
 
-ifeq ($(ARCH), PIC)
-	EXEC    = $(PIC_ELF)
-	CC      = $(PIC_CC)
-	CFLAGS  = $(PIC_CFLAGS)
-	LDFLAGS = $(PIC_LDFLAGS)
-
-	F_HARDWARE_C = hardware_PIC.c
-	F_REGLAGES_H = reglages_PC.h
-
-	ifeq ($(ROBOT),petit)
-		CFLAGS  += -DGROS=0 -DPETIT=1
-	else
-		CFLAGS  += -DGROS=1 -DPETIT=0
-	endif
-
-	CFLAGS += -DDEBUG=$(DEBUG)
-else
-	EXEC    = $(PC_EXEC)
-	CC      = $(PC_CC)
-	CFLAGS  = $(PC_CFLAGS)
-	LDFLAGS = $(PC_LDFLAGS)
-
-	F_HARDWARE_C = hardware_PC.c
-	F_REGLAGES_H = reglages_PC.h
-
-	ifeq ($(SDL),yes)
-		CFLAGS      += $(PC_SDL_CF)
-		LDFLAGS     += $(PC_SDL_LDF)
-		FICHIERS_C  += $(FICHIER_AFFICHAGE_C)
-	endif
-endif
-
-CFLAGS += -DDEBUG=$(DEBUG) -g
-
+FICHIERS_O  += $(addprefix $(BUILD_DIR)/, $(FICHIERS_C:.c=.o) )
 ################################################################################
 
-export ARCH
-export ROBOT
-export SDL
-export DEBUG
-
 # Cibles du projet
-FICHIERS_H   = $(FICHIERS_C:.c=.h) hardware.h $(F_REGLAGES_H) $(COMMON_H)
-FICHIERS_O  += $(FICHIERS_C:.c=.o) main.o hardware.o
-SOURCEFILES += $(FICHIERS_C) $(FICHIERS_H)
 
-all:$(EXEC)
 .PHONY: all
 
 ################################################################################
 .PHONY: flash run demo
-ifeq ($(ARCH), PIC)
+ifeq ($(ARCH), dsPIC)
 # Exécution pour le PIC.
-$(PIC_HEX):$(PIC_ELF)
-	/opt/xc16-toolchain-bin/bin/xc16-bin2hex $^ -a -omf=elf
+$(PIC_HEX):$(EXEC)
+	@echo "Converting to Intel HEX Format…"
+	@/opt/xc16-toolchain-bin/bin/xc16-bin2hex $^ -a -omf=elf
+	@echo "Done !"
 
 flash:$(PIC_HEX)
 	pk2cmd -P -M -F$(PIC_HEX) -J -T
+endif
 
-else
+
+ifeq ($(ARCH), PC)
 # Exécution pour le PC.
 run: all
 	./$(EXEC)
@@ -137,58 +72,53 @@ demo: $(EXEC)
 	sh ./slow_read.sh demo.txt | ./$(EXEC)
 
 endif
+all:$(EXEC)
 
 ################################################################################
 
 # Compilation
 
-$(EXEC): $(FICHIERS_O) $(COMMUNICATION_OBJ_DIR)/comm_asser.a $(LIBCOMMON_OBJ_DIR)/libCommon.a
-	$(CC) -o $@ $^ $(LDFLAGS) $(SDLFLAGS)
+$(EXEC): $(FICHIERS_O) $(COMMON_DIR)/$(BUILD_DIR)/libCommon.a $(COMMUNICATION_DIR)/$(BUILD_DIR)/libCommAsser.a
+	@$(CC) -o $@ $^ $(LDFLAGS) $(SDLFLAGS)
 
-asser.o: PID.h trajectoire.h odometrie.h $(F_REGLAGES_H)
+# Dépendances en headers, pas utile en réalité, mais mieux
+$(BUILD_DIR)/asser.o: asser.h odometrie.h PID.h trajectoire.h # $(REGLAGES_H)
+$(BUILD_DIR)/PID.o: PID.h $(REGLAGES_H)
+$(BUILD_DIR)/odometrie.o: odometrie.h $(REGLAGES_H)
+$(BUILD_DIR)/trajectoire.o: asser.h odometrie.h trajectoire.h
+$(BUILD_DIR)/tests_unitaires.o: tests_unitaires.h asser.h odometrie.h $(REGLAGES_H)
+$(BUILD_DIR)/hardware.o:
+$(BUILD_DIR)/match.o: match.h
 
-PID.o: $(F_REGLAGES_H)
+$(BUILD_DIR)/%.o: %.c | $(BUILD_DIR)
+	@echo "	CC	$(PROJECT)|$(notdir $@)"
+	@$(CC) $(CFLAGS) -o $@ -c $<
 
-odometrie.o: $(F_REGLAGES_H) hardware.h math_precalc.h
-
-trajectoire.o: odometrie.h asser.h
-
-tests_unitaires.o: asser.h odometrie.h $(F_REGLAGES_H)
-
-hardware.o: $(F_HARDWARE_C)
-	$(CC) $(CFLAGS) -o $@ -c $<
-
-match.o:
-
-%.o: %.c $(COMMON_H)
-	$(CC) $(CFLAGS) -o $@ -c $<
+$(BUILD_DIR):
+	@mkdir $(BUILD_DIR) $ -p
 
 # Librairies
-
 .PHONY: $(COMMUNICATION_OBJ_DIR)/comm_asser.a $(LIBCOMMON_OBJ_DIR)/libCommon.a
 
-$(COMMUNICATION_OBJ_DIR)/comm_asser.a:
-	cd $(COMMUNICATION_DIR) && \
-	$(MAKE) ARCH=$(ARCH) ROBOT=$(ROBOT) SDL=$(SDL) DEBUG=$(DEBUG) $(OBJDIR)/comm_asser.a
+$(COMMUNICATION_DIR)/$(BUILD_DIR)/libCommAsser.a:
+	@$(MAKE) ARCH=$(ARCH) ROBOT=$(ROBOT) SDL=$(SDL) DEBUG=$(DEBUG) -C $(COMMUNICATION_DIR) libCommAsser
 
-$(LIBCOMMON_OBJ_DIR)/libCommon.a:
-	$(MAKE) -C $(LIBCOMMON_DIR)
+$(COMMON_DIR)/$(BUILD_DIR)/libCommon.a:
+	@$(MAKE) ARCH=$(ARCH) ROBOT=$(ROBOT) SDL=$(SDL) DEBUG=$(DEBUG) -C $(COMMON_DIR) libCommon
 
 ################################################################################
-
 # Cibles génériques
+
 .PHONY:tarall clean mrproper
 
-tarall: $(SOURCEFILES)
-	tar -jcvf $(EXEC).tar.bz2 $^
-
 clean:
-	rm -f $(FICHIERS_O) $(FICHIER_AFFICHAGE_C:.c=.o)
-	$(MAKE) -C $(COMMUNICATION_DIR) $@
-	$(MAKE) -C $(LIBCOMMON_DIR) $@
+	@echo "Cleaning $(PROJECT) directory…"
+	@find $(BUILD_DIR) -name '*.o' -delete
+	@rmdir -p --ignore-fail-on-non-empty $(BUILD_DIR)/*/* 2>/dev/null || true
 
 mrproper: clean
-	rm -rf $(EXEC) $(PIC_ELF) $(PIC_HEX) $(EXEC).tar.bz2
-	$(MAKE) -C $(COMMUNICATION_DIR) $@
-	$(MAKE) -C $(LIBCOMMON_DIR) $@
+	@echo "Hard-cleaning  $(PROJECT) directory…"
+	@rm -rf $(EXEC) $(PIC_ELF) $(PIC_HEX) $(EXEC).tar.bz2
+	@$(MAKE) clean -C $(COMMUNICATION_DIR)
+	@$(MAKE) clean -C $(COMMON_DIR)
 

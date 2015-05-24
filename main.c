@@ -20,7 +20,7 @@
 #include "odometrie.h"
 #include "tests_unitaires.h"
 #if USE_SDL
-#   include "simulation/affichage.h" // Ã  virer
+#   include "../common_code/simulation/affichage.h" // Ã  virer
 #endif
 #include "match.h"
 
