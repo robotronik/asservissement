@@ -10,13 +10,14 @@
 #	include "reglages_PC.h"
 #endif
 
-#include "../common_code/communication/a2s_emission.h"
+#include "../common_code/debug.h"
+#include "../common_code/communication/text_emission.h"
+#include "../common_code/communication/a2s.h"
 
 #include "PID.h"
 #include "hardware.h"
 #include "trajectoire.h"
 #include "odometrie.h"
-#include "../common_code/debug.h"
 
 #include "asser.h"
 
@@ -83,7 +84,8 @@ void asser(s_consigne consigne)
 		commande_moteur_G=0;
 		//on fait savoir que la position est atteinte
 		if (!deja_notifie) {
-			a2s_send_message(A2S_CMD_DONE); //ajouter anti-spam (ici on envoie sans arret)
+			//send_cmd(a2s_keys[A2S_CMD_DONE]); //ajouter anti-spam (ici on envoie sans arret)
+                    allumer_del();
 			deja_notifie = true;
 		}
 	}
@@ -93,6 +95,7 @@ void asser(s_consigne consigne)
 		debug(_ERROR_, "atteint mais peu pas s'arreter");
 	} else {
 		deja_notifie = false;
+                eteindre_del();
 	}
 
 	//actualisation des valeurs précédantes

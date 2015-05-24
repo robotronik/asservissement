@@ -10,7 +10,8 @@
 #	include "reglages_PC.h"
 #endif
 
-#include "../common_code/communication/s2a_emission.h"
+#include "../common_code/communication/s2a.h"
+#include "../common_code/communication/text_emission.h"
 
 #include "asser.h"
 #include "odometrie.h"
@@ -38,6 +39,38 @@ void test_codeur_G()
 {
     while(get_nbr_tick_G()==0){;}
     allumer_del();
+}
+
+void test_sens_codeur_D()
+{
+    while(1)
+    {
+        int nbr_tick_D=get_nbr_tick_D();
+        if (nbr_tick_D>0)
+        {
+            allumer_del();
+        }
+        else
+        {
+            eteindre_del();
+        }
+    }
+}
+
+void test_sens_codeur_G()
+{
+    while(1)
+    {
+        int nbr_tick_G=get_nbr_tick_G();
+        if (nbr_tick_G>0)
+        {
+            allumer_del();
+        }
+        else
+        {
+            eteindre_del();
+        }
+    }
 }
 
 void test_vitesse(long int vitesse)

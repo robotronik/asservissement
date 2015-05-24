@@ -25,7 +25,7 @@ coefficients des PID et qu'il y a overflow*/
 #define MAX_ACCELERATION 310 //acceleration maximale
 #define MAX_DECELERATION 2750 //deceleration maximale (valeur absolue)
 #define VIT_MAX_ARRET 200000 //vitesse maximale à laquelle on peut s'arreter sans tomber
-#define PWM_MAX 1 //PWM maximal, à cette valeur le robot est à sa vitesse maximale admissible
+#define PWM_MAX 0.6   //PWM maximal, à cette valeur le robot est à sa vitesse maximale admissible
 //"vitesse" correspond à la commande pour chaque moteur avant convertion en PWM
 //"acceleration" et "deceleration" : différence entre deux valeurs de "vitesses" consécutives
 
@@ -41,7 +41,7 @@ coefficients des PID et qu'il y a overflow*/
 
 //calibrage
 #define TICK_PAR_MM 11.067 // nombre de ticks par mm (tick/mm)
-#define TICK_PAR_TOUR 8766 //nombre de ticks par tour complet du robot sur lui-même (tick/tour)
+#define TICK_PAR_TOUR 8886 //nombre de ticks par tour complet du robot sur lui-même (tick/tour)
 
 //parametre pour les chemins
 #define MAX_POSITIONS 20 //taille max de la liste de coordonnées definisant un chemin

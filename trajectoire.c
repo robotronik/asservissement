@@ -35,7 +35,7 @@ void set_consigne_alpha_delta(int new_alpha, int new_delta);
 
 //et encore de vilaines variables globales !
 static s_trajectoire trajectoire;
-static s_consigne consigne;
+ s_consigne consigne;
 
 void start()
 {

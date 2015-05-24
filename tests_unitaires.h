@@ -19,5 +19,7 @@ void test_asser_xy_absolu_courbe(int x, int y);
 void test_asser_xy_relatif_tendu(int x, int y);
 void test_asser_xy_absolu_tendu(int x, int y);
 void test_asser_chemin(s_liste chemin);
+void test_sens_codeur_D();
+void test_sens_codeur_G();
 
 #endif

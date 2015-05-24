@@ -6,13 +6,13 @@
 
 # Macros
 TOP=`pwd`
-CND_CONF=Robot
+CND_CONF=default
 CND_DISTDIR=dist
 TMPDIR=build/${CND_CONF}/${IMAGE_TYPE}/tmp-packaging
 TMPDIRNAME=tmp-packaging
-OUTPUT_PATH=dist/${CND_CONF}/${IMAGE_TYPE}/Asservissement.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
-OUTPUT_BASENAME=Asservissement.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
-PACKAGE_TOP_DIR=asservissement.x/
+OUTPUT_PATH=dist/${CND_CONF}/${IMAGE_TYPE}/Asser_Petit.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
+OUTPUT_BASENAME=Asser_Petit.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
+PACKAGE_TOP_DIR=asserpetit.x/
 
 # Functions
 function checkReturnCode
@@ -57,15 +57,15 @@ mkdir -p ${TMPDIR}
 
 # Copy files and create directories and links
 cd "${TOP}"
-makeDirectory ${TMPDIR}/asservissement.x/bin
+makeDirectory ${TMPDIR}/asserpetit.x/bin
 copyFileToTmpDir "${OUTPUT_PATH}" "${TMPDIR}/${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}" 0755
 
 
 # Generate tar file
 cd "${TOP}"
-rm -f ${CND_DISTDIR}/${CND_CONF}/package/asservissement.x.tar
+rm -f ${CND_DISTDIR}/${CND_CONF}/package/asserpetit.x.tar
 cd ${TMPDIR}
-tar -vcf ../../../../${CND_DISTDIR}/${CND_CONF}/package/asservissement.x.tar *
+tar -vcf ../../../../${CND_DISTDIR}/${CND_CONF}/package/asserpetit.x.tar *
 checkReturnCode
 
 # Cleanup

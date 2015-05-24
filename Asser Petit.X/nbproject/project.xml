@@ -2,14 +2,14 @@
     <type>com.microchip.mplab.nbide.embedded.makeproject</type>
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/make-project/1">
-            <name>Asservissement</name>
-            <creation-uuid>99337693-f4b3-4533-8641-01f3c5b2106f</creation-uuid>
+            <name>Asser Petit</name>
+            <creation-uuid>311d903f-9899-46e1-9f45-2db02bdee50f</creation-uuid>
             <make-project-type>0</make-project-type>
             <c-extensions>c</c-extensions>
             <cpp-extensions/>
-            <header-extensions>h</header-extensions>
+            <header-extensions/>
             <asminc-extensions/>
-            <sourceEncoding>UTF-8</sourceEncoding>
+            <sourceEncoding>ISO-8859-1</sourceEncoding>
             <make-dep-projects/>
         </data>
     </configuration>
