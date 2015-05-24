@@ -26,16 +26,23 @@ int doit_attendre()
 #include <pthread.h>
 #include "match.h"
 
+#define RX_BUFFER_SIZE 40
+
 long int PWM_D;
 long int PWM_G;
 int moteurs_arret=0;
+
+static unsigned char rxBuffer[RX_BUFFER_SIZE];
+static unsigned short rxBufferDebut=0;
+static unsigned short rxBufferFin=0;
 
 void * fake_RX()
 {
 	while(match_get_etat() != MATCH_FIN) {
 		// On lit l'entrÃ©e standard, et on passe les caractÃ¨res Ã  la fonctions
 		// qui gÃ¨re les interruption de l'uart
-		s2a_lecture_message(getc(stdin));
+		rxBuffer[rxBufferFin] = getc(stdin);
+        rxBufferFin = (rxBufferFin + 1) % RX_BUFFER_SIZE;
 	}
 	return NULL;
 }
@@ -82,6 +89,19 @@ void attente_synchro()
 void motors_stop()
 {
 	moteurs_arret=1;
+}
+
+int UART_getc(unsigned char *c)
+{
+    if (rxBufferDebut == rxBufferFin) {
+        // Il n'y avait pas de caractères en attente
+        return 0;
+    } else {
+        // Il y des caractères à traiter
+        *c = rxBuffer[rxBufferDebut];
+        rxBufferDebut = (rxBufferDebut + 1) % RX_BUFFER_SIZE;
+        return 1;
+    }
 }
 
 void UART_send_message(char* message) {
