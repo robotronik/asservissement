@@ -26,6 +26,10 @@ int doit_attendre()
 #include <pthread.h>
 #include "match.h"
 
+#if USE_SDL
+#   include "../common_code/simulation/affichage.h"
+#endif
+
 #define RX_BUFFER_SIZE 40
 
 long int PWM_D;
@@ -49,6 +53,10 @@ void * fake_RX()
 
 void init_hardware()
 {
+	#if USE_SDL
+		init_sdl_screen();
+	#endif
+
 	pthread_t thread_RX;
 	int ret;
 
