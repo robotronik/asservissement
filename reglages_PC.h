@@ -1,5 +1,5 @@
-#ifndef REGLAGES_SIMU_H
-#define REGLAGES_SIMU_H
+#ifndef REGLAGES_PC_H
+#define REGLAGES_PC_H
 
 /*/!\ si le robot commence à effectuer le mouvement et revient mystérieusement
 en arrière c'est peut-être que vous avez un peu exagéré sur les valeurs des
