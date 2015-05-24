@@ -2,6 +2,7 @@
 #include <stdio.h> //TODO : à virer
 
 #include "../common_code/debug.h"
+#include "../common_code/communication/s2a_reception.h"
 
 #if USE_SDL
 #   include "../common_code/simulation/affichage.h"
@@ -39,6 +40,7 @@ static s_trajectoire trajectoire;
 
 void start()
 {
+	unsigned char c;
 	while(
 #if USE_SDL
 		sdl_manage_events()==0 &&
@@ -53,6 +55,11 @@ void start()
 
 		//on met à jour la consigne pour l'asser
 		update_consigne();
+
+		//on regarde si on a pas reçu quelquechose
+		if (UART_getc(&c)) {
+			s2a_lecture_message((char) c);
+		}
 	}
 }
 

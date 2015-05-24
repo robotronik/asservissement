@@ -23,14 +23,47 @@ int doit_attendre()
 #include <math.h>
 #include "hardware.h"
 #include "../common_code/common.h"
+#include <pthread.h>
+#include "match.h"
+
+#if USE_SDL
+#   include "../common_code/simulation/affichage.h"
+#endif
+
+#define RX_BUFFER_SIZE 40
 
 long int PWM_D;
 long int PWM_G;
 int moteurs_arret=0;
 
+static unsigned char rxBuffer[RX_BUFFER_SIZE];
+static unsigned short rxBufferDebut=0;
+static unsigned short rxBufferFin=0;
+
+void * fake_RX()
+{
+	while(match_get_etat() != MATCH_FIN) {
+		// On lit l'entrÃ©e standard, et on passe les caractÃ¨res Ã  la fonctions
+		// qui gÃ¨re les interruption de l'uart
+		rxBuffer[rxBufferFin] = getc(stdin);
+        rxBufferFin = (rxBufferFin + 1) % RX_BUFFER_SIZE;
+	}
+	return NULL;
+}
 
 void init_hardware()
-{}
+{
+	#if USE_SDL
+		init_sdl_screen();
+	#endif
+
+	pthread_t thread_RX;
+	int ret;
+
+	ret = pthread_create (&thread_RX, NULL, fake_RX, NULL);
+	if (ret != 0)
+		fprintf(stderr, "erreur %d\n", ret);
+}
 
 void set_PWM_moteur_D(int PWM)
 {
@@ -66,11 +99,24 @@ void motors_stop()
 	moteurs_arret=1;
 }
 
+int UART_getc(unsigned char *c)
+{
+    if (rxBufferDebut == rxBufferFin) {
+        // Il n'y avait pas de caractères en attente
+        return 0;
+    } else {
+        // Il y des caractères à traiter
+        *c = rxBuffer[rxBufferDebut];
+        rxBufferDebut = (rxBufferDebut + 1) % RX_BUFFER_SIZE;
+        return 1;
+    }
+}
+
 void UART_send_message(char* message) {
-    char *actuel = message;
-    while (*actuel)
-        debug_byte(0,  *actuel++);
-    debug_byte(0,'\0');
+	char *actuel = message;
+	while (*actuel)
+		debug_byte(0,  *actuel++);
+	debug_byte(0,'\0');
 }
 
 void allumer_del()

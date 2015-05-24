@@ -19,4 +19,6 @@ void pause_ms(unsigned short n);
 void eteindre_del();
 void motors_stop();
 
+int UART_getc(unsigned char *c);
+
 #endif
