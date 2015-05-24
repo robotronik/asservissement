@@ -4,10 +4,6 @@
 #include "../common_code/debug.h"
 #include "../common_code/communication/s2a_reception.h"
 
-#if USE_SDL
-#   include "../common_code/simulation/affichage.h"
-#endif
-
 #include "trajectoire.h"
 #include "odometrie.h"
 #include "asser.h"
@@ -41,11 +37,7 @@ static s_trajectoire trajectoire;
 void start()
 {
 	unsigned char c;
-	while(
-#if USE_SDL
-		sdl_manage_events()==0 &&
-#endif
-		match_get_etat() != MATCH_FIN)
+	while(match_get_etat() != MATCH_FIN)
 	{
 		//asservissement
 		asser(consigne);

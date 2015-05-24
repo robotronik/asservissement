@@ -12,7 +12,6 @@
 #include "math_precalc.h"
 #include "../common_code/debug.h" //à virer
 #include "trajectoire.h" //à virer
-#include "../common_code/simulation/affichage.h" //à virer
 
 void actualise_xy(int d_delta, int d_alpha, int theta, float * x, float * y);
 int borne_angle(long int angle);
@@ -87,10 +86,6 @@ void actualise_position()
 	prev_x	   = current_x;
 	prev_y	   = current_y;
 	prev_theta = current_theta;
-#endif
-
-#if USE_SDL
-	bouge_robot_sdl(get_x_actuel(), get_y_actuel(),get_theta_actuel());
 #endif
 }
 

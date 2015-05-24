@@ -25,16 +25,20 @@ int doit_attendre()
 #include "../common_code/common.h"
 #include <pthread.h>
 #include "match.h"
+#include <time.h>
 
 #if USE_SDL
 #   include "../common_code/simulation/affichage.h"
+#	include "odometrie.h"
 #endif
 
 #define RX_BUFFER_SIZE 40
+#define SYNCHRO_TIME 0.016
 
 long int PWM_D;
 long int PWM_G;
 int moteurs_arret=0;
+long preced_clock=0;
 
 static unsigned char rxBuffer[RX_BUFFER_SIZE];
 static unsigned short rxBufferDebut=0;
@@ -46,16 +50,25 @@ void * fake_RX()
 		// On lit l'entrÃ©e standard, et on passe les caractÃ¨res Ã  la fonctions
 		// qui gÃ¨re les interruption de l'uart
 		rxBuffer[rxBufferFin] = getc(stdin);
-        rxBufferFin = (rxBufferFin + 1) % RX_BUFFER_SIZE;
+		rxBufferFin = (rxBufferFin + 1) % RX_BUFFER_SIZE;
 	}
 	return NULL;
 }
 
+void * simulation_SDL()
+{
+	if (init_sdl_screen() < 0)
+		return NULL;
+	while(match_get_etat() != MATCH_FIN && sdl_manage_events()==0)
+	{
+		bouge_robot_sdl(get_x_actuel(), get_y_actuel(),get_theta_actuel());
+	}
+	quit_sdl_screen();
+	match_set_etat(MATCH_FIN);
+}
+
 void init_hardware()
 {
-	#if USE_SDL
-		init_sdl_screen();
-	#endif
 
 	pthread_t thread_RX;
 	int ret;
@@ -63,6 +76,14 @@ void init_hardware()
 	ret = pthread_create (&thread_RX, NULL, fake_RX, NULL);
 	if (ret != 0)
 		fprintf(stderr, "erreur %d\n", ret);
+
+	#if USE_SDL
+		pthread_t thread_SDL;
+
+		ret = pthread_create (&thread_SDL, NULL, simulation_SDL, NULL);
+		if (ret != 0)
+			fprintf(stderr, "erreur %d\n", ret);
+	#endif
 }
 
 void set_PWM_moteur_D(int PWM)
@@ -92,7 +113,15 @@ long int get_nbr_tick_G()
 }
 
 void attente_synchro()
-{}
+{
+    //boucle d'attente
+    long actual_clock= (long) clock();
+    while((double)(actual_clock-preced_clock)/CLOCKS_PER_SEC<SYNCHRO_TIME)
+    {
+		actual_clock= (long) clock();
+    }
+    preced_clock=actual_clock;
+}
 
 void motors_stop()
 {
@@ -101,15 +130,15 @@ void motors_stop()
 
 int UART_getc(unsigned char *c)
 {
-    if (rxBufferDebut == rxBufferFin) {
-        // Il n'y avait pas de caractères en attente
-        return 0;
-    } else {
-        // Il y des caractères à traiter
-        *c = rxBuffer[rxBufferDebut];
-        rxBufferDebut = (rxBufferDebut + 1) % RX_BUFFER_SIZE;
-        return 1;
-    }
+	if (rxBufferDebut == rxBufferFin) {
+		// Il n'y avait pas de caractères en attente
+		return 0;
+	} else {
+		// Il y des caractères à traiter
+		*c = rxBuffer[rxBufferDebut];
+		rxBufferDebut = (rxBufferDebut + 1) % RX_BUFFER_SIZE;
+		return 1;
+	}
 }
 
 void UART_send_message(char* message) {
