@@ -14,66 +14,121 @@
 #include "odometrie.h"
 #include "trajectoire.h"
 
+void launch_tests()
+{
+	//tests de branchements
+
+		//test du branchement des moteurs
+		//test_moteur_D(400000);
+		//test_moteur_G(400000);
+
+		//test du branchement des codeurs
+		//test_codeur_D();
+		//test_codeur_G();
+
+		//test du sens des codeurs (allume la led si marche avant)
+		//test_sens_codeur_D();
+		//test_sens_codeur_G();
+
+	//tests pour réglage des parametres
+
+		//tests en boucle ouverte
+		//test_vitesse(MIN_VITESSE);
+		//test_ecretage();
+		//test_distance(10000,400000);
+		//test_angle(3142,400000);
+
+		//test d'asservissement
+		//test_asser_alpha_delta(0,1000);
+		//test_asser_alpha_delta(3142,0);
+		//test_asser_theta(3142);
+		//test_asser_xy_relatif_tendu(400,400);
+		//test_asser_xy_absolu_tendu(140,400+140);
+		//test_asser_xy_relatif_courbe(400,400);
+		//test_asser_xy_absolu_courbe(140,400+140);
+
+		//exemple de chemin de test
+			// s_liste chemin;
+			// chemin.taille=7;
+			// chemin.point[0].x=140;
+			// chemin.point[0].y=300;
+			// chemin.point[1].x=540;
+			// chemin.point[1].y=300;
+			// chemin.point[2].x=540;
+			// chemin.point[2].y=500;
+			// chemin.point[3].x=2700;
+			// chemin.point[3].y=1600;
+			// chemin.point[4].x=2000;
+			// chemin.point[4].y=800;
+			// chemin.point[5].x=1000;
+			// chemin.point[5].y=1000;
+			// chemin.point[6].x=250;
+			// chemin.point[6].y=1000;
+			// //chemin.point[3].x=140; //position initiale du robot
+			// //chemin.point[3].y=140; //position initiale du robot
+		//test_asser_chemin(chemin);
+}
+
 void test_moteur_D(long int vitesse)
 {
-        int PWM_D=convert2PWM(COEFF_MOTEUR_D*vitesse);
-        set_PWM_moteur_D(PWM_D);
+		int PWM_D=convert2PWM(COEFF_MOTEUR_D*vitesse);
+		set_PWM_moteur_D(PWM_D);
 }
 
 void test_moteur_G(long int vitesse)
 {
-        int PWM_G=convert2PWM(COEFF_MOTEUR_G*vitesse);
-        set_PWM_moteur_G(PWM_G);
+		int PWM_G=convert2PWM(COEFF_MOTEUR_G*vitesse);
+		set_PWM_moteur_G(PWM_G);
 }
 
 void test_codeur_D()
 {
-    while(get_nbr_tick_D()==0){;}
-    allumer_del();
+	while(get_nbr_tick_D()==0){;}
+	allumer_del();
 }
 
 void test_codeur_G()
 {
-    while(get_nbr_tick_G()==0){;}
-    allumer_del();
+	while(get_nbr_tick_G()==0){;}
+	allumer_del();
 }
 
 void test_sens_codeur_D()
 {
-    while(1)
-    {
-        int nbr_tick_D=get_nbr_tick_D();
-        if (nbr_tick_D>0)
-        {
-            allumer_del();
-        }
-        else
-        {
-            eteindre_del();
-        }
-    }
+	while(1)
+	{
+		int nbr_tick_D=get_nbr_tick_D();
+		if (nbr_tick_D>0)
+		{
+			allumer_del();
+		}
+		else
+		{
+			eteindre_del();
+		}
+	}
 }
 
 void test_sens_codeur_G()
 {
-    while(1)
-    {
-        int nbr_tick_G=get_nbr_tick_G();
-        if (nbr_tick_G>0)
-        {
-            allumer_del();
-        }
-        else
-        {
-            eteindre_del();
-        }
-    }
+	while(1)
+	{
+		int nbr_tick_G=get_nbr_tick_G();
+		if (nbr_tick_G>0)
+		{
+			allumer_del();
+		}
+		else
+		{
+			eteindre_del();
+		}
+	}
 }
 
 void test_vitesse(long int vitesse)
 {
-        test_moteur_D(vitesse);
-        test_moteur_G(vitesse);
+		test_moteur_D(vitesse);
+		test_moteur_G(vitesse);
 }
 
 void test_ecretage()
@@ -135,8 +190,8 @@ void test_angle(long int angle, long int vitesse)
 		vitesse=-vitesse;
 	}
 
-        test_moteur_D(vitesse);
-        test_moteur_G(-vitesse);
+		test_moteur_D(vitesse);
+		test_moteur_G(-vitesse);
 
 	while(abs(angle_actuel)<abs(angle))
 	{

@@ -4,14 +4,24 @@
 #include "trajectoire.h"
 
 //fonctions de débug et de calibrage du robot
+
+void launch_tests();
+
+//branchements
 void test_moteur_D(long int vitesse);
 void test_moteur_G(long int vitesse);
 void test_codeur_D();
 void test_codeur_G();
+void test_sens_codeur_D();
+void test_sens_codeur_G();
+
+//boucle ouverte
 void test_vitesse(long int vitesse);
 void test_ecretage();
 void test_distance(long int distance, long int vitesse);
 void test_angle(long int angle, long int vitesse);
+
+//assevissement
 void test_asser_alpha_delta(int alpha, int delta);
 void test_asser_theta(int theta);
 void test_asser_xy_relatif_courbe(int x, int y);
