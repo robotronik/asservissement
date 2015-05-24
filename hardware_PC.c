@@ -65,6 +65,7 @@ void * simulation_SDL()
 	}
 	quit_sdl_screen();
 	match_set_etat(MATCH_FIN);
+	return NULL;
 }
 
 void init_hardware()
