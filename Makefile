@@ -1,5 +1,5 @@
 PROJECT=asservissement
-
+default: all
 # Default Options
 export ARCH  = PC
 export ROBOT = gros
@@ -40,18 +40,14 @@ FICHIERS_H = hardware.h $(REGLAGES_H) $(FICHIERS_C:.c=.h)
 HARDWARE_C = hardware_$(ARCH).c
 FICHIERS_C+= $(HARDWARE_C) main.c
 
-################################################################################
-# Gestion des options
-
 FICHIERS_O  += $(addprefix $(BUILD_DIR)/, $(FICHIERS_C:.c=.o) )
-################################################################################
 
+################################################################################
 # Cibles du projet
 
-.PHONY: all
+.PHONY: all flash run demo
 
-################################################################################
-.PHONY: flash run demo
+
 ifeq ($(ARCH), dsPIC)
 # Exécution pour le PIC.
 $(PIC_HEX):$(EXEC)
@@ -71,13 +67,12 @@ run: all
 
 demo: $(EXEC)
 	sh ./slow_read.sh demo.txt | ./$(EXEC)
-
 endif
-all:$(EXEC)
 
 ################################################################################
-
 # Compilation
+
+all:$(EXEC)
 
 $(EXEC): $(FICHIERS_O) $(COMMON_DIR)/$(BUILD_DIR)/libCommon.a $(COMMUNICATION_DIR)/$(BUILD_DIR)/libCommAsser.a
 	@$(CC) -o $@ $^ $(CFLAGS) $(LDFLAGS)
@@ -90,10 +85,6 @@ $(BUILD_DIR)/trajectoire.o: asser.h odometrie.h trajectoire.h
 $(BUILD_DIR)/tests_unitaires.o: tests_unitaires.h asser.h odometrie.h $(REGLAGES_H)
 $(BUILD_DIR)/hardware.o: $(HARDWARE_C) hardware.h
 $(BUILD_DIR)/match.o: match.h
-
-$(BUILD_DIR)/%.o: %.c | $(BUILD_DIR)
-	@echo "	CC	$(PROJECT)|$(notdir $@)"
-	@$(CC) $(CFLAGS) -o $@ -c $<
 
 $(BUILD_DIR):
 	@mkdir -p $(BUILD_DIR)
@@ -112,14 +103,7 @@ $(COMMON_DIR)/$(BUILD_DIR)/libCommon.a:
 ################################################################################
 # Cibles génériques
 
-.PHONY:tarall clean mrproper
-
-clean:
-	@echo "Cleaning $(PROJECT) directory…"
-	@find $(BUILD_DIR) -name '*.o' -delete
-
 mrproper: clean
-	@echo "Hard-cleaning  $(PROJECT) directory…"
-	@rm -rf $(BUILD_DIR) $(EXEC) $(PIC_ELF) $(PIC_HEX) $(EXEC).tar.bz2
+	@echo "Hard-cleaning $(PROJECT) directory…"
 	@$(MAKE) clean -C $(COMMUNICATION_DIR)
 	@$(MAKE) clean -C $(COMMON_DIR)
