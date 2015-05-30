@@ -7,7 +7,6 @@
 #include "trajectoire.h"
 #include "odometrie.h"
 #include "asser.h"
-#include "match.h"
 #include "hardware.h"
 #include "reglages.h"
 

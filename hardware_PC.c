@@ -24,7 +24,6 @@ int doit_attendre()
 #include "hardware.h"
 #include "../common_code/common.h"
 #include <pthread.h>
-#include "match.h"
 #include <time.h>
 
 #if USE_SDL

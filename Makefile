@@ -24,7 +24,6 @@ FICHIERS_C =\
 	trajectoire.c \
 	math_precalc.c \
 	tests_unitaires.c \
-	match.c \
 
 # Fichier de réglages dépendant de la plateforme
 REGLAGES_H = reglages.h
@@ -84,7 +83,6 @@ $(BUILD_DIR)/odometrie.o: odometrie.h $(REGLAGES_H)
 $(BUILD_DIR)/trajectoire.o: asser.h odometrie.h trajectoire.h
 $(BUILD_DIR)/tests_unitaires.o: tests_unitaires.h asser.h odometrie.h $(REGLAGES_H)
 $(BUILD_DIR)/hardware.o: $(HARDWARE_C) hardware.h
-$(BUILD_DIR)/match.o: match.h
 
 $(BUILD_DIR):
 	@mkdir -p $(BUILD_DIR)
