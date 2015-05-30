@@ -529,3 +529,14 @@ void __attribute__((interrupt, auto_psv)) _U1TXInterrupt()
         txBufferDebut = (txBufferDebut + 1) % TX_BUFFER_SIZE;
     }
 }
+
+
+/*----------------------------------------------------------------*
+ * Arret                                                          *
+ *----------------------------------------------------------------*/
+
+//fonction pour compatibilité avec la simulation sur PC
+int arret()
+{
+    return 0;
+}

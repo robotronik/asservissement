@@ -39,15 +39,20 @@ long int PWM_D;
 long int PWM_G;
 int moteurs_arret=0;
 long preced_clock=0;
+int cmd_quit_received=0;
 
 static unsigned char rxBuffer[RX_BUFFER_SIZE];
 static unsigned short rxBufferDebut=0;
 static unsigned short rxBufferFin=0;
 
+int arret()
+{
+	return cmd_quit_received;
+}
+
 void * fake_RX()
 {
-	int q_received=0;
-	while(match_get_etat() != MATCH_FIN) {
+	while(!arret()) {
 		// On lit l'entrée standard pour simuler une reception sur l'UART
 		// Si on reçoit "q/n" on quitte le programme
 		char c=getc(stdin);
@@ -56,7 +61,7 @@ void * fake_RX()
 			char d=getc(stdin);
 			if (d=='\n' || d=='\r' || d=='\0')
 			{
-				match_set_etat(MATCH_FIN);
+				cmd_quit_received=1;
 			}
 			else
 			{
@@ -78,12 +83,12 @@ void * simulation_SDL()
 {
 	if (init_sdl_screen() < 0)
 		return NULL;
-	while(match_get_etat() != MATCH_FIN && sdl_manage_events()==0)
+	while(!arret() && sdl_manage_events()==0)
 	{
 		bouge_robot_sdl(get_x_actuel(), get_y_actuel(),get_theta_actuel());
 	}
 	quit_sdl_screen(0);
-	match_set_etat(MATCH_FIN);
+	cmd_quit_received=1;
 	return NULL;
 }
 

@@ -21,4 +21,6 @@ void motors_stop();
 
 int UART_getc(unsigned char *c);
 
+int arret();
+
 #endif
