@@ -46,10 +46,24 @@ static unsigned short rxBufferFin=0;
 
 void * fake_RX()
 {
+	int q_received=0;
 	while(match_get_etat() != MATCH_FIN) {
-		// On lit l'entrÃ©e standard, et on passe les caractÃ¨res Ã  la fonctions
-		// qui gÃ¨re les interruption de l'uart
-		rxBuffer[rxBufferFin] = getc(stdin);
+		// On lit l'entrée standard pour simuler une reception sur l'UART
+		// Si on reçoit "q/n" on quitte le programme
+		char c=getc(stdin);
+		if(c=='\n' && q_received)
+		{
+			match_set_etat(MATCH_FIN);
+		}
+		if(c=='q')
+		{
+			q_received=1;
+		}
+		else
+		{
+			q_received=0;
+		}
+		rxBuffer[rxBufferFin] = c;
 		rxBufferFin = (rxBufferFin + 1) % RX_BUFFER_SIZE;
 	}
 	return NULL;
