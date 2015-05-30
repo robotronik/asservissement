@@ -82,7 +82,7 @@ void * simulation_SDL()
 	{
 		bouge_robot_sdl(get_x_actuel(), get_y_actuel(),get_theta_actuel());
 	}
-	quit_sdl_screen();
+	quit_sdl_screen(0);
 	match_set_etat(MATCH_FIN);
 	return NULL;
 }
