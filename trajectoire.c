@@ -7,7 +7,6 @@
 #include "trajectoire.h"
 #include "odometrie.h"
 #include "asser.h"
-#include "match.h"
 #include "hardware.h"
 #include "reglages.h"
 
@@ -29,7 +28,7 @@ static s_trajectoire trajectoire;
 void start()
 {
 	unsigned char c;
-	while(match_get_etat() != MATCH_FIN)
+	while(!arret()) //sur les robots on n'arrete jamais
 	{
 		//asservissement
 		asser(consigne);
