@@ -7,7 +7,7 @@ export SDL   = yes
 export DEBUG = _WARNING_
 
 export PARENT_DIR = ../
-include $(PARENT_DIR)/common_code/common.mk
+include $(PARENT_DIR)/hardware/common.mk
 
 # Constantes de compilation
 EXEC    = asser_robot
@@ -73,7 +73,8 @@ endif
 
 all:$(EXEC)
 
-$(EXEC): $(FICHIERS_O) $(COMMON_DIR)/$(BUILD_DIR)/libCommon.a $(COMMUNICATION_DIR)/$(BUILD_DIR)/libCommAsser.a
+$(EXEC): $(FICHIERS_O) $(COMMUNICATION_DIR)/$(BUILD_DIR)/libCommAsser.a
+	@echo "	CC	$(PROJECT)|$@"
 	@$(CC) -o $@ $^ $(CFLAGS) $(LDFLAGS)
 
 # Dépendances en headers, pas utile en réalité, mais mieux

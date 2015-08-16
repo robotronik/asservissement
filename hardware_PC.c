@@ -22,7 +22,7 @@ int doit_attendre()
 //une fois quelque chose reçu on envoie à "communicution.c"*/
 #include <math.h>
 #include "hardware.h"
-#include "../common_code/common.h"
+//#include "../common_code/common.h"
 #include <pthread.h>
 #include <time.h>
 

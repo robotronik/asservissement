@@ -225,6 +225,14 @@ void init_hardware()
     reset_nbr_tick_G();
 }
 
+void pause_ms(unsigned short n)
+{
+    unsigned short i,j;
+    for(j=0; j<n; j++)
+        for(i=0; i<4000; i++)
+            Nop();
+}
+
 /*----------------------------------------------------------------*
  * génération des PWMs de commande des moteurs                    *
  *----------------------------------------------------------------*/
