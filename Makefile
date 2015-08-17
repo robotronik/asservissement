@@ -96,4 +96,4 @@ $(COMMUNICATION_DIR)/$(BUILD_DIR)/libCommAsser.a:
 
 mrproper: clean
 	@echo "Hard-cleaning $(PROJECT) directory…"
-	@$(MAKE) clean -C $(COMMUNICATION_DIR)
+	@rm $(EXEC) $(PIC_HEX) $(PIC_ELF)
