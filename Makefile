@@ -64,9 +64,12 @@ endif
 ################################################################################
 # Compilation
 
+# The dependency for the hardware lib
+$(HARDW_LIB): hardware_lib
+
 all:$(EXEC)
 
-$(EXEC): $(FICHIERS_O) $(COMMUNICATION_DIR)/$(BUILD_DIR)/libCommAsser.a
+$(EXEC): $(FICHIERS_O) $(COMMUNICATION_DIR)/$(BUILD_DIR)/libCommAsser.a $(HARDW_LIB)
 	@echo "	CC	$(PROJECT)|$@"
 	@$(CC) -o $@ $^ $(CFLAGS) $(LDFLAGS)
 
