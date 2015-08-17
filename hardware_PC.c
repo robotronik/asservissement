@@ -22,12 +22,13 @@ int doit_attendre()
 //une fois quelque chose reçu on envoie à "communicution.c"*/
 #include <math.h>
 #include "hardware.h"
-//#include "../common_code/common.h"
+#include <stdio.h>
 #include <pthread.h>
 #include <time.h>
+#include "../hardware/debug.h"
 
 #if USE_SDL
-#   include "../common_code/simulation/affichage.h"
+#   include "PC/affichage.h"
 #	include "odometrie.h"
 #endif
 

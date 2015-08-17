@@ -1,19 +1,18 @@
 PROJECT=asservissement
 default: all
 # Default Options
-export ARCH  = PC
-export ROBOT = gros
-export SDL   = yes
-export DEBUG = _WARNING_
+export ARCH  = dsPIC33F
+export ROBOT ?= gros
+export SDL   ?= yes
+export DEBUG ?= _WARNING_
 
-export PARENT_DIR = ../
-include $(PARENT_DIR)/hardware/common.mk
+PARENT_DIR = ../
 
 # Constantes de compilation
 EXEC    = asser_robot
 PIC_ELF = $(EXEC).elf
 PIC_HEX = $(EXEC).hex
-
+include $(PARENT_DIR)/hardware/common.mk
 ################################################################################
 # Fichiers du projet
 
@@ -46,17 +45,11 @@ FICHIERS_O  += $(addprefix $(BUILD_DIR)/, $(FICHIERS_C:.c=.o) )
 
 .PHONY: all flash run demo
 
-
-ifeq ($(ARCH), dsPIC)
 # Exécution pour le PIC.
 $(PIC_HEX):$(EXEC)
 	@echo "Converting to Intel HEX Format…"
 	@/opt/xc16-toolchain-bin/bin/xc16-bin2hex $^ -a -omf=elf
 	@echo "Done !"
-
-flash:$(PIC_HEX)
-	pk2cmd -P -M -F$(PIC_HEX) -J -T
-endif
 
 
 ifeq ($(ARCH), PC)
@@ -88,16 +81,12 @@ $(BUILD_DIR)/hardware.o: $(HARDWARE_C) hardware.h
 $(BUILD_DIR):
 	@mkdir -p $(BUILD_DIR)
 	@mkdir -p $(BUILD_DIR)/reglages
-	@mkdir -p $(BUILD_DIR)/hardware
 
 # Librairies
 .PHONY: $(COMMON_DIR)/$(BUILD_DIR)/libCommon.a $(COMMUNICATION_DIR)/$(BUILD_DIR)/libCommAsser.a
 
 $(COMMUNICATION_DIR)/$(BUILD_DIR)/libCommAsser.a:
-	@$(MAKE) ARCH=$(ARCH) ROBOT=$(ROBOT) SDL=$(SDL) DEBUG=$(DEBUG) -C $(COMMUNICATION_DIR) libCommAsser
-
-$(COMMON_DIR)/$(BUILD_DIR)/libCommon.a:
-	@$(MAKE) ARCH=$(ARCH) ROBOT=$(ROBOT) SDL=$(SDL) DEBUG=$(DEBUG) -C $(COMMON_DIR) libCommon
+	@$(MAKE) -C $(COMMUNICATION_DIR) libCommAsser
 
 ################################################################################
 # Cibles génériques
@@ -105,4 +94,3 @@ $(COMMON_DIR)/$(BUILD_DIR)/libCommon.a:
 mrproper: clean
 	@echo "Hard-cleaning $(PROJECT) directory…"
 	@$(MAKE) clean -C $(COMMUNICATION_DIR)
-	@$(MAKE) clean -C $(COMMON_DIR)

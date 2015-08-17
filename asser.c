@@ -2,7 +2,7 @@
 
 #include "reglages.h"
 
-#include "../common_code/debug.h"
+#include "../hardware/debug.h"
 #include "../common_code/communication/text_emission.h"
 #include "../common_code/communication/a2s.h"
 
@@ -48,7 +48,7 @@ void asser(s_consigne consigne)
         //correction eventuelle des commandes
         commande_moteur_D*=COEFF_MOTEUR_D;
         commande_moteur_G*=COEFF_MOTEUR_G;
-        
+
 	//propotions correctes pour les commandes
 #       if PIC_BUILD
 	//mise_echelle(&commande_moteur_D,&commande_moteur_G);
