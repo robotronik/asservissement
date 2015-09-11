@@ -28,7 +28,6 @@ int doit_attendre()
 #include "../hardware/debug.h"
 
 #if USE_SDL
-#   include "PC/affichage.h"
 #	include "odometrie.h"
 #endif
 
@@ -79,37 +78,6 @@ void * fake_RX()
 	return NULL;
 }
 
-void * simulation_SDL()
-{
-	if (init_sdl_screen() < 0)
-		return NULL;
-	while(!arret() && sdl_manage_events()==0)
-	{
-		bouge_robot_sdl(get_x_actuel(), get_y_actuel(),get_theta_actuel());
-	}
-	quit_sdl_screen(0);
-	cmd_quit_received=1;
-	return NULL;
-}
-
-void init_hardware()
-{
-
-	pthread_t thread_RX;
-	int ret;
-
-	ret = pthread_create (&thread_RX, NULL, fake_RX, NULL);
-	if (ret != 0)
-		fprintf(stderr, "erreur %d\n", ret);
-
-	#if USE_SDL
-		pthread_t thread_SDL;
-
-		ret = pthread_create (&thread_SDL, NULL, simulation_SDL, NULL);
-		if (ret != 0)
-			fprintf(stderr, "erreur %d\n", ret);
-	#endif
-}
 
 void set_PWM_moteur_D(int PWM)
 {
@@ -180,5 +148,5 @@ void allumer_del()
 
 void eteindre_del()
 {
-
+	// It will call some GTK thing
 }
