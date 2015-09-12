@@ -73,7 +73,7 @@ void actualise_position()
 		prev_theta != current_theta)
 	{
 		debug(_DEBUG_, "position actuelle : x=%f y=%f, theta=%d\n",
-		x_actuel, y_actuel,theta_actuel);
+		(double)x_actuel, (double)y_actuel,theta_actuel);
 	}
 	prev_x	   = current_x;
 	prev_y	   = current_y;

@@ -69,15 +69,9 @@ $(HARDW_LIB): hardware_lib
 
 all:$(EXEC)
 
-ifeq ($(ARCH), PC)
-$(EXEC): $(FICHIERS_O) $(COMMUNICATION_DIR)/$(BUILD_DIR)/libCommAsser.a $(HARDW_LIB)
-	@echo "	++	$(PROJECT)|$@"
-	@$(++) -o $@ $^ $(CFLAGS) $(LDFLAGS)
-else
 $(EXEC): $(FICHIERS_O) $(COMMUNICATION_DIR)/$(BUILD_DIR)/libCommAsser.a $(HARDW_LIB)
 	@echo "	CC	$(PROJECT)|$@"
 	@$(CC) -o $@ $^ $(CFLAGS) $(LDFLAGS)
-endif
 
 # Dépendances en headers, pas utile en réalité, mais mieux
 $(BUILD_DIR)/asser.o: asser.h odometrie.h PID.h trajectoire.h # $(REGLAGES_H)
