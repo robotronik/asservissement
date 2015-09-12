@@ -1,7 +1,7 @@
 PROJECT=asservissement
 default: all
 # Default Options
-export ARCH  = dsPIC33F
+export ARCH  ?= dsPIC33F
 export ROBOT ?= gros
 export SDL   ?= yes
 export DEBUG ?= _WARNING_

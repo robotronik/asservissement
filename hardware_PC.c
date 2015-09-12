@@ -31,53 +31,12 @@ int doit_attendre()
 #	include "odometrie.h"
 #endif
 
-#define RX_BUFFER_SIZE 40
 #define SYNCHRO_TIME 0.016
 
 long int PWM_D;
 long int PWM_G;
 int moteurs_arret=0;
 long preced_clock=0;
-int cmd_quit_received=0;
-
-static unsigned char rxBuffer[RX_BUFFER_SIZE];
-static unsigned short rxBufferDebut=0;
-static unsigned short rxBufferFin=0;
-
-int arret()
-{
-	return cmd_quit_received;
-}
-
-void * fake_RX()
-{
-	while(!arret()) {
-		// On lit l'entrée standard pour simuler une reception sur l'UART
-		// Si on reçoit "q/n" on quitte le programme
-		char c=getc(stdin);
-		if(c=='q')
-		{
-			char d=getc(stdin);
-			if (d=='\n' || d=='\r' || d=='\0')
-			{
-				cmd_quit_received=1;
-			}
-			else
-			{
-				rxBuffer[rxBufferFin] = c;
-				rxBuffer[rxBufferFin+1] = d;
-				rxBufferFin = (rxBufferFin + 2) % RX_BUFFER_SIZE;
-			}
-		}
-		else
-		{
-			rxBuffer[rxBufferFin] = c;
-			rxBufferFin = (rxBufferFin + 1) % RX_BUFFER_SIZE;
-		}
-	}
-	return NULL;
-}
-
 
 void set_PWM_moteur_D(int PWM)
 {
@@ -121,25 +80,7 @@ void motors_stop()
 	moteurs_arret=1;
 }
 
-int UART_getc(unsigned char *c)
-{
-	if (rxBufferDebut == rxBufferFin) {
-		// Il n'y avait pas de caractères en attente
-		return 0;
-	} else {
-		// Il y des caractères à traiter
-		*c = rxBuffer[rxBufferDebut];
-		rxBufferDebut = (rxBufferDebut + 1) % RX_BUFFER_SIZE;
-		return 1;
-	}
-}
 
-void UART_send_message(char* message) {
-	char *actuel = message;
-	while (*actuel)
-		debug_byte(0,  *actuel++);
-	debug_byte(0,'\0');
-}
 
 void allumer_del()
 {
