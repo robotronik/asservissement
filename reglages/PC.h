@@ -19,6 +19,15 @@ coefficients des PID et qu'il y a overflow*/
 #define KI_ALPHA 0//composante d'intégration
 #define KD_ALPHA 10//composante de dérivation
 
+//PID roue droite
+#define KP_ROUE_D 1
+#define KI_ROUE_D 1
+#define KD_ROUE_D 1
+//PID roue gauche
+#define KP_ROUE_G 1
+#define KI_ROUE_G 1
+#define KD_ROUE_G 1
+
 //contraintes mecaniques
 #define MAX_VITESSE 30 //vitesse maximale du robot
 #define MIN_VITESSE 0 //vitesse minimale du robot pour qu'il commence à avancer
