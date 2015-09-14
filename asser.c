@@ -19,7 +19,7 @@ void ecretage_acceleration(long int * reponse,long int reponse_preced);
 void ecretage_deceleration(long int * reponse,long int reponse_preced);
 void ecretage_vitesse(long int * reponse);
 int asser_done(int erreur_delta, int erreur_alpha);
-int arret_ok(long int commande_moteur_D,long int commande_moteur_G);
+int arret_ok(s_vitesse vitesse);
 
 s_vitesse asser_position(s_consigne consigne);
 void post_traitement_vitesse(s_vitesse * vitesse);
@@ -30,8 +30,8 @@ void applique_pwm(s_pwm pwm);
 
 static s_erreur erreur_alpha;
 static s_erreur erreur_delta;
-static long int commande_moteur_D_preced;
-static long int commande_moteur_G_preced;
+//TODO : éventuellement ne plus utiliser comme variable globale
+static s_vitesse vitesse_preced;
 
 void asser(s_consigne consigne)
 {
@@ -45,8 +45,7 @@ void asser(s_consigne consigne)
 	gestion_position_atteinte(&vitesse);
 	//TODO : nettoyer
 	//actualisation des valeurs précédantes
-	commande_moteur_D_preced=vitesse.moteur_D;
-	commande_moteur_G_preced=vitesse.moteur_G;
+	vitesse_preced=vitesse;
 	//assevissement en vitesse
 	s_pwm pwm=asser_vitesse(vitesse);
 	//traitement des pwm
@@ -77,11 +76,11 @@ s_vitesse asser_position(s_consigne consigne)
 
 void post_traitement_vitesse(s_vitesse * vitesse)
 {
-    //correction eventuelle des commandes
+    //correction eventuelle des vitesses
     vitesse->moteur_D*=COEFF_MOTEUR_D;
     vitesse->moteur_G*=COEFF_MOTEUR_G;
 
-	//propotions correctes pour les commandes
+	//propotions correctes pour les vitesses
 #   if PIC_BUILD
 		//mise_echelle(&commande_moteur_D,&commande_moteur_G);
 #   else
@@ -90,8 +89,8 @@ void post_traitement_vitesse(s_vitesse * vitesse)
 
 	//écretage (si trop forte acceleration/décélérantion)
 	//TODO : nettoyer
-	ecretage(&(vitesse->moteur_D),commande_moteur_D_preced);
-	ecretage(&(vitesse->moteur_G),commande_moteur_G_preced);
+	ecretage(&(vitesse->moteur_D),vitesse_preced.moteur_D);
+	ecretage(&(vitesse->moteur_G),vitesse_preced.moteur_G);
 }
 
 void gestion_position_atteinte(s_vitesse * vitesse)
@@ -100,7 +99,7 @@ void gestion_position_atteinte(s_vitesse * vitesse)
 	//et si on peut s'arreter sans risquer de tomber
     static bool deja_notifie = false;
 	if (asser_done(erreur_delta.actuelle,erreur_alpha.actuelle)
-		&& arret_ok(commande_moteur_D_preced,commande_moteur_G_preced))
+		&& arret_ok(vitesse_preced))  //TODO : faire avec la vraie vitesse
 	{
 		//on réinitialise les valeurs
 		erreur_delta.preced=0;
@@ -160,8 +159,8 @@ void init_asser()
 	erreur_delta.preced=0;
 	erreur_delta.actuelle=0;
 	erreur_delta.sum=0;
-	commande_moteur_D_preced=0;
-	commande_moteur_G_preced=0;
+	vitesse_preced.moteur_D=0;
+	vitesse_preced.moteur_G=0;
 }
 
 void update_erreurs(s_consigne consigne)
@@ -302,9 +301,9 @@ int asser_done(int erreur_delta, int erreur_alpha)
 	return 0;
 }
 
-int arret_ok(long int commande_moteur_D, long int commande_moteur_G)
+int arret_ok(s_vitesse vitesse)
 {
-	if(abs(commande_moteur_G)<VIT_MAX_ARRET && abs(commande_moteur_D)<VIT_MAX_ARRET)
+	if(abs(vitesse.moteur_G)<VIT_MAX_ARRET && abs(vitesse.moteur_D)<VIT_MAX_ARRET)
 	{
 		return 1;
 	}
