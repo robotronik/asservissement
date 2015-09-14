@@ -14,19 +14,19 @@
 #include "asser.h"
 
 void update_erreurs(s_consigne consigne);
-void mise_echelle(long int * commande_D, long int * commande_G);
+void mise_echelle(s_vitesse * vitesse);
 void ecretage_acceleration(long int * reponse,long int reponse_preced);
 void ecretage_deceleration(long int * reponse,long int reponse_preced);
 void ecretage_vitesse(long int * reponse);
 int asser_done(int erreur_delta, int erreur_alpha);
 int arret_ok(long int commande_moteur_D,long int commande_moteur_G);
 
-s_vitesses asser_position(s_consigne);
+s_vitesse asser_position(s_consigne consigne);
 void post_traitement_vitesse(s_vitesse * vitesse);
-vod gestion_position_atteinte(s_vitesse * vitesse);
+void gestion_position_atteinte(s_vitesse * vitesse);
 s_pwm asser_vitesse(s_vitesse vitesse);
-void post_traitement_pwm(s_pwm pwm);
-void applique_pwm();
+void post_traitement_pwm(s_pwm * pwm);
+void applique_pwm(s_pwm pwm);
 
 static s_erreur erreur_alpha;
 static s_erreur erreur_delta;
@@ -42,20 +42,20 @@ void asser(s_consigne consigne)
 	//traitement de la réponse de l'asser en consigne
 	post_traitement_vitesse(&vitesse);
 	//si la position est atteinte
-	gestion_position_atteinte();
+	gestion_position_atteinte(&vitesse);
 	//TODO : nettoyer
 	//actualisation des valeurs précédantes
 	commande_moteur_D_preced=vitesse.moteur_D;
 	commande_moteur_G_preced=vitesse.moteur_G;
 	//assevissement en vitesse
-	s_pwm pwm=asser_vitesse(vitesses);
+	s_pwm pwm=asser_vitesse(vitesse);
 	//traitement des pwm
 	post_traitement_pwm(&pwm);
 	//application des pwm sur les moteurs
 	applique_pwm(pwm);
 }
 
-s_vitesses asser_position(s_consigne)
+s_vitesse asser_position(s_consigne consigne)
 {
 	//mise à jour des erreurs en delta et alpha
 	update_erreurs(consigne);
@@ -89,12 +89,12 @@ void post_traitement_vitesse(s_vitesse * vitesse)
 #   endif
 
 	//écretage (si trop forte acceleration/décélérantion)
-   	//TODO : nettoyer
-	ecretage(vitesse.moteur_D,commande_moteur_D_preced);
-	ecretage(vitesse.moteur_G,commande_moteur_G_preced);
+	//TODO : nettoyer
+	ecretage(&(vitesse->moteur_D),commande_moteur_D_preced);
+	ecretage(&(vitesse->moteur_G),commande_moteur_G_preced);
 }
 
-vod gestion_position_atteinte(s_vitesse * vitesse)
+void gestion_position_atteinte(s_vitesse * vitesse)
 {
 	//on regarde si on est pas arrivé à bon port
 	//et si on peut s'arreter sans risquer de tomber
@@ -132,24 +132,24 @@ s_pwm asser_vitesse(s_vitesse vitesse)
 	//TODO : remplacer par un vrai asser
 	//on convertit les commandes en PWM et direction pour les ponts en H
 	s_pwm pwm;
-	pwm.moteur_D=convert2PWM(commande_moteur_D);
-	pwm.moteur_G=convert2PWM(commande_moteur_G);
+	pwm.moteur_D=convert2PWM(vitesse.moteur_D);
+	pwm.moteur_G=convert2PWM(vitesse.moteur_G);
 
 	debug(_VERBOSE_, "PWM_D:%i PWM_G:%i\n",pwm.moteur_D,pwm.moteur_G);
 
 	return pwm;
 }
 
-void post_traitement_pwm(s_pwm pwm)
+void post_traitement_pwm(s_pwm * pwm)
 {
 
 }
 
-void applique_pwm()
+void applique_pwm(s_pwm pwm)
 {
 	//on applique les PWM et signaux de direction
-	set_PWM_moteur_D(PWM_moteur_D);
-	set_PWM_moteur_G(PWM_moteur_G);
+	set_PWM_moteur_D(pwm.moteur_D);
+	set_PWM_moteur_G(pwm.moteur_G);
 }
 
 void init_asser()

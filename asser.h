@@ -23,8 +23,8 @@ typedef struct
 
 typedef struct
 {
-	long int moteur_D;
-	long int moteur_G;
+	int moteur_D;
+	int moteur_G;
 } s_pwm;
 
 void init_asser();
