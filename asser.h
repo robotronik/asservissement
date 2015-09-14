@@ -15,6 +15,18 @@ typedef struct
 	long int sum;
 } s_erreur;
 
+typedef struct
+{
+	long int moteur_D;
+	long int moteur_G;
+} s_vitesse;
+
+typedef struct
+{
+	long int moteur_D;
+	long int moteur_G;
+} s_pwm;
+
 void init_asser();
 void asser(s_consigne consigne);
 
