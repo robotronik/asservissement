@@ -13,7 +13,8 @@
 
 #include "asser.h"
 
-void update_erreurs(s_consigne consigne);
+void update_erreurs_position(s_consigne consigne);
+void update_erreurs_vitesse(s_vitesse consigne);
 void mise_echelle(s_vitesse * vitesse);
 void ecretage_acceleration(long int * reponse,long int reponse_preced);
 void ecretage_deceleration(long int * reponse,long int reponse_preced);
@@ -30,8 +31,13 @@ void applique_pwm(s_pwm pwm);
 
 static s_erreur erreur_alpha;
 static s_erreur erreur_delta;
+static s_erreur erreur_vit_roue_D;
+static s_erreur erreur_vit_roue_G;
+
 //TODO : éventuellement ne plus utiliser comme variable globale
 static s_vitesse vitesse_preced;
+
+//TODO : vitesse.moteur_D/G -> vitesse roue ?
 
 void asser(s_consigne consigne)
 {
@@ -57,7 +63,7 @@ void asser(s_consigne consigne)
 s_vitesse asser_position(s_consigne consigne)
 {
 	//mise à jour des erreurs en delta et alpha
-	update_erreurs(consigne);
+	update_erreurs_position(consigne);
 	debug(_VERBOSE_, "e_a:%i e_D:%i ",erreur_alpha.actuelle,erreur_delta.actuelle);
 
 	//calcul des réponses provenant des PIDs
@@ -163,7 +169,7 @@ void init_asser()
 	vitesse_preced.moteur_G=0;
 }
 
-void update_erreurs(s_consigne consigne)
+void update_erreurs_position(s_consigne consigne)
 {
 	//mise à jour de la valeur précédante
 	erreur_delta.preced=erreur_delta.actuelle;
@@ -177,6 +183,22 @@ void update_erreurs(s_consigne consigne)
 	//calcul de l'erreur actuelle en delta et alpha
 	erreur_delta.actuelle = (int) (consigne.delta-get_delta_actuel());
 	erreur_alpha.actuelle = (int) (consigne.alpha-get_alpha_actuel());
+}
+
+void update_erreurs_vitesse(s_vitesse consigne)
+{
+	//mise à jour de la valeur précédante
+	erreur_vit_roue_D.preced=erreur_vit_roue_D.actuelle;
+	erreur_vit_roue_G.preced=erreur_vit_roue_G.actuelle;
+
+	//mise à jour de la valeur de l'intégrale temporelle de l'erreur
+	//TODO : utiliser une méthode pour éviter un overflow (Antiwindup ?)
+	erreur_vit_roue_D.sum += erreur_vit_roue_D.actuelle;
+	erreur_vit_roue_G.sum += erreur_vit_roue_G.actuelle;
+
+	//calcul de l'erreur actuelle en delta et alpha
+	erreur_vit_roue_D.actuelle = (int) (consigne.moteur_D-get_vit_D_actuelle());
+	erreur_vit_roue_G.actuelle = (int) (consigne.moteur_G-get_vit_G_actuelle());
 }
 
 void mise_echelle(s_vitesse * vitesse)
