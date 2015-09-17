@@ -28,7 +28,7 @@ int doit_attendre()
 #include "../hardware/debug.h"
 
 #if USE_SDL
-#   include "PC/affichage.h"
+#   include "../hardware/PC/hardware.h"
 #   include "odometrie.h"
 #endif
 
@@ -39,76 +39,11 @@ long int PWM_D;
 long int PWM_G;
 int moteurs_arret=0;
 long preced_clock=0;
-int cmd_quit_received=0;
-
-static unsigned char rxBuffer[RX_BUFFER_SIZE];
-static unsigned short rxBufferDebut=0;
-static unsigned short rxBufferFin=0;
-
-int arret()
-{
-    return cmd_quit_received;
-}
-
-void * fake_RX()
-{
-    while(!arret()) {
-        // On lit l'entrée standard pour simuler une reception sur l'UART
-        // Si on reçoit "q/n" on quitte le programme
-        char c=getc(stdin);
-        if(c=='q')
-        {
-            char d=getc(stdin);
-            if (d=='\n' || d=='\r' || d=='\0')
-            {
-                cmd_quit_received=1;
-            }
-            else
-            {
-                rxBuffer[rxBufferFin] = c;
-                rxBuffer[rxBufferFin+1] = d;
-                rxBufferFin = (rxBufferFin + 2) % RX_BUFFER_SIZE;
-            }
-        }
-        else
-        {
-            rxBuffer[rxBufferFin] = c;
-            rxBufferFin = (rxBufferFin + 1) % RX_BUFFER_SIZE;
-        }
-    }
-    return NULL;
-}
-
-void * simulation_SDL()
-{
-    if (init_sdl_screen() < 0)
-        return NULL;
-    while(!arret() && sdl_manage_events()==0)
-    {
-        bouge_robot_sdl(get_x_actuel(), get_y_actuel(),get_theta_actuel());
-    }
-    quit_sdl_screen(0);
-    cmd_quit_received=1;
-    return NULL;
-}
 
 void init_hardware()
 {
-
-    pthread_t thread_RX;
-    int ret;
-
-    ret = pthread_create (&thread_RX, NULL, fake_RX, NULL);
-    if (ret != 0)
-        fprintf(stderr, "erreur %d\n", ret);
-
-    #if USE_SDL
-        pthread_t thread_SDL;
-
-        ret = pthread_create (&thread_SDL, NULL, simulation_SDL, NULL);
-        if (ret != 0)
-            fprintf(stderr, "erreur %d\n", ret);
-    #endif
+    init_hardware_GTK();
+    init_UART();
 }
 
 void set_PWM_moteur_D(int PWM)
@@ -153,25 +88,6 @@ void motors_stop()
     moteurs_arret=1;
 }
 
-int UART_getc(unsigned char *c)
-{
-    if (rxBufferDebut == rxBufferFin) {
-        // Il n'y avait pas de caractères en attente
-        return 0;
-    } else {
-        // Il y des caractères à traiter
-        *c = rxBuffer[rxBufferDebut];
-        rxBufferDebut = (rxBufferDebut + 1) % RX_BUFFER_SIZE;
-        return 1;
-    }
-}
-
-void UART_send_message(char* message) {
-    char *actuel = message;
-    while (*actuel)
-        debug_byte(0,  *actuel++);
-    debug_byte(0,'\0');
-}
 
 void allumer_del()
 {

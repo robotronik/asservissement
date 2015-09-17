@@ -164,6 +164,15 @@ int get_y_actuel()
 {
 	return (int) y_actuel;
 }
+float float_get_x_actuel()
+{
+	return x_actuel;
+}
+
+float float_get_y_actuel()
+{
+	return y_actuel;
+}
 
 void set_theta_actuel(int new_theta)
 {
