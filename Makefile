@@ -41,10 +41,10 @@ FICHIERS_O  += $(addprefix $(BUILD_DIR)/, $(FICHIERS_C:.c=.o) )
 ################################################################################
 # Compilation
 
-all:$(EXEC)
+all:$(BUILD_DIR)/$(EXEC)
 
-$(EXEC): $(FICHIERS_O) libCommAsser libHardware
-	@echo "	++	$(PROJECT)|$@"
+$(BUILD_DIR)/$(EXEC): $(FICHIERS_O) libCommAsser libHardware
+	@echo "	CC	$(PROJECT)|$@"
 	@$(CC) -o $@ $(FICHIERS_O) $(CFLAGS) $(LDFLAGS) -lCommAsser -lHardware
 
 # Dépendances en headers, pas utile en réalité, mais mieux
@@ -58,10 +58,3 @@ $(BUILD_DIR)/hardware.o: $(HARDWARE_C) hardware.h
 $(BUILD_DIR):
 	@mkdir -p $(BUILD_DIR)
 	@mkdir -p $(BUILD_DIR)/reglages
-
-################################################################################
-# Cibles génériques
-
-mrproper: clean
-	@echo "Hard-cleaning $(PROJECT) directory…"
-	@rm $(EXEC) $(PIC_HEX) -f
