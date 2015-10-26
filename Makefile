@@ -1,5 +1,5 @@
 PROJECT=asservissement
-default: all
+default: asservissement
 # Default Options
 export ARCH  ?= dsPIC33F
 export ROBOT ?= gros
@@ -41,7 +41,7 @@ FICHIERS_O  += $(addprefix $(BUILD_DIR)/, $(FICHIERS_C:.c=.o) )
 ################################################################################
 # Compilation
 
-all:$(BUILD_DIR)/$(EXEC)
+asservissement:$(BUILD_DIR)/$(EXEC)
 
 $(BUILD_DIR)/$(EXEC): $(FICHIERS_O) libCommAsser libHardware
 	@echo "	CC	$(PROJECT)|$@"
