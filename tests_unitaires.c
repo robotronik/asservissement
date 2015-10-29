@@ -199,45 +199,45 @@ void test_angle(long int angle, long int vitesse)
 void test_asser_alpha_delta(int alpha, int delta)
 {
 	set_trajectoire_alpha_delta(alpha,delta);
-	start();
+	start_asser();
 }
 
 void test_asser_theta(int theta)
 {
 	set_trajectoire_theta(theta);
-	start();
+	start_asser();
 }
 
 void test_asser_xy_relatif_courbe(int x, int y)
 {
 	set_trajectoire_mode(courbe);
 	set_trajectoire_xy_relatif(x,y);
-	start();
+	start_asser();
 }
 
 void test_asser_xy_absolu_courbe(int x, int y)
 {
 	set_trajectoire_mode(courbe);
 	set_trajectoire_xy_absolu(x,y);
-	start();
+	start_asser();
 }
 
 void test_asser_xy_relatif_tendu(int x, int y)
 {
 	set_trajectoire_mode(tendu);
 	set_trajectoire_xy_relatif(x,y);
-	start();
+	start_asser();
 }
 
 void test_asser_xy_absolu_tendu(int x, int y)
 {
 	set_trajectoire_mode(tendu);
 	set_trajectoire_xy_absolu(x,y);
-	start();
+	start_asser();
 }
 
 void test_asser_chemin(s_liste chemin)
 {
 	set_trajectoire_chemin(chemin);
-	start();
+	start_asser();
 }

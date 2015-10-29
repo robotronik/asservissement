@@ -57,7 +57,7 @@ typedef struct
 
 
 void init_trajectoire();
-void start();
+void start_asser();
 
 //appelé par la stratégie
 void set_trajectoire_alpha_delta(int alpha, int delta);

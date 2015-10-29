@@ -14,7 +14,7 @@ int main()
 
 	//lancement du robot
 	//launch_tests();
-	start();
+	start_asser();
 
 	//évite un reset automatique du microcontrôleur
 	#if PIC_BUILD

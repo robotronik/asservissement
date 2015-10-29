@@ -25,7 +25,7 @@ void set_consigne_alpha_delta(int new_alpha, int new_delta);
 static s_trajectoire trajectoire;
  s_consigne consigne;
 
-void start()
+void start_asser()
 {
 	unsigned char c;
 	while(!arret()) //sur les robots on n'arrete jamais
