@@ -34,18 +34,22 @@ FICHIERS_H = hardware.h $(REGLAGES_H) $(FICHIERS_C:.c=.h)
 
 # Fichier de hardware dépendant de l'architecture
 HARDWARE_C = hardware_$(ARCH).c
-FICHIERS_C+= $(HARDWARE_C) main.c
+FICHIERS_C+= $(HARDWARE_C)
 
 FICHIERS_O  += $(addprefix $(BUILD_DIR)/, $(FICHIERS_C:.c=.o) )
 
 ################################################################################
 # Compilation
 
+_libAsser: $(BUILD_DIR)/libAsser.a
+
+$(BUILD_DIR)/libAsser.a: $(FICHIERS_O)
+
 asservissement:$(BUILD_DIR)/$(EXEC)
 
-$(BUILD_DIR)/$(EXEC): $(FICHIERS_O) libCommAsser libHardware
+$(BUILD_DIR)/$(EXEC): $(BUILD_DIR)/main.o libAsser libCommAsser libHardware
 	@echo "	CC	$(PROJECT)|$@"
-	@$(CC) -o $@ $(FICHIERS_O) $(CFLAGS) $(LDFLAGS) -lCommAsser -lHardware
+	@$(CC) -o $@ $(BUILD_DIR)/main.o $(CFLAGS) $(LDFLAGS) -lAsser -lCommAsser -lHardware
 
 # Dépendances en headers, pas utile en réalité, mais mieux
 $(BUILD_DIR)/asser.o: asser.h odometrie.h PID.h trajectoire.h # $(REGLAGES_H)
