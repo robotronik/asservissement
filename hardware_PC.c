@@ -78,7 +78,6 @@ void init_timer()
 
 void init_hardware()
 {
-    init_hardware_GTK();
     init_UART();
     //init_timer();
 }
