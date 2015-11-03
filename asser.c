@@ -76,7 +76,7 @@ void asser(s_consigne consigne)
 		commande_moteur_G=0;
 		//on fait savoir que la position est atteinte
 		if (!deja_notifie) {
-			//send_cmd(a2s_keys[A2S_CMD_DONE]); //ajouter anti-spam (ici on envoie sans arret)
+			send_cmd(a2s_keys[A2S_CMD_DONE]); //ajouter anti-spam (ici on envoie sans arret)
                     allumer_del();
 			deja_notifie = true;
 		}
