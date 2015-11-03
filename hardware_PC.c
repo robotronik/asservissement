@@ -6,10 +6,6 @@
 #include "debug.h"
 
 
-void UART_send_message(void* a) {
-
-}
-
 #define RX_BUFFER_SIZE 40
 #define SYNCHRO_TIME 0.016
 
