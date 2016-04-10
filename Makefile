@@ -49,7 +49,7 @@ asservissement:$(BUILD_DIR)/$(EXEC)
 
 $(BUILD_DIR)/$(EXEC): $(BUILD_DIR)/main.o libAsser libCommAsser libHardware
 	@echo "	CC	$(PROJECT)|$@"
-	@$(CC) -o $@ $(BUILD_DIR)/main.o $(CFLAGS) $(LDFLAGS) -lAsser -lCommAsser -lHardware
+	@$(CC) $(CFLAGS) -o $@ $(BUILD_DIR)/main.o -lAsser -lCommAsser -lHardware $(LDFLAGS)
 
 # Dépendances en headers, pas utile en réalité, mais mieux
 $(BUILD_DIR)/asser.o: asser.h odometrie.h PID.h trajectoire.h # $(REGLAGES_H)
