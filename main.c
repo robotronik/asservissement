@@ -12,6 +12,23 @@ int main()
 	init_hardware();
 	init_asser();
 
+
+	/* Blink the LEDs (PD12, PD13, PD14 and PD15) on the board. */
+	while (1) {
+		motors_on();
+		allumer_del();
+		for (int i = 0; i < 60000; i++) { /* Wait a bit. */
+			__asm__("nop");
+		}
+		motors_stop();
+		eteindre_del();
+		for (int i = 0; i < 60000; i++) { /* Wait a bit. */
+			__asm__("nop");
+		}
+	}
+
+	return 0;
+
 	//lancement du robot
 	//launch_tests();
 	start_asser();
