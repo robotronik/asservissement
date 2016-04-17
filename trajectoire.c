@@ -36,14 +36,15 @@ void start_asser()
 		//on recalcule la position actuelle du robot (via les roues codeuses)
 		actualise_position(position_actuelle);
 
+		//on met à jour la consigne pour l'asser
+		update_consigne();
+
 		//asservissement
 		s_position pos_consigne;
 		pos_consigne.delta = consigne.delta;
 		pos_consigne.alpha = consigne.alpha;
 		asser(&pos_consigne, position_actuelle);
 
-		//on met à jour la consigne pour l'asser
-		update_consigne();
 
 		//on regarde si on a pas reçu quelquechose
 		if (UART_getc(&c)) {
@@ -52,7 +53,7 @@ void start_asser()
 	}
 }
 
-void update_consigne()
+void update_consigne(s_position consigne)
 {
 	switch (trajectoire.type)
 	{
