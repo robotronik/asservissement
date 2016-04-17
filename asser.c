@@ -10,10 +10,11 @@
 #include "hardware.h"
 #include "trajectoire.h"
 #include "odometrie.h"
+#include "maths_utils.h"
 
 #include "asser.h"
 
-void update_erreurs(s_consigne consigne);
+void update_erreurs(s_position * consigne, s_position * position_actuelle);
 void mise_echelle(long int * commande_D, long int * commande_G);
 void ecretage_acceleration(long int * reponse,long int reponse_preced);
 void ecretage_deceleration(long int * reponse,long int reponse_preced);
@@ -26,13 +27,13 @@ static s_erreur erreur_delta;
 static long int commande_moteur_D_preced;
 static long int commande_moteur_G_preced;
 
-void asser(s_consigne consigne)
+void asser(s_position * position_cible, s_position * position_actuelle)
 {
 	//synchronisation à une fréquence régulière
 	attente_synchro();
 
 	//mise à jour des erreurs en delta et alpha
-	update_erreurs(consigne);
+	update_erreurs(position_cible,position_actuelle);
 	debug(_VERBOSE_, "e_a:%i e_D:%i ",erreur_alpha.actuelle,erreur_delta.actuelle);
 
 	//calcul des réponses provenant des PIDs
@@ -112,7 +113,7 @@ void init_asser()
 	commande_moteur_G_preced=0;
 }
 
-void update_erreurs(s_consigne consigne)
+void update_erreurs(s_position * consigne, s_position * position_actuelle)
 {
 	//mise à jour de la valeur précédante
 	erreur_delta.preced=erreur_delta.actuelle;
@@ -124,8 +125,8 @@ void update_erreurs(s_consigne consigne)
 	erreur_alpha.sum += erreur_alpha.actuelle;
 
 	//calcul de l'erreur actuelle en delta et alpha
-	erreur_delta.actuelle = (int) (consigne.delta-get_delta_actuel());
-	erreur_alpha.actuelle = (int) (consigne.alpha-get_alpha_actuel());
+	erreur_delta.actuelle=(int)((consigne->delta)-(position_actuelle->delta));
+	erreur_alpha.actuelle=(int)((consigne->alpha)-(position_actuelle->alpha));
 }
 
 void mise_echelle(long int * commande_D, long int * commande_G)

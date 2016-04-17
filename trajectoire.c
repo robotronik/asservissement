@@ -31,11 +31,16 @@ void start_asser()
 	unsigned char c;
 	while(!arret()) //sur les robots on n'arrete jamais
 	{
-		//asservissement
-		asser(consigne);
-		s_consigne * position_actuelle=get_position_actuelle();
+		//TODO : remove
+		s_position * position_actuelle=get_position_actuelle();
 		//on recalcule la position actuelle du robot (via les roues codeuses)
 		actualise_position(position_actuelle);
+
+		//asservissement
+		s_position pos_consigne;
+		pos_consigne.delta = consigne.delta;
+		pos_consigne.alpha = consigne.alpha;
+		asser(&pos_consigne, position_actuelle);
 
 		//on met à jour la consigne pour l'asser
 		update_consigne();

@@ -2,6 +2,7 @@
 #define ASSER_H
 
 #include "trajectoire.h"
+#include "maths_utils.h"
 
 //macro pour le calcul de valeur absolue
 #define abs(x) ((x) < 0 ? - (x) : (x))
@@ -16,7 +17,7 @@ typedef struct
 } s_erreur;
 
 void init_asser();
-void asser(s_consigne consigne);
+void asser(s_position * consigne, s_position * position_actuelle);
 
 //appelées de l'extérieur uniquement pour les tests unitaires
 int convert2PWM(long int commande);
