@@ -9,6 +9,7 @@
 #include "asser.h"
 #include "hardware.h"
 #include "reglages.h"
+#include "maths_utils.h"
 
 void update_consigne();
 
@@ -32,9 +33,9 @@ void start_asser()
 	{
 		//asservissement
 		asser(consigne);
-
+		s_consigne * position_actuelle=get_position_actuelle();
 		//on recalcule la position actuelle du robot (via les roues codeuses)
-		actualise_position();
+		actualise_position(position_actuelle);
 
 		//on met à jour la consigne pour l'asser
 		update_consigne();

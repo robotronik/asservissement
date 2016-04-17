@@ -1,33 +1,38 @@
 #include "odometrie.h"
 #include "hardware.h"
 #include "reglages.h"
-#include "math_precalc.h"
+#include "maths_utils.h"
 #include "../hardware/debug.h" //à virer
 #include "trajectoire.h" //à virer
 
-void actualise_xy(int d_delta, int d_alpha, int theta, float * x, float * y);
+void actualise_xy(int d_delta, int d_alpha, s_position * position_actuelle);//int theta, float * x, float * y);
 int borne_angle(long int angle);
 
 //ici les calculs de position actuelle
 
-//oh les vilaines variables globales !
-static float x_actuel; //absolu
-static float y_actuel; //absolu
-static int theta_actuel; //absolu
-static long int delta_actuel; //relatif
-static long int alpha_actuel; //relatif
+//doit disparaitre à terme
+static s_position position_actuelle;
 
+/*
+void init_odometrie(s_position * position_actuelle)
+{
+	position_actuelle->x=X_INIT;
+	position_actuelle->y=Y_INIT;
+	position_actuelle->delta=0;
+	position_actuelle->alpha=0;
+	position_actuelle->theta=THETA_INIT;
+}*/
 
 void init_odometrie()
 {
-	x_actuel=X_INIT;
-	y_actuel=Y_INIT;
-	delta_actuel=0;
-	alpha_actuel=0;
-	theta_actuel=THETA_INIT;
+	position_actuelle.x=X_INIT;
+	position_actuelle.y=Y_INIT;
+	position_actuelle.delta=0;
+	position_actuelle.alpha=0;
+	position_actuelle.theta=THETA_INIT;
 }
 
-void actualise_position()
+void actualise_position(s_position * position_actuelle)
 {
 	long int nbr_tick_D=get_nbr_tick_D();
 	long int nbr_tick_G=get_nbr_tick_G();
@@ -37,50 +42,24 @@ void actualise_position()
 	nbr_tick_G*=COEFF_CODEUR_G;
 
 	//sauvegarde de l'état précédant
-	long int delta_precedant=delta_actuel;
-	long int alpha_precedant=alpha_actuel;
+	long int delta_precedant=position_actuelle->delta;
+	long int alpha_precedant=position_actuelle->alpha;
 
 	//calcul de alpha et delta actuels
-	delta_actuel=delta_mm(nbr_tick_D,nbr_tick_G);
-	alpha_actuel=alpha_millirad(nbr_tick_D,nbr_tick_G);
+	position_actuelle->delta=delta_mm(nbr_tick_D,nbr_tick_G);
+	position_actuelle->alpha=alpha_millirad(nbr_tick_D,nbr_tick_G);
 
 	//calcul des variations
-	int d_delta=(int) (delta_actuel-delta_precedant);
-	int d_alpha=(int) (alpha_actuel-alpha_precedant);
+	int d_delta=(int) ((position_actuelle->delta)-delta_precedant);
+	int d_alpha=(int) ((position_actuelle->alpha)-alpha_precedant);
 
 	//on actualise x et y actuels
-	actualise_xy(d_delta,d_alpha,theta_actuel,&x_actuel,&y_actuel);
+	actualise_xy(d_delta,d_alpha,position_actuelle);//theta_actuel,&x_actuel,&y_actuel);
 
 	//on actualise l'orientation (theta)
 	//theta_actuel=borne_angle(alpha_lu);
-	theta_actuel=borne_angle(theta_actuel+d_alpha); //TODO : vérifier
-
-	debug(_VERBOSE_, "D_act:%ld a_act:%ld th_act:%d D_voul:%d a_voul:%d\n\n",delta_actuel,alpha_actuel,theta_actuel, get_delta_voulu(), get_alpha_voulu()); //à virer
-
-	//on envoie notre position au PC (débug)
-	//NB: vu que le traitement un peu long, je ne l'active que si le debug
-	//est actif (de toute façon il ne se passe rien si DEBUG n'est pas
-	//actif
-#if DEBUG
-	static int prev_x	  = 0;
-	static int prev_y	  = 0;
-	static int prev_theta = 0;
-
-	int current_x	  = get_x_actuel();
-	int current_y	  = get_y_actuel();
-	int current_theta = get_theta_actuel();
-
-	if (prev_x != current_x ||
-		prev_y != current_y ||
-		prev_theta != current_theta)
-	{
-		debug(_DEBUG_, "position actuelle : x=%f y=%f, theta=%d\n",
-		(double)x_actuel, (double)y_actuel,theta_actuel);
-	}
-	prev_x	   = current_x;
-	prev_y	   = current_y;
-	prev_theta = current_theta;
-#endif
+	//TODO : vérifier
+	position_actuelle->theta=borne_angle((position_actuelle->theta)+d_alpha);
 }
 
 long int delta_mm(long int nbr_tick_D, long int nbr_tick_G)
@@ -104,7 +83,7 @@ long int alpha_millirad(long int nbr_tick_D, long int nbr_tick_G)
 	return alpha;
 }
 
-void actualise_xy(int d_delta, int d_alpha, int theta, float * x, float * y)
+void actualise_xy(int d_delta, int d_alpha, s_position * position_actuelle)// int theta, float * x, float * y)
 {
 	//calcul des variations dans le repère local
 	float d_x_local,d_y_local;
@@ -120,9 +99,13 @@ void actualise_xy(int d_delta, int d_alpha, int theta, float * x, float * y)
 		d_y_local=(float) d_delta;
 	}
 
-	//rotation selon l'orientation du robot pour trouver la position en absolu
-	*x+=(cos_precalc(theta)*d_x_local) - (sin_precalc(theta)*d_y_local);
-	*y+=(sin_precalc(theta)*d_x_local) + (cos_precalc(theta)*d_y_local);
+	//rotation selon l'orientation pour remonter aux variations réelles
+	int theta=position_actuelle->theta;
+	int d_x=(cos_precalc(theta)*d_x_local) - (sin_precalc(theta)*d_y_local);
+	int d_y=(sin_precalc(theta)*d_x_local) + (cos_precalc(theta)*d_y_local);
+
+	position_actuelle->x+=d_x;
+	position_actuelle->y+=d_y;
 }
 
 int borne_angle(long int angle)
@@ -144,49 +127,54 @@ int borne_angle(long int angle)
 
 long int get_delta_actuel()
 {
-	return delta_actuel;
+	return position_actuelle.delta;
 }
 
 long int get_alpha_actuel()
 {
-	return alpha_actuel;
+	return position_actuelle.alpha;
 }
 
 int get_theta_actuel()
 {
-	return theta_actuel;
+	return position_actuelle.theta;
 }
 
 int get_x_actuel()
 {
-	return (int) x_actuel;
+	return (int) position_actuelle.x;
 }
 
 int get_y_actuel()
 {
-	return (int) y_actuel;
+	return (int) position_actuelle.y;
 }
 float float_get_x_actuel()
 {
-	return x_actuel;
+	return position_actuelle.x;
 }
 
 float float_get_y_actuel()
 {
-	return y_actuel;
+	return position_actuelle.y;
+}
+
+s_position * get_position_actuelle()
+{
+	return &position_actuelle;
 }
 
 void set_theta_actuel(int new_theta)
 {
-	theta_actuel=new_theta;
+	position_actuelle.theta=new_theta;
 }
 
 void set_x_actuel(int new_x)
 {
-	x_actuel= (float) new_x;
+	position_actuelle.x= (float) new_x;
 }
 
 void set_y_actuel(int new_y)
 {
-	y_actuel= (float) new_y;
+	position_actuelle.y= (float) new_y;
 }
