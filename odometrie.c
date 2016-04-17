@@ -36,20 +36,22 @@ void actualise_position()
 	nbr_tick_D*=COEFF_CODEUR_D;
 	nbr_tick_G*=COEFF_CODEUR_G;
 
-	//calcul de alpha et delta apparents
-	long int delta_lu=delta_mm(nbr_tick_D,nbr_tick_G);
-	long int alpha_lu=alpha_millirad(nbr_tick_D,nbr_tick_G);
+	//sauvegarde de l'état précédant
+	long int delta_precedant=delta_actuel;
+	long int alpha_precedant=alpha_actuel;
+
+	//calcul de alpha et delta actuels
+	delta_actuel=delta_mm(nbr_tick_D,nbr_tick_G);
+	alpha_actuel=alpha_millirad(nbr_tick_D,nbr_tick_G);
 
 	//calcul des variations
-	int d_delta=(int) (delta_lu-delta_actuel);
-	int d_alpha=(int) (alpha_lu-alpha_actuel);
+	int d_delta=(int) (delta_actuel-delta_precedant);
+	int d_alpha=(int) (alpha_actuel-alpha_precedant);
 
 	//on actualise x et y actuels
 	actualise_xy(d_delta,d_alpha,theta_actuel,&x_actuel,&y_actuel);
 
-	//on actualise le reste
-	delta_actuel=delta_lu;
-	alpha_actuel=alpha_lu;
+	//on actualise l'orientation (theta)
 	//theta_actuel=borne_angle(alpha_lu);
 	theta_actuel=borne_angle(theta_actuel+d_alpha); //TODO : vérifier
 
