@@ -34,9 +34,7 @@ int main()
 	start_asser();
 
 	//évite un reset automatique du microcontrôleur
-	#if PIC_BUILD
-		while(1);
-	#endif
+	while(1);
 
 	return 0;
 }

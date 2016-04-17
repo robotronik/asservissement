@@ -1,14 +1,10 @@
 #ifndef REGLAGES_H
 #define REGLAGES_H
 
-#if PIC_BUILD
-#	if   GROS
-#		include "reglages/gros_robot.h"
-#	elif PETIT
-#		include "reglages/petit_robot.h"
-#	endif
+#ifdef   REGLAGES_HEADER
+#include REGLAGES_HEADER
 #else
-#	include "reglages/PC.h"
+#define MAX_POSITIONS 20 //taille max de la liste de coordonnées definisant un chemin
 #endif
 
 #endif

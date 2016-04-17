@@ -50,11 +50,7 @@ void asser(s_consigne consigne)
         commande_moteur_G*=COEFF_MOTEUR_G;
 
 	//propotions correctes pour les commandes
-#       if PIC_BUILD
-	//mise_echelle(&commande_moteur_D,&commande_moteur_G);
-#       else
-        mise_echelle(&commande_moteur_D,&commande_moteur_G);
-#        endif
+	mise_echelle(&commande_moteur_D,&commande_moteur_G);
 
 	//écretage (si trop forte acceleration/décélérantion)
 	ecretage(&commande_moteur_D,commande_moteur_D_preced);

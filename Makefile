@@ -2,15 +2,14 @@ PROJECT=asservissement
 default: asservissement
 # Default Options
 export ARCH  ?= dsPIC33F
-export ROBOT ?= gros
-export SDL   ?= yes
 export DEBUG ?= _WARNING_
+export ROBOT ?= gros
 
 PARENT_DIR = ../
 
 # Constantes de compilation
 EXEC    = asser_robot
-include $(PARENT_DIR)/hardware/common.mk
+include $(PARENT_DIR)/hardware/common.rules
 ################################################################################
 # Fichiers du projet
 
@@ -23,14 +22,13 @@ FICHIERS_C =\
 	tests_unitaires.c \
 
 # Fichier de réglages dépendant de la plateforme
-REGLAGES_H = reglages.h
 ifeq ($(ARCH), PC)
-	REGLAGES_H += reglages/$(ARCH).h
+	REGLAGES_H = reglages/$(ARCH).h
 else
-	REGLAGES_H += reglages/$(ROBOT)_robot.h
+	REGLAGES_H = reglages/$(ROBOT)_robot.h
 endif
 
-FICHIERS_H = hardware.h $(REGLAGES_H) $(FICHIERS_C:.c=.h)
+CFLAGS += -DREGLAGES_HEADER='"$(REGLAGES_H)"'
 
 # Fichier de hardware dépendant de l'architecture
 HARDWARE_C = hardware_$(ARCH).c
@@ -41,10 +39,12 @@ FICHIERS_O  += $(addprefix $(BUILD_DIR)/, $(FICHIERS_C:.c=.o) )
 ################################################################################
 # Compilation
 
+# Règles de compilation de la "librairie asser"
 _libAsser: $(BUILD_DIR)/libAsser.a
 
 $(BUILD_DIR)/libAsser.a: $(FICHIERS_O)
 
+# Règles de compilation de l'exécutable asser
 asservissement:$(BUILD_DIR)/$(EXEC)
 
 $(BUILD_DIR)/$(EXEC): $(BUILD_DIR)/main.o libAsser libCommAsser libHardware
@@ -61,4 +61,3 @@ $(BUILD_DIR)/hardware.o: $(HARDWARE_C) hardware.h
 
 $(BUILD_DIR):
 	@mkdir -p $(BUILD_DIR)
-	@mkdir -p $(BUILD_DIR)/reglages
