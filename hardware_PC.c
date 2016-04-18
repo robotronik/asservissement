@@ -62,6 +62,9 @@ void motors_stop()
 {
     moteurs_arret=1;
 }
+void motors_on() {
+
+}
 
 
 void allumer_del()
