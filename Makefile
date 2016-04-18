@@ -18,7 +18,7 @@ FICHIERS_C =\
 	PID.c \
 	odometrie.c \
 	trajectoire.c \
-	math_precalc.c \
+	maths_utils.c \
 	tests_unitaires.c \
 
 # Fichier de réglages dépendant de la plateforme
