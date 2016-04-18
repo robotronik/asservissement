@@ -1,10 +1,11 @@
 #include <stdbool.h>
+#include <string.h>
 
 #include "reglages.h"
 
 #include "../hardware/debug.h"
-#include "../common_code/communication/text_emission.h"
-#include "../common_code/communication/a2s.h"
+#include "../common_code/communication/emission.h"
+#include "../common_code/communication/keys.h"
 
 #include "PID.h"
 #include "hardware.h"
@@ -72,8 +73,10 @@ void asser(s_consigne consigne)
 		commande_moteur_G=0;
 		//on fait savoir que la position est atteinte
 		if (!deja_notifie) {
-			send_cmd(a2s_keys[A2S_CMD_DONE]); //ajouter anti-spam (ici on envoie sans arret)
-                    allumer_del();
+			char buffer[40];
+			send_cmd(buffer, keys[CMD_DONE]); //ajouter anti-spam (ici on envoie sans arret)
+			UART_send_message(buffer, strlen(buffer));
+            allumer_del();
 			deja_notifie = true;
 		}
 	}

@@ -2,7 +2,7 @@
 #include <stdio.h> //TODO : à virer
 
 #include "../hardware/debug.h"
-#include "../common_code/communication/s2a_reception.h"
+#include "../common_code/communication/reception.h"
 
 #include "trajectoire.h"
 #include "odometrie.h"
@@ -41,7 +41,7 @@ void start_asser()
 
 		//on regarde si on a pas reçu quelquechose
 		if (UART_getc(&c)) {
-			s2a_lecture_message((char) c);
+			lecture_message((char) c);
 		}
 	}
 }

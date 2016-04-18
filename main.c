@@ -4,6 +4,8 @@
 #include "odometrie.h"
 #include "tests_unitaires.h"
 
+callback_t callbacks[KEYS_SIZE] = {
+};
 int main()
 {
 	//init
@@ -12,6 +14,7 @@ int main()
 	init_hardware();
 	init_asser();
 
+	init_reception(callbacks);
 
 
 	//lancement du robot
