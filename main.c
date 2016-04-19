@@ -3,9 +3,10 @@
 #include "trajectoire.h"
 #include "odometrie.h"
 #include "tests_unitaires.h"
+#include "reception_communication.h"
 
-callback_t callbacks[KEYS_SIZE] = {
-};
+#include "../common_code/communication/keys.h"
+
 int main()
 {
 	//init

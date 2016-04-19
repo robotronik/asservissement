@@ -20,6 +20,7 @@ FICHIERS_C =\
 	trajectoire.c \
 	math_precalc.c \
 	tests_unitaires.c \
+	reception_communication.c
 
 # Fichier de réglages dépendant de la plateforme
 ifeq ($(ARCH), PC)
