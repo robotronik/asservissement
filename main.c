@@ -5,8 +5,6 @@
 #include "tests_unitaires.h"
 #include "reception_communication.h"
 
-#include "../common_code/communication/keys.h"
-
 int main()
 {
 	//init
@@ -15,7 +13,8 @@ int main()
 	init_hardware();
 	init_asser();
 
-	init_reception(callbacks);
+
+	init_reception_communication();
 
 
 	//lancement du robot

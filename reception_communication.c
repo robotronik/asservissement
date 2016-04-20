@@ -7,6 +7,16 @@
 #include "trajectoire.h"
 #include "PID.h"
 
+Reception_object values;
+
+void init_reception_communication(){
+    init_reception(&values, callbacks);
+}
+
+void reception_communication(char c) {
+    lecture_message((char) c, &values);
+}
+
 char buffer[40];
 
 int received_alpha,
@@ -24,40 +34,40 @@ int kp_delta,
     kd_alpha;
 
 int reception_set_x() {
-    received_x = get_received_value();
+    received_x = values.received_value;
     return 0;
 }
 int reception_set_y() {
-    received_y = get_received_value();
+    received_y = values.received_value;
     return 0;
 }
 int reception_set_alpha() {
-    received_alpha = get_received_value();
+    received_alpha = values.received_value;
     return 0;
 }
 int reception_set_delta() {
-    received_delta = get_received_value();
+    received_delta = values.received_value;
     return 0;
 }
 int reception_set_theta() {
-    received_theta = get_received_value();
+    received_theta = values.received_value;
     return 0;
 }
 
 int reception_set_KPd() {
-    kp_delta = get_received_value();
+    kp_delta = values.received_value;
     return 0;
 }
 int reception_set_KDd() {
-    kd_delta = get_received_value();
+    kd_delta = values.received_value;
     return 0;
 }
 int reception_set_KPa() {
-    kp_alpha = get_received_value();
+    kp_alpha = values.received_value;
     return 0;
 }
 int reception_set_KDa() {
-    kd_alpha = get_received_value();
+    kd_alpha = values.received_value;
     return 0;
 }
 

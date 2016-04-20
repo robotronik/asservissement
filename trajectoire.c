@@ -41,7 +41,7 @@ void start_asser()
 
 		//on regarde si on a pas reçu quelquechose
 		if (UART_getc(&c)) {
-			lecture_message((char) c);
+			reception_communication((char) c);
 		}
 	}
 }
