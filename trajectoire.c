@@ -87,14 +87,14 @@ void make_trajectoire_theta(int theta_voulu)
 {
 	int new_alpha=theta_voulu-get_theta_actuel();
 	//on borne *new_alpha entre pi et -pi
-	new_alpha=new_alpha%((int)(DEUX_PI*1000.0));
-	if (new_alpha>(int)((DEUX_PI*1000.0)/2.0))
+	new_alpha=new_alpha%DEUX_PI_MILLI;
+	if (new_alpha>DEUX_PI_MILLI)
 	{
-		new_alpha-=(int)(DEUX_PI*1000.0);
+		new_alpha-=PI_MILLI;
 	}
-	else if (new_alpha<-(int)((DEUX_PI*1000.0)/2.0))
+	else if (new_alpha<-PI_MILLI)
 	{
-		new_alpha+=(int)(DEUX_PI*1000.0);
+		new_alpha+=DEUX_PI_MILLI;
 	}
 	set_consigne_alpha_delta(new_alpha,0);
 	trajectoire.type=null;
@@ -193,28 +193,28 @@ void calcul_alpha_delta_restant(int x_voulu, int y_voulu, int * new_alpha, int *
 	*new_alpha=theta_voulu-get_theta_actuel();
 
 	//on borne *new_alpha (à tester) entre pi et -pi
-	*new_alpha=*new_alpha%((int)(DEUX_PI*1000.0));
-	if (*new_alpha>(int)((DEUX_PI*1000.0)/2.0))
+	*new_alpha=*new_alpha%DEUX_PI_MILLI;
+	if (*new_alpha>PI_MILLI)
 	{
-		*new_alpha-=(int)(DEUX_PI*1000.0);
+		*new_alpha-=DEUX_PI_MILLI;
 	}
-	else if (*new_alpha<-(int)((DEUX_PI*1000.0)/2.0))
+	else if (*new_alpha<-PI_MILLI)
 	{
-		*new_alpha+=(int)(DEUX_PI*1000.0);
+		*new_alpha+=DEUX_PI_MILLI;
 	}
 
 	//TODO : gestion point non atteignable
 	//(si l'on demande un point trop prés du robot et à la perpendiculaire de la direction du robot il se met à tourner autour du point)
 
 	//gestion de la marche arrière
-	if (*new_alpha>1571) //1571~=(pi/2)*1000
+	if (*new_alpha>PI_MILLI/2) //1571~=(pi/2)*1000
 	{
-		*new_alpha-=3142; //3142~=pi*1000
+		*new_alpha-=PI_MILLI; //3142~=pi*1000
 		*new_delta=-*new_delta;
 	}
-	else if (*new_alpha<-1571) //1571~=(pi/2)*1000
+	else if (*new_alpha<-PI_MILLI/2) //1571~=(pi/2)*1000
 	{
-		*new_alpha+=3142; //3142~=pi*1000
+		*new_alpha+=PI_MILLI; //3142~=pi*1000
 		*new_delta=-*new_delta;
 	}
 }

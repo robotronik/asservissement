@@ -87,8 +87,8 @@ long int delta_mm(long int nbr_tick_D, long int nbr_tick_G)
 {
 	long int delta;
 
-	delta=(nbr_tick_D+nbr_tick_G)/2; 	//delta en tick
-	delta/=TICK_PAR_MM;					//convertion en mm
+	delta=(nbr_tick_D+nbr_tick_G)/2 	//delta en tick
+		/ TICK_PAR_MM;					//convertion en mm
 
 	return delta;
 }
@@ -97,9 +97,8 @@ long int alpha_millirad(long int nbr_tick_D, long int nbr_tick_G)
 {
 	long int alpha;
 
-	alpha=(nbr_tick_D-nbr_tick_G)/2; 	//alpha en ticks
-	alpha*=1000;						//convertion en milliticks
-	alpha*=DEUX_PI/TICK_PAR_TOUR; 		//convertion en milliradians
+	alpha=(nbr_tick_D-nbr_tick_G)	//alpha en ticks
+		 * PI_MILLI/TICK_PAR_TOUR;	//convertion en milliradians
 
 	return alpha;
 }
@@ -129,14 +128,14 @@ int borne_angle(long int angle)
 {
 	//on borne "angle" entre pi et -pi
 
-	angle%=((int)(DEUX_PI*1000.0));
-	if (angle>(int)(PI*1000.0))
+	angle%=DEUX_PI_MILLI;
+	if (angle>PI_MILLI)
 	{
-		angle-=(int)(DEUX_PI*1000.0);
+		angle-=DEUX_PI_MILLI;
 	}
-	else if (angle<-(int)(PI*1000.0))
+	else if (angle<-PI_MILLI)
 	{
-		angle+=(int)(DEUX_PI*1000.0);
+		angle+=DEUX_PI_MILLI;
 	}
 
 	return (int) angle;

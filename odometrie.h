@@ -1,8 +1,8 @@
 #ifndef ODOMETRIE_H
 #define ODOMETRIE_H
 
-#define DEUX_PI 6.2832
-#define PI 3.14159
+#define PI_MILLI 3142
+#define DEUX_PI_MILLI 6283
 
 void init_odometrie();
 void actualise_position();
