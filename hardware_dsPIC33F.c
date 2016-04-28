@@ -239,7 +239,7 @@ void pause_ms(unsigned short n)
  *----------------------------------------------------------------*/
 void set_PWM_moteur_D(int PWM)
 {
-    short speedR= (short) ((((float)PWM)/1000.0) * MAX_SPEED);
+    short speedR = (short) ((PWM * MAX_SPEED) / 1000);
     if (speedR == 0)    // On s arrete
     {
         PWM1CON1bits.PEN2H = 0;
@@ -271,7 +271,7 @@ void set_PWM_moteur_D(int PWM)
 
 void set_PWM_moteur_G(int PWM)
 {
-	short speedL= (short) ((((float)PWM)/1000.0) * MAX_SPEED);
+    short speedL = (short) ((PWM * MAX_SPEED) / 1000);
 	if (speedL == 0)    // On s arrete
     {
         PWM1CON1bits.PEN1H = 0;	// /!\ Reset le timer

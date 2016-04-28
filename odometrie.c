@@ -138,7 +138,7 @@ int borne_angle(long int angle)
 		angle+=DEUX_PI_MILLI;
 	}
 
-	return (int) angle;
+	return angle;
 }
 
 long int get_delta_actuel()
@@ -158,12 +158,12 @@ int get_theta_actuel()
 
 int get_x_actuel()
 {
-	return (int) x_actuel;
+	return x_actuel;
 }
 
 int get_y_actuel()
 {
-	return (int) y_actuel;
+	return y_actuel;
 }
 float float_get_x_actuel()
 {
@@ -182,10 +182,10 @@ void set_theta_actuel(int new_theta)
 
 void set_x_actuel(int new_x)
 {
-	x_actuel= (float) new_x;
+	x_actuel= new_x;
 }
 
 void set_y_actuel(int new_y)
 {
-	y_actuel= (float) new_y;
+	y_actuel= new_y;
 }
