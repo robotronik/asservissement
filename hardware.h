@@ -1,6 +1,8 @@
 #ifndef HARDWARE_H
 #define HARDWARE_H
 
+#include <setup.h>
+
 /*void set_PWM_moteur_D(int PWM);
 void set_PWM_moteur_G(int PWM);
 int get_nbr_tick_D();

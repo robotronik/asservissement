@@ -10,22 +10,6 @@
 #include <libopencm3/cm3/nvic.h>
 #include <libopencmsis/core_cm3.h>
 
-
-void clock_setup(void)
-{
-    // TODO on en a besoin ?
-    //rcc_clock_setup_hse_3v3(&rcc_hse_8mhz_3v3[RCC_CLOCK_3V3_168MHZ]);
-    /* Enable GPIOD clock for LED & USARTs. */
-    rcc_periph_clock_enable(RCC_GPIOA);
-    rcc_periph_clock_enable(RCC_GPIOB);
-    rcc_periph_clock_enable(RCC_GPIOC);
-    rcc_periph_clock_enable(RCC_GPIOD);
-    rcc_periph_clock_enable(RCC_GPIOE);
-
-    /* Enable clocks for USART2. */
-    rcc_periph_clock_enable(RCC_USART2);
-}
-
 void usart_setup(void)
 {
     /* Setup USART2 parameters. */
@@ -66,6 +50,11 @@ static void gpio_setup(void)
 }
 
 void init_PWM_mot_g() {
+    gpio_mode_setup(GPIOE, GPIO_MODE_AF, GPIO_PUPD_NONE, GPIO0 | GPIO2);
+    gpio_set_output_options(GPIOE, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ, GPIO0 | GPIO2);
+    gpio_set_af(GPIOE, GPIO_AF1, GPIO0 | GPIO2);
+
+    timer_reset(RCC_TIM1);
 }
 
 void init_hardware()
