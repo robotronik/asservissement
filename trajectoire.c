@@ -1,7 +1,7 @@
 #include <math.h> //utiliser un tableau pour acos ??
 #include <stdio.h> //TODO : à virer
 
-#include "../hardware/debug.h"
+#include <debug.h>
 #include "../common_code/communication/reception.h"
 
 #include "trajectoire.h"

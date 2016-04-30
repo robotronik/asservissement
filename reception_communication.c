@@ -1,7 +1,7 @@
 // Fonctions de l'asservissement
 
 #include "reception_communication.h"
-#include "../hardware/debug.h"
+#include <debug.h>
 
 #include "odometrie.h"
 #include "trajectoire.h"

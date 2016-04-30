@@ -3,7 +3,7 @@
 
 #include "reglages.h"
 
-#include "../hardware/debug.h"
+#include <debug.h>
 #include "../common_code/communication/emission.h"
 #include "../common_code/communication/keys.h"
 
