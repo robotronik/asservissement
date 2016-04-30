@@ -54,7 +54,7 @@ void uart_strato_setup() {
     usart_set_baudrate(UART_STRATO, 115200);
     usart_set_databits(UART_STRATO, 8);
     usart_set_stopbits(UART_STRATO, USART_STOPBITS_1);
-    usart_set_mode(UART_STRATO, USART_MODE_TX);
+    usart_set_mode(UART_STRATO, USART_MODE_TX_RX);
     usart_set_parity(UART_STRATO, USART_PARITY_NONE);
     usart_set_flow_control(UART_STRATO, USART_FLOWCONTROL_NONE);
     usart_enable(UART_STRATO);
@@ -65,11 +65,38 @@ void uart_strato_setup() {
     // Specifically enable recieve interrupts
     usart_enable_rx_interrupt(UART_STRATO);
 }
-
-int UART_getc(unsigned char *c)
-{}
 void UART_send_message(char *buff, unsigned int buff_len) {
     console_puts(UART_STRATO, buff, buff_len);
+}
+
+#define RxBufferSize   128     // Arbitrary buffer size
+char RxBuffer[RxBufferSize];
+volatile int RxBufferWrite;      // Next place to store
+volatile int RxBufferRead;       // Next place to read
+
+void usart3_isr(void) {
+    uint32_t    reg;
+    int         i;
+    do {
+        reg = USART_SR(UART_STRATO);
+        if (reg & USART_SR_RXNE) {
+            RxBuffer[RxBufferWrite] = USART_DR(UART_STRATO);
+            // Check for "overrun"
+            i = (RxBufferWrite + 1) % RxBufferSize;
+            if (i != RxBufferRead) {
+                RxBufferWrite = i;
+            }
+        }
+    } while ((reg & USART_SR_RXNE) != 0); // can read back-to-back interrupts
+}
+
+int UART_getc(unsigned char *c) {
+    if (RxBufferRead != RxBufferWrite) {
+        c = RxBuffer[RxBufferRead];
+        RxBufferRead = (RxBufferRead + 1) % RxBufferSize;
+        return true;
+    }
+    return false;
 }
 
 
@@ -154,6 +181,20 @@ void allumer_del()
 void eteindre_del()
 {
     gpio_clear(GPIOD, GPIO12 | GPIO14);
+}
+
+void allumer_autres_del()
+{
+    gpio_set(GPIOD, GPIO13 | GPIO15);
+}
+
+void eteindre_autres_del()
+{
+    gpio_clear(GPIOD, GPIO13 | GPIO15);
+}
+void toggle_autres_del()
+{
+    gpio_toggle(GPIOD, GPIO13 | GPIO15);
 }
 
 //fonction pour compatibilité avec la simulation sur PC
