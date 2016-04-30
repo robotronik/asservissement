@@ -2,8 +2,7 @@
 #include <stdio.h> //TODO : à virer
 
 #include <debug.h>
-#include "../common_code/communication/reception.h"
-
+#include "reception_communication.h"
 #include "trajectoire.h"
 #include "odometrie.h"
 #include "asser.h"

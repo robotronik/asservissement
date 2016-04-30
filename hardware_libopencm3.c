@@ -77,18 +77,22 @@ void init_hardware()
 
 void set_PWM_moteur_D(int PWM)
 {
+    (void) PWM;
 }
 
 void set_PWM_moteur_G(int PWM)
 {
+    (void) PWM;
 }
 
 long int get_nbr_tick_D()
 {
+    return 0;
 }
 
 long int get_nbr_tick_G()
 {
+    return 0;
 }
 
 void attente_synchro()

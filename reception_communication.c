@@ -2,6 +2,7 @@
 
 #include "reception_communication.h"
 #include <debug.h>
+#include <UART.h>
 
 #include "odometrie.h"
 #include "trajectoire.h"
@@ -33,80 +34,65 @@ int kp_delta,
     kp_alpha,
     kd_alpha;
 
-int reception_set_x() {
+void reception_set_x() {
     received_x = values.received_value;
-    return 0;
 }
-int reception_set_y() {
+void reception_set_y() {
     received_y = values.received_value;
-    return 0;
 }
-int reception_set_alpha() {
+void reception_set_alpha() {
     received_alpha = values.received_value;
-    return 0;
 }
-int reception_set_delta() {
+void reception_set_delta() {
     received_delta = values.received_value;
-    return 0;
 }
-int reception_set_theta() {
+void reception_set_theta() {
     received_theta = values.received_value;
-    return 0;
 }
 
-int reception_set_KPd() {
+void reception_set_KPd() {
     kp_delta = values.received_value;
-    return 0;
 }
-int reception_set_KDd() {
+void reception_set_KDd() {
     kd_delta = values.received_value;
-    return 0;
 }
-int reception_set_KPa() {
+void reception_set_KPa() {
     kp_alpha = values.received_value;
-    return 0;
 }
-int reception_set_KDa() {
+void reception_set_KDa() {
     kd_alpha = values.received_value;
-    return 0;
 }
 
-int reception_alpha_delta() {
+void reception_alpha_delta() {
     set_trajectoire_alpha_delta(received_alpha, received_delta);
-    return 0;
 }
-int reception_xy_relatif() {
+void reception_xy_relatif() {
     set_trajectoire_xy_relatif(received_x, received_y);
-    return 0;
 }
-int reception_xy_absolu() {
+void reception_xy_absolu() {
     set_trajectoire_xy_absolu(received_x, received_y);
-    return 0;
 }
-int reception_theta() {
+void reception_theta() {
     set_trajectoire_theta(received_theta);
-    return 0;
 }
 
 
 // Chemins
-int reception_add() {
+void reception_add() {
     debug(_DEBUG_, "ajout du point %d, %d\n", received_x, received_y);
     if (received_chemin.taille >= MAX_POSITIONS) {
         debug(_ERROR_, "\nAttention, le chemin est **trop long**. Point ignoré\n");
-        return 0;
+        return;
     }
     received_chemin.point[received_chemin.taille].x = received_x;
     received_chemin.point[received_chemin.taille].y = received_y;
     received_chemin.taille++;
-    return 0;
 }
-int reception_clear() {
+void reception_clear() {
     debug(_DEBUG_, "chemin effacé\n");
     received_chemin.taille = 0;
-    return 0;
 }
-int reception_chemin() {
+void reception_chemin() {
     reception_add();
     debug(_DEBUG_, "Envoi du chemin\n");
     for (int i = 0; i < received_chemin.taille; i++) {
@@ -114,41 +100,35 @@ int reception_chemin() {
     }
     set_trajectoire_chemin(received_chemin);
     reception_clear();
-    return 0;
 }
 
-int reception_mode_tendu() {
+void reception_mode_tendu() {
     debug(_DEBUG_, "utilisation du mode tendu\n");
     set_trajectoire_mode(tendu);
 
-    return 0;
 }
-int reception_mode_courbe() {
+void reception_mode_courbe() {
     debug(_DEBUG_, "utilisation du mode courbe\n");
     set_trajectoire_mode(courbe);
-    return 0;
 }
 
-int reception_set_pos() {
+void reception_set_pos() {
     set_x_actuel(received_x);
     set_y_actuel(received_y);
     set_theta_actuel(received_theta);
-    return 0;
 }
-int reception_change_pid() {
+void reception_change_pid() {
     set_kp_delta(kp_delta);
     set_kd_delta(kd_delta);
     set_kp_alpha(kp_alpha);
     set_kd_alpha(kd_alpha);
 
-    return 0;
 }
 
 
-int reception_done() {
-    return 0;
+void reception_done() {
 }
-int reception_get_pos() {
+void reception_get_pos() {
     send_val(buffer, keys[VAL_X],get_x_actuel());
     UART_send_message(buffer, 40);
     send_val(buffer, keys[VAL_Y],get_y_actuel());
@@ -158,22 +138,18 @@ int reception_get_pos() {
     send_cmd(buffer, keys[CMD_SEND_POS]);
     UART_send_message(buffer, 40);
 
-    return 0;
 }
 
-int reception_quit() {
-    return 0;
+void reception_quit() {
 }
 
 
-int reception_estop() {
+void reception_estop() {
     set_trajectoire_emergency_stop();
-    return 0;
 }
 
-int reception_stop() {
+void reception_stop() {
     set_trajectoire_stop();
-    return 0;
 }
 
 

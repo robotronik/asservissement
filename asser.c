@@ -4,6 +4,7 @@
 #include "reglages.h"
 
 #include <debug.h>
+#include <UART.h>
 #include "../common_code/communication/emission.h"
 #include "../common_code/communication/keys.h"
 
@@ -86,7 +87,7 @@ void asser(s_consigne consigne)
 		debug(_ERROR_, "atteint mais peu pas s'arreter");
 	} else {
 		deja_notifie = false;
-                eteindre_del();
+        eteindre_del();
 	}
 
 	//actualisation des valeurs précédantes
