@@ -10,8 +10,7 @@
 #include <libopencm3/cm3/nvic.h>
 #include <libopencmsis/core_cm3.h>
 
-void usart_setup(void)
-{
+void uart_servos_setup(void) {
     /* Setup USART2 parameters. */
     usart_set_baudrate(USART2, 1000000);
     usart_set_databits(USART2, 8);
@@ -29,9 +28,54 @@ void usart_setup(void)
     usart_enable(USART2);
 }
 
+
+#define UART_STRATO USART3
+#define RCC_UART_STRATO  RCC_USART3
+void uart_strato_setup() {
+    // This then enables the clock to the USART1 peripheral which is
+    // attached inside the chip to the APB1 bus. Different peripherals
+    // attach to different buses, and even some UARTS are attached to
+    // APB1 and some to APB2, again the data sheet is useful here.
+    rcc_periph_clock_enable(RCC_UART_STRATO);
+    // MUST enable the GPIO clock in ADDITION to the USART clock
+    rcc_periph_clock_enable(RCC_GPIOC);
+
+    // On utilise PC10 pour Tx, PC11 pour Rx.
+    gpio_mode_setup(GPIOC,
+        GPIO_MODE_AF,
+        GPIO_PUPD_NONE,
+        GPIO10 | GPIO11);
+
+    // Actual Alternate function number (in this case 2) is part
+    // depenedent, CHECK THE DATA SHEET for the right number to use.
+    gpio_set_af(GPIOC, GPIO_AF7, GPIO10 | GPIO11);
+
+    // Set up USART/UART parameters using the libopencm3 helper functions
+    usart_set_baudrate(UART_STRATO, 115200);
+    usart_set_databits(UART_STRATO, 8);
+    usart_set_stopbits(UART_STRATO, USART_STOPBITS_1);
+    usart_set_mode(UART_STRATO, USART_MODE_TX);
+    usart_set_parity(UART_STRATO, USART_PARITY_NONE);
+    usart_set_flow_control(UART_STRATO, USART_FLOWCONTROL_NONE);
+    usart_enable(UART_STRATO);
+
+    // Enable interrupts from the USART
+    nvic_enable_irq(NVIC_USART3_IRQ);
+
+    // Specifically enable recieve interrupts
+    usart_enable_rx_interrupt(UART_STRATO);
+}
+
+int UART_getc(unsigned char *c)
+{}
+void UART_send_message(char *buff, unsigned int buff_len) {
+    console_puts(UART_STRATO, buff, buff_len);
+}
+
+
 static void gpio_setup(void)
 {
-    /* Set GPIO12-15 (in GPIO port D) to 'output push-pull' for leds. */
+    // Set GPIO12-15 (in GPIO port D) to 'output push-pull' for leds.
     gpio_mode_setup(GPIOD, GPIO_MODE_OUTPUT,
             GPIO_PUPD_NONE, GPIO12 | GPIO13 | GPIO14 | GPIO15);
 
@@ -41,11 +85,11 @@ static void gpio_setup(void)
 
     gpio_clear(GPIOE, GPIO9 | GPIO11);
 
-    /* Setup GPIO pins for USART2 transmit. */
-    /* gpio_set_output_options(GPIOA, GPIO_OTYPE_OD, GPIO_OSPEED_25MHZ, GPIO2); */
+    // Setup GPIO pins for UART_STRATO transmit.
+    // gpio_set_output_options(GPIOA, GPIO_OTYPE_OD, GPIO_OSPEED_25MHZ, GPIO2);
     gpio_mode_setup(GPIOA, GPIO_MODE_AF, GPIO_PUPD_PULLUP, GPIO2);
 
-    /* Setup USART2 TX pin as alternate function. */
+    // Setup UART_STRATO TX pin as alternate function.
     gpio_set_af(GPIOA, GPIO_AF7, GPIO2);
 }
 
@@ -60,7 +104,8 @@ void init_PWM_mot_g() {
 void init_hardware()
 {
     clock_setup();
-    usart_setup();
+    uart_servos_setup();
+    uart_strato_setup();
      gpio_setup();
 }
 
