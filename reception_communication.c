@@ -140,7 +140,11 @@ void reception_get_pos() {
 
 }
 
-void reception_quit() {
+void reception_lock() {
+    lock();
+}
+void reception_unlock() {
+    unlock();
 }
 
 
@@ -193,6 +197,9 @@ callback_t callbacks[KEYS_SIZE] = {
     [CMD_SEND_POS]      = NULL,
     [CMD_QUIT]          = NULL, // TODO ?
     [CMD_HELP]          = NULL,
+
+    [CMD_LOCK]          = reception_lock,
+    [CMD_UNLOCK]        = reception_unlock,
 
     [CMD_STOP]          = reception_stop,
     [CMD_EMERGENCY_STOP]= reception_estop,
