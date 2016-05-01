@@ -92,7 +92,7 @@ void usart3_isr(void) {
 
 int UART_getc(unsigned char *c) {
     if (RxBufferRead != RxBufferWrite) {
-        c = RxBuffer[RxBufferRead];
+        *c = RxBuffer[RxBufferRead];
         RxBufferRead = (RxBufferRead + 1) % RxBufferSize;
         return true;
     }
