@@ -47,6 +47,11 @@ void start_asser()
 
 void update_consigne()
 {
+	if (trajectoire.locked == 1)
+	{
+		make_trajectoire_alpha_delta(0,0);
+		return;
+	}
 	switch (trajectoire.type)
 	{
 		case alpha_delta :
@@ -272,9 +277,20 @@ void set_trajectoire_mode(e_mode_deplacement mode)
 	trajectoire.mode=mode;
 }
 
+void lock()
+{
+	trajectoire.locked=1;
+}
+
+void unlock()
+{
+	trajectoire.locked=0;
+}
+
 void init_trajectoire()
 {
 	trajectoire.type=null;
+	trajectoire.locked=0;
 	set_consigne_alpha_delta(0,0);
 	set_trajectoire_mode(MODE_TRAJECTOIRE);
 }

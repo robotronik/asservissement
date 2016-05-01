@@ -36,6 +36,7 @@ typedef enum
 
 typedef struct
 {
+	int locked;
 	e_type_trajectoire type;
 	e_mode_deplacement mode;
 	int alpha;
@@ -68,6 +69,8 @@ void set_trajectoire_chemin(s_liste liste_positions);
 void set_trajectoire_stop();
 void set_trajectoire_emergency_stop(); //stop définitif et violent (fin de match)
 void set_trajectoire_mode(e_mode_deplacement mode);
+void lock();
+void unlock();
 
 //appelé dans l'asser pour send_position_atteinte
 int trajectoire_type_is_null();
