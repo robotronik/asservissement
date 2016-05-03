@@ -101,19 +101,25 @@ void test_sens_codeur_D()
 	}
 }
 
-void test_sens_codeur_G()
+void test_sens_codeurs()
 {
-	while(1)
-	{
+	while(1) {
 		int nbr_tick_G=get_nbr_tick_G();
+		int nbr_tick_D=get_nbr_tick_D();
+		char str[15];
+		sprintf(str, "%5d %5d\r\n", nbr_tick_G, nbr_tick_D);
+		UART_send_message(str, strlen(str));
 		if (nbr_tick_G>0)
-		{
 			allumer_del();
-		}
-		else
-		{
+		if (nbr_tick_G<0)
 			eteindre_del();
-		}
+
+		if (nbr_tick_D>0)
+			allumer_autres_del();
+		if (nbr_tick_D<0)
+			eteindre_autres_del();
+
+		delay_ms(100);
 	}
 }
 
