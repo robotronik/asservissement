@@ -122,6 +122,110 @@ static void gpio_setup(void) {
     gpio_set_af(GPIOA, GPIO_AF7, GPIO2);
 }
 
+
+
+
+
+/*******************************************************************************
+*                           Encodeurs
+* *****************************************************************************/
+#define ENCODER_MAX (1<<16)
+
+static unsigned int codeur_gauche_valeur;
+static unsigned int codeur_droite_valeur;
+
+static void init_timer_encodeur(unsigned int timer, unsigned int rcc, unsigned int nvic) {
+    rcc_periph_clock_enable(rcc);
+    timer_reset(timer);
+    timer_set_period(timer, ENCODER_MAX-1);
+    timer_set_counter(timer, ENCODER_MAX/2);
+    // set encoder mode
+    // x4 mode
+    timer_slave_set_mode(timer, TIM_SMCR_SMS_EM3);
+    timer_set_prescaler(timer, 0); // 0+1 = /1
+    timer_ic_set_input(timer, TIM_IC1, TIM_IC_IN_TI1);
+    timer_ic_set_input(timer, TIM_IC2, TIM_IC_IN_TI2);
+    // enable counter
+    timer_enable_counter(timer);
+    // enable interrupts
+    nvic_enable_irq(nvic);
+    timer_enable_irq(timer, TIM_DIER_UIE);
+}
+
+static void init_timers_gpio() {
+    // Gauche
+    rcc_periph_clock_enable(RCC_GPIOA);
+    gpio_mode_setup(GPIOA, GPIO_MODE_AF, GPIO_PUPD_NONE, GPIO1 | GPIO15);
+    gpio_set_af(GPIOA, GPIO_AF1, GPIO1 | GPIO15);
+
+    // Droite
+    rcc_periph_clock_enable(RCC_GPIOC);
+    gpio_mode_setup(GPIOC, GPIO_MODE_AF, GPIO_PUPD_NONE, GPIO6);
+    gpio_set_af(GPIOC, GPIO_AF2, GPIO6);
+    gpio_mode_setup(GPIOB, GPIO_MODE_AF, GPIO_PUPD_NONE, GPIO5);
+    gpio_set_af(GPIOB, GPIO_AF2, GPIO5);
+}
+
+static void init_encodeurs() {
+    // Gauche
+    init_timer_encodeur(TIM2, RCC_TIM2, NVIC_TIM2_IRQ);
+    // Droite
+    init_timer_encodeur(TIM3, RCC_TIM3, NVIC_TIM3_IRQ);
+
+    // Les GPIOs
+    init_timers_gpio();
+
+    codeur_gauche_valeur = ENCODER_MAX/2;
+    codeur_droite_valeur = ENCODER_MAX/2;
+}
+
+long int get_nbr_tick_G() {
+    unsigned int current_value = timer_get_counter(TIM2);
+    int delta_ticks = current_value - codeur_gauche_valeur;
+    codeur_gauche_valeur = current_value;
+
+    // check for overflow
+    if (delta_ticks >  ENCODER_MAX/2)
+        delta_ticks -= ENCODER_MAX;
+
+    // underflow
+    if (delta_ticks < -ENCODER_MAX/2)
+        delta_ticks += ENCODER_MAX;
+
+    return delta_ticks % ENCODER_MAX/2;
+}
+
+long int get_nbr_tick_D() {
+    unsigned int current_value = timer_get_counter(TIM3);
+    int delta_ticks = current_value - codeur_droite_valeur;
+    codeur_droite_valeur = current_value;
+
+    // check for overflow
+    if (delta_ticks >  ENCODER_MAX/2)
+        delta_ticks -= ENCODER_MAX;
+
+    // underflow
+    if (delta_ticks < -ENCODER_MAX/2)
+        delta_ticks += ENCODER_MAX;
+
+    return delta_ticks % ENCODER_MAX/2;
+}
+
+void tim2_isr() {
+  timer_clear_flag(TIM2, TIM_DIER_UIE);
+  debug(_ERROR_, "tim2 : overflow !\n\r");
+}
+
+void tim3_isr() {
+  timer_clear_flag(TIM3, TIM_DIER_UIE);
+  debug(_ERROR_, "tim3 : overflow !\n\r");
+}
+
+
+
+
+
+
 void init_PWM_mot_g() {
     gpio_mode_setup(GPIOE, GPIO_MODE_AF, GPIO_PUPD_NONE, GPIO0 | GPIO2);
     gpio_set_output_options(GPIOE, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ, GPIO0 | GPIO2);
@@ -137,6 +241,7 @@ void init_hardware()
     uart_servos_setup();
     uart_strato_setup();
     gpio_setup();
+    init_encodeurs();
 }
 
 void set_PWM_moteur_D(int PWM)
@@ -149,15 +254,6 @@ void set_PWM_moteur_G(int PWM)
     (void) PWM;
 }
 
-long int get_nbr_tick_D()
-{
-    return 0;
-}
-
-long int get_nbr_tick_G()
-{
-    return 0;
-}
 
 void attente_synchro()
 {
