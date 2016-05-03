@@ -1,16 +1,16 @@
 #include "hardware.h"
+#include <debug.h>
 
 #include <libopencm3/stm32/rcc.h>
 #include <libopencm3/stm32/gpio.h>
 #include <libopencm3/stm32/usart.h>
 #include <libopencm3/stm32/timer.h>
-
 #include <libopencm3/stm32/flash.h>
 #include <libopencm3/stm32/exti.h>
 #include <libopencm3/cm3/nvic.h>
 #include <libopencmsis/core_cm3.h>
 
-void uart_servos_setup(void) {
+static void uart_servos_setup(void) {
     /* Setup USART2 parameters. */
     usart_set_baudrate(USART2, 1000000);
     usart_set_databits(USART2, 8);
@@ -29,15 +29,15 @@ void uart_servos_setup(void) {
 }
 
 
+/*******************************************************************************
+*                           UART
+* *****************************************************************************/
+
 #define UART_STRATO USART3
 #define RCC_UART_STRATO  RCC_USART3
-void uart_strato_setup() {
-    // This then enables the clock to the USART1 peripheral which is
-    // attached inside the chip to the APB1 bus. Different peripherals
-    // attach to different buses, and even some UARTS are attached to
-    // APB1 and some to APB2, again the data sheet is useful here.
+
+static void uart_strato_setup() {
     rcc_periph_clock_enable(RCC_UART_STRATO);
-    // MUST enable the GPIO clock in ADDITION to the USART clock
     rcc_periph_clock_enable(RCC_GPIOC);
 
     // On utilise PC10 pour Tx, PC11 pour Rx.
@@ -46,8 +46,6 @@ void uart_strato_setup() {
         GPIO_PUPD_NONE,
         GPIO10 | GPIO11);
 
-    // Actual Alternate function number (in this case 2) is part
-    // depenedent, CHECK THE DATA SHEET for the right number to use.
     gpio_set_af(GPIOC, GPIO_AF7, GPIO10 | GPIO11);
 
     // Set up USART/UART parameters using the libopencm3 helper functions
@@ -65,14 +63,11 @@ void uart_strato_setup() {
     // Specifically enable recieve interrupts
     usart_enable_rx_interrupt(UART_STRATO);
 }
-void UART_send_message(char *buff, unsigned int buff_len) {
-    console_puts(UART_STRATO, buff, buff_len);
-}
 
-#define RxBufferSize   128     // Arbitrary buffer size
+#define RxBufferSize 128    // Arbitrary buffer size
 char RxBuffer[RxBufferSize];
-volatile int RxBufferWrite;      // Next place to store
-volatile int RxBufferRead;       // Next place to read
+volatile int RxBufferWrite; // Next place to store
+volatile int RxBufferRead;  // Next place to read
 
 void usart3_isr(void) {
     uint32_t    reg;
@@ -98,10 +93,17 @@ int UART_getc(unsigned char *c) {
     }
     return false;
 }
+void UART_send_message(char *buff, unsigned int buff_len) {
+    console_puts(UART_STRATO, buff, buff_len);
+}
 
 
-static void gpio_setup(void)
-{
+/*******************************************************************************
+*                           General purpose
+* *****************************************************************************/
+
+
+static void gpio_setup(void) {
     // Set GPIO12-15 (in GPIO port D) to 'output push-pull' for leds.
     gpio_mode_setup(GPIOD, GPIO_MODE_OUTPUT,
             GPIO_PUPD_NONE, GPIO12 | GPIO13 | GPIO14 | GPIO15);
@@ -131,9 +133,10 @@ void init_PWM_mot_g() {
 void init_hardware()
 {
     clock_setup();
+    init_alarms_and_delay();
     uart_servos_setup();
     uart_strato_setup();
-     gpio_setup();
+    gpio_setup();
 }
 
 void set_PWM_moteur_D(int PWM)
