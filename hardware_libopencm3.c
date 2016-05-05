@@ -287,47 +287,54 @@ void init_pwm_moteurs() {
 
 
 // TODO vérifier les pinout
+
+#define PWM_MAX 240
 void set_PWM_moteur_G(int PWM) {
-    int real_PWM;
+    int pwm =  ((PWM * PWM_MAX) / 1000);
 
-    if (PWM == 0) {
-        real_PWM = 0;
+
+    if (pwm > PWM_MAX){
+        pwm = PWM_MAX;
+    }
+    if (pwm <-PWM_MAX){
+        pwm = PWM_MAX;
     }
 
-    // On recule
-    if (PWM < 0) {
-        // Low  et PWM dans [240, 0]
-        gpio_set  (GPIOE, GPIO2);
+    if (pwm == 0) {
+        timer_set_oc_value(TIM1, TIM_OC1, 500);
+        return;
     }
-
-    // On avance
-    if (PWM > 0) {
-        // High et PWM dans [15, 255]
+    if (pwm > 0) {// On avance
         gpio_clear(GPIOE, GPIO2);
     }
-    real_PWM = 500+PWM/2;
-
-    timer_set_oc_value(TIM1, TIM_OC1, real_PWM);
+    if (pwm < 0) {
+        gpio_set  (GPIOE, GPIO2);
+    }
+    timer_set_oc_value(TIM1, TIM_OC1, 500+pwm);
 }
 
 void set_PWM_moteur_D(int PWM) {
-    int real_PWM;
+    int pwm =  ((PWM * PWM_MAX) / 1000);
 
-    if (PWM == 0) {
-        real_PWM = 0;
+
+    if (pwm > PWM_MAX){
+        pwm = PWM_MAX;
+    }
+    if (pwm <-PWM_MAX){
+        pwm = PWM_MAX;
     }
 
-    // On recule
-    if (PWM < 0) {
-        gpio_set  (GPIOE, GPIO3);
+    if (pwm == 0) {
+        timer_set_oc_value(TIM1, TIM_OC2, 500);
+        return;
     }
-    // On avance
-    if (PWM > 0) {
+    if (pwm > 0) {// On avance
         gpio_clear(GPIOE, GPIO3);
     }
-    real_PWM = 500+PWM/2;
-
-    timer_set_oc_value(TIM1, TIM_OC2, real_PWM);
+    if (pwm < 0) {
+        gpio_set  (GPIOE, GPIO3);
+    }
+    timer_set_oc_value(TIM1, TIM_OC2, 500+pwm);
 }
 
 volatile int doitAttendre=1;
