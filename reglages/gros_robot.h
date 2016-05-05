@@ -11,19 +11,19 @@ coefficients des PID et qu'il y a overflow*/
 #define THETA_INIT 0
 
 //PID lineique
-#define KP_DELTA 1600 //constante de proportionalité
+#define KP_DELTA 95 //constante de proportionalité
 #define KI_DELTA 0    //composante d'intégration
-#define KD_DELTA 10   //composante de dérivation
+#define KD_DELTA 200   //composante de dérivation
 //PID angulaire
-#define KP_ALPHA 360  //constante de proportionalité
+#define KP_ALPHA 180  //constante de proportionalité
 #define KI_ALPHA 0    //composante d'intégration
-#define KD_ALPHA 220  //composante de dérivation
+#define KD_ALPHA 320  //composante de dérivation
 
 //contraintes mecaniques
 #define MAX_VITESSE 400000 //vitesse maximale du robot
-#define MIN_VITESSE 100000 //vitesse minimale du robot pour qu'il commence à avancer
-#define MAX_ACCELERATION 310 //acceleration maximale
-#define MAX_DECELERATION 2750 //deceleration maximale (valeur absolue)
+#define MIN_VITESSE 8000 //vitesse minimale du robot pour qu'il commence à avancer
+#define MAX_ACCELERATION 230 //acceleration maximale
+#define MAX_DECELERATION 75 //deceleration maximale (valeur absolue)
 #define VIT_MAX_ARRET 200000 //vitesse maximale à laquelle on peut s'arreter sans tomber
 #define PWM_MAX 0.6   //PWM maximal, à cette valeur le robot est à sa vitesse maximale admissible
 //"vitesse" correspond à la commande pour chaque moteur avant convertion en PWM
@@ -31,7 +31,7 @@ coefficients des PID et qu'il y a overflow*/
 
 //correction mécanique
 #define COEFF_CODEUR_D 1
-#define COEFF_CODEUR_G 1.005 //1.07
+#define COEFF_CODEUR_G 1 //1.07
 #define COEFF_MOTEUR_D 1 //1.085
 #define COEFF_MOTEUR_G 1 //1 //1.10
 
@@ -40,8 +40,8 @@ coefficients des PID et qu'il y a overflow*/
 #define PRECISION_ALPHA 30 //precision souhaitée pour alpha (en milli radian)
 
 //calibrage
-#define TICK_PAR_MM 11.067 // nombre de ticks par mm (tick/mm)
-#define TICK_PAR_TOUR 8886 //nombre de ticks par tour complet du robot sur lui-même (tick/tour)
+#define TICK_PAR_MM 7.1 // nombre de ticks par mm (tick/mm)
+#define TICK_PAR_TOUR 4250 //nombre de ticks par tour complet du robot sur lui-même (tick/tour)
 
 //parametre pour les chemins
 #define MAX_POSITIONS 20 //taille max de la liste de coordonnées definisant un chemin
