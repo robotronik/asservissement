@@ -76,3 +76,16 @@ void eteindre_del()
 void delay_ms() {
 
 }
+
+void allumer_autres_del()
+{
+}
+
+void eteindre_autres_del()
+{
+}
+void toggle_autres_del() {}
+
+void set_all_led(){
+
+}
