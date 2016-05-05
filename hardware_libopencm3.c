@@ -133,8 +133,10 @@ static void gpio_setup(void) {
 * *****************************************************************************/
 #define ENCODER_MAX (1<<16)
 
-static unsigned int codeur_gauche_valeur;
-static unsigned int codeur_droite_valeur;
+static unsigned int codeur_gauche_last_value_unsigned;
+static     long int codeur_gauche_valeur = 0;
+static unsigned int codeur_droite_last_value_unsigned;
+static     long int codeur_droite_valeur = 0;
 
 static void init_timer_encodeur(unsigned int timer, unsigned int rcc, unsigned int nvic) {
     rcc_periph_clock_enable(rcc);
@@ -177,49 +179,44 @@ static void init_encodeurs() {
     // Les GPIOs
     init_timers_gpio();
 
-    codeur_gauche_valeur = ENCODER_MAX/2;
-    codeur_droite_valeur = ENCODER_MAX/2;
+    codeur_gauche_last_value_unsigned = timer_get_counter(TIM2);
+    codeur_droite_last_value_unsigned = timer_get_counter(TIM3);
 }
 
 long int get_nbr_tick_G() {
     unsigned int current_value = timer_get_counter(TIM2);
-    int delta_ticks = current_value - codeur_gauche_valeur;
-    codeur_gauche_valeur = current_value;
+    int delta = current_value - codeur_gauche_last_value_unsigned;
+    codeur_gauche_last_value_unsigned = current_value;
 
-    // check for overflow
-    if (delta_ticks >  ENCODER_MAX/2)
-        delta_ticks -= ENCODER_MAX;
-
-    // underflow
-    if (delta_ticks < -ENCODER_MAX/2)
-        delta_ticks += ENCODER_MAX;
-
-    return delta_ticks % ENCODER_MAX/2;
+    codeur_gauche_valeur += delta;
+    return codeur_gauche_valeur;
 }
 
 long int get_nbr_tick_D() {
     unsigned int current_value = timer_get_counter(TIM3);
-    int delta_ticks = current_value - codeur_droite_valeur;
-    codeur_droite_valeur = current_value;
+    int delta = current_value - codeur_droite_last_value_unsigned;
+    codeur_droite_last_value_unsigned = current_value;
 
-    // check for overflow
-    if (delta_ticks >  ENCODER_MAX/2)
-        delta_ticks -= ENCODER_MAX;
-
-    // underflow
-    if (delta_ticks < -ENCODER_MAX/2)
-        delta_ticks += ENCODER_MAX;
-
-    return delta_ticks % ENCODER_MAX/2;
+    codeur_droite_valeur += delta;
+    return codeur_droite_valeur;
 }
 
 void tim2_isr() {
-  timer_clear_flag(TIM2, TIM_DIER_UIE);
+    timer_clear_flag(TIM2, TIM_DIER_UIE);
+    if (timer_get_counter(TIM2) < 32768)
+        codeur_gauche_valeur += ENCODER_MAX;
+    else
+        codeur_gauche_valeur -= ENCODER_MAX;
+
   debug(_ERROR_, "tim2 : overflow !\n\r");
 }
 
 void tim3_isr() {
-  timer_clear_flag(TIM3, TIM_DIER_UIE);
+    timer_clear_flag(TIM3, TIM_DIER_UIE);
+    if (timer_get_counter(TIM3) < 32768)
+        codeur_droite_valeur += ENCODER_MAX;
+    else
+        codeur_droite_valeur -= ENCODER_MAX;
   debug(_ERROR_, "tim3 : overflow !\n\r");
 }
 
