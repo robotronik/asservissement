@@ -280,16 +280,6 @@ void init_pwm_moteurs() {
 }
 
 
-void init_hardware()
-{
-    clock_setup();
-    init_alarms_and_delay();
-    uart_servos_setup();
-    uart_strato_setup();
-    gpio_setup();
-    init_encodeurs();
-    init_pwm_moteurs();
-}
 
 #define min(x,y) ((x) < (y) ? (x) : (y))
 
@@ -340,9 +330,34 @@ void set_PWM_moteur_D(int PWM) {
     timer_set_oc_value(TIM1, TIM_OC2, real_PWM);
 }
 
+volatile int doitAttendre=1;
+void reset_synchro() {
+    doitAttendre=1;
+}
+void synchro_callback() {
+    doitAttendre = 0;
+}
+
+void init_synchro() {
+    add_alarm(1, synchro_callback, true);
+}
+
 void attente_synchro()
 {
+    /*Si il ne faut pas attendre cela veut dire que la fréquence de synchro
+    est trop rapide par rapport au temps nécessaire à la boucle principale.
+    On le signale donc en allumant la led de débug.*/
+    //TODO : Envoyer l'erreur rencontrée par UART
+    if (!doitAttendre) {
+        allumer_autres_del();
+    }
+
+    //boucle d'attente
+    while(doitAttendre){;}
+    //on "redémarre" la synchro
+    reset_synchro();
 }
+
 
 void motors_stop()
 {
@@ -385,4 +400,18 @@ void toggle_autres_del()
 int arret()
 {
     return 0;
+}
+
+
+
+void init_hardware()
+{
+    clock_setup();
+    init_alarms_and_delay();
+    uart_servos_setup();
+    uart_strato_setup();
+    gpio_setup();
+    init_encodeurs();
+    init_pwm_moteurs();
+    init_synchro();
 }
