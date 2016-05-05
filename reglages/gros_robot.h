@@ -11,21 +11,21 @@ coefficients des PID et qu'il y a overflow*/
 #define THETA_INIT 0
 
 //PID lineique
-#define KP_DELTA 95 //constante de proportionalité
-#define KI_DELTA 0    //composante d'intégration
-#define KD_DELTA 200   //composante de dérivation
+#define KP_DELTA 400 //constante de proportionalité
+#define KI_DELTA 0 //composante d'intégration
+#define KD_DELTA 8200 //composante de dérivation
 //PID angulaire
-#define KP_ALPHA 180  //constante de proportionalité
+#define KP_ALPHA 50 //constante de proportionalité
 #define KI_ALPHA 0    //composante d'intégration
-#define KD_ALPHA 320  //composante de dérivation
+#define KD_ALPHA 2800  //320  //composante de dérivation
 
 //contraintes mecaniques
 #define MAX_VITESSE 400000 //vitesse maximale du robot
-#define MIN_VITESSE 8000 //vitesse minimale du robot pour qu'il commence à avancer
-#define MAX_ACCELERATION 230 //acceleration maximale
-#define MAX_DECELERATION 75 //deceleration maximale (valeur absolue)
+#define MIN_VITESSE 11000 //vitesse minimale du robot pour qu'il commence à avancer
+#define MAX_ACCELERATION 700 //acceleration maximale
+#define MAX_DECELERATION 8000 //deceleration maximale (valeur absolue)
 #define VIT_MAX_ARRET 200000 //vitesse maximale à laquelle on peut s'arreter sans tomber
-#define PWM_MAX 0.6   //PWM maximal, à cette valeur le robot est à sa vitesse maximale admissible
+#define PWM_MAX 0.8   //PWM maximal, à cette valeur le robot est à sa vitesse maximale admissible
 //"vitesse" correspond à la commande pour chaque moteur avant convertion en PWM
 //"acceleration" et "deceleration" : différence entre deux valeurs de "vitesses" consécutives
 
@@ -41,14 +41,14 @@ coefficients des PID et qu'il y a overflow*/
 
 //calibrage
 #define TICK_PAR_MM 7.1 // nombre de ticks par mm (tick/mm)
-#define TICK_PAR_TOUR 4250 //nombre de ticks par tour complet du robot sur lui-même (tick/tour)
+#define TICK_PAR_TOUR 4400 //nombre de ticks par tour complet du robot sur lui-même (tick/tour)
 
 //parametre pour les chemins
 #define MAX_POSITIONS 20 //taille max de la liste de coordonnées definisant un chemin
 #define CONSTANTE_DELTA 1000 //constante pour delta quand le robot suit un chemin
 
 //mode de déplacement par défaut
-#define MODE_TRAJECTOIRE courbe //"tendu" ou "courbe"
+#define MODE_TRAJECTOIRE tendu //"tendu" ou "courbe"
 
 //communication
 #define ANTI_SPAM 100
