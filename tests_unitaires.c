@@ -212,6 +212,10 @@ void test_angle(long int angle, long int vitesse)
 		nbr_tick_D*=COEFF_CODEUR_D;
 		nbr_tick_G*=COEFF_CODEUR_G;
 		angle_actuel=alpha_millirad(nbr_tick_D,nbr_tick_G);
+
+		char str[100];
+		sprintf(str, "g : %ld d : %ld, ang = %ld\r\n", nbr_tick_G, nbr_tick_D, angle_actuel);
+		UART_send_message(str, strlen(str));
 	}
 	set_all_led();
 	test_vitesse(0);
