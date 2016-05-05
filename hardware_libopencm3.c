@@ -198,7 +198,7 @@ long int get_nbr_tick_D() {
     codeur_droite_last_value_unsigned = current_value;
 
     codeur_droite_valeur += delta;
-    return codeur_droite_valeur;
+    return -codeur_droite_valeur;
 }
 
 void tim2_isr() {
