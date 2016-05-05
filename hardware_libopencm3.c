@@ -1,6 +1,8 @@
 #include "hardware.h"
 #include <debug.h>
 
+#include <alarms_and_delay.h>
+
 #include <libopencm3/stm32/rcc.h>
 #include <libopencm3/stm32/gpio.h>
 #include <libopencm3/stm32/usart.h>
@@ -224,15 +226,62 @@ void tim3_isr() {
 
 
 
+/*******************************************************************************
+*                           Moteurs
+* *****************************************************************************/
+void init_pwm_moteurs() {
+    rcc_periph_clock_enable(RCC_TIM1);
+    timer_reset(TIM1);
+
+    timer_set_mode(TIM1,TIM_CR1_CKD_CK_INT,
+                        TIM_CR1_CMS_EDGE,
+                        TIM_CR1_DIR_UP);
+
+    timer_set_period        (TIM1, 1000);
+    timer_set_prescaler     (TIM1, 0);
+    timer_enable_preload    (TIM1);
+    timer_continuous_mode   (TIM1);
+    timer_enable_break_main_output(TIM1);
+
+    // set OC mode for each channel
+    timer_set_oc_mode(TIM1, TIM_OC1, TIM_OCM_PWM1);
+    timer_set_oc_mode(TIM1, TIM_OC2, TIM_OCM_PWM1);
+
+    // enable OC output for each channel
+    timer_enable_oc_output(TIM1, TIM_OC1N);
+    timer_enable_oc_output(TIM1, TIM_OC2N);
+
+    timer_enable_counter(TIM1);
+
+    // Init output channels
+    rcc_periph_clock_enable(RCC_GPIOE);
+
+    // Alternate Function: TIM1 CH1/2
+    gpio_mode_setup(GPIOE,
+                    GPIO_MODE_AF,
+                    GPIO_PUPD_NONE,
+                    GPIO8 | GPIO10);
+    gpio_set_af(GPIOE,
+                GPIO_AF1,
+                GPIO8 | GPIO10);
+
+    // Push Pull, Speed 50 MHz
+    gpio_set_output_options(GPIOE,
+                            GPIO_OTYPE_PP,
+                            GPIO_OSPEED_50MHZ,
+                            GPIO8 | GPIO10);
 
 
-void init_PWM_mot_g() {
-    gpio_mode_setup(GPIOE, GPIO_MODE_AF, GPIO_PUPD_NONE, GPIO0 | GPIO2);
-    gpio_set_output_options(GPIOE, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ, GPIO0 | GPIO2);
-    gpio_set_af(GPIOE, GPIO_AF1, GPIO0 | GPIO2);
+    gpio_mode_setup(GPIOE, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,
+            GPIO2 | GPIO3);
 
-    timer_reset(RCC_TIM1);
+
+    // Other GPIOS for motors, always high
+    gpio_mode_setup(GPIOE, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,
+                    GPIO9 | GPIO11);
+    gpio_set(GPIOE, GPIO9 | GPIO11);
 }
+
 
 void init_hardware()
 {
@@ -242,18 +291,57 @@ void init_hardware()
     uart_strato_setup();
     gpio_setup();
     init_encodeurs();
+    init_pwm_moteurs();
 }
 
-void set_PWM_moteur_D(int PWM)
-{
-    (void) PWM;
+#define min(x,y) ((x) < (y) ? (x) : (y))
+
+#define max(x,y) ((x) < (y) ? (y) : (x))
+
+
+// TODO vérifier les pinout
+void set_PWM_moteur_G(int PWM) {
+    int real_PWM;
+
+    if (PWM == 0) {
+        real_PWM = 0;
+    }
+
+    // On recule
+    if (PWM < 0) {
+        // Low  et PWM dans [240, 0]
+        gpio_set  (GPIOE, GPIO2);
+    }
+
+    // On avance
+    if (PWM > 0) {
+        // High et PWM dans [15, 255]
+        gpio_clear(GPIOE, GPIO2);
+    }
+    real_PWM = 500+PWM/2;
+
+    timer_set_oc_value(TIM1, TIM_OC1, real_PWM);
 }
 
-void set_PWM_moteur_G(int PWM)
-{
-    (void) PWM;
-}
+void set_PWM_moteur_D(int PWM) {
+    int real_PWM;
 
+    if (PWM == 0) {
+        real_PWM = 0;
+    }
+
+    // On recule
+    if (PWM < 0) {
+        gpio_set  (GPIOE, GPIO3);
+    }
+    // On avance
+    if (PWM > 0) {
+        gpio_clear(GPIOE, GPIO3);
+    }
+    real_PWM = 500+PWM/2;
+
+    timer_set_oc_value(TIM1, TIM_OC2, real_PWM);
+}
 
 void attente_synchro()
 {
@@ -263,11 +351,11 @@ void motors_stop()
 {
     // Attention, on ne redémarre pas après !
     // Mise en haute impédance des sorties moteurs
-    gpio_set(GPIOE, GPIO9 | GPIO11);
+    gpio_clear(GPIOE, GPIO9 | GPIO11);
 }
 
 void motors_on() {
-    gpio_clear(GPIOE, GPIO9 | GPIO11);
+    gpio_set(GPIOE, GPIO9 | GPIO11);
 
 }
 
