@@ -77,7 +77,7 @@ void asser(s_consigne consigne)
 			char buffer[40];
 			send_cmd(buffer, keys[CMD_DONE]); //ajouter anti-spam (ici on envoie sans arret)
 			UART_send_message(buffer, strlen(buffer));
-            allumer_del();
+            led_verte_on();
 			deja_notifie = true;
 		}
 	}
