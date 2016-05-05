@@ -72,3 +72,7 @@ void allumer_del()
 
 void eteindre_del()
 { }
+
+void delay_ms() {
+
+}

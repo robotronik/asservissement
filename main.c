@@ -5,6 +5,10 @@
 #include "tests_unitaires.h"
 #include "reception_communication.h"
 
+#include "hardware.h"
+#include <debug.h>
+
+#include <alarms_and_delay.h>
 int main()
 {
 	//init

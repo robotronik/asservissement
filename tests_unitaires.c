@@ -1,3 +1,6 @@
+#include <stdio.h>
+#include <string.h>
+
 #include "tests_unitaires.h"
 #include "hardware.h"
 #include "reglages.h"
@@ -5,6 +8,11 @@
 #include "asser.h"
 #include "odometrie.h"
 #include "trajectoire.h"
+
+#include <UART.h>
+
+#include <alarms_and_delay.h>
+
 
 void launch_tests()
 {

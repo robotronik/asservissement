@@ -17,8 +17,13 @@ long int get_nbr_tick_G();
 void attente_synchro();
 
 void allumer_del();
-void pause_ms(unsigned short n);
 void eteindre_del();
+
+void allumer_autres_del();
+void eteindre_autres_del();
+void toggle_autres_del();
+
+
 void motors_stop();
 
 int UART_getc(unsigned char *c);
