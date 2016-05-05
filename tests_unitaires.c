@@ -112,10 +112,10 @@ void test_sens_codeur_D()
 void test_sens_codeurs()
 {
 	while(1) {
-		int nbr_tick_G=get_nbr_tick_G();
-		int nbr_tick_D=get_nbr_tick_D();
-		char str[15];
-		sprintf(str, "%5d %5d\r\n", nbr_tick_G, nbr_tick_D);
+		long int nbr_tick_G=get_nbr_tick_G();
+		long int nbr_tick_D=get_nbr_tick_D();
+		char str[35];
+		sprintf(str, "g : %ld d : %ld \r\n", nbr_tick_G, nbr_tick_D);
 		UART_send_message(str, strlen(str));
 		if (nbr_tick_G>0)
 			allumer_del();
@@ -179,6 +179,12 @@ void test_distance(long int distance, long int vitesse)
 		nbr_tick_D*=COEFF_CODEUR_D;
 		nbr_tick_G*=COEFF_CODEUR_G;
 		distance_actuelle=delta_mm(nbr_tick_D,nbr_tick_G);
+
+
+		char str[100];
+		sprintf(str, "g : %ld d : %ld, dist = %ld\r\n", nbr_tick_G, nbr_tick_D, distance_actuelle);
+		UART_send_message(str, strlen(str));
+
 	}
 	test_vitesse(0);
 
@@ -207,6 +213,7 @@ void test_angle(long int angle, long int vitesse)
 		nbr_tick_G*=COEFF_CODEUR_G;
 		angle_actuel=alpha_millirad(nbr_tick_D,nbr_tick_G);
 	}
+	set_all_led();
 	test_vitesse(0);
 }
 
