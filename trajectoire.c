@@ -23,6 +23,7 @@ void set_consigne_alpha_delta(int new_alpha, int new_delta);
 //et encore de vilaines variables globales !
 static s_trajectoire trajectoire;
  s_consigne consigne;
+ s_consigne locked_consigne;
 
 void start_asser()
 {
@@ -279,12 +280,20 @@ void set_trajectoire_mode(e_mode_deplacement mode)
 
 void lock()
 {
-	trajectoire.locked=1;
+	if(trajectoire.locked == 0)
+	{
+		locked_consigne = consigne;
+		trajectoire.locked=1;
+	}
 }
 
 void unlock()
 {
-	trajectoire.locked=0;
+	if (trajectoire.locked == 1)
+	{
+		consigne = locked_consigne;
+		trajectoire.locked=0;
+	}
 }
 
 void init_trajectoire()
