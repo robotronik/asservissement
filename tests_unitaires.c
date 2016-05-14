@@ -33,18 +33,18 @@ void launch_tests()
 	//tests pour réglage des parametres
 
 		//tests en boucle ouverte
-		// test_vitesse(MIN_VITESSE);
+		//test_vitesse(MIN_VITESSE);
 		// test_ecretage();
 		// test_distance(10000,400000);
 		// test_angle(3142,400000);
 
 		//test d'asservissement
-		// test_asser_alpha_delta(0,1000);
+		// test_asser_alpha_delta(0,2000);
 		// test_asser_alpha_delta(3142,0);
 		// test_asser_theta(3142);
 		// test_asser_xy_relatif_tendu(400,400);
 		// test_asser_xy_absolu_tendu(140,400+140);
-		// test_asser_xy_relatif_courbe(400,400);
+		// test_asser_xy_relatif_courbe(400,2000);
 		// test_asser_xy_absolu_courbe(140,400+140);
 
 	//exemple de chemin de test

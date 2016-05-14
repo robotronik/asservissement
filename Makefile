@@ -1,7 +1,7 @@
 PROJECT=asservissement
 default: asservissement
 # Default Options
-export ARCH  ?= dsPIC33F
+export ARCH  ?= libopencm3
 export DEBUG ?= _WARNING_
 export ROBOT ?= gros
 

@@ -29,8 +29,8 @@
 //correction mécanique
 #define COEFF_CODEUR_D 1
 #define COEFF_CODEUR_G 1.00 //1.07
-#define COEFF_MOTEUR_D 1 //1.085
-#define COEFF_MOTEUR_G 1.20   //1.10
+#define COEFF_MOTEUR_D 1.20 //1.085
+#define COEFF_MOTEUR_G 1   //1.10
 
 //precision
 #define PRECISION_DELTA 10 //precision souhaitée pour delta (en mm)
