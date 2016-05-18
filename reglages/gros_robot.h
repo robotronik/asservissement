@@ -17,11 +17,11 @@ coefficients des PID et qu'il y a overflow*/
 //PID angulaire
 #define KP_ALPHA 10//(200) //constante de proportionalité
 #define KI_ALPHA 0    //composante d'intégration
-#define KD_ALPHA 200//(85000)  //320  //composante de dérivation
+#define KD_ALPHA 2200//(85000)  //320  //composante de dérivation
 
 //contraintes mecaniques
-#define MAX_VITESSE 400000 //vitesse maximale du robot
-#define MIN_VITESSE 11000 //vitesse minimale du robot pour qu'il commence à avancer
+#define MAX_VITESSE 409000 //vitesse maximale du robot
+#define MIN_VITESSE 20000 //vitesse minimale du robot pour qu'il commence à avancer
 #define MAX_ACCELERATION 20 //acceleration maximale
 #define MAX_DECELERATION 45 //deceleration maximale (valeur absolue)
 #define VIT_MAX_ARRET 85000 //vitesse maximale à laquelle on peut s'arreter sans tomber
@@ -32,12 +32,12 @@ coefficients des PID et qu'il y a overflow*/
 //correction mécanique
 #define COEFF_CODEUR_D 1
 #define COEFF_CODEUR_G 1 //1.07
-#define COEFF_MOTEUR_D 1.42//1.085
+#define COEFF_MOTEUR_D 1.2//1.085
 #define COEFF_MOTEUR_G 1 //1 //1.10
 
 //precision
 #define PRECISION_DELTA 10 //precision souhaitée pour delta (en mm)
-#define PRECISION_ALPHA 30 //precision souhaitée pour alpha (en milli radian)
+#define PRECISION_ALPHA 85 //precision souhaitée pour alpha (en milli radian)
 
 //calibrage
 #define TICK_PAR_MM 7.1 // nombre de ticks par mm (tick/mm)

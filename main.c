@@ -45,7 +45,7 @@ int main()
 
 	//lancement du robot
 	//launch_tests();
-	start_asser();
+        start_asser();
 
 	//évite un reset automatique du microcontrôleur
 	while(1);

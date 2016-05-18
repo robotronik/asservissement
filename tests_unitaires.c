@@ -38,7 +38,7 @@ void launch_tests()
 		// test_distance(10000,400000);
 		// test_angle(3142,4000314200
 		//test d'asservissement
-		test_asser_alpha_delta(0,500);
+  test_asser_alpha_delta(3142, 0);
 		// test_asser_alpha_delta(3142,0);
 		// test_asser_theta(3142);
 		// test_asser_xy_relatif_tendu(400,400);
